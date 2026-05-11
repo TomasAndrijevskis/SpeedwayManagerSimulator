@@ -1,0 +1,12 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-SMS.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"D:\projects\GIT HUB\SpeedwayManagerSimulator\SMS\Intermediate\Build\Win64\x64\SMSEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.Cpp20.h.obj"
+"D:\projects\GIT HUB\SpeedwayManagerSimulator\SMS\Intermediate\Build\Win64\x64\UnrealEditor\Development\SMS\SMS.cpp.obj"
+"D:\projects\GIT HUB\SpeedwayManagerSimulator\SMS\Intermediate\Build\Win64\x64\UnrealEditor\Development\SMS\Default.rc2.res"
+/OUT:"D:\projects\GIT HUB\SpeedwayManagerSimulator\SMS\Intermediate\Build\Win64\x64\UnrealEditor\Development\SMS\UnrealEditor-SMS.lib"

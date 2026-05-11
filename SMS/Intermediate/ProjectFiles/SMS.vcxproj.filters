@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\SMS.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{F31BBDD1-B3E8-3BCC-9652-680E16935819}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\SMS.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\SMSEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.vsconfig" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\SMS">
+      <UniqueIdentifier>{BB0A76A9-AEA7-357A-AA7A-D243F1BE786A}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\SMS\SMS.Build.cs">
+      <Filter>Source\SMS</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\SMS\SMS.cpp">
+      <Filter>Source\SMS</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\SMS\SMS.h">
+      <Filter>Source\SMS</Filter>
+    </ClInclude>
+    <Filter Include="Source\SMS\Private">
+      <UniqueIdentifier>{2137A461-0519-3E83-9629-AC4C962B9DB9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SMS\Private\UI">
+      <UniqueIdentifier>{A03C0F9A-F86C-3995-8445-203D53DECFB3}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\MyUserWidget.cpp">
+      <Filter>Source\SMS\Private\UI</Filter>
+    </ClCompile>
+    <Filter Include="Source\SMS\Public">
+      <UniqueIdentifier>{173DEC2F-E0A0-37F6-B61B-30C9A92C82E3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SMS\Public\UI">
+      <UniqueIdentifier>{C3784C3E-2CF0-3B2C-A594-263AD925DFDE}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\MyUserWidget.h">
+      <Filter>Source\SMS\Public\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

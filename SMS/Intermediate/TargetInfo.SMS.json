@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "SMS",
+			"Path": "..\\Source\\SMS.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "SMSEditor",
+			"Path": "..\\Source\\SMSEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
