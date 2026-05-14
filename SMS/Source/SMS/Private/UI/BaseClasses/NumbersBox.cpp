@@ -14,3 +14,14 @@ void UNumbersBox::SetColour(const FColor& NewColour)
 {
 	Border_BackgroundColour->SetBrushColor(NewColour);
 }
+
+
+int UNumbersBox::GetNumber()
+{
+	FString NumberText = Text_Number->GetText().ToString();
+	if (NumberText.IsNumeric())
+	{
+		return FCString::Atoi(*NumberText);
+	}
+	return 0;
+}

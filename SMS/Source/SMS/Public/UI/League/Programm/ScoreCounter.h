@@ -6,7 +6,7 @@
 #include "ScoreCounter.generated.h"
 
 
-class UTextBlock;
+class UNumbersBox;
 
 UCLASS()
 class SMS_API UScoreCounter : public UUserWidget
@@ -18,15 +18,15 @@ public:
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_HomeTeamRacePoints;
+	UNumbersBox* NumbersBox_HomeTeamRacePoints;
 
 	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_VisitorTeamRacePoints;
+	UNumbersBox* NumbersBox_VisitorTeamRacePoints;
 
 	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_HomeTeamOverallPoints;
+	UNumbersBox* NumbersBox_HomeTeamOverallPoints;
 
 	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_VisitorTeamOverallPoints;
+	UNumbersBox* NumbersBox_VisitorTeamOverallPoints;
 	
 };

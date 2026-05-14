@@ -18,6 +18,8 @@ public:
 	void SetNumber(const FString& Number);
 
 	void SetColour(const FColor& NewColour);
+
+	int GetNumber();
 	
 private:
 

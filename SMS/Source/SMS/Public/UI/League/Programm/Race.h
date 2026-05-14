@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Race.generated.h"
 
+class UNumbersBox;
 class UScoreCounter;
 class UTextBlock;
 class URaceLine;
@@ -23,6 +24,9 @@ protected:
 private:
 
 	UPROPERTY(meta = (BindWidget))
+	UNumbersBox* NumbersBox_RaceNumber;
+	
+	UPROPERTY(meta = (BindWidget))
 	URaceLine* RaceLine_First;
 
 	UPROPERTY(meta = (BindWidget))
@@ -36,7 +40,4 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UScoreCounter* ScoreCounter;
-	
-	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_RaceNumber;
 };
