@@ -45,8 +45,35 @@
     <Filter Include="Source\SMS\Private\UI">
       <UniqueIdentifier>{A03C0F9A-F86C-3995-8445-203D53DECFB3}</UniqueIdentifier>
     </Filter>
-    <ClCompile Include="..\..\Source\SMS\Private\UI\MyUserWidget.cpp">
-      <Filter>Source\SMS\Private\UI</Filter>
+    <Filter Include="Source\SMS\Private\UI\BaseClasses">
+      <UniqueIdentifier>{03574E4D-DAA5-30D7-8212-281C5BCB78AB}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\NamesBox.cpp">
+      <Filter>Source\SMS\Private\UI\BaseClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\NumbersBox.cpp">
+      <Filter>Source\SMS\Private\UI\BaseClasses</Filter>
+    </ClCompile>
+    <Filter Include="Source\SMS\Private\UI\League">
+      <UniqueIdentifier>{ADE6013E-F239-327D-991E-C87778EC36FA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SMS\Private\UI\League\Programm">
+      <UniqueIdentifier>{78B35B55-6D5F-3759-A4AB-8B4954EFA2FF}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\Race.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\RaceLine.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\RacerStatsLine.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\RiderNumberBox.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\ScoreCounter.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
     </ClCompile>
     <Filter Include="Source\SMS\Public">
       <UniqueIdentifier>{173DEC2F-E0A0-37F6-B61B-30C9A92C82E3}</UniqueIdentifier>
@@ -54,8 +81,35 @@
     <Filter Include="Source\SMS\Public\UI">
       <UniqueIdentifier>{C3784C3E-2CF0-3B2C-A594-263AD925DFDE}</UniqueIdentifier>
     </Filter>
-    <ClInclude Include="..\..\Source\SMS\Public\UI\MyUserWidget.h">
-      <Filter>Source\SMS\Public\UI</Filter>
+    <Filter Include="Source\SMS\Public\UI\BaseClasses">
+      <UniqueIdentifier>{3AA9EBD8-AE91-3D3A-BFF4-D5031ED95B96}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NamesBox.h">
+      <Filter>Source\SMS\Public\UI\BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NumbersBox.h">
+      <Filter>Source\SMS\Public\UI\BaseClasses</Filter>
+    </ClInclude>
+    <Filter Include="Source\SMS\Public\UI\League">
+      <UniqueIdentifier>{C4405E81-EE56-35FE-9AE6-DB25D8E5AD3E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\SMS\Public\UI\League\Programm">
+      <UniqueIdentifier>{BFE937F4-98B3-3639-A961-4347F275CAA1}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\Race.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RaceLine.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RacerStatsLine.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RiderNumberBox.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\ScoreCounter.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

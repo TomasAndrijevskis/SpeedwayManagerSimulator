@@ -7,12 +7,7 @@
 			"files": [
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/Maps/NewMap_HLOD0_Instancing.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/7/PV/3F6BO7MT23VXF0F3BJ3SVV.uasset",
-				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/B/1I/0IU8TM862LV9H1H1NLM65H.uasset",
-				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/A/GD/MF84NVBBXEU474DJ8ZVZAE.uasset",
-				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/4/S0/NGAU94BV2F559EHNTPSSBV.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/1/OY/AAUEUUV18NF6M2K28T9RE2.uasset",
-				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/6/3M/ZEFXAEX0HV3TIZWTU363JO.uasset",
-				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/D/74/RFBFD2DNH0FEFQHKLMS41U.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/7/8Q/VJ59F2KE5EJH7KL11HW56U.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/6/QB/BMXQ5C9OPJXF9EEF9X65XI.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/9/YP/Y7CYJ553WTLS5COH5P7KQ6.uasset",
@@ -78,7 +73,25 @@
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/1/T2/UOL5B23MRUMUNFJ1J520AX.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/A/F9/KHSP6R9WDR7QECLR787EJU.uasset",
 				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalActors__/Maps/NewMap/4/8A/T5IHFO889L6PBVYX2SHP8B.uasset",
-				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/Maps/NewMap.umap"
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/Maps/NewMap.umap",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/NewWidgetBlueprint.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_RaceLine.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_Race.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_ScoreCounter.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_RacerStatsLine.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/BaseWidgets/WBP_NumberBox.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/BaseWidgets/WBP_NamesBox.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_RiderNumberBox.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_PointsBox.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/BaseWidgets/WBP_PointsBox.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_RaceLine1.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/Programm/WBP_Race1.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/UI/League/WBP_RaceLine.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/B/1I/0IU8TM862LV9H1H1NLM65H.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/A/GD/MF84NVBBXEU474DJ8ZVZAE.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/4/S0/NGAU94BV2F559EHNTPSSBV.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/6/3M/ZEFXAEX0HV3TIZWTU363JO.uasset",
+				"D:/projects/GIT HUB/SpeedwayManagerSimulator/SMS/Content/__ExternalObjects__/Maps/NewMap/D/74/RFBFD2DNH0FEFQHKLMS41U.uasset"
 			]
 		}
 	]
