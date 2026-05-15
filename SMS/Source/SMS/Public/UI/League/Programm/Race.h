@@ -17,6 +17,8 @@ class SMS_API URace : public UUserWidget
 
 public:
 
+	void SimulateRace();
+	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -40,4 +42,8 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UScoreCounter* ScoreCounter;
+
+	void SortArray();
+	
+	TArray<URaceLine*> RaceLines;
 };

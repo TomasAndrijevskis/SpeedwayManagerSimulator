@@ -29,6 +29,10 @@ public:
 
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
+
+	void GenerateRandomNumber();
+
+	int GetNumber();
 	
 protected:
 
@@ -53,11 +57,12 @@ private:
 	
 	USlider* CreateSlider();
 
+	int RandomNumber = 0;
+	
 	UPROPERTY(EditAnywhere)
 	FColor HelmetColour;
 	UPROPERTY(EditAnywhere)
 	FString RacerName;
 	UPROPERTY(EditAnywhere)
 	FString RacerNumber;
-	
 };

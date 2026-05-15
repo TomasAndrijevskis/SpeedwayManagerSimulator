@@ -64,6 +64,9 @@
     <Filter Include="Source\SMS\Private\UI\League\Programm">
       <UniqueIdentifier>{78B35B55-6D5F-3759-A4AB-8B4954EFA2FF}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\LeagueProgramm.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\Race.cpp">
       <Filter>Source\SMS\Private\UI\League\Programm</Filter>
     </ClCompile>
@@ -100,6 +103,9 @@
     <Filter Include="Source\SMS\Public\UI\League\Programm">
       <UniqueIdentifier>{BFE937F4-98B3-3639-A961-4347F275CAA1}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\LeagueProgramm.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\Race.h">
       <Filter>Source\SMS\Public\UI\League\Programm</Filter>
     </ClInclude>

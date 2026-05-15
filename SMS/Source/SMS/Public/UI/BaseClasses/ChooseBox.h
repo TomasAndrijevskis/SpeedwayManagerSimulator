@@ -28,5 +28,6 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UComboBoxString* ComboBox;
-	
+
+	void FillComboBox();
 };

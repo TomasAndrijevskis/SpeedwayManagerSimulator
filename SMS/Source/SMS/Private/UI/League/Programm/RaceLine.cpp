@@ -15,6 +15,7 @@ void URaceLine::NativeConstruct()
 	Super::NativeConstruct();
 	SetRider(HelmetColour, RacerName, RacerNumber);
 	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLine::OnRacerReplaced);
+	GenerateRandomNumber();
 }
 
 
@@ -51,6 +52,18 @@ USlider* URaceLine::CreateSlider()
 	NewSlider->SetSliderBarColor(FColor::Black);
 	NewSlider->SetSliderHandleColor(FColor::Transparent);
 	return NewSlider;
+}
+
+
+void URaceLine::GenerateRandomNumber()
+{
+	RandomNumber = FMath::RandRange(0,100);
+}
+
+
+int URaceLine::GetNumber()
+{
+	return RandomNumber;
 }
 
 

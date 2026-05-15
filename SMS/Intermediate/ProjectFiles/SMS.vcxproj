@@ -272,6 +272,9 @@
     <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\NumbersBox.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\LeagueProgramm.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\Race.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -287,6 +290,7 @@
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\ChooseBox.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NamesBox.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NumbersBox.h"/>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\LeagueProgramm.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\Race.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RaceLine.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RacerStatsLine.h"/>
