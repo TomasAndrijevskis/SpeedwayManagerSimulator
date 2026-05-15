@@ -11,7 +11,7 @@ void EmptyLinkFunctionForGeneratedCodeRacerStatsLine() {}
 
 // Begin Cross Module References
 COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
-SMS_API UClass* Z_Construct_UClass_UNamesBox_NoRegister();
+SMS_API UClass* Z_Construct_UClass_UChooseBox_NoRegister();
 SMS_API UClass* Z_Construct_UClass_UNumbersBox_NoRegister();
 SMS_API UClass* Z_Construct_UClass_URacerStatsLine();
 SMS_API UClass* Z_Construct_UClass_URacerStatsLine_NoRegister();
@@ -75,7 +75,7 @@ struct Z_Construct_UClass_URacerStatsLine_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NamesBox_RacerName_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ChooseBox_Racer_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
@@ -104,7 +104,7 @@ struct Z_Construct_UClass_URacerStatsLine_Statics
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_RiderNumber;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_NamesBox_RacerName;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ChooseBox_Racer;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_OverallPoints;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_HB_Points;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_PointsBoxClass;
@@ -123,7 +123,7 @@ struct Z_Construct_UClass_URacerStatsLine_Statics
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_NumbersBox_RiderNumber = { "NumbersBox_RiderNumber", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, NumbersBox_RiderNumber), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_RiderNumber_MetaData), NewProp_NumbersBox_RiderNumber_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_NamesBox_RacerName = { "NamesBox_RacerName", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, NamesBox_RacerName), Z_Construct_UClass_UNamesBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NamesBox_RacerName_MetaData), NewProp_NamesBox_RacerName_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_ChooseBox_Racer = { "ChooseBox_Racer", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, ChooseBox_Racer), Z_Construct_UClass_UChooseBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ChooseBox_Racer_MetaData), NewProp_ChooseBox_Racer_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_NumbersBox_OverallPoints = { "NumbersBox_OverallPoints", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, NumbersBox_OverallPoints), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_OverallPoints_MetaData), NewProp_NumbersBox_OverallPoints_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_HB_Points = { "HB_Points", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, HB_Points), Z_Construct_UClass_UHorizontalBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HB_Points_MetaData), NewProp_HB_Points_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_PointsBoxClass = { "PointsBoxClass", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, PointsBoxClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PointsBoxClass_MetaData), NewProp_PointsBoxClass_MetaData) };
@@ -132,7 +132,7 @@ const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_URacerStatsLine
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_URacerStatsLine_Statics::NewProp_MaxRacesAmount = { "MaxRacesAmount", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URacerStatsLine, MaxRacesAmount), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxRacesAmount_MetaData), NewProp_MaxRacesAmount_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_URacerStatsLine_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URacerStatsLine_Statics::NewProp_NumbersBox_RiderNumber,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URacerStatsLine_Statics::NewProp_NamesBox_RacerName,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URacerStatsLine_Statics::NewProp_ChooseBox_Racer,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URacerStatsLine_Statics::NewProp_NumbersBox_OverallPoints,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URacerStatsLine_Statics::NewProp_HB_Points,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URacerStatsLine_Statics::NewProp_PointsBoxClass,
@@ -182,10 +182,10 @@ URacerStatsLine::~URacerStatsLine() {}
 struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_URacerStatsLine, URacerStatsLine::StaticClass, TEXT("URacerStatsLine"), &Z_Registration_Info_UClass_URacerStatsLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URacerStatsLine), 3931917864U) },
+		{ Z_Construct_UClass_URacerStatsLine, URacerStatsLine::StaticClass, TEXT("URacerStatsLine"), &Z_Registration_Info_UClass_URacerStatsLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URacerStatsLine), 2097446378U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_1905286025(TEXT("/Script/SMS"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_1559369768(TEXT("/Script/SMS"),
 	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

@@ -11,6 +11,7 @@
     <None Include="..\..\Source\SMSEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.gitignore" />
     <None Include="..\..\.vsconfig" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
@@ -48,6 +49,9 @@
     <Filter Include="Source\SMS\Private\UI\BaseClasses">
       <UniqueIdentifier>{03574E4D-DAA5-30D7-8212-281C5BCB78AB}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\ChooseBox.cpp">
+      <Filter>Source\SMS\Private\UI\BaseClasses</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\NamesBox.cpp">
       <Filter>Source\SMS\Private\UI\BaseClasses</Filter>
     </ClCompile>
@@ -69,9 +73,6 @@
     <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\RacerStatsLine.cpp">
       <Filter>Source\SMS\Private\UI\League\Programm</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\RiderNumberBox.cpp">
-      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\ScoreCounter.cpp">
       <Filter>Source\SMS\Private\UI\League\Programm</Filter>
     </ClCompile>
@@ -84,6 +85,9 @@
     <Filter Include="Source\SMS\Public\UI\BaseClasses">
       <UniqueIdentifier>{3AA9EBD8-AE91-3D3A-BFF4-D5031ED95B96}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\ChooseBox.h">
+      <Filter>Source\SMS\Public\UI\BaseClasses</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NamesBox.h">
       <Filter>Source\SMS\Public\UI\BaseClasses</Filter>
     </ClInclude>
@@ -103,9 +107,6 @@
       <Filter>Source\SMS\Public\UI\League\Programm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RacerStatsLine.h">
-      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\RiderNumberBox.h">
       <Filter>Source\SMS\Public\UI\League\Programm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\ScoreCounter.h">

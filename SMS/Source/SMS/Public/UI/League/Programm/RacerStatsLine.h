@@ -5,7 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "RacerStatsLine.generated.h"
 
-class UNamesBox;
+class UChooseBox;
 class UNumbersBox;
 class UTextBlock;
 class UHorizontalBox;
@@ -33,8 +33,8 @@ private:
 	UNumbersBox* NumbersBox_RiderNumber;
 	
 	UPROPERTY(meta = (BindWidget))
-	UNamesBox* NamesBox_RacerName;
-
+	UChooseBox* ChooseBox_Racer;
+	
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_OverallPoints;
 

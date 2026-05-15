@@ -1,11 +1,11 @@
 
 #include "UI/League/Programm/RaceLine.h"
 #include "Blueprint/WidgetTree.h"
-#include "Components/ComboBoxString.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/PanelWidget.h"
 #include "Components/Slider.h"
+#include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -14,7 +14,7 @@ void URaceLine::NativeConstruct()
 {
 	Super::NativeConstruct();
 	SetRider(HelmetColour, RacerName, RacerNumber);
-	ComboBox_RacerReplacement->OnSelectionChanged.AddUniqueDynamic(this, &URaceLine::OnSelectionChanged);
+	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLine::OnRacerReplaced);
 }
 
 
@@ -37,7 +37,7 @@ void URaceLine::ChangeRider()
 }
 
 
-void URaceLine::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
+void URaceLine::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
 	ChangeRider();
 }

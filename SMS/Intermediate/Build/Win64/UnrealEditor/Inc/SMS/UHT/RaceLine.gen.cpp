@@ -12,20 +12,20 @@ void EmptyLinkFunctionForGeneratedCodeRaceLine() {}
 // Begin Cross Module References
 COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FColor();
 SLATECORE_API UEnum* Z_Construct_UEnum_SlateCore_ESelectInfo();
+SMS_API UClass* Z_Construct_UClass_UChooseBox_NoRegister();
 SMS_API UClass* Z_Construct_UClass_UNamesBox_NoRegister();
 SMS_API UClass* Z_Construct_UClass_UNumbersBox_NoRegister();
 SMS_API UClass* Z_Construct_UClass_URaceLine();
 SMS_API UClass* Z_Construct_UClass_URaceLine_NoRegister();
-UMG_API UClass* Z_Construct_UClass_UComboBoxString_NoRegister();
 UMG_API UClass* Z_Construct_UClass_UOverlay_NoRegister();
 UMG_API UClass* Z_Construct_UClass_UUserWidget();
 UPackage* Z_Construct_UPackage__Script_SMS();
 // End Cross Module References
 
-// Begin Class URaceLine Function OnSelectionChanged
-struct Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics
+// Begin Class URaceLine Function OnRacerReplaced
+struct Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics
 {
-	struct RaceLine_eventOnSelectionChanged_Parms
+	struct RaceLine_eventOnRacerReplaced_Parms
 	{
 		FString SelectedItem;
 		TEnumAsByte<ESelectInfo::Type> SelectionType;
@@ -40,41 +40,41 @@ struct Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static const UECodeGen_Private::FFunctionParams FuncParams;
 };
-const UECodeGen_Private::FStrPropertyParams Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::NewProp_SelectedItem = { "SelectedItem", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(RaceLine_eventOnSelectionChanged_Parms, SelectedItem), METADATA_PARAMS(0, nullptr) };
-const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::NewProp_SelectionType = { "SelectionType", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(RaceLine_eventOnSelectionChanged_Parms, SelectionType), Z_Construct_UEnum_SlateCore_ESelectInfo, METADATA_PARAMS(0, nullptr) }; // 4040429206
-const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::PropPointers[] = {
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::NewProp_SelectedItem,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::NewProp_SelectionType,
+const UECodeGen_Private::FStrPropertyParams Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::NewProp_SelectedItem = { "SelectedItem", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(RaceLine_eventOnRacerReplaced_Parms, SelectedItem), METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::NewProp_SelectionType = { "SelectionType", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(RaceLine_eventOnRacerReplaced_Parms, SelectionType), Z_Construct_UEnum_SlateCore_ESelectInfo, METADATA_PARAMS(0, nullptr) }; // 4040429206
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::NewProp_SelectedItem,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::NewProp_SelectionType,
 };
-static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::PropPointers) < 2048);
-const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_URaceLine, nullptr, "OnSelectionChanged", nullptr, nullptr, Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::PropPointers), sizeof(Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::RaceLine_eventOnSelectionChanged_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::Function_MetaDataParams), Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::Function_MetaDataParams) };
-static_assert(sizeof(Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::RaceLine_eventOnSelectionChanged_Parms) < MAX_uint16);
-UFunction* Z_Construct_UFunction_URaceLine_OnSelectionChanged()
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_URaceLine, nullptr, "OnRacerReplaced", nullptr, nullptr, Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::PropPointers), sizeof(Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::RaceLine_eventOnRacerReplaced_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::Function_MetaDataParams), Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::Function_MetaDataParams) };
+static_assert(sizeof(Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::RaceLine_eventOnRacerReplaced_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_URaceLine_OnRacerReplaced()
 {
 	static UFunction* ReturnFunction = nullptr;
 	if (!ReturnFunction)
 	{
-		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_URaceLine_OnSelectionChanged_Statics::FuncParams);
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_URaceLine_OnRacerReplaced_Statics::FuncParams);
 	}
 	return ReturnFunction;
 }
-DEFINE_FUNCTION(URaceLine::execOnSelectionChanged)
+DEFINE_FUNCTION(URaceLine::execOnRacerReplaced)
 {
 	P_GET_PROPERTY(FStrProperty,Z_Param_SelectedItem);
 	P_GET_PROPERTY(FByteProperty,Z_Param_SelectionType);
 	P_FINISH;
 	P_NATIVE_BEGIN;
-	P_THIS->OnSelectionChanged(Z_Param_SelectedItem,ESelectInfo::Type(Z_Param_SelectionType));
+	P_THIS->OnRacerReplaced(Z_Param_SelectedItem,ESelectInfo::Type(Z_Param_SelectionType));
 	P_NATIVE_END;
 }
-// End Class URaceLine Function OnSelectionChanged
+// End Class URaceLine Function OnRacerReplaced
 
 // Begin Class URaceLine
 void URaceLine::StaticRegisterNativesURaceLine()
 {
 	UClass* Class = URaceLine::StaticClass();
 	static const FNameNativePtrPair Funcs[] = {
-		{ "OnSelectionChanged", &URaceLine::execOnSelectionChanged },
+		{ "OnRacerReplaced", &URaceLine::execOnRacerReplaced },
 	};
 	FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 }
@@ -105,7 +105,7 @@ struct Z_Construct_UClass_URaceLine_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/RaceLine.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ComboBox_RacerReplacement_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ChooseBox_RacerReplacement_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/RaceLine.h" },
@@ -131,7 +131,7 @@ struct Z_Construct_UClass_URaceLine_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_RacerNumber;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Overlay_RacerName;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NamesBox_RacerName;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_ComboBox_RacerReplacement;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ChooseBox_RacerReplacement;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_PointsPerRace;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_HelmetColour;
 	static const UECodeGen_Private::FStrPropertyParams NewProp_RacerName;
@@ -139,7 +139,7 @@ struct Z_Construct_UClass_URaceLine_Statics
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
-		{ &Z_Construct_UFunction_URaceLine_OnSelectionChanged, "OnSelectionChanged" }, // 1376795993
+		{ &Z_Construct_UFunction_URaceLine_OnRacerReplaced, "OnRacerReplaced" }, // 378273624
 	};
 	static_assert(UE_ARRAY_COUNT(FuncInfo) < 2048);
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -150,7 +150,7 @@ struct Z_Construct_UClass_URaceLine_Statics
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_NumbersBox_RacerNumber = { "NumbersBox_RacerNumber", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, NumbersBox_RacerNumber), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_RacerNumber_MetaData), NewProp_NumbersBox_RacerNumber_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_Overlay_RacerName = { "Overlay_RacerName", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, Overlay_RacerName), Z_Construct_UClass_UOverlay_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Overlay_RacerName_MetaData), NewProp_Overlay_RacerName_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_NamesBox_RacerName = { "NamesBox_RacerName", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, NamesBox_RacerName), Z_Construct_UClass_UNamesBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NamesBox_RacerName_MetaData), NewProp_NamesBox_RacerName_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_ComboBox_RacerReplacement = { "ComboBox_RacerReplacement", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, ComboBox_RacerReplacement), Z_Construct_UClass_UComboBoxString_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ComboBox_RacerReplacement_MetaData), NewProp_ComboBox_RacerReplacement_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_ChooseBox_RacerReplacement = { "ChooseBox_RacerReplacement", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, ChooseBox_RacerReplacement), Z_Construct_UClass_UChooseBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ChooseBox_RacerReplacement_MetaData), NewProp_ChooseBox_RacerReplacement_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_NumbersBox_PointsPerRace = { "NumbersBox_PointsPerRace", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, NumbersBox_PointsPerRace), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_PointsPerRace_MetaData), NewProp_NumbersBox_PointsPerRace_MetaData) };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_HelmetColour = { "HelmetColour", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, HelmetColour), Z_Construct_UScriptStruct_FColor, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HelmetColour_MetaData), NewProp_HelmetColour_MetaData) };
 const UECodeGen_Private::FStrPropertyParams Z_Construct_UClass_URaceLine_Statics::NewProp_RacerName = { "RacerName", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Str, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URaceLine, RacerName), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RacerName_MetaData), NewProp_RacerName_MetaData) };
@@ -159,7 +159,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_URaceLine
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_NumbersBox_RacerNumber,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_Overlay_RacerName,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_NamesBox_RacerName,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_ComboBox_RacerReplacement,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_ChooseBox_RacerReplacement,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_NumbersBox_PointsPerRace,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_HelmetColour,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URaceLine_Statics::NewProp_RacerName,
@@ -207,10 +207,10 @@ URaceLine::~URaceLine() {}
 struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RaceLine_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_URaceLine, URaceLine::StaticClass, TEXT("URaceLine"), &Z_Registration_Info_UClass_URaceLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URaceLine), 2820033299U) },
+		{ Z_Construct_UClass_URaceLine, URaceLine::StaticClass, TEXT("URaceLine"), &Z_Registration_Info_UClass_URaceLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URaceLine), 1697906369U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RaceLine_h_111160487(TEXT("/Script/SMS"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RaceLine_h_2079039328(TEXT("/Script/SMS"),
 	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RaceLine_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RaceLine_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

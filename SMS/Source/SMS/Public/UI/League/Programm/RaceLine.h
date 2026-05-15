@@ -6,15 +6,13 @@
 #include "RaceLine.generated.h"
 
 
+class UChooseBox;
 class UNumbersBox;
 class UNamesBox;
-class UBorder;
 class UOverlay;
 class USlider;
-class UComboBoxString;
 class UTextBlock;
 class UHorizontalBox;
-class UOverlaySlot;
 
 UCLASS()
 class SMS_API URaceLine : public UUserWidget
@@ -30,7 +28,7 @@ public:
 	void ChangeRider();
 
 	UFUNCTION()
-	void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
+	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 protected:
 
@@ -48,7 +46,7 @@ private:
 	UNamesBox* NamesBox_RacerName;
 
 	UPROPERTY(meta = (BindWidget))
-	UComboBoxString* ComboBox_RacerReplacement;
+	UChooseBox* ChooseBox_RacerReplacement;
 
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_PointsPerRace;

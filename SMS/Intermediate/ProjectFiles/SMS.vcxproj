@@ -252,6 +252,7 @@
     <None Include="..\..\SMS.uproject"/>
     <None Include="..\..\Source\SMS.Target.cs"/>
     <None Include="..\..\Source\SMSEditor.Target.cs"/>
+    <None Include="..\..\.gitignore"/>
     <None Include="..\..\.vsconfig"/>
     <None Include="..\..\Config\DefaultEditor.ini"/>
     <None Include="..\..\Config\DefaultEngine.ini"/>
@@ -262,6 +263,9 @@
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClInclude Include="..\..\Source\SMS\SMS.h"/>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\ChooseBox.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\NamesBox.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -280,6 +284,7 @@
     <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\ScoreCounter.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\ChooseBox.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NamesBox.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NumbersBox.h"/>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\Race.h"/>
