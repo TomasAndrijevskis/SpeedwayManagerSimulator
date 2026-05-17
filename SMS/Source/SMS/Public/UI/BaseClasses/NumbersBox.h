@@ -15,7 +15,7 @@ class SMS_API UNumbersBox : public UUserWidget
 
 public:
 
-	void SetNumber(const FString& Number);
+	void SetText(const FString& NewText);
 
 	void SetColour(const FColor& NewColour);
 
@@ -24,7 +24,7 @@ public:
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_Number;
+	UTextBlock* Text;
 
 	UPROPERTY(meta = (BindWidget))
 	UBorder* Border_BackgroundColour;

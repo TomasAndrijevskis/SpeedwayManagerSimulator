@@ -4,9 +4,9 @@
 #include "Components/TextBlock.h"
 
 
-void UNumbersBox::SetNumber(const FString& Number)
+void UNumbersBox::SetText(const FString& NewText)
 {
-	Text_Number->SetText(FText::FromString(Number));
+	Text->SetText(FText::FromString(NewText));
 }
 
 
@@ -18,7 +18,7 @@ void UNumbersBox::SetColour(const FColor& NewColour)
 
 int UNumbersBox::GetNumber()
 {
-	FString NumberText = Text_Number->GetText().ToString();
+	FString NumberText = Text->GetText().ToString();
 	if (NumberText.IsNumeric())
 	{
 		return FCString::Atoi(*NumberText);

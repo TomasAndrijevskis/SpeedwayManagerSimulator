@@ -13,6 +13,7 @@ UCLASS()
 class SMS_API ULeagueProgramm : public UUserWidget
 {
 	GENERATED_BODY()
+	
 public:
 
 protected:

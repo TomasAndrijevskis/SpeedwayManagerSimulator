@@ -6,11 +6,6 @@
 void URace::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	RaceLine_First->SetRider(FColor::Red, "Tomas", "11");
-	RaceLine_Second->SetRider(FColor::White, "Marek", "3");
-	RaceLine_Third->SetRider(FColor::Blue, "Edik", "7");
-	RaceLine_Fourth->SetRider(FColor::Yellow, "Ivars", "10");
 	RaceLines.Add(RaceLine_First);
 	RaceLines.Add(RaceLine_Second);
 	RaceLines.Add(RaceLine_Third);
@@ -28,6 +23,18 @@ void URace::SimulateRace()
 		UE_LOG(LogTemp, Error, TEXT("Number: %i"), RaceLine->GetNumber());
 		RaceLine->SetPoints(Points);
 		Points++;
+	}
+}
+
+
+void URace::FindAndSetRacer(FString RacerName, int ID)
+{
+	for (const auto& RaceLine : RaceLines)
+	{
+		if (RaceLine->GetID() == ID)
+		{
+			RaceLine->SetRacerName(RacerName);
+		}
 	}
 }
 

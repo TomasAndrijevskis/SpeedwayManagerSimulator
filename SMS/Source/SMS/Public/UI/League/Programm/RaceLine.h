@@ -20,9 +20,9 @@ class SMS_API URaceLine : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
-	void SetRider(const FColor& NewHelmetColour, const FString& NewRacerName, const FString& NewRacerNumber);
-
+	
+	void SetRacerName(const FString& NewRacerName);
+	
 	void SetPoints(int NewPoints);
 
 	void ChangeRider();
@@ -33,6 +33,8 @@ public:
 	void GenerateRandomNumber();
 
 	int GetNumber();
+
+	int GetID();
 	
 protected:
 
@@ -57,6 +59,8 @@ private:
 	
 	USlider* CreateSlider();
 
+	void InitializeRacer();
+	
 	int RandomNumber = 0;
 	
 	UPROPERTY(EditAnywhere)
@@ -65,4 +69,7 @@ private:
 	FString RacerName;
 	UPROPERTY(EditAnywhere)
 	FString RacerNumber;
+
+	UPROPERTY(EditAnywhere)
+	int ID;
 };

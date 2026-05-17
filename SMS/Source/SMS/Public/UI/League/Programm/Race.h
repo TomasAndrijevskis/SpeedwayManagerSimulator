@@ -18,6 +18,8 @@ class SMS_API URace : public UUserWidget
 public:
 
 	void SimulateRace();
+
+	void FindAndSetRacer(FString RacerName, int ID);
 	
 protected:
 

@@ -1,6 +1,7 @@
 
 #include "UI/League/Programm/RacerStatsLine.h"
 #include "Components/HorizontalBox.h"
+#include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
 
@@ -8,6 +9,8 @@ void URacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
 	OnValueAddedDelegate.AddUObject(this, &URacerStatsLine::CreateNewPointsBox);
+	NumbersBox_RiderNumber->SetText(FString::FromInt(ID));
+	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
 }
 
 
@@ -26,7 +29,7 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points)
 	if (!PointsBoxClass) return;
 	UNumbersBox* NewNumbersBox = Cast<UNumbersBox>(CreateWidget(this, PointsBoxClass));
 	if (!NewNumbersBox) return;
-	NewNumbersBox->SetNumber(Points);
+	NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
 	UpdateOverallPoints(CountOverallPoints());
 }
@@ -52,7 +55,13 @@ bool URacerStatsLine::CanAddNewPointBox() const
 }
 
 
+void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
+{
+	OnRacerChosenDelegate.Broadcast(SelectedItem, ID);
+}
+
+
 void URacerStatsLine::UpdateOverallPoints(int Points)
 {
-	NumbersBox_OverallPoints->SetNumber(FString::FromInt(Points));
+	NumbersBox_OverallPoints->SetText(FString::FromInt(Points));
 }
