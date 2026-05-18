@@ -79,6 +79,9 @@
     <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\ScoreCounter.cpp">
       <Filter>Source\SMS\Private\UI\League\Programm</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\League\Programm\TeamLineup.cpp">
+      <Filter>Source\SMS\Private\UI\League\Programm</Filter>
+    </ClCompile>
     <Filter Include="Source\SMS\Public">
       <UniqueIdentifier>{173DEC2F-E0A0-37F6-B61B-30C9A92C82E3}</UniqueIdentifier>
     </Filter>
@@ -116,6 +119,9 @@
       <Filter>Source\SMS\Public\UI\League\Programm</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\ScoreCounter.h">
+      <Filter>Source\SMS\Public\UI\League\Programm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\League\Programm\TeamLineup.h">
       <Filter>Source\SMS\Public\UI\League\Programm</Filter>
     </ClInclude>
   </ItemGroup>

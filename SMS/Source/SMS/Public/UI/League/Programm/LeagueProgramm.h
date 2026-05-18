@@ -5,9 +5,9 @@
 #include "Blueprint/UserWidget.h"
 #include "LeagueProgramm.generated.h"
 
+class UTeamLineup;
 class UButton;
 class URace;
-class URacerStatsLine;
 
 UCLASS()
 class SMS_API ULeagueProgramm : public UUserWidget
@@ -23,24 +23,24 @@ protected:
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_First;
+	UTeamLineup* TeamLineup_HomeTeam;
 	
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Second;
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Third;
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Fourth;
-
 	UPROPERTY(meta = (BindWidget))
 	URace* Race_First;
 
 	UPROPERTY(meta = (BindWidget))
-	UButton* Button_SimulateRace;
+	URace* Race_Second;
 
+	UPROPERTY(meta = (BindWidget))
+	URace* Race_Third;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_SimulateRace;
+	
 	UFUNCTION()
 	void SimulateRace();
+
+	void FillRacers(FString Name, int Id);
 	
+	TArray<URace*> Races;
 };

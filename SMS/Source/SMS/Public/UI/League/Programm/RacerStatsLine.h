@@ -25,6 +25,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void AddPoints();
+
+	void SetID(int NewID);
+
+	int GetID() const;
+
+	FString GetRacerName() const;
 	
 protected:
 
@@ -63,6 +69,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	int MaxRacesAmount = 7;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int ID;
+
+	UPROPERTY(VisibleAnywhere)
+	FString RacerName;
 };

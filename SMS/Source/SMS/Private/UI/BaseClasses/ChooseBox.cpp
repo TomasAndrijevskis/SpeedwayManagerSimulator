@@ -23,4 +23,6 @@ void UChooseBox::FillComboBox()
 	ComboBox->AddOption("Ivars");
 	ComboBox->AddOption("Mareks");
 	ComboBox->AddOption("Ediks");
+	ComboBox->AddOption("Zans");
+	ComboBox->AddOption("Teodors");
 }

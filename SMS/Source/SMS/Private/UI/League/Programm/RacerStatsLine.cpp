@@ -57,6 +57,7 @@ bool URacerStatsLine::CanAddNewPointBox() const
 
 void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
+	RacerName = SelectedItem;
 	OnRacerChosenDelegate.Broadcast(SelectedItem, ID);
 }
 
@@ -65,3 +66,14 @@ void URacerStatsLine::UpdateOverallPoints(int Points)
 {
 	NumbersBox_OverallPoints->SetText(FString::FromInt(Points));
 }
+
+
+void URacerStatsLine::SetID(int NewID)
+{
+	ID = NewID;
+	NumbersBox_RiderNumber->SetText(FString::FromInt(ID));
+}
+
+int URacerStatsLine::GetID() const{return ID;}
+
+FString URacerStatsLine::GetRacerName() const{return RacerName;}
