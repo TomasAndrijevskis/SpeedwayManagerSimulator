@@ -19,7 +19,9 @@ public:
 
 	void SimulateRace();
 
-	void FindAndSetRacer(FString RacerName, int ID);
+	void AssignRacerToRace(FString RacerName, int RacerID);
+
+	void SetRaceID(int NewID);
 	
 protected:
 
@@ -48,4 +50,6 @@ private:
 	void SortArray();
 	
 	TArray<URaceLine*> RaceLines;
+
+	int ID;
 };
