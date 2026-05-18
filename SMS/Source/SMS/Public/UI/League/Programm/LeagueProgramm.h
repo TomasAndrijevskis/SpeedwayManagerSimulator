@@ -73,6 +73,9 @@ private:
 	UTeamLineup* TeamLineup_HomeTeam;
 
 	UPROPERTY(meta = (BindWidget))
+	UTeamLineup* TeamLineup_VisitorTeam;
+
+	UPROPERTY(meta = (BindWidget))
 	UButton* Button_SimulateRace;
 
 	UPROPERTY(meta = (BindWidget))
@@ -85,7 +88,7 @@ private:
 	UBackgroundBlur* BackgroundBlur;
 	
 	UFUNCTION()
-	void SimulateRace();
+	void SimulateAllRaces();
 
 	void FillRacers(FString Name, int Id);
 

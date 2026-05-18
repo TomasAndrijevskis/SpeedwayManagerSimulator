@@ -11,11 +11,11 @@
 void ULeagueProgramm::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::SimulateRace);
+	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::SimulateAllRaces);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::ShowTeams);
 	CreateRacesArray();
-	BindDelegates();
 	SetRaceID();
+	BindDelegates();
 	ShowTeams();
 }
 
@@ -46,6 +46,10 @@ void ULeagueProgramm::BindDelegates()
 	{
 		Racer->OnRacerChosenDelegate.AddUObject(this, &ULeagueProgramm::FillRacers);
 	}
+	for (const auto& Racer : TeamLineup_VisitorTeam->GetRacers())
+	{
+		Racer->OnRacerChosenDelegate.AddUObject(this, &ULeagueProgramm::FillRacers);
+	}
 }
 
 
@@ -64,6 +68,17 @@ void ULeagueProgramm::ShowTeams()
 }
 
 
+void ULeagueProgramm::SetRaceID()
+{
+	int RaceID = 1;
+	for (const auto& Race : Races)
+	{
+		Race->SetRaceID(RaceID);
+		RaceID++;
+	}
+}
+
+
 void ULeagueProgramm::FillRacers(FString Name, int Id)
 {
 	for (const auto& Race : Races)
@@ -73,19 +88,7 @@ void ULeagueProgramm::FillRacers(FString Name, int Id)
 }
 
 
-void ULeagueProgramm::SetRaceID()
-{
-	int RaceID = 1;
-	for (const auto& Race : Races)
-	{
-		Race->SetRaceID(RaceID);
-		RaceID++;
-	}
-	
-}
-
-
-void ULeagueProgramm::SimulateRace()
+void ULeagueProgramm::SimulateAllRaces()
 {
 	for (const auto& Race : Races)
 	{

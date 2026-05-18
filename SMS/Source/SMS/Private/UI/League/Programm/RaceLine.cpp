@@ -14,21 +14,21 @@ void URaceLine::NativeConstruct()
 {
 	Super::NativeConstruct();
 	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLine::OnRacerReplaced);
-	InitializeRacer();
-}
-
-
-void URaceLine::InitializeRacer()
-{
 	GenerateRandomNumber();
-	NumbersBox_RacerNumber->SetText(FString::FromInt(ID));
-	NumbersBox_RacerNumber->SetColour(HelmetColour);
 }
 
 
 void URaceLine::SetRacerName(const FString& NewRacerName)
 {
 	NamesBox_RacerName->SetName(NewRacerName);
+}
+
+
+void URaceLine::SetRacerValues(const FColor& NewHelmetColour, int NewRacerNumber)
+{
+	ID = NewRacerNumber;
+	NumbersBox_RacerNumber->SetText(FString::FromInt(NewRacerNumber));
+	NumbersBox_RacerNumber->SetColour(NewHelmetColour);
 }
 
 
@@ -72,5 +72,6 @@ void URaceLine::SetPoints(int NewPoints)
 }
 
 
-int URaceLine::GetNumber(){return RandomNumber;}
-int URaceLine::GetID(){return ID;}
+int URaceLine::GetGeneratedNumber()const{return RandomNumber;}
+int URaceLine::GetID()const{return ID;}
+void URaceLine::SetID(int NewID){ID = NewID;}

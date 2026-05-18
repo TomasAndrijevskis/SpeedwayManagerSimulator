@@ -51,5 +51,7 @@ private:
 	void SetRacerID();
 	
 	TArray<URacerStatsLine*> Racers;
-	
+
+	UPROPERTY(EditAnywhere)
+	bool IsVisitorTeam = false;
 };

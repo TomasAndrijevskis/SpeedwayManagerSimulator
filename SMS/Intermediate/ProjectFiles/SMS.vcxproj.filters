@@ -43,6 +43,12 @@
     <Filter Include="Source\SMS\Private">
       <UniqueIdentifier>{2137A461-0519-3E83-9629-AC4C962B9DB9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\SMS\Private\Data">
+      <UniqueIdentifier>{C70BBFC1-6E42-3C3D-A071-F0BC482010A1}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\Data\RaceDataAsset.cpp">
+      <Filter>Source\SMS\Private\Data</Filter>
+    </ClCompile>
     <Filter Include="Source\SMS\Private\UI">
       <UniqueIdentifier>{A03C0F9A-F86C-3995-8445-203D53DECFB3}</UniqueIdentifier>
     </Filter>
@@ -85,6 +91,15 @@
     <Filter Include="Source\SMS\Public">
       <UniqueIdentifier>{173DEC2F-E0A0-37F6-B61B-30C9A92C82E3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\SMS\Public\Data">
+      <UniqueIdentifier>{86776EB3-8C11-3ABC-919B-9C83B86794BC}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RaceData.h">
+      <Filter>Source\SMS\Public\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RaceDataAsset.h">
+      <Filter>Source\SMS\Public\Data</Filter>
+    </ClInclude>
     <Filter Include="Source\SMS\Public\UI">
       <UniqueIdentifier>{C3784C3E-2CF0-3B2C-A594-263AD925DFDE}</UniqueIdentifier>
     </Filter>

@@ -19,6 +19,7 @@ void UTeamLineup::NativeConstruct()
 void UTeamLineup::SetRacerID()
 {
 	int Id = 1;
+	if (IsVisitorTeam) Id = 7;
 	for (const auto& Racer : Racers)
 	{
 		Racer->SetID(Id);

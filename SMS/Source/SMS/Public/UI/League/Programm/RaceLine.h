@@ -32,9 +32,13 @@ public:
 
 	void GenerateRandomNumber();
 
-	int GetNumber();
+	int GetGeneratedNumber() const;
 
-	int GetID();
+	int GetID() const ;
+
+	void SetID(int NewID);
+	
+	void SetRacerValues(const FColor& NewHelmetColour, int NewRacerNumber);
 	
 protected:
 
@@ -58,18 +62,8 @@ private:
 	UNumbersBox* NumbersBox_PointsPerRace;
 	
 	USlider* CreateSlider();
-
-	void InitializeRacer();
 	
 	int RandomNumber = 0;
 	
-	UPROPERTY(EditAnywhere)
-	FColor HelmetColour;
-	UPROPERTY(EditAnywhere)
-	FString RacerName;
-	UPROPERTY(EditAnywhere)
-	FString RacerNumber;
-
-	UPROPERTY(EditAnywhere)
 	int ID;
 };
