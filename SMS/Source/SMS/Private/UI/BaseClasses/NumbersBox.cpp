@@ -4,6 +4,21 @@
 #include "Components/TextBlock.h"
 
 
+void UNumbersBox::NativeConstruct()
+{
+	Super::NativeConstruct();
+	if (OverrideFontSize) ChangeTextSize();
+}
+
+
+void UNumbersBox::ChangeTextSize()
+{
+	FSlateFontInfo NewFont = Text->GetFont();
+	NewFont.Size = FontSize;
+	Text->SetFont(NewFont);
+}
+
+
 void UNumbersBox::SetText(const FString& NewText)
 {
 	Text->SetText(FText::FromString(NewText));

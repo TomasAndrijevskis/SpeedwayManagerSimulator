@@ -20,6 +20,10 @@ public:
 	void SetColour(const FColor& NewColour);
 
 	int GetNumber();
+
+protected:
+
+	virtual void NativeConstruct() override;
 	
 private:
 
@@ -28,4 +32,12 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UBorder* Border_BackgroundColour;
+
+	void ChangeTextSize();
+	
+	UPROPERTY(EditAnywhere)
+	bool OverrideFontSize = false;
+
+	UPROPERTY(EditAnywhere)
+	float FontSize = 0;
 };

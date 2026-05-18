@@ -44,9 +44,20 @@ struct Z_Construct_UClass_UNumbersBox_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/BaseClasses/NumbersBox.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_OverrideFontSize_MetaData[] = {
+		{ "Category", "NumbersBox" },
+		{ "ModuleRelativePath", "Public/UI/BaseClasses/NumbersBox.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FontSize_MetaData[] = {
+		{ "Category", "NumbersBox" },
+		{ "ModuleRelativePath", "Public/UI/BaseClasses/NumbersBox.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Text;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Border_BackgroundColour;
+	static void NewProp_OverrideFontSize_SetBit(void* Obj);
+	static const UECodeGen_Private::FBoolPropertyParams NewProp_OverrideFontSize;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_FontSize;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -56,9 +67,17 @@ struct Z_Construct_UClass_UNumbersBox_Statics
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UNumbersBox_Statics::NewProp_Text = { "Text", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UNumbersBox, Text), Z_Construct_UClass_UTextBlock_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Text_MetaData), NewProp_Text_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UNumbersBox_Statics::NewProp_Border_BackgroundColour = { "Border_BackgroundColour", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UNumbersBox, Border_BackgroundColour), Z_Construct_UClass_UBorder_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Border_BackgroundColour_MetaData), NewProp_Border_BackgroundColour_MetaData) };
+void Z_Construct_UClass_UNumbersBox_Statics::NewProp_OverrideFontSize_SetBit(void* Obj)
+{
+	((UNumbersBox*)Obj)->OverrideFontSize = 1;
+}
+const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UNumbersBox_Statics::NewProp_OverrideFontSize = { "OverrideFontSize", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(UNumbersBox), &Z_Construct_UClass_UNumbersBox_Statics::NewProp_OverrideFontSize_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_OverrideFontSize_MetaData), NewProp_OverrideFontSize_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UNumbersBox_Statics::NewProp_FontSize = { "FontSize", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UNumbersBox, FontSize), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FontSize_MetaData), NewProp_FontSize_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UNumbersBox_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UNumbersBox_Statics::NewProp_Text,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UNumbersBox_Statics::NewProp_Border_BackgroundColour,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UNumbersBox_Statics::NewProp_OverrideFontSize,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UNumbersBox_Statics::NewProp_FontSize,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UNumbersBox_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UNumbersBox_Statics::DependentSingletons[])() = {
@@ -102,10 +121,10 @@ UNumbersBox::~UNumbersBox() {}
 struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_BaseClasses_NumbersBox_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UNumbersBox, UNumbersBox::StaticClass, TEXT("UNumbersBox"), &Z_Registration_Info_UClass_UNumbersBox, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UNumbersBox), 3593142662U) },
+		{ Z_Construct_UClass_UNumbersBox, UNumbersBox::StaticClass, TEXT("UNumbersBox"), &Z_Registration_Info_UClass_UNumbersBox, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UNumbersBox), 2062156985U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_BaseClasses_NumbersBox_h_4034858087(TEXT("/Script/SMS"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_BaseClasses_NumbersBox_h_3289584828(TEXT("/Script/SMS"),
 	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_BaseClasses_NumbersBox_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_BaseClasses_NumbersBox_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
