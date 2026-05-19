@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Race.generated.h"
 
+class UPointsManager;
 class URaceDataAsset;
 class UNumbersBox;
 class UScoreCounter;
@@ -53,6 +54,8 @@ private:
 	void SetRaceData();
 
 	void SetRaceLinesID();
+
+	void CalculateRaceResult();
 	
 	UPROPERTY(EditDefaultsOnly)
 	URaceDataAsset* RaceDataAsset;

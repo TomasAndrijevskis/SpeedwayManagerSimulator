@@ -3,6 +3,7 @@
 #include "Data/RaceDataAsset.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "UI/League/Programm/RaceLine.h"
+#include "UI/League/Programm/ScoreCounter.h"
 
 
 void URace::NativeConstruct()
@@ -28,7 +29,7 @@ void URace::SetRaceLinesID()
 	int RaceLineID = 0;
 	for (auto& RaceLine : RaceLines)
 	{
-		RaceLine->SetID(RaceLineID);
+		RaceLine->SetRacerLineID(RaceLineID);
 		RaceLineID++;
 	}
 	SetRaceData();
@@ -41,8 +42,8 @@ void URace::SetRaceData()
 	for (auto& RaceLine : RaceLines)
 	{
 		RaceLine->SetRacerValues(
-			RaceDataAsset->RacePatterns[ID].HelmetColors[RaceLine->GetID()],
-			RaceDataAsset->RacePatterns[ID].RacerNumbers[RaceLine->GetID()]);
+			RaceDataAsset->RacePatterns[ID].HelmetColors[RaceLine->GetRaceLineID()],
+			RaceDataAsset->RacePatterns[ID].RacerIDs[RaceLine->GetRaceLineID()]);
 	}
 }
 
@@ -51,7 +52,7 @@ void URace::AssignRacerToRace(FString RacerName, int RacerID)
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetID() == RacerID)
+		if (RaceLine->GetRacerID() == RacerID)
 		{
 			RaceLine->SetRacerName(RacerName);
 		}
@@ -65,10 +66,24 @@ void URace::SimulateRace()
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s - %i"), *RaceLine->GetName(), RaceLine->GetGeneratedNumber());
+		//UE_LOG(LogTemp, Error, TEXT("%s - %i"), *RaceLine->GetName(), RaceLine->GetGeneratedNumber());
 		RaceLine->SetPoints(Points);
 		Points++;
 	}
+	CalculateRaceResult();
+}
+
+
+void URace::CalculateRaceResult()
+{
+	int HomePts = 0;
+	int VisitorPts = 0;
+	for (auto& RaceLine : RaceLines)
+	{
+		if (RaceLine->GetIsVisitor())  VisitorPts += RaceLine->GetPoints();
+		else HomePts += RaceLine->GetPoints();
+	}
+	ScoreCounter->SetRacePoints(HomePts, VisitorPts);
 }
 
 

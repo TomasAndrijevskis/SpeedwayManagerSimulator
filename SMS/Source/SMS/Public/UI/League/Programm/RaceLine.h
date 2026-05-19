@@ -34,11 +34,21 @@ public:
 
 	int GetGeneratedNumber() const;
 
-	int GetID() const ;
+	int GetRaceLineID() const;
 
-	void SetID(int NewID);
+	int GetRacerID() const;
+
+	int GetPoints() const;
 	
-	void SetRacerValues(const FColor& NewHelmetColour, int NewRacerNumber);
+	void SetRacerLineID(int NewID);
+
+	void SetRacerID(int NewID);
+	
+	void SetRacerValues(const FColor& NewHelmetColour, int NewRacerID);
+
+	void SetIsVisitor(bool Visitor);
+
+	bool GetIsVisitor() const;
 	
 protected:
 
@@ -65,5 +75,11 @@ private:
 	
 	int RandomNumber = 0;
 	
-	int ID;
+	int RaceLineID;
+
+	int RacerID;
+	
+	bool IsVisitor;
+
+	int Points = 0;
 };

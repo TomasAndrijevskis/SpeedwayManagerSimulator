@@ -17,6 +17,8 @@ public:
 
 	void SetText(const FString& NewText);
 
+	void SetText(int NewText);
+
 	void SetColour(const FColor& NewColour);
 
 	int GetNumber();

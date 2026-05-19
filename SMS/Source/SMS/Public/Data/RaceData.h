@@ -13,5 +13,5 @@ struct FRaceData
 	TArray<FColor> HelmetColors;
 
 	UPROPERTY(EditDefaultsOnly)
-	TArray<int> RacerNumbers;
+	TArray<int> RacerIDs;
 };

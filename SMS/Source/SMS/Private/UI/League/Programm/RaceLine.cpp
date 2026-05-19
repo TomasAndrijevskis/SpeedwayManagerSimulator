@@ -24,10 +24,12 @@ void URaceLine::SetRacerName(const FString& NewRacerName)
 }
 
 
-void URaceLine::SetRacerValues(const FColor& NewHelmetColour, int NewRacerNumber)
+void URaceLine::SetRacerValues(const FColor& NewHelmetColour, int NewRacerID)
 {
-	ID = NewRacerNumber;
-	NumbersBox_RacerNumber->SetText(FString::FromInt(NewRacerNumber));
+	RacerID = NewRacerID;
+	if (RacerID <= 6) IsVisitor = false;
+	else IsVisitor = true;
+	NumbersBox_RacerNumber->SetText(FString::FromInt(RacerID));
 	NumbersBox_RacerNumber->SetColour(NewHelmetColour);
 }
 
@@ -68,10 +70,16 @@ void URaceLine::GenerateRandomNumber()
 
 void URaceLine::SetPoints(int NewPoints)
 {
-	NumbersBox_PointsPerRace->SetText(FString::FromInt(NewPoints));
+	Points = NewPoints;
+	NumbersBox_PointsPerRace->SetText(FString::FromInt(Points));
 }
 
 
 int URaceLine::GetGeneratedNumber()const{return RandomNumber;}
-int URaceLine::GetID()const{return ID;}
-void URaceLine::SetID(int NewID){ID = NewID;}
+int URaceLine::GetRaceLineID()const{return RaceLineID;}
+int URaceLine::GetRacerID() const{return RacerID;}
+int URaceLine::GetPoints() const{ return Points; }
+bool URaceLine::GetIsVisitor() const {return IsVisitor;}
+void URaceLine::SetIsVisitor(bool Visitor){IsVisitor = Visitor;}
+void URaceLine::SetRacerLineID(int NewID){RaceLineID = NewID;}
+void URaceLine::SetRacerID(int NewID){RacerID = NewID;}

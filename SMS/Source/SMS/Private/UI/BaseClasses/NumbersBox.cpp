@@ -25,6 +25,12 @@ void UNumbersBox::SetText(const FString& NewText)
 }
 
 
+void UNumbersBox::SetText(int NewText)
+{
+	Text->SetText(FText::FromString(FString::FromInt(NewText)));
+}
+
+
 void UNumbersBox::SetColour(const FColor& NewColour)
 {
 	Border_BackgroundColour->SetBrushColor(NewColour);

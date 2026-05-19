@@ -26,7 +26,7 @@ void ULeagueProgramm::CreateRaces()
 	FVector2d TempPosition = StartPosition;
 	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
 	FVector2d StartAlignment = FVector2d(0, 0);
-	for (int i = 1; i <= 15; i++)
+	for (int i = 1; i <= AmountOfRaces; i++)
 	{
 		const float PositionOffset = 162.0f;
 		const float Offset = 0.5f;
@@ -53,11 +53,9 @@ URace* ULeagueProgramm::CreateRace(const FAnchors& Anchors, const FVector2d& Pos
 	if (!RaceClass) return nullptr;
 	URace* NewRace = CreateWidget<URace>(this, RaceClass);
 	if (!NewRace) return nullptr;
-	UE_LOG(LogTemp, Error, TEXT("Race created"));
 	UCanvasPanelSlot* RaceSlot = CanvasPanel_Root->AddChildToCanvas(NewRace);
 	if (RaceSlot)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Slot exists"));
 		RaceSlot->SetAnchors(Anchors);
 		RaceSlot->SetPosition(Position);
 		RaceSlot->SetAlignment(Alignment);
@@ -107,8 +105,10 @@ void ULeagueProgramm::FillRacers(FString Name, int Id)
 
 void ULeagueProgramm::SimulateAllRaces()
 {
-	for (const auto& Race : Races)
+	
+	if (CurrentRace < Races.Num())
 	{
-		Race->SimulateRace();
+		Races[CurrentRace]->SimulateRace();
+		CurrentRace++;
 	}
 }

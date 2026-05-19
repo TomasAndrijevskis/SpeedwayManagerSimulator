@@ -11,6 +11,7 @@ void EmptyLinkFunctionForGeneratedCodeScoreCounter() {}
 
 // Begin Cross Module References
 SMS_API UClass* Z_Construct_UClass_UNumbersBox_NoRegister();
+SMS_API UClass* Z_Construct_UClass_UPointsManager_NoRegister();
 SMS_API UClass* Z_Construct_UClass_UScoreCounter();
 SMS_API UClass* Z_Construct_UClass_UScoreCounter_NoRegister();
 UMG_API UClass* Z_Construct_UClass_UUserWidget();
@@ -38,12 +39,12 @@ struct Z_Construct_UClass_UScoreCounter_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_VisitorTeamRacePoints_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_HomeTeamOverallPoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_HomeTeamOverallPoints_MetaData[] = {
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_VisitorTeamRacePoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
@@ -53,11 +54,15 @@ struct Z_Construct_UClass_UScoreCounter_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PointsManager_MetaData[] = {
+		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_HomeTeamRacePoints;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_VisitorTeamRacePoints;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_HomeTeamOverallPoints;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_VisitorTeamRacePoints;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_VisitorTeamOverallPoints;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_PointsManager;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -66,14 +71,16 @@ struct Z_Construct_UClass_UScoreCounter_Statics
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_HomeTeamRacePoints = { "NumbersBox_HomeTeamRacePoints", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UScoreCounter, NumbersBox_HomeTeamRacePoints), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_HomeTeamRacePoints_MetaData), NewProp_NumbersBox_HomeTeamRacePoints_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_VisitorTeamRacePoints = { "NumbersBox_VisitorTeamRacePoints", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UScoreCounter, NumbersBox_VisitorTeamRacePoints), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_VisitorTeamRacePoints_MetaData), NewProp_NumbersBox_VisitorTeamRacePoints_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_HomeTeamOverallPoints = { "NumbersBox_HomeTeamOverallPoints", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UScoreCounter, NumbersBox_HomeTeamOverallPoints), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_HomeTeamOverallPoints_MetaData), NewProp_NumbersBox_HomeTeamOverallPoints_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_VisitorTeamRacePoints = { "NumbersBox_VisitorTeamRacePoints", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UScoreCounter, NumbersBox_VisitorTeamRacePoints), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_VisitorTeamRacePoints_MetaData), NewProp_NumbersBox_VisitorTeamRacePoints_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_VisitorTeamOverallPoints = { "NumbersBox_VisitorTeamOverallPoints", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UScoreCounter, NumbersBox_VisitorTeamOverallPoints), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_VisitorTeamOverallPoints_MetaData), NewProp_NumbersBox_VisitorTeamOverallPoints_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UScoreCounter_Statics::NewProp_PointsManager = { "PointsManager", nullptr, (EPropertyFlags)0x0040000000000000, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UScoreCounter, PointsManager), Z_Construct_UClass_UPointsManager_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PointsManager_MetaData), NewProp_PointsManager_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UScoreCounter_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_HomeTeamRacePoints,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_VisitorTeamRacePoints,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_HomeTeamOverallPoints,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_VisitorTeamRacePoints,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UScoreCounter_Statics::NewProp_NumbersBox_VisitorTeamOverallPoints,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UScoreCounter_Statics::NewProp_PointsManager,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UScoreCounter_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UScoreCounter_Statics::DependentSingletons[])() = {
@@ -117,10 +124,10 @@ UScoreCounter::~UScoreCounter() {}
 struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UScoreCounter, UScoreCounter::StaticClass, TEXT("UScoreCounter"), &Z_Registration_Info_UClass_UScoreCounter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UScoreCounter), 1724310993U) },
+		{ Z_Construct_UClass_UScoreCounter, UScoreCounter::StaticClass, TEXT("UScoreCounter"), &Z_Registration_Info_UClass_UScoreCounter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UScoreCounter), 1879639381U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_3064637307(TEXT("/Script/SMS"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_904015066(TEXT("/Script/SMS"),
 	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

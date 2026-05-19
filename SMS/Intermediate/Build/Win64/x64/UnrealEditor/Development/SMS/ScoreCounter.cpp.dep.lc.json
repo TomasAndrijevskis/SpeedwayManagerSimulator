@@ -35,7 +35,17 @@
             "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\umg\\public\\animation\\widgetanimationevents.h",
             "d:\\unreal engine\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\umg\\uht\\widgetanimationevents.generated.h",
             "d:\\unreal engine\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\umg\\uht\\userwidget.generated.h",
-            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\intermediate\\build\\win64\\unrealeditor\\inc\\sms\\uht\\scorecounter.generated.h"
+            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\intermediate\\build\\win64\\unrealeditor\\inc\\sms\\uht\\scorecounter.generated.h",
+            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\source\\sms\\public\\managers\\pointshelper.h",
+            "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\coreuobject\\public\\uobject\\noexporttypes.h",
+            "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\coreuobject\\public\\uobject\\propertyaccessutil.h",
+            "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\coreuobject\\public\\serialization\\testundeclaredscriptstructobjectreferences.h",
+            "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\core\\public\\math\\unitconversion.h",
+            "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\core\\public\\math\\unitconversion.inl",
+            "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\core\\public\\internationalization\\polyglottextdata.h",
+            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\intermediate\\build\\win64\\unrealeditor\\inc\\sms\\uht\\pointshelper.generated.h",
+            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\source\\sms\\public\\ui\\baseclasses\\numbersbox.h",
+            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\intermediate\\build\\win64\\unrealeditor\\inc\\sms\\uht\\numbersbox.generated.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

@@ -62,8 +62,14 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	int AmountOfRaces = 15;
 	
 	TArray<URace*> Races;
 
 	FVector2d StartPosition = FVector2d(0,-540);
+
+	int CurrentRace = 1;
+	
 };
