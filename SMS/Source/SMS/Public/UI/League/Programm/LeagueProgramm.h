@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "LeagueProgramm.generated.h"
 
+class UCanvasPanel;
 class UBackgroundBlur;
 class UVerticalBox;
 class UTeamLineup;
@@ -25,49 +26,7 @@ protected:
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	URace* Race_One;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Two;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Three;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Four;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Five;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Six;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Seven;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Eight;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Nine;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Ten;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Eleven;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Twelve;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Thirteen;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Fourteen;
-
-	UPROPERTY(meta = (BindWidget))
-	URace* Race_Fifteen;
+	UCanvasPanel* CanvasPanel_Root;
 	
 	UPROPERTY(meta = (BindWidget))
 	UTeamLineup* TeamLineup_HomeTeam;
@@ -92,14 +51,19 @@ private:
 
 	void FillRacers(FString Name, int Id);
 
-	void SetRaceID();
-	
-	void CreateRacesArray();
-
 	void BindDelegates();
 
 	UFUNCTION()
 	void ShowTeams();
+
+	void CreateRaces();
+
+	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<URace> RaceClass;
 	
 	TArray<URace*> Races;
+
+	FVector2d StartPosition = FVector2d(0,-540);
 };

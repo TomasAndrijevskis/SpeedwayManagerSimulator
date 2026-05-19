@@ -2,6 +2,8 @@
 #include "UI/League/Programm/LeagueProgramm.h"
 #include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
+#include "Components/CanvasPanel.h"
+#include "Components/CanvasPanelSlot.h"
 #include "Components/VerticalBox.h"
 #include "UI/League/Programm/Race.h"
 #include "UI/League/Programm/RacerStatsLine.h"
@@ -13,30 +15,55 @@ void ULeagueProgramm::NativeConstruct()
 	Super::NativeConstruct();
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::SimulateAllRaces);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::ShowTeams);
-	CreateRacesArray();
-	SetRaceID();
+	CreateRaces();
 	BindDelegates();
 	ShowTeams();
 }
 
 
-void ULeagueProgramm::CreateRacesArray()
+void ULeagueProgramm::CreateRaces()
 {
-	Races.Add(Race_One);
-	Races.Add(Race_Two);
-	Races.Add(Race_Three);
-	Races.Add(Race_Four);
-	Races.Add(Race_Five);
-	Races.Add(Race_Six);
-	Races.Add(Race_Seven);
-	Races.Add(Race_Eight);
-	Races.Add(Race_Nine);
-	Races.Add(Race_Ten);
-	Races.Add(Race_Eleven);
-	Races.Add(Race_Twelve);
-	Races.Add(Race_Thirteen);
-	Races.Add(Race_Fourteen);
-	Races.Add(Race_Fifteen);
+	FVector2d TempPosition = StartPosition;
+	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
+	FVector2d StartAlignment = FVector2d(0, 0);
+	for (int i = 1; i <= 15; i++)
+	{
+		const float PositionOffset = 162.0f;
+		const float Offset = 0.5f;
+		URace* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
+		if (NewRace)
+		{
+			NewRace->SetRaceID(i);
+			Races.Add(NewRace);
+		}
+		TempPosition.Y += PositionOffset;
+		if (i % 5 == 0)
+		{
+			TempPosition = StartPosition;
+			StartAnchors.Minimum.X += Offset;
+			StartAnchors.Maximum.X += Offset;
+			StartAlignment.X += Offset;
+		}
+	}
+}
+
+
+URace* ULeagueProgramm::CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment)
+{
+	if (!RaceClass) return nullptr;
+	URace* NewRace = CreateWidget<URace>(this, RaceClass);
+	if (!NewRace) return nullptr;
+	UE_LOG(LogTemp, Error, TEXT("Race created"));
+	UCanvasPanelSlot* RaceSlot = CanvasPanel_Root->AddChildToCanvas(NewRace);
+	if (RaceSlot)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Slot exists"));
+		RaceSlot->SetAnchors(Anchors);
+		RaceSlot->SetPosition(Position);
+		RaceSlot->SetAlignment(Alignment);
+		RaceSlot->SetAutoSize(true);
+	}
+	return NewRace;
 }
 
 
@@ -67,16 +94,6 @@ void ULeagueProgramm::ShowTeams()
 	}
 }
 
-
-void ULeagueProgramm::SetRaceID()
-{
-	int RaceID = 1;
-	for (const auto& Race : Races)
-	{
-		Race->SetRaceID(RaceID);
-		RaceID++;
-	}
-}
 
 
 void ULeagueProgramm::FillRacers(FString Name, int Id)
