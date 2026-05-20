@@ -13,7 +13,7 @@
 void ULeagueProgramm::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::SimulateAllRaces);
+	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::SimulateRace);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::ShowTeams);
 	CreateRaces();
 	BindDelegates();
@@ -103,12 +103,21 @@ void ULeagueProgramm::FillRacers(FString Name, int Id)
 }
 
 
-void ULeagueProgramm::SimulateAllRaces()
+void ULeagueProgramm::SimulateRace()
 {
-	
 	if (CurrentRace < Races.Num())
 	{
+		Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgramm::SetOverallPts);
 		Races[CurrentRace]->SimulateRace();
+		Races[CurrentRace]->OnRaceFinishedDelegate.Clear();
 		CurrentRace++;
 	}
+}
+
+
+void ULeagueProgramm::SetOverallPts(int AddHomePts, int AddVisitorPts)
+{
+	HomeOverallPts += AddHomePts;
+	VisitorOverallPts += AddVisitorPts;
+	Races[CurrentRace]->UpdateOverallScore(HomeOverallPts, VisitorOverallPts);
 }

@@ -6,8 +6,6 @@
 #include "SMS_GameMode.generated.h"
 
 
-class UPointsManager;
-
 UCLASS()
 class SMS_API ASMS_GameMode : public AGameMode
 {
@@ -16,12 +14,5 @@ class SMS_API ASMS_GameMode : public AGameMode
 public:
 
 	virtual void BeginPlay() override;
-
-	UPointsManager* GetPointsManager() const;
-	
-private:
-	
-	UPROPERTY()
-	UPointsManager* PointsManager;
 	
 };

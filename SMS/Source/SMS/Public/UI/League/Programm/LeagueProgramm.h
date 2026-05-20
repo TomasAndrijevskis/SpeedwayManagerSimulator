@@ -12,6 +12,7 @@ class UTeamLineup;
 class UButton;
 class URace;
 
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnScoreUpdated, int, int)
 UCLASS()
 class SMS_API ULeagueProgramm : public UUserWidget
 {
@@ -19,6 +20,10 @@ class SMS_API ULeagueProgramm : public UUserWidget
 	
 public:
 
+	void SetOverallPts(int AddHomePts, int AddVisitorPts);
+
+	FOnScoreUpdated OnScoreUpdatedDelegate;
+	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -47,7 +52,7 @@ private:
 	UBackgroundBlur* BackgroundBlur;
 	
 	UFUNCTION()
-	void SimulateAllRaces();
+	void SimulateRace();
 
 	void FillRacers(FString Name, int Id);
 
@@ -70,6 +75,9 @@ private:
 
 	FVector2d StartPosition = FVector2d(0,-540);
 
-	int CurrentRace = 1;
+	int CurrentRace = 0;
 	
+	int HomeOverallPts = 0;
+
+	int VisitorOverallPts = 0;
 };

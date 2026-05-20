@@ -52,7 +52,7 @@
     <Filter Include="Source\SMS\Private\Managers">
       <UniqueIdentifier>{59927D88-E9EA-37A2-A323-F8B61304367C}</UniqueIdentifier>
     </Filter>
-    <ClCompile Include="..\..\Source\SMS\Private\Managers\PointsHelper.cpp">
+    <ClCompile Include="..\..\Source\SMS\Private\Managers\PointsManager.cpp">
       <Filter>Source\SMS\Private\Managers</Filter>
     </ClCompile>
     <Filter Include="Source\SMS\Private\UI">
@@ -115,7 +115,7 @@
     <Filter Include="Source\SMS\Public\Managers">
       <UniqueIdentifier>{9BC51613-0D0D-31BA-9C55-4E1C7164DB82}</UniqueIdentifier>
     </Filter>
-    <ClInclude Include="..\..\Source\SMS\Public\Managers\PointsHelper.h">
+    <ClInclude Include="..\..\Source\SMS\Public\Managers\PointsManager.h">
       <Filter>Source\SMS\Public\Managers</Filter>
     </ClInclude>
     <Filter Include="Source\SMS\Public\UI">

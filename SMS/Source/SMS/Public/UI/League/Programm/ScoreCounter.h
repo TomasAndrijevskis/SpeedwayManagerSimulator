@@ -6,7 +6,6 @@
 #include "ScoreCounter.generated.h"
 
 
-class UPointsManager;
 class UNumbersBox;
 
 UCLASS()
@@ -19,10 +18,6 @@ public:
 	void SetRacePoints(int NewHomePoints, int NewVisitorPoints);
 
 	void SetOverallScore(int NewHomePoints, int NewVisitorPoints);
-
-protected:
-
-	virtual void NativeConstruct() override;
 	
 private:
 
@@ -37,7 +32,4 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_VisitorTeamOverallPoints;
-
-	UPROPERTY()
-	UPointsManager* PointsManager;
 };

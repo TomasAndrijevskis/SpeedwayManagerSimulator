@@ -14,7 +14,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define SMS_ScoreCounter_generated_h
 
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_15_INCLASS_NO_PURE_DECLS \
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_14_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUScoreCounter(); \
 	friend struct Z_Construct_UClass_UScoreCounter_Statics; \
@@ -23,7 +23,7 @@ public: \
 	DECLARE_SERIALIZER(UScoreCounter)
 
 
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_15_ENHANCED_CONSTRUCTORS \
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_14_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UScoreCounter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 private: \
@@ -37,12 +37,12 @@ public: \
 	NO_API virtual ~UScoreCounter();
 
 
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_12_PROLOG
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_15_GENERATED_BODY \
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_11_PROLOG
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_14_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_15_INCLASS_NO_PURE_DECLS \
-	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_15_ENHANCED_CONSTRUCTORS \
+	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_14_INCLASS_NO_PURE_DECLS \
+	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_14_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
