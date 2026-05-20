@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "LeagueProgramm.generated.h"
 
+class URacerStatsLine;
 class UCanvasPanel;
 class UBackgroundBlur;
 class UVerticalBox;
@@ -64,6 +65,10 @@ private:
 	void CreateRaces();
 
 	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
+
+	void OnRaceFinished(int ID, int NewPoints);
+
+	void AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLine*>& Racers);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;

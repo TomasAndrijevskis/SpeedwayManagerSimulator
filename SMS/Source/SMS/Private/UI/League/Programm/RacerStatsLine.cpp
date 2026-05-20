@@ -8,19 +8,16 @@
 void URacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	OnValueAddedDelegate.AddUObject(this, &URacerStatsLine::CreateNewPointsBox);
-	NumbersBox_RiderNumber->SetText(FString::FromInt(ID));
+	OnValueAddRequestDelegate.AddUObject(this, &URacerStatsLine::AddPoints);
 	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
 }
 
 
-void URacerStatsLine::AddPoints()
+void URacerStatsLine::AddPoints(const FString& NewPoints)
 {
 	if (!CanAddNewPointBox()) return;
-	int RandomNumber = FMath::RandRange(0, 3);
-	UE_LOG(LogTemp, Error, TEXT("New number: %i"), RandomNumber);
-	RacerPoints.Add(FString::FromInt(RandomNumber));
-	OnValueAddedDelegate.Broadcast(RacerPoints.Last());
+	RacerPoints.Add(NewPoints);
+	CreateNewPointsBox(RacerPoints.Last());
 }
 
 
@@ -64,14 +61,14 @@ void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type Sele
 
 void URacerStatsLine::UpdateOverallPoints(int Points)
 {
-	NumbersBox_OverallPoints->SetText(FString::FromInt(Points));
+	NumbersBox_OverallPoints->SetText(Points);
 }
 
 
 void URacerStatsLine::SetID(int NewID)
 {
 	ID = NewID;
-	NumbersBox_RiderNumber->SetText(FString::FromInt(ID));
+	NumbersBox_RiderNumber->SetText(ID);
 }
 
 int URacerStatsLine::GetID() const{return ID;}

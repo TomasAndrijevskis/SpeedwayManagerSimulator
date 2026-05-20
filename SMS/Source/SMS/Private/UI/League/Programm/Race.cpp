@@ -2,7 +2,6 @@
 #include "UI/League/Programm/Race.h"
 #include "Data/RaceDataAsset.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "UI/League/Programm/LeagueProgramm.h"
 #include "UI/League/Programm/RaceLine.h"
 #include "UI/League/Programm/ScoreCounter.h"
 
@@ -67,8 +66,8 @@ void URace::SimulateRace()
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
-		//UE_LOG(LogTemp, Error, TEXT("%s - %i"), *RaceLine->GetName(), RaceLine->GetGeneratedNumber());
 		RaceLine->SetPoints(Points);
+		OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
 		Points++;
 	}
 	CalculateRaceResult();
@@ -85,7 +84,7 @@ void URace::CalculateRaceResult()
 		else HomePts += RaceLine->GetPoints();
 	}
 	ScoreCounter->SetRacePoints(HomePts, VisitorPts);
-	OnRaceFinishedDelegate.Broadcast(HomePts, VisitorPts);
+	OnOverallScoreUpdatedDelegate.Broadcast(HomePts, VisitorPts);
 }
 
 

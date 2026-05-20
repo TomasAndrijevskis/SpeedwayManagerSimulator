@@ -10,7 +10,7 @@ class UNumbersBox;
 class UTextBlock;
 class UHorizontalBox;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAdded, const FString&)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAddRequest, const FString&)
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, FString, int);
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
@@ -18,19 +18,16 @@ class SMS_API URacerStatsLine : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	
-	FOnValueAdded OnValueAddedDelegate;
-
-	FOnRacerChosen OnRacerChosenDelegate;
-	
-	UFUNCTION(BlueprintCallable)
-	void AddPoints();
 
 	void SetID(int NewID);
 
 	int GetID() const;
 
 	FString GetRacerName() const;
+
+	FOnValueAddRequest OnValueAddRequestDelegate;
+
+	FOnRacerChosen OnRacerChosenDelegate;
 	
 protected:
 
@@ -62,6 +59,8 @@ private:
 	bool CanAddNewPointBox() const;
 
 	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
+
+	void AddPoints(const FString& NewPoints);
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<FString> RacerPoints;

@@ -107,10 +107,27 @@ void ULeagueProgramm::SimulateRace()
 {
 	if (CurrentRace < Races.Num())
 	{
-		Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgramm::SetOverallPts);
+		Races[CurrentRace]->OnOverallScoreUpdatedDelegate.AddUObject(this, &ULeagueProgramm::SetOverallPts);
+		Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgramm::OnRaceFinished);
 		Races[CurrentRace]->SimulateRace();
-		Races[CurrentRace]->OnRaceFinishedDelegate.Clear();
+		Races[CurrentRace]->OnOverallScoreUpdatedDelegate.Clear();
 		CurrentRace++;
+	}
+}
+
+
+void ULeagueProgramm::OnRaceFinished(int ID, int NewPoints)
+{
+	if (ID <= 6) AddRacerPoints(ID, NewPoints, TeamLineup_HomeTeam->GetRacers());
+	else AddRacerPoints(ID, NewPoints, TeamLineup_VisitorTeam->GetRacers());
+}
+
+
+void ULeagueProgramm::AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLine*>& Racers)
+{
+	for (auto& Racer : Racers)
+	{
+		if (Racer->GetID() == ID) Racer->OnValueAddRequestDelegate.Broadcast(FString::FromInt(NewPoints));
 	}
 }
 

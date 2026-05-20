@@ -12,6 +12,7 @@ class UScoreCounter;
 class UTextBlock;
 class URaceLine;
 
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceFinished, int, int);
 UCLASS()
 class SMS_API URace : public UUserWidget
@@ -27,6 +28,8 @@ public:
 	void SetRaceID(int NewID);
 
 	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
+
+	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
 	FOnRaceFinished OnRaceFinishedDelegate;
 	

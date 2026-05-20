@@ -20,43 +20,9 @@ UMG_API UClass* Z_Construct_UClass_UUserWidget();
 UPackage* Z_Construct_UPackage__Script_SMS();
 // End Cross Module References
 
-// Begin Class URacerStatsLine Function AddPoints
-struct Z_Construct_UFunction_URacerStatsLine_AddPoints_Statics
-{
-#if WITH_METADATA
-	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
-	};
-#endif // WITH_METADATA
-	static const UECodeGen_Private::FFunctionParams FuncParams;
-};
-const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_URacerStatsLine_AddPoints_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_URacerStatsLine, nullptr, "AddPoints", nullptr, nullptr, nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_URacerStatsLine_AddPoints_Statics::Function_MetaDataParams), Z_Construct_UFunction_URacerStatsLine_AddPoints_Statics::Function_MetaDataParams) };
-UFunction* Z_Construct_UFunction_URacerStatsLine_AddPoints()
-{
-	static UFunction* ReturnFunction = nullptr;
-	if (!ReturnFunction)
-	{
-		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_URacerStatsLine_AddPoints_Statics::FuncParams);
-	}
-	return ReturnFunction;
-}
-DEFINE_FUNCTION(URacerStatsLine::execAddPoints)
-{
-	P_FINISH;
-	P_NATIVE_BEGIN;
-	P_THIS->AddPoints();
-	P_NATIVE_END;
-}
-// End Class URacerStatsLine Function AddPoints
-
 // Begin Class URacerStatsLine
 void URacerStatsLine::StaticRegisterNativesURacerStatsLine()
 {
-	UClass* Class = URacerStatsLine::StaticClass();
-	static const FNameNativePtrPair Funcs[] = {
-		{ "AddPoints", &URacerStatsLine::execAddPoints },
-	};
-	FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 }
 IMPLEMENT_CLASS_NO_AUTO_REGISTRATION(URacerStatsLine);
 UClass* Z_Construct_UClass_URacerStatsLine_NoRegister()
@@ -123,10 +89,6 @@ struct Z_Construct_UClass_URacerStatsLine_Statics
 	static const UECodeGen_Private::FStrPropertyParams NewProp_RacerName;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
-	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
-		{ &Z_Construct_UFunction_URacerStatsLine_AddPoints, "AddPoints" }, // 2404227256
-	};
-	static_assert(UE_ARRAY_COUNT(FuncInfo) < 2048);
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
 		TCppClassTypeTraits<URacerStatsLine>::IsAbstract,
 	};
@@ -165,11 +127,11 @@ const UECodeGen_Private::FClassParams Z_Construct_UClass_URacerStatsLine_Statics
 	nullptr,
 	&StaticCppClassTypeInfo,
 	DependentSingletons,
-	FuncInfo,
+	nullptr,
 	Z_Construct_UClass_URacerStatsLine_Statics::PropPointers,
 	nullptr,
 	UE_ARRAY_COUNT(DependentSingletons),
-	UE_ARRAY_COUNT(FuncInfo),
+	0,
 	UE_ARRAY_COUNT(Z_Construct_UClass_URacerStatsLine_Statics::PropPointers),
 	0,
 	0x00B010A0u,
@@ -196,10 +158,10 @@ URacerStatsLine::~URacerStatsLine() {}
 struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_URacerStatsLine, URacerStatsLine::StaticClass, TEXT("URacerStatsLine"), &Z_Registration_Info_UClass_URacerStatsLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URacerStatsLine), 1817371808U) },
+		{ Z_Construct_UClass_URacerStatsLine, URacerStatsLine::StaticClass, TEXT("URacerStatsLine"), &Z_Registration_Info_UClass_URacerStatsLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URacerStatsLine), 3801498425U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_1631940298(TEXT("/Script/SMS"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_3149808140(TEXT("/Script/SMS"),
 	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
