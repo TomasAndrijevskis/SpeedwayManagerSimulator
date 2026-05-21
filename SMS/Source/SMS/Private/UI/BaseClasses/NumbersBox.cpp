@@ -46,3 +46,11 @@ int UNumbersBox::GetNumber()
 	}
 	return 0;
 }
+
+
+void UNumbersBox::AddNumber(int AddNumber)
+{
+	int CurrentNumber = GetNumber();
+	CurrentNumber += AddNumber;
+	SetText(CurrentNumber);
+}

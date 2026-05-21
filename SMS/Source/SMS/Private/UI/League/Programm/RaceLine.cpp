@@ -29,7 +29,7 @@ void URaceLine::SetRacerValues(const FColor& NewHelmetColour, int NewRacerID)
 	RacerID = NewRacerID;
 	if (RacerID <= 6) IsVisitor = false;
 	else IsVisitor = true;
-	NumbersBox_RacerNumber->SetText(FString::FromInt(RacerID));
+	NumbersBox_RacerNumber->SetText(RacerID);
 	NumbersBox_RacerNumber->SetColour(NewHelmetColour);
 }
 
@@ -71,7 +71,7 @@ void URaceLine::GenerateRandomNumber()
 void URaceLine::SetPoints(int NewPoints)
 {
 	Points = NewPoints;
-	NumbersBox_PointsPerRace->SetText(FString::FromInt(Points));
+	NumbersBox_PointsPerRace->SetText(Points);
 }
 
 

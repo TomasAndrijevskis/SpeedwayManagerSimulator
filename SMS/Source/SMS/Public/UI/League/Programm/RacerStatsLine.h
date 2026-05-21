@@ -12,6 +12,7 @@ class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAddRequest, const FString&)
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, FString, int);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPointsUpdated, int)
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
 {
@@ -28,6 +29,8 @@ public:
 	FOnValueAddRequest OnValueAddRequestDelegate;
 
 	FOnRacerChosen OnRacerChosenDelegate;
+
+	FOnPointsUpdated OnPointsUpdatedDelegate;
 	
 protected:
 

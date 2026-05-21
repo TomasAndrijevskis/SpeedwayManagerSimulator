@@ -23,6 +23,8 @@ public:
 
 	int GetNumber();
 
+	void AddNumber(int AddNumber);
+	
 protected:
 
 	virtual void NativeConstruct() override;

@@ -6,6 +6,8 @@
 #include "TeamLineup.generated.h"
 
 
+class UVerticalBox;
+class UNumbersBox;
 class UNamesBox;
 class URacerStatsLine;
 
@@ -23,35 +25,33 @@ protected:
 	virtual void NativeConstruct() override;
 	
 private:
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_First;
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Second;
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Third;
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Fourth;
-
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Fifth;
 	
-	UPROPERTY(meta = (BindWidget))
-	URacerStatsLine* RacerStatsLine_Sixth;
-
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_TeamName;
 
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_TeamStatus;
-	
-	void SetRacerID();
-	
-	TArray<URacerStatsLine*> Racers;
 
+	UPROPERTY(meta = (BindWidget))
+	UNumbersBox* NumbersBox_TeamPoints;
+
+	UPROPERTY(meta = (BindWidget))
+	UVerticalBox* VB_Content;
+	
+	void CreateRacerStatLines();
+	
+	URacerStatsLine* CreateRacerStatLine(int ID);
+
+	void UpdateTeamPoints(int NewPoints);
+	
 	UPROPERTY(EditAnywhere)
 	bool IsVisitorTeam = false;
+
+	UPROPERTY(VisibleAnywhere)
+	int RacersAmount = 6;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
+	
+	TArray<URacerStatsLine*> Racers;
 };

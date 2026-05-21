@@ -19,7 +19,7 @@ void URace::NativeConstruct()
 void URace::SetRaceID(int NewID)
 {
 	ID = NewID;
-	NumbersBox_RaceNumber->SetText(FString::FromInt(ID));
+	NumbersBox_RaceNumber->SetText(ID);
 	SetRaceLinesID();
 }
 

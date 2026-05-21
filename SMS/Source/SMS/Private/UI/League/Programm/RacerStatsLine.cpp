@@ -29,6 +29,7 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points)
 	NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
 	UpdateOverallPoints(CountOverallPoints());
+	OnPointsUpdatedDelegate.Broadcast(FCString::Atoi(*Points));
 }
 
 
@@ -71,6 +72,6 @@ void URacerStatsLine::SetID(int NewID)
 	NumbersBox_RiderNumber->SetText(ID);
 }
 
-int URacerStatsLine::GetID() const{return ID;}
 
+int URacerStatsLine::GetID() const{return ID;}
 FString URacerStatsLine::GetRacerName() const{return RacerName;}
