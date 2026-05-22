@@ -34,6 +34,7 @@ void ULeagueProgramm::CreateRaces()
 		if (NewRace)
 		{
 			NewRace->SetRaceID(i);
+			if (i != 1) NewRace->ChangeRaceStatus(false);
 			Races.Add(NewRace);
 		}
 		TempPosition.Y += PositionOffset;
@@ -112,6 +113,7 @@ void ULeagueProgramm::SimulateRace()
 		Races[CurrentRace]->SimulateRace();
 		Races[CurrentRace]->OnOverallScoreUpdatedDelegate.Clear();
 		CurrentRace++;
+		if (CurrentRace < Races.Num()) Races[CurrentRace]->ChangeRaceStatus(true);
 	}
 }
 

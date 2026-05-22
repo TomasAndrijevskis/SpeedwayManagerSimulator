@@ -1,6 +1,5 @@
 
 #include "UI/League/Programm/Race.h"
-
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceDataAsset.h"
@@ -81,7 +80,17 @@ void URace::SimulateRace()
 		OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
 		Points++;
 	}
+	ChangeRaceStatus(false);
 	CalculateRaceResult();
+}
+
+
+void URace::ChangeRaceStatus(bool bIsActive)
+{
+	for (auto& RaceLine : RaceLines)
+	{
+		RaceLine->SetIsEnabled(bIsActive);
+	}
 }
 
 

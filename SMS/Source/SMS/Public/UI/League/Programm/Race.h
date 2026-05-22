@@ -30,6 +30,8 @@ public:
 
 	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
 
+	void ChangeRaceStatus(bool bIsActive);
+	
 	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
 	FOnRaceFinished OnRaceFinishedDelegate;
