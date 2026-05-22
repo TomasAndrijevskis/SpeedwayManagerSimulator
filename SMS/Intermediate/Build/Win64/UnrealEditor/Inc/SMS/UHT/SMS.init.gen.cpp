@@ -17,7 +17,7 @@ void EmptyLinkFunctionForGeneratedCodeSMS_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x6FDAF208,
+				0x61BB0529,
 				0xA892C61C,
 				METADATA_PARAMS(0, nullptr)
 			};
@@ -25,5 +25,5 @@ void EmptyLinkFunctionForGeneratedCodeSMS_init() {}
 		}
 		return Z_Registration_Info_UPackage__Script_SMS.OuterSingleton;
 	}
-	static FRegisterCompiledInInfo Z_CompiledInDeferPackage_UPackage__Script_SMS(Z_Construct_UPackage__Script_SMS, TEXT("/Script/SMS"), Z_Registration_Info_UPackage__Script_SMS, CONSTRUCT_RELOAD_VERSION_INFO(FPackageReloadVersionInfo, 0x6FDAF208, 0xA892C61C));
+	static FRegisterCompiledInInfo Z_CompiledInDeferPackage_UPackage__Script_SMS(Z_Construct_UPackage__Script_SMS, TEXT("/Script/SMS"), Z_Registration_Info_UPackage__Script_SMS, CONSTRUCT_RELOAD_VERSION_INFO(FPackageReloadVersionInfo, 0x61BB0529, 0xA892C61C));
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

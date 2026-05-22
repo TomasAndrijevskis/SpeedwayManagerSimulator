@@ -81,5 +81,5 @@ int URaceLine::GetRacerID() const{return RacerID;}
 int URaceLine::GetPoints() const{ return Points; }
 bool URaceLine::GetIsVisitor() const {return IsVisitor;}
 void URaceLine::SetIsVisitor(bool Visitor){IsVisitor = Visitor;}
-void URaceLine::SetRacerLineID(int NewID){RaceLineID = NewID;}
+void URaceLine::SetRaceLineID(int NewID){RaceLineID = NewID;}
 void URaceLine::SetRacerID(int NewID){RacerID = NewID;}

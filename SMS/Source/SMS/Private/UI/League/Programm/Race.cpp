@@ -1,38 +1,49 @@
 
 #include "UI/League/Programm/Race.h"
+
+#include "Components/VerticalBox.h"
+#include "Components/VerticalBoxSlot.h"
 #include "Data/RaceDataAsset.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "UI/League/Programm/RaceLine.h"
 #include "UI/League/Programm/ScoreCounter.h"
 
 
-void URace::NativeConstruct()
-{
-	Super::NativeConstruct();
-	RaceLines.Add(RaceLine_First);
-	RaceLines.Add(RaceLine_Second);
-	RaceLines.Add(RaceLine_Third);
-	RaceLines.Add(RaceLine_Fourth);
-}
-
-
 void URace::SetRaceID(int NewID)
 {
 	ID = NewID;
 	NumbersBox_RaceNumber->SetText(ID);
-	SetRaceLinesID();
+	CreateRaceLines();
 }
 
 
-void URace::SetRaceLinesID()
+void URace::CreateRaceLines()
 {
-	int RaceLineID = 0;
-	for (auto& RaceLine : RaceLines)
+	for (int i = 0; i < RaceLineAmount; i++)
 	{
-		RaceLine->SetRacerLineID(RaceLineID);
-		RaceLineID++;
+		URaceLine* NewRaceLine = CreateRaceLine(i);
+		if (NewRaceLine)
+		{
+			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine);
+			if (VB_Slot)
+			{
+				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
+				VB_Slot->SetVerticalAlignment(VAlign_Fill);
+			}
+			RaceLines.Add(NewRaceLine);
+		}
 	}
 	SetRaceData();
+}
+
+
+URaceLine* URace::CreateRaceLine(int RaceLineID)
+{
+	if (!RaceLineClass) return nullptr;
+	URaceLine* NewRaceLine = CreateWidget<URaceLine>(this, RaceLineClass);
+	if (!NewRaceLine) return nullptr;
+	NewRaceLine->SetRaceLineID(RaceLineID);
+	return NewRaceLine;
 }
 
 

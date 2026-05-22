@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Race.generated.h"
 
+class UVerticalBox;
 class UPointsManager;
 class URaceDataAsset;
 class UNumbersBox;
@@ -32,43 +33,37 @@ public:
 	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
 	FOnRaceFinished OnRaceFinishedDelegate;
-	
-protected:
 
-	virtual void NativeConstruct() override;
-	
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_RaceNumber;
-	
-	UPROPERTY(meta = (BindWidget))
-	URaceLine* RaceLine_First;
-
-	UPROPERTY(meta = (BindWidget))
-	URaceLine* RaceLine_Second;
-	
-	UPROPERTY(meta = (BindWidget))
-	URaceLine* RaceLine_Third;
-	
-	UPROPERTY(meta = (BindWidget))
-	URaceLine* RaceLine_Fourth;
 
 	UPROPERTY(meta = (BindWidget))
 	UScoreCounter* ScoreCounter;
 
+	UPROPERTY(meta = (BindWidget))
+	UVerticalBox* VB_Content;
+	
 	void SortArray();
 
 	void SetRaceData();
 
-	void SetRaceLinesID();
-
 	void CalculateRaceResult();
+
+	void CreateRaceLines();
+	
+	URaceLine* CreateRaceLine(int RaceLineID);
 	
 	UPROPERTY(EditDefaultsOnly)
 	URaceDataAsset* RaceDataAsset;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<URaceLine> RaceLineClass;
 	
 	TArray<URaceLine*> RaceLines;
 
 	int ID;
+
+	int RaceLineAmount = 4;
 };

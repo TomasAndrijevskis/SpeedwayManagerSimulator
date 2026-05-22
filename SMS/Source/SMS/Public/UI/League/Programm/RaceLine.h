@@ -40,7 +40,7 @@ public:
 
 	int GetPoints() const;
 	
-	void SetRacerLineID(int NewID);
+	void SetRaceLineID(int NewID);
 
 	void SetRacerID(int NewID);
 	
