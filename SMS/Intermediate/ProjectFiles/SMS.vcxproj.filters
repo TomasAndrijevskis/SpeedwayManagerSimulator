@@ -43,17 +43,17 @@
     <Filter Include="Source\SMS\Private">
       <UniqueIdentifier>{2137A461-0519-3E83-9629-AC4C962B9DB9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\SMS\Private\Data">
+      <UniqueIdentifier>{C70BBFC1-6E42-3C3D-A071-F0BC482010A1}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\Data\TeamLineupsDataAsset.cpp">
+      <Filter>Source\SMS\Private\Data</Filter>
+    </ClCompile>
     <Filter Include="Source\SMS\Private\Gamemodes">
       <UniqueIdentifier>{7BDF233F-CE6D-3006-A007-3E3AB9607E65}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\SMS\Private\Gamemodes\SMS_GameMode.cpp">
       <Filter>Source\SMS\Private\Gamemodes</Filter>
-    </ClCompile>
-    <Filter Include="Source\SMS\Private\Managers">
-      <UniqueIdentifier>{59927D88-E9EA-37A2-A323-F8B61304367C}</UniqueIdentifier>
-    </Filter>
-    <ClCompile Include="..\..\Source\SMS\Private\Managers\PointsManager.cpp">
-      <Filter>Source\SMS\Private\Managers</Filter>
     </ClCompile>
     <Filter Include="Source\SMS\Private\UI">
       <UniqueIdentifier>{A03C0F9A-F86C-3995-8445-203D53DECFB3}</UniqueIdentifier>
@@ -106,17 +106,14 @@
     <ClInclude Include="..\..\Source\SMS\Public\Data\RaceDataAsset.h">
       <Filter>Source\SMS\Public\Data</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamLineupsDataAsset.h">
+      <Filter>Source\SMS\Public\Data</Filter>
+    </ClInclude>
     <Filter Include="Source\SMS\Public\Gamemodes">
       <UniqueIdentifier>{9C0FC8C9-7D74-3DC3-81CD-DA5649F9A1BF}</UniqueIdentifier>
     </Filter>
     <ClInclude Include="..\..\Source\SMS\Public\Gamemodes\SMS_GameMode.h">
       <Filter>Source\SMS\Public\Gamemodes</Filter>
-    </ClInclude>
-    <Filter Include="Source\SMS\Public\Managers">
-      <UniqueIdentifier>{9BC51613-0D0D-31BA-9C55-4E1C7164DB82}</UniqueIdentifier>
-    </Filter>
-    <ClInclude Include="..\..\Source\SMS\Public\Managers\PointsManager.h">
-      <Filter>Source\SMS\Public\Managers</Filter>
     </ClInclude>
     <Filter Include="Source\SMS\Public\UI">
       <UniqueIdentifier>{C3784C3E-2CF0-3B2C-A594-263AD925DFDE}</UniqueIdentifier>

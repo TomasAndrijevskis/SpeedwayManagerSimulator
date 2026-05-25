@@ -7,7 +7,6 @@ void UChooseBox::NativeConstruct()
 {
 	Super::NativeConstruct();
 	ComboBox->OnSelectionChanged.AddUniqueDynamic(this, &UChooseBox::OnSelectionChanged);
-	FillComboBox();
 }
 
 
@@ -17,12 +16,7 @@ void UChooseBox::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type Sele
 }
 
 
-void UChooseBox::FillComboBox()
+void UChooseBox::AddOption(const FString& NewOption)
 {
-	ComboBox->AddOption("Tomas");
-	ComboBox->AddOption("Ivars");
-	ComboBox->AddOption("Mareks");
-	ComboBox->AddOption("Ediks");
-	ComboBox->AddOption("Zans");
-	ComboBox->AddOption("Teodors");
+	ComboBox->AddOption(NewOption);
 }

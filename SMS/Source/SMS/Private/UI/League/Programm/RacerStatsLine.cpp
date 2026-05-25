@@ -13,6 +13,13 @@ void URacerStatsLine::NativeConstruct()
 }
 
 
+void URacerStatsLine::AddOption(const FString& NewOption)
+{
+	ChooseBox_Racer->AddOption(NewOption);
+}
+
+
+
 void URacerStatsLine::AddPoints(const FString& NewPoints)
 {
 	if (!CanAddNewPointBox()) return;

@@ -7,7 +7,7 @@
 
 class UVerticalBox;
 class UPointsManager;
-class URaceDataAsset;
+class URacePatternsDataAsset;
 class UNumbersBox;
 class UScoreCounter;
 class UTextBlock;
@@ -58,7 +58,7 @@ private:
 	URaceLine* CreateRaceLine(int RaceLineID);
 	
 	UPROPERTY(EditDefaultsOnly)
-	URaceDataAsset* RaceDataAsset;
+	URacePatternsDataAsset* RaceDataAsset;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URaceLine> RaceLineClass;

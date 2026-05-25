@@ -26,6 +26,8 @@ public:
 
 	FString GetRacerName() const;
 
+	void AddOption(const FString& NewOption);
+	
 	FOnValueAddRequest OnValueAddRequestDelegate;
 
 	FOnRacerChosen OnRacerChosenDelegate;

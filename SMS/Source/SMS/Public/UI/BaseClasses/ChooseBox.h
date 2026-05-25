@@ -17,6 +17,8 @@ public:
 
 	UFUNCTION()
 	void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
+
+	void AddOption(const FString& NewOption);
 	
 	FOnSelectionChanged OnSelectionChangedDelegate;
 
@@ -28,6 +30,4 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UComboBoxString* ComboBox;
-
-	void FillComboBox();
 };

@@ -14,8 +14,8 @@ COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 SMS_API UClass* Z_Construct_UClass_UNumbersBox_NoRegister();
 SMS_API UClass* Z_Construct_UClass_URace();
 SMS_API UClass* Z_Construct_UClass_URace_NoRegister();
-SMS_API UClass* Z_Construct_UClass_URaceDataAsset_NoRegister();
 SMS_API UClass* Z_Construct_UClass_URaceLine_NoRegister();
+SMS_API UClass* Z_Construct_UClass_URacePatternsDataAsset_NoRegister();
 SMS_API UClass* Z_Construct_UClass_UScoreCounter_NoRegister();
 UMG_API UClass* Z_Construct_UClass_UUserWidget();
 UMG_API UClass* Z_Construct_UClass_UVerticalBox_NoRegister();
@@ -77,7 +77,7 @@ struct Z_Construct_UClass_URace_Statics
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URace_Statics::NewProp_NumbersBox_RaceNumber = { "NumbersBox_RaceNumber", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URace, NumbersBox_RaceNumber), Z_Construct_UClass_UNumbersBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_NumbersBox_RaceNumber_MetaData), NewProp_NumbersBox_RaceNumber_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URace_Statics::NewProp_ScoreCounter = { "ScoreCounter", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URace, ScoreCounter), Z_Construct_UClass_UScoreCounter_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ScoreCounter_MetaData), NewProp_ScoreCounter_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URace_Statics::NewProp_VB_Content = { "VB_Content", nullptr, (EPropertyFlags)0x0040000000080008, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URace, VB_Content), Z_Construct_UClass_UVerticalBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_VB_Content_MetaData), NewProp_VB_Content_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URace_Statics::NewProp_RaceDataAsset = { "RaceDataAsset", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URace, RaceDataAsset), Z_Construct_UClass_URaceDataAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RaceDataAsset_MetaData), NewProp_RaceDataAsset_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_URace_Statics::NewProp_RaceDataAsset = { "RaceDataAsset", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URace, RaceDataAsset), Z_Construct_UClass_URacePatternsDataAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RaceDataAsset_MetaData), NewProp_RaceDataAsset_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_URace_Statics::NewProp_RaceLineClass = { "RaceLineClass", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(URace, RaceLineClass), Z_Construct_UClass_UClass, Z_Construct_UClass_URaceLine_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RaceLineClass_MetaData), NewProp_RaceLineClass_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_URace_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_URace_Statics::NewProp_NumbersBox_RaceNumber,
@@ -128,10 +128,10 @@ URace::~URace() {}
 struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_URace, URace::StaticClass, TEXT("URace"), &Z_Registration_Info_UClass_URace, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URace), 828953008U) },
+		{ Z_Construct_UClass_URace, URace::StaticClass, TEXT("URace"), &Z_Registration_Info_UClass_URace, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URace), 4025511326U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_1536256103(TEXT("/Script/SMS"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_250662312(TEXT("/Script/SMS"),
 	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

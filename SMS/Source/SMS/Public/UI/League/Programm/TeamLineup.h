@@ -3,9 +3,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/TeamData/RacerData.h"
 #include "TeamLineup.generated.h"
 
 
+class UTeamLineupsDataAsset;
 class UVerticalBox;
 class UNumbersBox;
 class UNamesBox;
@@ -43,6 +45,12 @@ private:
 	URacerStatsLine* CreateRacerStatLine(int ID);
 
 	void UpdateTeamPoints(int NewPoints);
+
+	void FillTeamLineups();
+
+	void SetTeam();
+
+	void FillTeam(URacerStatsLine* const& Racer ,  TArray<FRacerData> TeamData);
 	
 	UPROPERTY(EditAnywhere)
 	bool IsVisitorTeam = false;
@@ -52,6 +60,10 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	UTeamLineupsDataAsset* TeamLineupsDataAsset;
 	
+	UPROPERTY()
 	TArray<URacerStatsLine*> Racers;
 };
