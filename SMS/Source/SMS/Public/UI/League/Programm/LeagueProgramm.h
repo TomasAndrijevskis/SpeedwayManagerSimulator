@@ -33,12 +33,6 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UCanvasPanel* CanvasPanel_Root;
-	
-	UPROPERTY(meta = (BindWidget))
-	UTeamLineup* TeamLineup_HomeTeam;
-
-	UPROPERTY(meta = (BindWidget))
-	UTeamLineup* TeamLineup_VisitorTeam;
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_SimulateRace;
@@ -64,6 +58,8 @@ private:
 
 	void CreateRaces();
 
+	void CreateTeam(bool IsVisitor);
+	
 	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
 
 	void OnRaceFinished(int ID, int NewPoints);
@@ -74,10 +70,15 @@ private:
 	TSubclassOf<URace> RaceClass;
 
 	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UTeamLineup> TeamLineupClass;
+	
+	UPROPERTY(EditDefaultsOnly)
 	int AmountOfRaces = 15;
 	
 	TArray<URace*> Races;
 
+	TArray<UTeamLineup*> TeamLineups;
+	
 	FVector2d StartPosition = FVector2d(0,-540);
 
 	int CurrentRace = 0;

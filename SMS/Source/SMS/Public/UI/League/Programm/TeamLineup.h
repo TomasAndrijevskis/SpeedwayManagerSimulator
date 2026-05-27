@@ -21,6 +21,10 @@ class SMS_API UTeamLineup : public UUserWidget
 public:
 
 	TArray<URacerStatsLine*>& GetRacers();
+
+	void SetIsVisitorTeam(bool isVisitorTeam);
+
+	void SetTeamName(const FString& NewTeamName);
 	
 protected:
 
@@ -48,15 +52,7 @@ private:
 
 	void FillTeamLineups();
 
-	void SetTeam();
-
-	void FillTeam(URacerStatsLine* const& Racer ,  TArray<FRacerStats> TeamData);
-	
-	UPROPERTY(EditAnywhere)
-	bool IsVisitorTeam = false;
-
-	UPROPERTY(VisibleAnywhere)
-	int RacersAmount = 6;
+	void FillTeamData(URacerStatsLine* const& Racer, TArray<FRacerStats> TeamData);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
@@ -66,4 +62,13 @@ private:
 	
 	UPROPERTY()
 	TArray<URacerStatsLine*> Racers;
+
+	UPROPERTY(VisibleAnywhere)
+	bool IsVisitorTeam = false;
+
+	UPROPERTY(VisibleAnywhere)
+	int RacersAmount = 6;
+
+	UPROPERTY()
+	FString TeamName;
 };

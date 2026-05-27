@@ -11,7 +11,6 @@
 void UTeamLineup::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetTeam();
 	CreateRacerStatLines();
 	FillTeamLineups();
 }
@@ -60,27 +59,13 @@ void UTeamLineup::FillTeamLineups()
 }
 
 
-void UTeamLineup::FillTeam(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
+void UTeamLineup::FillTeamData(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
 {
-	for (const auto& RacerData : TeamData)
+	NamesBox_TeamName->SetName(TeamName);
+	/*for (const auto& RacerData : TeamData)
 	{
 		//Racer->AddOption(RacerData.Name);
-	}
-}
-
-
-void UTeamLineup::SetTeam()
-{
-	if (IsVisitorTeam)
-	{
-		NamesBox_TeamStatus->SetName("Visitor");
-		NamesBox_TeamName->SetName("Sparta Wroclaw");
-	}
-	else
-	{
-		NamesBox_TeamStatus->SetName("Home");
-		NamesBox_TeamName->SetName("Lokomotive Daugavpils");
-	}
+	}*/
 }
 
 
@@ -90,4 +75,6 @@ void UTeamLineup::UpdateTeamPoints(int NewPoints)
 }
 
 
+void UTeamLineup::SetIsVisitorTeam(bool isVisitorTeam){IsVisitorTeam = isVisitorTeam;}
+void UTeamLineup::SetTeamName(const FString& NewTeamName){TeamName = NewTeamName;}
 TArray<URacerStatsLine*>& UTeamLineup::GetRacers(){return Racers;}

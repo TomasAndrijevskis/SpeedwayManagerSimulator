@@ -15,9 +15,23 @@ void ULeagueProgramm::NativeConstruct()
 	Super::NativeConstruct();
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::SimulateRace);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgramm::ShowTeams);
+	CreateTeam(false);
+	CreateTeam(true);
 	CreateRaces();
 	BindDelegates();
 	ShowTeams();
+}
+
+
+void ULeagueProgramm::CreateTeam(bool IsVisitor)
+{
+	if (!TeamLineupClass) return;
+	UTeamLineup* TeamLineup = CreateWidget<UTeamLineup>(this, TeamLineupClass);
+	if (!TeamLineup) return;
+	TeamLineup->SetIsVisitorTeam(IsVisitor);
+	TeamLineup->SetTeamName("TeamName");
+	VB_Teams->AddChild(TeamLineup);
+	TeamLineups.Add(TeamLineup);
 }
 
 
@@ -68,13 +82,12 @@ URace* ULeagueProgramm::CreateRace(const FAnchors& Anchors, const FVector2d& Pos
 
 void ULeagueProgramm::BindDelegates()
 {
-	for (const auto& Racer : TeamLineup_HomeTeam->GetRacers())
+	for (const auto& TeamLineup : TeamLineups)
 	{
-		Racer->OnRacerChosenDelegate.AddUObject(this, &ULeagueProgramm::FillRacers);
-	}
-	for (const auto& Racer : TeamLineup_VisitorTeam->GetRacers())
-	{
-		Racer->OnRacerChosenDelegate.AddUObject(this, &ULeagueProgramm::FillRacers);
+		for (const auto& Racer : TeamLineup->GetRacers())
+		{
+			Racer->OnRacerChosenDelegate.AddUObject(this, &ULeagueProgramm::FillRacers);
+		}
 	}
 }
 
@@ -120,8 +133,8 @@ void ULeagueProgramm::SimulateRace()
 
 void ULeagueProgramm::OnRaceFinished(int ID, int NewPoints)
 {
-	if (ID <= 6) AddRacerPoints(ID, NewPoints, TeamLineup_HomeTeam->GetRacers());
-	else AddRacerPoints(ID, NewPoints, TeamLineup_VisitorTeam->GetRacers());
+	//if (ID <= 6) AddRacerPoints(ID, NewPoints, TeamLineup_HomeTeam->GetRacers());
+	//else AddRacerPoints(ID, NewPoints, TeamLineup_VisitorTeam->GetRacers());
 }
 
 
