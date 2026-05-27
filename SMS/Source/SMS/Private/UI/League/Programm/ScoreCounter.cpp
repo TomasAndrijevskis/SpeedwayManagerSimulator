@@ -1,5 +1,5 @@
 
-#include "UI/League/Programm/ScoreCounter.h"
+#include "SMS/Public/UI/League/Program/ScoreCounter.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
 

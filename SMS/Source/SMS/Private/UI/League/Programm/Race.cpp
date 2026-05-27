@@ -1,11 +1,11 @@
 
-#include "UI/League/Programm/Race.h"
+#include "SMS/Public/UI/League/Program/Race.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "UI/League/Programm/RaceLine.h"
-#include "UI/League/Programm/ScoreCounter.h"
+#include "SMS/Public/UI/League/Program/RaceLine.h"
+#include "SMS/Public/UI/League/Program/ScoreCounter.h"
 
 
 void URace::SetRaceID(int NewID)

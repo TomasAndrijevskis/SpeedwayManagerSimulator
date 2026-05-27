@@ -4,7 +4,7 @@
 	DO NOT modify this manually! Edit the corresponding .h files instead!
 ===========================================================================*/
 
-// IWYU pragma: private, include "UI/League/Programm/Race.h"
+// IWYU pragma: private, include "UI/League/Program/Race.h"
 #include "UObject/ObjectMacros.h"
 #include "UObject/ScriptMacros.h"
 
@@ -14,7 +14,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define SMS_Race_generated_h
 
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_21_INCLASS_NO_PURE_DECLS \
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_21_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesURace(); \
 	friend struct Z_Construct_UClass_URace_Statics; \
@@ -23,7 +23,7 @@ public: \
 	DECLARE_SERIALIZER(URace)
 
 
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_21_ENHANCED_CONSTRUCTORS \
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_21_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API URace(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 private: \
@@ -37,12 +37,12 @@ public: \
 	NO_API virtual ~URace();
 
 
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_18_PROLOG
-#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_21_GENERATED_BODY \
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_18_PROLOG
+#define FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_21_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_21_INCLASS_NO_PURE_DECLS \
-	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_21_ENHANCED_CONSTRUCTORS \
+	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_21_INCLASS_NO_PURE_DECLS \
+	FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_21_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
@@ -50,7 +50,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 template<> SMS_API UClass* StaticClass<class URace>();
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h
+#define CURRENT_FILE_ID FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

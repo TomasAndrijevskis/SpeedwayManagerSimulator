@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "SMS/Public/UI/League/Programm/RacerStatsLine.h"
+#include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeRacerStatsLine() {}
 
@@ -33,48 +33,48 @@ struct Z_Construct_UClass_URacerStatsLine_Statics
 {
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Class_MetaDataParams[] = {
-		{ "IncludePath", "UI/League/Programm/RacerStatsLine.h" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "IncludePath", "UI/League/Program/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_RiderNumber_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ChooseBox_Racer_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_OverallPoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HB_Points_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PointsBoxClass_MetaData[] = {
 		{ "Category", "RacerStatsLine" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RacerPoints_MetaData[] = {
 		{ "Category", "RacerStatsLine" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxRacesAmount_MetaData[] = {
 		{ "Category", "RacerStatsLine" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ID_MetaData[] = {
 		{ "Category", "RacerStatsLine" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RacerName_MetaData[] = {
 		{ "Category", "RacerStatsLine" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/RacerStatsLine.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/RacerStatsLine.h" },
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_RiderNumber;
@@ -155,14 +155,14 @@ URacerStatsLine::~URacerStatsLine() {}
 // End Class URacerStatsLine
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics
+struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_RacerStatsLine_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_URacerStatsLine, URacerStatsLine::StaticClass, TEXT("URacerStatsLine"), &Z_Registration_Info_UClass_URacerStatsLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URacerStatsLine), 3801498425U) },
+		{ Z_Construct_UClass_URacerStatsLine, URacerStatsLine::StaticClass, TEXT("URacerStatsLine"), &Z_Registration_Info_UClass_URacerStatsLine, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URacerStatsLine), 4068504433U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_3149808140(TEXT("/Script/SMS"),
-	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_RacerStatsLine_h_Statics::ClassInfo),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_RacerStatsLine_h_1208896948(TEXT("/Script/SMS"),
+	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_RacerStatsLine_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_RacerStatsLine_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
 // End Registration

@@ -1,11 +1,10 @@
 
-#include "UI/League/Programm/TeamLineup.h"
+#include "SMS/Public/UI/League/Program/TeamLineup.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
-#include "Data/TeamData/TeamsDataAsset.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "UI/League/Programm/RacerStatsLine.h"
+#include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 
 
 void UTeamLineup::NativeConstruct()
@@ -13,6 +12,7 @@ void UTeamLineup::NativeConstruct()
 	Super::NativeConstruct();
 	CreateRacerStatLines();
 	FillTeamLineups();
+	NamesBox_TeamName->SetName(TeamName);
 }
 
 
@@ -50,22 +50,12 @@ URacerStatsLine* UTeamLineup::CreateRacerStatLine(int ID)
 
 void UTeamLineup::FillTeamLineups()
 {
-	if (!TeamLineupsDataAsset) return;
-	for (const auto& Racer : Racers)
-	{
-		//if (IsVisitorTeam) FillTeam(Racer, TeamLineupsDataAsset->Team_Sparta);
-		//else FillTeam(Racer, TeamLineupsDataAsset->Team_Lokomotive);
-	}
 }
 
 
 void UTeamLineup::FillTeamData(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
 {
-	NamesBox_TeamName->SetName(TeamName);
-	/*for (const auto& RacerData : TeamData)
-	{
-		//Racer->AddOption(RacerData.Name);
-	}*/
+
 }
 
 
@@ -75,6 +65,13 @@ void UTeamLineup::UpdateTeamPoints(int NewPoints)
 }
 
 
-void UTeamLineup::SetIsVisitorTeam(bool isVisitorTeam){IsVisitorTeam = isVisitorTeam;}
+void UTeamLineup::SetIsVisitorTeam(bool isVisitorTeam)
+{
+	IsVisitorTeam = isVisitorTeam;
+	if (isVisitorTeam) NamesBox_TeamStatus->SetName("Visitor");
+	else NamesBox_TeamStatus->SetName("Home");
+}
+
+
 void UTeamLineup::SetTeamName(const FString& NewTeamName){TeamName = NewTeamName;}
 TArray<URacerStatsLine*>& UTeamLineup::GetRacers(){return Racers;}

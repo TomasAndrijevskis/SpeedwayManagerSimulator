@@ -6,7 +6,7 @@
         "PCH": "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\intermediate\\build\\win64\\x64\\smseditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.cpp20.h.pch",
         "Includes": [
             "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\sms\\definitions.sms.h",
-            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\source\\sms\\public\\ui\\league\\programm\\scorecounter.h",
+            "d:\\projects\\git hub\\speedwaymanagersimulator\\sms\\source\\sms\\public\\ui\\league\\program\\scorecounter.h",
             "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\umg\\public\\blueprint\\userwidget.h",
             "d:\\unreal engine\\ue_5.4\\engine\\source\\runtime\\umg\\public\\blueprint\\widgetchild.h",
             "d:\\unreal engine\\ue_5.4\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\umg\\uht\\widgetchild.generated.h",

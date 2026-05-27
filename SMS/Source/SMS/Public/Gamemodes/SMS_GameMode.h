@@ -4,10 +4,12 @@
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerData.h"
 #include "Data/TeamData/ETeams.h"
+#include "Data/TeamData/TeamRosterData.h"
 #include "GameFramework/GameMode.h"
 #include "SMS_GameMode.generated.h"
 
 
+class UMatchManager;
 class URacersDataAsset;
 class UTeamsDataAsset;
 
@@ -26,13 +28,19 @@ public:
 	
 	TMap<FString, FRacerData> Racers;
 
-	TMap<ETeams, TArray<FString>> Teams;
+	FTeamRosterData* GetTeamData(ETeams Team);
 
+	FTeamRosterData* GetTeamData(int TeamID);
+	
+	int GetTeamsAmount() const;
+	
+	UPROPERTY()
+	UMatchManager* MatchManager;
+	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	UTeamsDataAsset* TeamsDataAsset;
-
-	UPROPERTY(EditDefaultsOnly)
 	URacersDataAsset* RacersDataAsset;
+
+	TMap<ETeams, FTeamRosterData> Teams;
 };

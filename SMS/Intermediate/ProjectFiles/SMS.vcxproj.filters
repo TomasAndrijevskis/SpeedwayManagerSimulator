@@ -43,17 +43,17 @@
     <Filter Include="Source\SMS\Private">
       <UniqueIdentifier>{2137A461-0519-3E83-9629-AC4C962B9DB9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\SMS\Private\Data">
-      <UniqueIdentifier>{C70BBFC1-6E42-3C3D-A071-F0BC482010A1}</UniqueIdentifier>
-    </Filter>
-    <ClCompile Include="..\..\Source\SMS\Private\Data\TeamLineupsDataAsset.cpp">
-      <Filter>Source\SMS\Private\Data</Filter>
-    </ClCompile>
     <Filter Include="Source\SMS\Private\Gamemodes">
       <UniqueIdentifier>{7BDF233F-CE6D-3006-A007-3E3AB9607E65}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\SMS\Private\Gamemodes\SMS_GameMode.cpp">
       <Filter>Source\SMS\Private\Gamemodes</Filter>
+    </ClCompile>
+    <Filter Include="Source\SMS\Private\Gamemodes\Managers">
+      <UniqueIdentifier>{2E435BAF-FFD9-3959-9A82-AA5D06DC5AC5}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\Gamemodes\Managers\MatchManager.cpp">
+      <Filter>Source\SMS\Private\Gamemodes\Managers</Filter>
     </ClCompile>
     <Filter Include="Source\SMS\Private\UI">
       <UniqueIdentifier>{A03C0F9A-F86C-3995-8445-203D53DECFB3}</UniqueIdentifier>
@@ -69,6 +69,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\SMS\Private\UI\BaseClasses\NumbersBox.cpp">
       <Filter>Source\SMS\Private\UI\BaseClasses</Filter>
+    </ClCompile>
+    <Filter Include="Source\SMS\Private\UI\Calendar">
+      <UniqueIdentifier>{B1165781-1878-3809-AE61-420BE907D363}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\SMS\Private\UI\Calendar\Calendar.cpp">
+      <Filter>Source\SMS\Private\UI\Calendar</Filter>
     </ClCompile>
     <Filter Include="Source\SMS\Private\UI\League">
       <UniqueIdentifier>{ADE6013E-F239-327D-991E-C87778EC36FA}</UniqueIdentifier>
@@ -100,20 +106,50 @@
     <Filter Include="Source\SMS\Public\Data">
       <UniqueIdentifier>{86776EB3-8C11-3ABC-919B-9C83B86794BC}</UniqueIdentifier>
     </Filter>
-    <ClInclude Include="..\..\Source\SMS\Public\Data\RaceData.h">
-      <Filter>Source\SMS\Public\Data</Filter>
+    <Filter Include="Source\SMS\Public\Data\RaceData">
+      <UniqueIdentifier>{A177A282-032C-32C3-A0FB-207D51895EFD}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RaceData\RaceData.h">
+      <Filter>Source\SMS\Public\Data\RaceData</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SMS\Public\Data\RaceDataAsset.h">
-      <Filter>Source\SMS\Public\Data</Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RaceData\RacePatternsDataAsset.h">
+      <Filter>Source\SMS\Public\Data\RaceData</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamLineupsDataAsset.h">
-      <Filter>Source\SMS\Public\Data</Filter>
+    <Filter Include="Source\SMS\Public\Data\RacersData">
+      <UniqueIdentifier>{434986A8-E844-3DE9-8699-285B1F79F52D}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RacersData\RacerData.h">
+      <Filter>Source\SMS\Public\Data\RacersData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RacersData\RacersDataAsset.h">
+      <Filter>Source\SMS\Public\Data\RacersData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RacersData\RacerStats.h">
+      <Filter>Source\SMS\Public\Data\RacersData</Filter>
+    </ClInclude>
+    <Filter Include="Source\SMS\Public\Data\TeamData">
+      <UniqueIdentifier>{113D50DF-D2A8-3DAD-AEC2-EF5D4D4EC08A}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\ETeams.h">
+      <Filter>Source\SMS\Public\Data\TeamData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\TeamData.h">
+      <Filter>Source\SMS\Public\Data\TeamData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\TeamsDataAsset.h">
+      <Filter>Source\SMS\Public\Data\TeamData</Filter>
     </ClInclude>
     <Filter Include="Source\SMS\Public\Gamemodes">
       <UniqueIdentifier>{9C0FC8C9-7D74-3DC3-81CD-DA5649F9A1BF}</UniqueIdentifier>
     </Filter>
     <ClInclude Include="..\..\Source\SMS\Public\Gamemodes\SMS_GameMode.h">
       <Filter>Source\SMS\Public\Gamemodes</Filter>
+    </ClInclude>
+    <Filter Include="Source\SMS\Public\Gamemodes\Managers">
+      <UniqueIdentifier>{AFD44BB3-5711-346B-96DC-B5DE78525E40}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\Gamemodes\Managers\MatchManager.h">
+      <Filter>Source\SMS\Public\Gamemodes\Managers</Filter>
     </ClInclude>
     <Filter Include="Source\SMS\Public\UI">
       <UniqueIdentifier>{C3784C3E-2CF0-3B2C-A594-263AD925DFDE}</UniqueIdentifier>
@@ -129,6 +165,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\SMS\Public\UI\BaseClasses\NumbersBox.h">
       <Filter>Source\SMS\Public\UI\BaseClasses</Filter>
+    </ClInclude>
+    <Filter Include="Source\SMS\Public\UI\Calendar">
+      <UniqueIdentifier>{FE3D67CE-4633-3FDB-BA87-ABBB9D8FF793}</UniqueIdentifier>
+    </Filter>
+    <ClInclude Include="..\..\Source\SMS\Public\UI\Calendar\Calendar.h">
+      <Filter>Source\SMS\Public\UI\Calendar</Filter>
     </ClInclude>
     <Filter Include="Source\SMS\Public\UI\League">
       <UniqueIdentifier>{C4405E81-EE56-35FE-9AE6-DB25D8E5AD3E}</UniqueIdentifier>

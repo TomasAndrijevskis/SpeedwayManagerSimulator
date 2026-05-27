@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "SMS/Public/UI/League/Programm/Race.h"
+#include "SMS/Public/UI/League/Program/Race.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeRace() {}
 
@@ -35,31 +35,31 @@ struct Z_Construct_UClass_URace_Statics
 {
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Class_MetaDataParams[] = {
-		{ "IncludePath", "UI/League/Programm/Race.h" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/Race.h" },
+		{ "IncludePath", "UI/League/Program/Race.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/Race.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_RaceNumber_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/Race.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/Race.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ScoreCounter_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/Race.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/Race.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_VB_Content_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/Race.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/Race.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RaceDataAsset_MetaData[] = {
 		{ "Category", "Race" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/Race.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/Race.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RaceLineClass_MetaData[] = {
 		{ "Category", "Race" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/Race.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/Race.h" },
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_RaceNumber;
@@ -125,14 +125,14 @@ URace::~URace() {}
 // End Class URace
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_Statics
+struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_URace, URace::StaticClass, TEXT("URace"), &Z_Registration_Info_UClass_URace, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URace), 4025511326U) },
+		{ Z_Construct_UClass_URace, URace::StaticClass, TEXT("URace"), &Z_Registration_Info_UClass_URace, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(URace), 2256874003U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_250662312(TEXT("/Script/SMS"),
-	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_Race_h_Statics::ClassInfo),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_424917924(TEXT("/Script/SMS"),
+	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_Race_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
 // End Registration

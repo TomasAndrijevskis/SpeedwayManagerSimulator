@@ -5,7 +5,7 @@
 ===========================================================================*/
 
 #include "UObject/GeneratedCppIncludes.h"
-#include "SMS/Public/UI/League/Programm/ScoreCounter.h"
+#include "SMS/Public/UI/League/Program/ScoreCounter.h"
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeScoreCounter() {}
 
@@ -30,28 +30,28 @@ struct Z_Construct_UClass_UScoreCounter_Statics
 {
 #if WITH_METADATA
 	static constexpr UECodeGen_Private::FMetaDataPairParam Class_MetaDataParams[] = {
-		{ "IncludePath", "UI/League/Programm/ScoreCounter.h" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
+		{ "IncludePath", "UI/League/Program/ScoreCounter.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/ScoreCounter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_HomeTeamRacePoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/ScoreCounter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_HomeTeamOverallPoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/ScoreCounter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_VisitorTeamRacePoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/ScoreCounter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_NumbersBox_VisitorTeamOverallPoints_MetaData[] = {
 		{ "BindWidget", "" },
 		{ "EditInline", "true" },
-		{ "ModuleRelativePath", "Public/UI/League/Programm/ScoreCounter.h" },
+		{ "ModuleRelativePath", "Public/UI/League/Program/ScoreCounter.h" },
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_NumbersBox_HomeTeamRacePoints;
@@ -114,14 +114,14 @@ UScoreCounter::~UScoreCounter() {}
 // End Class UScoreCounter
 
 // Begin Registration
-struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_Statics
+struct Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_ScoreCounter_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UScoreCounter, UScoreCounter::StaticClass, TEXT("UScoreCounter"), &Z_Registration_Info_UClass_UScoreCounter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UScoreCounter), 383214687U) },
+		{ Z_Construct_UClass_UScoreCounter, UScoreCounter::StaticClass, TEXT("UScoreCounter"), &Z_Registration_Info_UClass_UScoreCounter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UScoreCounter), 1440864499U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_2272617610(TEXT("/Script/SMS"),
-	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Programm_ScoreCounter_h_Statics::ClassInfo),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_ScoreCounter_h_1107091372(TEXT("/Script/SMS"),
+	Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_ScoreCounter_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_projects_GIT_HUB_SpeedwayManagerSimulator_SMS_Source_SMS_Public_UI_League_Program_ScoreCounter_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
 // End Registration
