@@ -264,9 +264,12 @@
     </ClCompile>
     <ClInclude Include="..\..\Source\SMS\Public\Data\RaceData\RaceData.h" />
     <ClInclude Include="..\..\Source\SMS\Public\Data\RaceData\RacePatternsDataAsset.h" />
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RacersData\RacerData.h" />
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RacersData\RacerStats.h" />
+    <ClInclude Include="..\..\Source\SMS\Public\Data\RacersData\RacersDataAsset.h" />
     <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\ETeams.h" />
-    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\RacerData.h" />
-    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\TeamLineupsDataAsset.h" />
+    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\TeamData.h" />
+    <ClInclude Include="..\..\Source\SMS\Public\Data\TeamData\TeamsDataAsset.h" />
     <ClInclude Include="..\..\Source\SMS\SMS.h"/>
     <ClCompile Include="..\..\Source\SMS\Private\Gamemodes\SMS_GameMode.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

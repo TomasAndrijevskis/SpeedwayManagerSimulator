@@ -2,7 +2,7 @@
 #include "UI/League/Programm/TeamLineup.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
-#include "Data/TeamData/TeamLineupsDataAsset.h"
+#include "Data/TeamData/TeamsDataAsset.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "UI/League/Programm/RacerStatsLine.h"
@@ -54,17 +54,17 @@ void UTeamLineup::FillTeamLineups()
 	if (!TeamLineupsDataAsset) return;
 	for (const auto& Racer : Racers)
 	{
-		if (IsVisitorTeam) FillTeam(Racer, TeamLineupsDataAsset->Team_Sparta);
-		else FillTeam(Racer, TeamLineupsDataAsset->Team_Lokomotive);
+		//if (IsVisitorTeam) FillTeam(Racer, TeamLineupsDataAsset->Team_Sparta);
+		//else FillTeam(Racer, TeamLineupsDataAsset->Team_Lokomotive);
 	}
 }
 
 
-void UTeamLineup::FillTeam(URacerStatsLine* const& Racer,  TArray<FRacerData> TeamData)
+void UTeamLineup::FillTeam(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
 {
 	for (const auto& RacerData : TeamData)
 	{
-		Racer->AddOption(RacerData.Name);
+		//Racer->AddOption(RacerData.Name);
 	}
 }
 
