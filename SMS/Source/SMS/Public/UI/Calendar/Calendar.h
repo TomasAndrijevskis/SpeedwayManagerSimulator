@@ -6,6 +6,7 @@
 #include "Calendar.generated.h"
 
 
+class ASMS_GameMode;
 class UVerticalBox;
 class UCalendarLine;
 class UNumbersBox;
@@ -44,4 +45,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	int AmountOfMatches = 3;
+
+	UPROPERTY()
+	ASMS_GameMode* GameMode;
 };

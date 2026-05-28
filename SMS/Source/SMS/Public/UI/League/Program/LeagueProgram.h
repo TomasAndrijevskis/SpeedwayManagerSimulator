@@ -6,11 +6,12 @@
 #include "Data/TeamData/TeamRosterData.h"
 #include "LeagueProgram.generated.h"
 
+class UMatchManager;
 class URacerStatsLine;
 class UCanvasPanel;
 class UBackgroundBlur;
 class UVerticalBox;
-class UTeamLineup;
+class UTeamRoster;
 class UButton;
 class URace;
 
@@ -24,7 +25,7 @@ public:
 
 	void SetOverallPts(int AddHomePts, int AddVisitorPts);
 
-	void CreateTeam(bool IsVisitor, const FString& TeamName, const FTeamRosterData& TeamData);
+	void InitializeMatchManager();
 	
 	FOnScoreUpdated OnScoreUpdatedDelegate;
 	
@@ -48,6 +49,10 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UBackgroundBlur* BackgroundBlur;
+
+	void CreateTeams();
+
+	UTeamRoster* CreateTeam(const FTeamRosterData* TeamData, bool IsVisitor);
 	
 	UFUNCTION()
 	void SimulateRace();
@@ -71,16 +76,19 @@ private:
 	TSubclassOf<URace> RaceClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UTeamLineup> TeamLineupClass;
+	TSubclassOf<UTeamRoster> TeamRosterClass;
 	
 	UPROPERTY(EditDefaultsOnly)
 	int AmountOfRaces = 15;
 	
 	TArray<URace*> Races;
 
-	TArray<UTeamLineup*> TeamLineups;
+	TArray<UTeamRoster*> TeamRosters;
 	
 	FVector2d StartPosition = FVector2d(0,-540);
+
+	UPROPERTY()
+	UMatchManager* MatchManager;
 	
 	int CurrentRace = 0;
 	

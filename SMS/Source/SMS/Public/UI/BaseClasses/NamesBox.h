@@ -14,7 +14,9 @@ class SMS_API UNamesBox : public UUserWidget
 
 public:
 
-	void SetName(const FString& NewName);
+	void SetText(const FString& NewName);
+
+	void SetText(const FText& NewText);
 	
 private:
 

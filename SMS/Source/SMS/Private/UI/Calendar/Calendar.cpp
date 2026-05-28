@@ -19,7 +19,7 @@ void UCalendar::NativeConstruct()
 
 int UCalendar::GetRandomTeam()
 {
-	const ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return NULL;
 	int NumberOfTeams = GameMode->GetTeamsAmount();
 	if (NumberOfTeams <= 0) return NULL;
@@ -43,14 +43,6 @@ UCalendarLine* UCalendar::CreateMatch(int HomeTeamID, int VisitorTeamID)
 	UCalendarLine* CalendarLine = CreateWidget<UCalendarLine>(this, CalendarLineClass);
 	if (!CalendarLine) return nullptr;
 	CalendarLine->SetMatchTeamsID(HomeTeamID, VisitorTeamID);
+	CalendarLine->SetTeamNames(GameMode->GetTeamName(HomeTeamID), GameMode->GetTeamName(VisitorTeamID));
 	return CalendarLine;
-	/*if (!GameMode || !MatchManager) return;
-	/*FText HTeamName  = StaticEnum<ETeams>()->GetDisplayNameTextByValue(HomeTeamData->TeamID);
-	FText VTeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(VisitorTeamData->TeamID);
-	UE_LOG(LogTemp, Warning, TEXT("Home team: %s"), *HTeamName.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("Visitor team: %s"), *VTeamName.ToString());
-	NamesBox_HomeText->SetName("Home Team");
-	NamesBox_VisitorText->SetName("Visitor Team");
-	NamesBox_HomeTeamName->SetName(GameMode->GetTeamName(HomeTeamID)->ToString());
-	NamesBox_VisitorTeamName->SetName(GameMode->GetTeamName(VisitorTeamID)->ToString());*/
 }

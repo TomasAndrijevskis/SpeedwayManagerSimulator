@@ -1,5 +1,5 @@
 
-#include "SMS/Public/UI/League/Program/TeamLineup.h"
+#include "SMS/Public/UI/League/Program/TeamRoster.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "UI/BaseClasses/NamesBox.h"
@@ -7,16 +7,16 @@
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 
 
-void UTeamLineup::NativeConstruct()
+void UTeamRoster::NativeConstruct()
 {
 	Super::NativeConstruct();
 	CreateRacerStatLines();
 	FillTeamLineups();
-	NamesBox_TeamName->SetName(TeamName);
+	NamesBox_TeamName->SetText(TeamName);
 }
 
 
-void UTeamLineup::CreateRacerStatLines()
+void UTeamRoster::CreateRacerStatLines()
 {
 	int Id = 1;
 	if (IsVisitorTeam) Id = 7;
@@ -32,13 +32,13 @@ void UTeamLineup::CreateRacerStatLines()
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			Racers.Add(NewStatLine);
-			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamLineup::UpdateTeamPoints);
+			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 		}
 	}
 }
 
 
-URacerStatsLine* UTeamLineup::CreateRacerStatLine(int ID)
+URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 {
 	if (!RacerStatsLineClass) return nullptr;
 	URacerStatsLine* NewStatLine = CreateWidget<URacerStatsLine>(this, RacerStatsLineClass);
@@ -48,30 +48,30 @@ URacerStatsLine* UTeamLineup::CreateRacerStatLine(int ID)
 }
 
 
-void UTeamLineup::FillTeamLineups()
+void UTeamRoster::FillTeamLineups()
 {
 }
 
 
-void UTeamLineup::FillTeamData(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
+void UTeamRoster::FillTeamData(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
 {
 
 }
 
 
-void UTeamLineup::UpdateTeamPoints(int NewPoints)
+void UTeamRoster::UpdateTeamPoints(int NewPoints)
 {
 	NumbersBox_TeamPoints->AddNumber(NewPoints);
 }
 
 
-void UTeamLineup::SetIsVisitorTeam(bool isVisitorTeam)
+void UTeamRoster::SetIsVisitorTeam(bool isVisitorTeam)
 {
 	IsVisitorTeam = isVisitorTeam;
-	if (isVisitorTeam) NamesBox_TeamStatus->SetName("Visitor");
-	else NamesBox_TeamStatus->SetName("Home");
+	if (isVisitorTeam) NamesBox_TeamStatus->SetText("Visitor");
+	else NamesBox_TeamStatus->SetText("Home");
 }
 
 
-void UTeamLineup::SetTeamName(const FString& NewTeamName){TeamName = NewTeamName;}
-TArray<URacerStatsLine*>& UTeamLineup::GetRacers(){return Racers;}
+void UTeamRoster::SetTeamName(const FString& NewTeamName){TeamName = NewTeamName;}
+TArray<URacerStatsLine*>& UTeamRoster::GetRacers(){return Racers;}

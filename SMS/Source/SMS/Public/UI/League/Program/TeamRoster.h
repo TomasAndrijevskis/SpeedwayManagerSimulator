@@ -4,7 +4,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/RacersData/RacerStats.h"
-#include "TeamLineup.generated.h"
+#include "TeamRoster.generated.h"
 
 
 class UTeamsDataAsset;
@@ -14,7 +14,7 @@ class UNamesBox;
 class URacerStatsLine;
 
 UCLASS()
-class SMS_API UTeamLineup : public UUserWidget
+class SMS_API UTeamRoster : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -25,6 +25,8 @@ public:
 	void SetIsVisitorTeam(bool isVisitorTeam);
 
 	void SetTeamName(const FString& NewTeamName);
+
+	//void SetTeamData();
 	
 protected:
 

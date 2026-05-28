@@ -16,29 +16,24 @@ void UCalendarLine::NativeConstruct()
 	MatchManager = GameMode->MatchManager;
 	if (!MatchManager) return;
 	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::StartMatch);
-	SetTeamNames();
 }
 
 
 void UCalendarLine::StartMatch()
 {
-	if (!LeagueProgramClass || !GameMode || !MatchManager) return;
+	if (!LeagueProgramClass || !MatchManager) return;
 	ULeagueProgram* LeagueProgram = CreateWidget<ULeagueProgram>(this, LeagueProgramClass);
 	if (!LeagueProgram) return;
+	MatchManager->SetTeamsID(HomeTeamID, VisitorTeamID);
+	LeagueProgram->InitializeMatchManager();
 	LeagueProgram->AddToViewport(1);
-	MatchManager->OnMatchStartedDelegate.Broadcast(GameMode->GetTeamData(HomeTeamID), GameMode->GetTeamData(VisitorTeamID));
-	//FText HTeamName  = StaticEnum<ETeams>()->GetDisplayNameTextByValue(HomeTeamData->TeamID);
-	//FText VTeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(VisitorTeamData->TeamID);
-	//LeagueProgram->CreateTeam(false, HTeamName.ToString());
-	//LeagueProgram->CreateTeam(true, VTeamName.ToString());
 }
 
 
-void UCalendarLine::SetTeamNames()
+void UCalendarLine::SetTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName)
 {
-	if (!GameMode) return;
-	NamesBox_HomeTeamName->SetName(GameMode->GetTeamName(HomeTeamID)->ToString());
-	NamesBox_VisitorTeamName->SetName(GameMode->GetTeamName(VisitorTeamID)->ToString());
+	NamesBox_HomeTeamName->SetText(HomeTeamName);
+	NamesBox_VisitorTeamName->SetText(VisitorTeamName);
 }
 
 

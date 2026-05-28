@@ -3,7 +3,13 @@
 #include "Components/TextBlock.h"
 
 
-void UNamesBox::SetName(const FString& NewName)
+void UNamesBox::SetText(const FString& NewName)
 {
 	Text_Name->SetText(FText::FromString(NewName));
+}
+
+
+void UNamesBox::SetText(const FText& NewText)
+{
+	Text_Name->SetText(NewText);
 }

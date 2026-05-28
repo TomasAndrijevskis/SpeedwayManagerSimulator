@@ -32,9 +32,9 @@ public:
 
 	FTeamRosterData* GetTeamData(int TeamID);
 
-	FText* GetTeamName(int TeamID);
+	const FText& GetTeamName(int TeamID);
 
-	FText* GetTeamName(ETeams Team);
+	const FText& GetTeamName(ETeams Team);
 	
 	int GetTeamsAmount() const;
 	

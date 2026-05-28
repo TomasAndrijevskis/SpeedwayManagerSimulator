@@ -9,7 +9,7 @@ void ASMS_GameMode::BeginPlay()
 	Super::BeginPlay();
 	MatchManager = NewObject<UMatchManager>(this);
 	if (!MatchManager) return;
-	MatchManager->Init();
+	MatchManager->Init(this);
 	InitializeRacers();
 }
 
@@ -44,8 +44,8 @@ void ASMS_GameMode::PrintTeams()
 }
 
 
-FText* ASMS_GameMode::GetTeamName(int TeamID){return &Teams[static_cast<ETeams>(TeamID)].TeamName;}
-FText* ASMS_GameMode::GetTeamName(ETeams Team){return &Teams[Team].TeamName;}
-FTeamRosterData* ASMS_GameMode::GetTeamData(ETeams Team){return &Teams[Team];}
-FTeamRosterData* ASMS_GameMode::GetTeamData(int TeamID){return &Teams[static_cast<ETeams>(TeamID)];}
+const FText& ASMS_GameMode::GetTeamName(int TeamID){return Teams.FindChecked(static_cast<ETeams>(TeamID)).TeamName;}
+const FText& ASMS_GameMode::GetTeamName(ETeams Team){return Teams.FindChecked(Team).TeamName;}
+FTeamRosterData* ASMS_GameMode::GetTeamData(ETeams Team){return &Teams.FindChecked(Team);}
+FTeamRosterData* ASMS_GameMode::GetTeamData(int TeamID){return &Teams.FindChecked(static_cast<ETeams>(TeamID));}
 int ASMS_GameMode::GetTeamsAmount()const{return Teams.Num()-1;}

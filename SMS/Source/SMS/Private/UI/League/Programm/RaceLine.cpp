@@ -20,7 +20,7 @@ void URaceLine::NativeConstruct()
 
 void URaceLine::SetRacerName(const FString& NewRacerName)
 {
-	NamesBox_RacerName->SetName(NewRacerName);
+	NamesBox_RacerName->SetText(NewRacerName);
 }
 
 

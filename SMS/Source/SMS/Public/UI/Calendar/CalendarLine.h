@@ -22,6 +22,8 @@ public:
 
 	void SetMatchTeamsID(int NewHomeTeamID, int NewVisitorTeamID);
 	
+	void SetTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName);
+	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -45,18 +47,16 @@ private:
 
 	UFUNCTION()
 	void StartMatch();
-
-	void SetTeamNames();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ULeagueProgram> LeagueProgramClass;
 
 	UPROPERTY()
-	ASMS_GameMode* GameMode;
-
-	UPROPERTY()
 	UMatchManager* MatchManager;
 
+	UPROPERTY()
+	ASMS_GameMode* GameMode;
+	
 	int HomeTeamID;
 	
 	int VisitorTeamID;
