@@ -19,7 +19,6 @@ void URacerStatsLine::AddOption(const FString& NewOption)
 }
 
 
-
 void URacerStatsLine::AddPoints(const FString& NewPoints)
 {
 	if (!CanAddNewPointBox()) return;

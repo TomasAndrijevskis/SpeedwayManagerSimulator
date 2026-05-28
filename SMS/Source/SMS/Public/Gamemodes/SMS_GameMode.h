@@ -26,7 +26,7 @@ public:
 
 	void PrintTeams();
 	
-	TMap<FString, FRacerData> Racers;
+	//TMap<FString, FRacerData> Racers;
 
 	FTeamRosterData* GetTeamData(ETeams Team);
 

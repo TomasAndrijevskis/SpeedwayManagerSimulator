@@ -11,8 +11,8 @@ void UTeamRoster::NativeConstruct()
 {
 	Super::NativeConstruct();
 	CreateRacerStatLines();
+	SetTeamName();
 	FillTeamLineups();
-	NamesBox_TeamName->SetText(TeamName);
 }
 
 
@@ -31,7 +31,7 @@ void UTeamRoster::CreateRacerStatLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
-			Racers.Add(NewStatLine);
+			RacersLines.Add(NewStatLine);
 			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 		}
 	}
@@ -50,12 +50,19 @@ URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 
 void UTeamRoster::FillTeamLineups()
 {
+	for (auto& RacerLine : RacersLines)
+	{
+		for (const auto& RacerData : TeamData.Racers)
+		{
+			RacerLine->AddOption(RacerData.Key);
+		}
+	}
 }
 
 
-void UTeamRoster::FillTeamData(URacerStatsLine* const& Racer,  TArray<FRacerStats> TeamData)
+void UTeamRoster::SetTeamName()
 {
-
+	NamesBox_TeamName->SetText(TeamData.TeamName);
 }
 
 
@@ -73,5 +80,5 @@ void UTeamRoster::SetIsVisitorTeam(bool isVisitorTeam)
 }
 
 
-void UTeamRoster::SetTeamName(const FString& NewTeamName){TeamName = NewTeamName;}
-TArray<URacerStatsLine*>& UTeamRoster::GetRacers(){return Racers;}
+void UTeamRoster::SetTeamData(const FTeamRosterData& NewTeamData){TeamData = NewTeamData;}
+TArray<URacerStatsLine*>& UTeamRoster::GetRacers(){return RacersLines;}

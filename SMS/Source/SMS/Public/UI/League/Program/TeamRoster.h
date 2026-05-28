@@ -3,7 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/RacersData/RacerStats.h"
+#include "Data/TeamData/TeamRosterData.h"
 #include "TeamRoster.generated.h"
 
 
@@ -24,9 +24,7 @@ public:
 
 	void SetIsVisitorTeam(bool isVisitorTeam);
 
-	void SetTeamName(const FString& NewTeamName);
-
-	//void SetTeamData();
+	void SetTeamData(const FTeamRosterData& NewTeamData);
 	
 protected:
 
@@ -54,13 +52,13 @@ private:
 
 	void FillTeamLineups();
 
-	void FillTeamData(URacerStatsLine* const& Racer, TArray<FRacerStats> TeamData);
+	void SetTeamName();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
 	
 	UPROPERTY()
-	TArray<URacerStatsLine*> Racers;
+	TArray<URacerStatsLine*> RacersLines;
 
 	UPROPERTY(VisibleAnywhere)
 	bool IsVisitorTeam = false;
@@ -69,5 +67,5 @@ private:
 	int RacersAmount = 6;
 
 	UPROPERTY()
-	FString TeamName;
+	FTeamRosterData TeamData;
 };

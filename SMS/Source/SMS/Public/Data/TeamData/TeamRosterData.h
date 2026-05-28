@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "ETeams.h"
+#include "Data/RacersData/RacerData.h"
 #include "TeamRosterData.generated.h"
 
 
@@ -17,5 +18,5 @@ struct FTeamRosterData
 	FText TeamName;
 	
 	UPROPERTY()
-	TArray<FString> Racers;
+	TMap<FString, FRacerData> Racers;
 };

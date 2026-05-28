@@ -18,15 +18,31 @@ void ASMS_GameMode::InitializeRacers()
 {
 	for (const auto& RacerData : RacersDataAsset->Racers)
 	{
+		FRacerData Racer;
+		Racer.ID = RacerData.ID;
+		Racer.Name = RacerData.Name;
+		Racer.RacerStats = RacerData.RacerStats;
 		FString RacerName = RacerData.Name;
 		ETeams TeamID = RacerData.InitialTeam;
 		FText TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(TeamID);
-		Racers.Add(RacerName, RacerData);
+		//Racers.Add(RacerName, RacerData);
+		//Teams.FindOrAdd(TeamID).Racers.Add(RacerName);
+		Teams.FindOrAdd(TeamID).TeamID = TeamID;
+		Teams.FindOrAdd(TeamID).TeamName = TeamName;
+		Teams.FindOrAdd(TeamID).Racers.Add(RacerName, Racer);
+	}
+	PrintTeams();
+
+	/*for (const auto& RacerData : RacersDataAsset->Racers)
+	{
+		FString RacerName = RacerData.Name;
+		ETeams TeamID = RacerData.InitialTeam;
+		FText TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(TeamID);
+		//Racers.Add(RacerName, RacerData);
 		Teams.FindOrAdd(TeamID).Racers.Add(RacerName);
 		Teams.FindOrAdd(TeamID).TeamID = TeamID;
 		Teams.FindOrAdd(TeamID).TeamName = TeamName;
-	}
-	//PrintTeams();
+	}*/
 }
 
 
@@ -38,7 +54,8 @@ void ASMS_GameMode::PrintTeams()
 		
 		for (const auto& Racer : Team.Value.Racers)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%s - %i"),*Racer, Racers[Racer].RacerStats.Rating);
+			//UE_LOG(LogTemp, Warning, TEXT("%s - %i"),*Racer, Racers[Racer].RacerStats.Rating);
+			UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Key, Racer.Value.RacerStats.Rating);
 		}
 	}
 }
