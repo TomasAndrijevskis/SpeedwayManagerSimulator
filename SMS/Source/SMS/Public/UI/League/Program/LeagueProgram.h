@@ -81,7 +81,7 @@ private:
 	TArray<UTeamLineup*> TeamLineups;
 	
 	FVector2d StartPosition = FVector2d(0,-540);
-
+	
 	int CurrentRace = 0;
 	
 	int HomeOverallPts = 0;

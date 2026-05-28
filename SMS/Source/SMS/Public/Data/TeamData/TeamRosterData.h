@@ -11,8 +11,11 @@ struct FTeamRosterData
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	TEnumAsByte<ETeams> TeamID;
+	int TeamID;
 
+	UPROPERTY()
+	FText TeamName;
+	
 	UPROPERTY()
 	TArray<FString> Racers;
 };

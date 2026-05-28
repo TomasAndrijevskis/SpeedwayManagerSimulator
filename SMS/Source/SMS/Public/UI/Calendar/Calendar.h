@@ -3,14 +3,12 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/TeamData/TeamRosterData.h"
 #include "Calendar.generated.h"
 
 
-class UMatchManager;
-class ULeagueProgram;
-class ASMS_GameMode;
-class UButton;
+class UVerticalBox;
+class UCalendarLine;
+class UNumbersBox;
 class UNamesBox;
 
 UCLASS()
@@ -26,38 +24,24 @@ protected:
 	
 private:
 
+	UPROPERTY(meta=(BindWidget))
+	UVerticalBox* VB_Content;
+	
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_HomeText;
 	
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_VisitorText;
 
-	UPROPERTY(meta = (BindWidget))
-	UNamesBox* NamesBox_HomeTeamName;
-
-	UPROPERTY(meta = (BindWidget))
-	UNamesBox* NamesBox_VisitorTeamName;
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_StartMatch;
-
-	void CreateMatch();
-
-	UFUNCTION()
-	void StartMatch();
-
-	void GetRandomTeams();
+	void CreateMatches();
 	
-	UPROPERTY()
-	ASMS_GameMode* GameMode;
+	UCalendarLine* CreateMatch(int HomeTeamID, int VisitorTeamID);
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ULeagueProgram> LeagueProgramClass;
+	TSubclassOf<UCalendarLine> CalendarLineClass;
+	
+	int GetRandomTeam();
 
-	UPROPERTY()
-	UMatchManager* MatchManager;
-
-	FTeamRosterData* HomeTeamData;
-
-	FTeamRosterData* VisitorTeamData;
+	UPROPERTY(EditDefaultsOnly)
+	int AmountOfMatches = 3;
 };

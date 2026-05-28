@@ -31,6 +31,10 @@ public:
 	FTeamRosterData* GetTeamData(ETeams Team);
 
 	FTeamRosterData* GetTeamData(int TeamID);
+
+	FText* GetTeamName(int TeamID);
+
+	FText* GetTeamName(ETeams Team);
 	
 	int GetTeamsAmount() const;
 	

@@ -17,7 +17,7 @@ void ULeagueProgram::NativeConstruct()
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	CreateRaces();
 	BindDelegates();
-	ShowTeams();
+	//ShowTeams();
 }
 
 
@@ -30,7 +30,7 @@ void ULeagueProgram::CreateTeam(bool IsVisitor, const FString& TeamName, const F
 	TeamLineup->SetTeamName(TeamName);
 	VB_Teams->AddChild(TeamLineup);
 	TeamLineups.Add(TeamLineup);
-	UE_LOG(LogTemp, Error, TEXT("%s"), *StaticEnum<ETeams>()->GetDisplayValueAsText(TeamData.TeamID).ToString())
+	//UE_LOG(LogTemp, Error, TEXT("%s"), *StaticEnum<ETeams>()->GetDisplayValueAsText(TeamData.TeamID).ToString())
 	for (const auto& Team : TeamData.Racers)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *Team);
