@@ -23,8 +23,6 @@ class SMS_API ULeagueProgram : public UUserWidget
 	
 public:
 
-	void SetOverallPts(int AddHomePts, int AddVisitorPts);
-
 	void InitializeMatchManager();
 	
 	FOnScoreUpdated OnScoreUpdatedDelegate;
@@ -43,6 +41,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_ShowTeams;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_ConfirmTeams;
 	
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Teams;
@@ -53,9 +54,6 @@ private:
 	void CreateTeams();
 
 	UTeamRoster* CreateTeam(const FTeamRosterData* TeamData, bool IsVisitor);
-	
-	UFUNCTION()
-	void SimulateRace();
 
 	void FillRacers(FString Name, int Id);
 
@@ -89,8 +87,6 @@ private:
 
 	UPROPERTY()
 	UMatchManager* MatchManager;
-	
-	int CurrentRace = 0;
 	
 	int HomeOverallPts = 0;
 

@@ -6,6 +6,7 @@
 #include "RaceLine.generated.h"
 
 
+class UMatchManager;
 class UChooseBox;
 class UNumbersBox;
 class UNamesBox;
@@ -72,6 +73,9 @@ private:
 	UNumbersBox* NumbersBox_PointsPerRace;
 	
 	USlider* CreateSlider();
+
+	UPROPERTY()
+	UMatchManager* MatchManager;
 	
 	int RandomNumber = 0;
 	

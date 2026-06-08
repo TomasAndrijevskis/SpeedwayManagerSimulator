@@ -15,6 +15,11 @@ class SMS_API UMatchManager : public UObject
 
 public:
 
+	UFUNCTION()
+	void SimulateRace();
+
+	void SetOverallPts(int AddHomePts, int AddVisitorPts);
+	
 	void Init(ASMS_GameMode* CurrentGameMode);
 	
 	void SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID);
@@ -24,6 +29,10 @@ public:
 	int GetHomeTeamScore() const;
 	
 	int GetVisitorTeamScore() const;
+
+	void SetAmountOfRaces(int NewAmount);
+
+	int GetCurrentRaceNumber()const;
 	
 	FTeamRosterData* GetHomeTeamData() const;
 
@@ -47,4 +56,8 @@ private:
 	int HomeTeamScore = 0;
 
 	int VisitorTeamScore = 0;
+
+	int CurrentRace = 0;
+
+	int AmountOfRaces = 0;
 };

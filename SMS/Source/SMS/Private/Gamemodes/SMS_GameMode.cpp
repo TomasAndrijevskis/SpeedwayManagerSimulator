@@ -1,7 +1,7 @@
 
 #include "Gamemodes/SMS_GameMode.h"
 #include "Data/RacersData/RacersDataAsset.h"
-#include "Gamemodes/Managers/MatchManager.h"
+#include "Managers/MatchManager.h"
 
 
 void ASMS_GameMode::BeginPlay()

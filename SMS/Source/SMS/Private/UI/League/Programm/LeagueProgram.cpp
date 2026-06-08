@@ -6,7 +6,7 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Components/VerticalBox.h"
 #include "Gamemodes/SMS_GameMode.h"
-#include "Gamemodes/Managers/MatchManager.h"
+#include "Managers/MatchManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/Race.h"
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
@@ -16,7 +16,6 @@
 void ULeagueProgram::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::SimulateRace);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	CreateTeams();
 	CreateRaces();
@@ -30,6 +29,8 @@ void ULeagueProgram::InitializeMatchManager()
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	MatchManager = GameMode->MatchManager;
+	if (!MatchManager) return;
+	//Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PrepareToSimulateRace);
 }
 
 
@@ -83,6 +84,7 @@ void ULeagueProgram::CreateRaces()
 			StartAlignment.X += Offset;
 		}
 	}
+	MatchManager->SetAmountOfRaces(Races.Num());
 }
 
 
@@ -140,24 +142,12 @@ void ULeagueProgram::FillRacers(FString Name, int Id)
 }
 
 
-void ULeagueProgram::SimulateRace()
-{
-	if (CurrentRace < Races.Num())
-	{
-		Races[CurrentRace]->OnOverallScoreUpdatedDelegate.AddUObject(this, &ULeagueProgram::SetOverallPts);
-		Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgram::OnRaceFinished);
-		Races[CurrentRace]->SimulateRace();
-		Races[CurrentRace]->OnOverallScoreUpdatedDelegate.Clear();
-		CurrentRace++;
-		if (CurrentRace < Races.Num()) Races[CurrentRace]->ChangeRaceStatus(true);
-	}
-}
-
-
 void ULeagueProgram::OnRaceFinished(int ID, int NewPoints)
 {
-	//if (ID <= 6) AddRacerPoints(ID, NewPoints, TeamLineup_HomeTeam->GetRacers());
-	//else AddRacerPoints(ID, NewPoints, TeamLineup_VisitorTeam->GetRacers());
+	for (const auto& Roster : TeamRosters)
+	{
+		AddRacerPoints(ID, NewPoints,Roster->GetRacers());
+	}
 }
 
 
@@ -167,12 +157,4 @@ void ULeagueProgram::AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLin
 	{
 		if (Racer->GetID() == ID) Racer->OnValueAddRequestDelegate.Broadcast(FString::FromInt(NewPoints));
 	}
-}
-
-
-void ULeagueProgram::SetOverallPts(int AddHomePts, int AddVisitorPts)
-{
-	HomeOverallPts += AddHomePts;
-	VisitorOverallPts += AddVisitorPts;
-	Races[CurrentRace]->UpdateOverallScore(HomeOverallPts, VisitorOverallPts);
 }
