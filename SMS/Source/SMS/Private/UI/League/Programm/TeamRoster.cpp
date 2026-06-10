@@ -10,9 +10,16 @@
 void UTeamRoster::NativeConstruct()
 {
 	Super::NativeConstruct();
+	InitializeManagers();
 	CreateRacerStatLines();
 	SetTeamName();
 	FillTeamLineups();
+}
+
+
+void UTeamRoster::InitializeManagers()
+{
+	TeamRosterManager = NewObject<UTeamRostersManager>(this);
 }
 
 
@@ -25,6 +32,7 @@ void UTeamRoster::CreateRacerStatLines()
 		URacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
 		if (NewStatLine)
 		{
+			NewStatLine->Init(TeamRosterManager);
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewStatLine);
 			if (VB_Slot)
 			{

@@ -1,6 +1,7 @@
 
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 #include "Components/HorizontalBox.h"
+#include "Managers/TeamRostersManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -8,8 +9,23 @@
 void URacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
+	BindDelegates();
 	OnValueAddRequestDelegate.AddUObject(this, &URacerStatsLine::AddPoints);
 	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
+}
+
+
+void URacerStatsLine::Init(UTeamRostersManager* NewTeamRosterManager)
+{
+	if (!NewTeamRosterManager) return;
+	TeamRosterManager = NewTeamRosterManager;
+}
+
+
+void URacerStatsLine::BindDelegates()
+{
+	if (!TeamRosterManager) return;
+	OnRacerChosenDelegate.AddUObject(TeamRosterManager, &UTeamRostersManager::AddRacer);
 }
 
 

@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "RacerStatsLine.generated.h"
 
+class UTeamRostersManager;
 class UChooseBox;
 class UNumbersBox;
 class UTextBlock;
@@ -20,13 +21,15 @@ class SMS_API URacerStatsLine : public UUserWidget
 
 public:
 
+	void Init(UTeamRostersManager* NewTeamRosterManager);
+
+	void AddOption(const FString& NewOption);
+	
 	void SetID(int NewID);
 
 	int GetID() const;
 
 	FString GetRacerName() const;
-
-	void AddOption(const FString& NewOption);
 	
 	FOnValueAddRequest OnValueAddRequestDelegate;
 
@@ -66,6 +69,8 @@ private:
 	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
 
 	void AddPoints(const FString& NewPoints);
+
+	void BindDelegates();
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<FString> RacerPoints;
@@ -78,4 +83,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	FString RacerName;
+
+	UPROPERTY()
+	UTeamRostersManager* TeamRosterManager;
 };

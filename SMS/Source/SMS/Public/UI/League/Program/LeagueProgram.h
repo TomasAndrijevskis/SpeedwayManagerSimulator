@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamRosterData.h"
+#include "Managers/TeamRostersManager.h"
 #include "LeagueProgram.generated.h"
 
 class UMatchManager;
@@ -51,12 +52,17 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UBackgroundBlur* BackgroundBlur;
 
-	void CreateTeams();
+	void InitializeTeams();
 
-	UTeamRoster* CreateTeam(const FTeamRosterData* TeamData, bool IsVisitor);
+	UTeamRoster* CreateTeamRoster(const FTeamRosterData* TeamData, bool IsVisitor);
 
-	void FillRacers(FString Name, int Id);
-
+	void RegisterTeamRoster(UTeamRoster* TeamRoster);
+	
+	void AssignRacers(const FString& Name, int Id);
+	
+	UFUNCTION()
+	void PopulateRacers();
+	
 	void BindDelegates();
 
 	UFUNCTION()

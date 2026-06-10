@@ -2,15 +2,22 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Data/RacersData/RacersDataAsset.h"
 #include "Managers/MatchManager.h"
+#include "Managers/TeamRostersManager.h"
 
 
 void ASMS_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	InitializeManagers();
+	InitializeRacers();
+}
+
+
+void ASMS_GameMode::InitializeManagers()
+{
 	MatchManager = NewObject<UMatchManager>(this);
 	if (!MatchManager) return;
 	MatchManager->Init(this);
-	InitializeRacers();
 }
 
 
@@ -32,17 +39,6 @@ void ASMS_GameMode::InitializeRacers()
 		Teams.FindOrAdd(TeamID).Racers.Add(RacerName, Racer);
 	}
 	PrintTeams();
-
-	/*for (const auto& RacerData : RacersDataAsset->Racers)
-	{
-		FString RacerName = RacerData.Name;
-		ETeams TeamID = RacerData.InitialTeam;
-		FText TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(TeamID);
-		//Racers.Add(RacerName, RacerData);
-		Teams.FindOrAdd(TeamID).Racers.Add(RacerName);
-		Teams.FindOrAdd(TeamID).TeamID = TeamID;
-		Teams.FindOrAdd(TeamID).TeamName = TeamName;
-	}*/
 }
 
 

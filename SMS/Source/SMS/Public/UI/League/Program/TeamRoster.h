@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamRosterData.h"
+#include "Managers/TeamRostersManager.h"
 #include "TeamRoster.generated.h"
 
 
@@ -25,6 +26,9 @@ public:
 	void SetIsVisitorTeam(bool isVisitorTeam);
 
 	void SetTeamData(const FTeamRosterData& NewTeamData);
+
+	UPROPERTY()
+	UTeamRostersManager* TeamRosterManager;
 	
 protected:
 
@@ -53,6 +57,8 @@ private:
 	void FillTeamLineups();
 
 	void SetTeamName();
+
+	void InitializeManagers();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;

@@ -9,6 +9,7 @@
 #include "SMS_GameMode.generated.h"
 
 
+class UTeamRostersManager;
 class UMatchManager;
 class URacersDataAsset;
 class UTeamsDataAsset;
@@ -21,13 +22,7 @@ class SMS_API ASMS_GameMode : public AGameMode
 public:
 
 	virtual void BeginPlay() override;
-
-	void InitializeRacers();
-
-	void PrintTeams();
 	
-	//TMap<FString, FRacerData> Racers;
-
 	FTeamRosterData* GetTeamData(ETeams Team);
 
 	FTeamRosterData* GetTeamData(int TeamID);
@@ -37,14 +32,22 @@ public:
 	const FText& GetTeamName(ETeams Team);
 	
 	int GetTeamsAmount() const;
-	
+
 	UPROPERTY()
 	UMatchManager* MatchManager;
 	
 private:
 
+	void InitializeRacers();
+
+	void PrintTeams();
+
+	void InitializeManagers();
+	
 	UPROPERTY(EditDefaultsOnly)
 	URacersDataAsset* RacersDataAsset;
 
 	TMap<ETeams, FTeamRosterData> Teams;
+
+	
 };

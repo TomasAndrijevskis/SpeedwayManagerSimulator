@@ -16,10 +16,10 @@
 void ULeagueProgram::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
-	CreateTeams();
-	CreateRaces();
+	InitializeMatchManager();
 	BindDelegates();
+	InitializeTeams();
+	CreateRaces();
 	ShowTeams();
 }
 
@@ -29,26 +29,28 @@ void ULeagueProgram::InitializeMatchManager()
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	MatchManager = GameMode->MatchManager;
-	if (!MatchManager) return;
+}
+
+
+void ULeagueProgram::BindDelegates()
+{
+	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
+	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	//Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PrepareToSimulateRace);
 }
 
 
-void ULeagueProgram::CreateTeams()
+void ULeagueProgram::InitializeTeams()
 {
-	if (!MatchManager) return; 
-	UTeamRoster* HomeTeamRoster = CreateTeam(MatchManager->GetHomeTeamData(), false);
-	if (!HomeTeamRoster) return;
-	VB_Teams->AddChild(HomeTeamRoster);
-	TeamRosters.Add(HomeTeamRoster);
-	UTeamRoster* VisitorTeamRoster = CreateTeam(MatchManager->GetVisitorTeamData(), true);
-	if (!VisitorTeamRoster) return;
-	VB_Teams->AddChild(VisitorTeamRoster);
-	TeamRosters.Add(VisitorTeamRoster);
+	if (!MatchManager) return;
+	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetHomeTeamData(), false);
+	UTeamRoster* Visitor = CreateTeamRoster(MatchManager->GetVisitorTeamData(), true);
+	RegisterTeamRoster(Home);
+	RegisterTeamRoster(Visitor);
 }
 
 
-UTeamRoster* ULeagueProgram::CreateTeam(const FTeamRosterData* TeamData, bool IsVisitor)
+UTeamRoster* ULeagueProgram::CreateTeamRoster(const FTeamRosterData* TeamData, bool IsVisitor)
 {
 	if (!TeamRosterClass) return nullptr;
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
@@ -56,6 +58,14 @@ UTeamRoster* ULeagueProgram::CreateTeam(const FTeamRosterData* TeamData, bool Is
 	TeamRoster->SetTeamData(*TeamData);
 	TeamRoster->SetIsVisitorTeam(IsVisitor);
 	return TeamRoster;
+}
+
+
+void ULeagueProgram::RegisterTeamRoster(UTeamRoster* TeamRoster)
+{
+	if (!TeamRoster) return;
+	VB_Teams->AddChild(TeamRoster);
+	TeamRosters.Add(TeamRoster);
 }
 
 
@@ -105,18 +115,6 @@ URace* ULeagueProgram::CreateRace(const FAnchors& Anchors, const FVector2d& Posi
 }
 
 
-void ULeagueProgram::BindDelegates()
-{
-	for (const auto& TeamRoster : TeamRosters)
-	{
-		for (const auto& Racer : TeamRoster->GetRacers())
-		{
-			Racer->OnRacerChosenDelegate.AddUObject(this, &ULeagueProgram::FillRacers);
-		}
-	}
-}
-
-
 void ULeagueProgram::ShowTeams()
 {
 	if (VB_Teams->IsVisible())
@@ -132,8 +130,19 @@ void ULeagueProgram::ShowTeams()
 }
 
 
+void ULeagueProgram::PopulateRacers()
+{
+	for (const auto& Roster : TeamRosters)
+	{
+		Roster->TeamRosterManager->ForEachRacer([this](const FString& Name, int Id)
+		{
+			AssignRacers(Name, Id);
+		});
+	}
+}
 
-void ULeagueProgram::FillRacers(FString Name, int Id)
+
+void ULeagueProgram::AssignRacers(const FString& Name, int Id)
 {
 	for (const auto& Race : Races)
 	{
