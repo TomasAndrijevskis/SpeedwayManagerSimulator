@@ -53,9 +53,6 @@ private:
 
 	UPROPERTY()
 	UMatchManager* MatchManager;
-
-	UPROPERTY()
-	ASMS_GameMode* GameMode;
 	
 	int HomeTeamID;
 	

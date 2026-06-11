@@ -24,14 +24,19 @@ int UCalendar::GetRandomTeam()
 	int NumberOfTeams = GameMode->GetTeamsAmount();
 	if (NumberOfTeams <= 0) return NULL;
 	int TeamID = FMath::RandRange(1, NumberOfTeams);
-	UE_LOG(LogTemp, Warning, TEXT("Team id: %i"), TeamID);
 	return TeamID;
 }
 
 
 void UCalendar::CreateMatches()
 {
-	UCalendarLine* CalendarLine = CreateMatch(GetRandomTeam(), GetRandomTeam());
+	int TeamA = GetRandomTeam();
+	int TeamB = GetRandomTeam();
+	if (TeamA == TeamB)
+	{
+		while (TeamA == TeamB) TeamB = GetRandomTeam();
+	}
+	UCalendarLine* CalendarLine = CreateMatch(TeamA, TeamB);
 	if (!CalendarLine) return;
 	VB_Content->AddChildToVerticalBox(CalendarLine);
 }

@@ -32,8 +32,6 @@ void ASMS_GameMode::InitializeRacers()
 		FString RacerName = RacerData.Name;
 		ETeams TeamID = RacerData.InitialTeam;
 		FText TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(TeamID);
-		//Racers.Add(RacerName, RacerData);
-		//Teams.FindOrAdd(TeamID).Racers.Add(RacerName);
 		Teams.FindOrAdd(TeamID).TeamID = TeamID;
 		Teams.FindOrAdd(TeamID).TeamName = TeamName;
 		Teams.FindOrAdd(TeamID).Racers.Add(RacerName, Racer);
@@ -50,7 +48,6 @@ void ASMS_GameMode::PrintTeams()
 		
 		for (const auto& Racer : Team.Value.Racers)
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("%s - %i"),*Racer, Racers[Racer].RacerStats.Rating);
 			UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Key, Racer.Value.RacerStats.Rating);
 		}
 	}

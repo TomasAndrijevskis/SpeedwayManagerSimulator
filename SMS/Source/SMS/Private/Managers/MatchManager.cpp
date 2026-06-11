@@ -7,7 +7,6 @@ void UMatchManager::SimulateRace()
 {
 	if (CurrentRace < AmountOfRaces)
 	{
-		
 		/*
 		   Races[CurrentRace]->OnOverallScoreUpdatedDelegate.AddUObject(this, &ULeagueProgram::SetOverallPts);
 		   Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgram::OnRaceFinished);

@@ -4,7 +4,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamRosterData.h"
-#include "Managers/TeamRostersManager.h"
 #include "LeagueProgram.generated.h"
 
 class UMatchManager;

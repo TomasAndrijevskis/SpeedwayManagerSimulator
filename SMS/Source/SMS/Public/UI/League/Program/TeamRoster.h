@@ -23,7 +23,7 @@ public:
 
 	TArray<URacerStatsLine*>& GetRacers();
 
-	void SetIsVisitorTeam(bool isVisitorTeam);
+	void SetTeamStatus(bool isVisitorTeam);
 
 	void SetTeamData(const FTeamRosterData& NewTeamData);
 
@@ -54,7 +54,7 @@ private:
 
 	void UpdateTeamPoints(int NewPoints);
 
-	void FillTeamLineups();
+	void FillTeamRosters();
 
 	void SetTeamName();
 

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/TeamData/TeamRosterData.h"
 #include "TeamRostersManager.generated.h"
 
 
@@ -12,11 +13,16 @@ class SMS_API UTeamRostersManager : public UObject
 
 public:
 
-	void AddRacer(FString Name, int Id);
+	void AddRacer(FString Name, int RaceStatsLineID);
 
 	void ForEachRacer(TFunction<void(const FString&, int)> Callback);
+
+	void SetTeamData(const FTeamRosterData& Data);
 	
 private:
 	
-	TMap<int, FString> Racers;
+	TMap<int, FRacerData*> Racers;
+
+	UPROPERTY()
+	FTeamRosterData TeamRosterData;
 };

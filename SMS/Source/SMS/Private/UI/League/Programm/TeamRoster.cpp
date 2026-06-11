@@ -13,18 +13,21 @@ void UTeamRoster::NativeConstruct()
 	InitializeManagers();
 	CreateRacerStatLines();
 	SetTeamName();
-	FillTeamLineups();
+	FillTeamRosters();
 }
 
 
 void UTeamRoster::InitializeManagers()
 {
 	TeamRosterManager = NewObject<UTeamRostersManager>(this);
+	if (!TeamRosterManager) return;
+	TeamRosterManager->SetTeamData(TeamData);
 }
 
 
 void UTeamRoster::CreateRacerStatLines()
 {
+	if (!TeamRosterManager) return;
 	int Id = 1;
 	if (IsVisitorTeam) Id = 7;
 	for (int i = 0; i < RacersAmount; i++, Id++)
@@ -32,7 +35,6 @@ void UTeamRoster::CreateRacerStatLines()
 		URacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
 		if (NewStatLine)
 		{
-			NewStatLine->Init(TeamRosterManager);
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewStatLine);
 			if (VB_Slot)
 			{
@@ -41,6 +43,7 @@ void UTeamRoster::CreateRacerStatLines()
 			}
 			RacersLines.Add(NewStatLine);
 			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
+			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamRosterManager, &UTeamRostersManager::AddRacer);
 		}
 	}
 }
@@ -56,9 +59,9 @@ URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 }
 
 
-void UTeamRoster::FillTeamLineups()
+void UTeamRoster::FillTeamRosters()
 {
-	for (auto& RacerLine : RacersLines)
+	for (const auto& RacerLine : RacersLines)
 	{
 		for (const auto& RacerData : TeamData.Racers)
 		{
@@ -80,10 +83,10 @@ void UTeamRoster::UpdateTeamPoints(int NewPoints)
 }
 
 
-void UTeamRoster::SetIsVisitorTeam(bool isVisitorTeam)
+void UTeamRoster::SetTeamStatus(bool isVisitorTeam)
 {
 	IsVisitorTeam = isVisitorTeam;
-	if (isVisitorTeam) NamesBox_TeamStatus->SetText("Visitor");
+	if (IsVisitorTeam) NamesBox_TeamStatus->SetText("Visitor");
 	else NamesBox_TeamStatus->SetText("Home");
 }
 

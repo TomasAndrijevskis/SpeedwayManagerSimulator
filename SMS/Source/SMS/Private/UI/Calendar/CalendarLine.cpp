@@ -11,7 +11,7 @@
 void UCalendarLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	const ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	MatchManager = GameMode->MatchManager;
 	if (!MatchManager) return;

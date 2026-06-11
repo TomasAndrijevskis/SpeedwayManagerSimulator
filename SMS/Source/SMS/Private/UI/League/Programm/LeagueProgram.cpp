@@ -56,7 +56,7 @@ UTeamRoster* ULeagueProgram::CreateTeamRoster(const FTeamRosterData* TeamData, b
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
 	if (!TeamRoster) return nullptr;
 	TeamRoster->SetTeamData(*TeamData);
-	TeamRoster->SetIsVisitorTeam(IsVisitor);
+	TeamRoster->SetTeamStatus(IsVisitor);
 	return TeamRoster;
 }
 

@@ -1,7 +1,7 @@
 
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 #include "Components/HorizontalBox.h"
-#include "Managers/TeamRostersManager.h"
+#include "Managers/RacerManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -9,24 +9,23 @@
 void URacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
+	InitializeManagers();
 	BindDelegates();
-	OnValueAddRequestDelegate.AddUObject(this, &URacerStatsLine::AddPoints);
-	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
 }
 
 
-void URacerStatsLine::Init(UTeamRostersManager* NewTeamRosterManager)
+void URacerStatsLine::InitializeManagers()
 {
-	if (!NewTeamRosterManager) return;
-	TeamRosterManager = NewTeamRosterManager;
+	RacerManager = NewObject<URacerManager>(this);
 }
 
 
 void URacerStatsLine::BindDelegates()
 {
-	if (!TeamRosterManager) return;
-	OnRacerChosenDelegate.AddUObject(TeamRosterManager, &UTeamRostersManager::AddRacer);
+	OnValueAddRequestDelegate.AddUObject(this, &URacerStatsLine::AddPoints);
+	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
 }
+
 
 
 void URacerStatsLine::AddOption(const FString& NewOption)
@@ -77,8 +76,7 @@ bool URacerStatsLine::CanAddNewPointBox() const
 
 void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	RacerName = SelectedItem;
-	OnRacerChosenDelegate.Broadcast(SelectedItem, ID);
+	OnRacerChosenDelegate.Broadcast(SelectedItem, RacerStatsLineID);
 }
 
 
@@ -90,10 +88,9 @@ void URacerStatsLine::UpdateOverallPoints(int Points)
 
 void URacerStatsLine::SetID(int NewID)
 {
-	ID = NewID;
-	NumbersBox_RiderNumber->SetText(ID);
+	RacerStatsLineID = NewID;
+	NumbersBox_RiderNumber->SetText(RacerStatsLineID);
 }
 
 
-int URacerStatsLine::GetID() const{return ID;}
-FString URacerStatsLine::GetRacerName() const{return RacerName;}
+int URacerStatsLine::GetID() const{return RacerStatsLineID;}

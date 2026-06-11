@@ -7,7 +7,7 @@
 UENUM(BlueprintType)
 enum ETeams
 {
-	Nothing UMETA(DisplayName = "Nothing Selected"),
+	Nothing UMETA(DisplayName = "No team"),
 	LD UMETA(DisplayName = "Lokomotive Daugavpils"),
 	SW UMETA(DisplayName = "Sparta Wroclaw"),
 	WCz UMETA(DisplayName = "Włókniarz Częstochowa"),

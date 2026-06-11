@@ -48,6 +48,4 @@ private:
 	URacersDataAsset* RacersDataAsset;
 
 	TMap<ETeams, FTeamRosterData> Teams;
-
-	
 };
