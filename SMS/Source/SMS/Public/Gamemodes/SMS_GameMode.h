@@ -9,7 +9,7 @@
 #include "SMS_GameMode.generated.h"
 
 
-class UTeamRostersManager;
+class UTeamManager;
 class UMatchManager;
 class URacersDataAsset;
 class UTeamsDataAsset;
@@ -27,9 +27,9 @@ public:
 
 	FTeamRosterData* GetTeamData(int TeamID);
 
-	const FText& GetTeamName(int TeamID);
+	const FText& GetTeamName(int TeamID)const;
 
-	const FText& GetTeamName(ETeams Team);
+	const FText& GetTeamName(ETeams Team)const;
 	
 	int GetTeamsAmount() const;
 

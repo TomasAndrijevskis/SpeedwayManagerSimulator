@@ -12,7 +12,7 @@ class UTextBlock;
 class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAddRequest, const FString&)
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, FString, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, const FString&, int);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPointsUpdated, int)
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
@@ -26,8 +26,6 @@ public:
 	void SetID(int NewID);
 
 	int GetID() const;
-
-	FString GetRacerName() const;
 	
 	FOnValueAddRequest OnValueAddRequestDelegate;
 

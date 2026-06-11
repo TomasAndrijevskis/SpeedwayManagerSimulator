@@ -17,17 +17,25 @@ void UTeamRoster::NativeConstruct()
 }
 
 
+void UTeamRoster::InitializeTeam(int NewTeamID, bool bStatus)
+{
+	TeamID = NewTeamID;
+	IsVisitorTeam = bStatus;
+	SetTeamStatus(IsVisitorTeam);
+}
+
+
 void UTeamRoster::InitializeManagers()
 {
-	TeamRosterManager = NewObject<UTeamRostersManager>(this);
-	if (!TeamRosterManager) return;
-	TeamRosterManager->SetTeamData(TeamData);
+	TeamManager = NewObject<UTeamManager>(this);
+	if (!TeamManager) return;
+	TeamManager->SetTeamData(TeamID);
 }
 
 
 void UTeamRoster::CreateRacerStatLines()
 {
-	if (!TeamRosterManager) return;
+	if (!TeamManager) return;
 	int Id = 1;
 	if (IsVisitorTeam) Id = 7;
 	for (int i = 0; i < RacersAmount; i++, Id++)
@@ -43,7 +51,7 @@ void UTeamRoster::CreateRacerStatLines()
 			}
 			RacersLines.Add(NewStatLine);
 			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
-			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamRosterManager, &UTeamRostersManager::AddRacer);
+			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
 		}
 	}
 }
@@ -63,17 +71,17 @@ void UTeamRoster::FillTeamRosters()
 {
 	for (const auto& RacerLine : RacersLines)
 	{
-		for (const auto& RacerData : TeamData.Racers)
+		TeamManager->ForEachRacer([this, RacerLine](const FString& Name)
 		{
-			RacerLine->AddOption(RacerData.Key);
-		}
+			RacerLine->AddOption(Name);
+		});
 	}
 }
 
 
 void UTeamRoster::SetTeamName()
 {
-	NamesBox_TeamName->SetText(TeamData.TeamName);
+	NamesBox_TeamName->SetText(TeamManager->GetTeamName());
 }
 
 
@@ -85,11 +93,9 @@ void UTeamRoster::UpdateTeamPoints(int NewPoints)
 
 void UTeamRoster::SetTeamStatus(bool isVisitorTeam)
 {
-	IsVisitorTeam = isVisitorTeam;
 	if (IsVisitorTeam) NamesBox_TeamStatus->SetText("Visitor");
 	else NamesBox_TeamStatus->SetText("Home");
 }
 
 
-void UTeamRoster::SetTeamData(const FTeamRosterData& NewTeamData){TeamData = NewTeamData;}
-TArray<URacerStatsLine*>& UTeamRoster::GetRacers(){return RacersLines;}
+TArray<URacerStatsLine*>& UTeamRoster::GetRacerLines(){return RacersLines;}

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ETeams.h"
 #include "Data/RacersData/RacerData.h"
 #include "TeamRosterData.generated.h"
 
@@ -18,5 +17,5 @@ struct FTeamRosterData
 	FText TeamName;
 	
 	UPROPERTY()
-	TMap<FString, FRacerData> Racers;
+	TArray<FRacerData> Racers;
 };

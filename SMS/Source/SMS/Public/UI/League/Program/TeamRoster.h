@@ -4,7 +4,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamRosterData.h"
-#include "Managers/TeamRostersManager.h"
+#include "Managers/TeamManager.h"
 #include "TeamRoster.generated.h"
 
 
@@ -21,14 +21,12 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 
-	TArray<URacerStatsLine*>& GetRacers();
+	TArray<URacerStatsLine*>& GetRacerLines();
 
-	void SetTeamStatus(bool isVisitorTeam);
-
-	void SetTeamData(const FTeamRosterData& NewTeamData);
-
+	void InitializeTeam(int NewTeamID, bool bStatus);
+	
 	UPROPERTY()
-	UTeamRostersManager* TeamRosterManager;
+	UTeamManager* TeamManager;
 	
 protected:
 
@@ -59,19 +57,18 @@ private:
 	void SetTeamName();
 
 	void InitializeManagers();
+
+	void SetTeamStatus(bool isVisitorTeam);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
 	
 	UPROPERTY()
 	TArray<URacerStatsLine*> RacersLines;
-
-	UPROPERTY(VisibleAnywhere)
+	
 	bool IsVisitorTeam = false;
-
-	UPROPERTY(VisibleAnywhere)
+	
 	int RacersAmount = 6;
 
-	UPROPERTY()
-	FTeamRosterData TeamData;
+	int TeamID;
 };

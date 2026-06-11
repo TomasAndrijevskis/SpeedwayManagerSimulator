@@ -20,7 +20,9 @@ class SMS_API UCalendarLine : public UUserWidget
 
 public:
 
-	void SetMatchTeamsID(int NewHomeTeamID, int NewVisitorTeamID);
+	void InitializeLine(int NewHomeTeamID, int NewVisitorTeamID);
+	
+	void SetMatchTeamID(int NewHomeTeamID, int NewVisitorTeamID);
 	
 	void SetTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName);
 	

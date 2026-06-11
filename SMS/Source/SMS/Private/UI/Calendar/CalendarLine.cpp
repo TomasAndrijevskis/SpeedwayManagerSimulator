@@ -11,11 +11,18 @@
 void UCalendarLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	const ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::StartMatch);
+}
+
+
+void UCalendarLine::InitializeLine(int NewHomeTeamID, int NewVisitorTeamID)
+{
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	MatchManager = GameMode->MatchManager;
 	if (!MatchManager) return;
-	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::StartMatch);
+	SetMatchTeamID(NewHomeTeamID, NewVisitorTeamID);
+	SetTeamNames(GameMode->GetTeamName(HomeTeamID), GameMode->GetTeamName(VisitorTeamID));
 }
 
 
@@ -37,4 +44,4 @@ void UCalendarLine::SetTeamNames(const FText& HomeTeamName, const FText& Visitor
 }
 
 
-void UCalendarLine::SetMatchTeamsID(int NewHomeTeamID, int NewVisitorTeamID){HomeTeamID = NewHomeTeamID; VisitorTeamID = NewVisitorTeamID;}
+void UCalendarLine::SetMatchTeamID(int NewHomeTeamID, int NewVisitorTeamID){HomeTeamID = NewHomeTeamID; VisitorTeamID = NewVisitorTeamID;}

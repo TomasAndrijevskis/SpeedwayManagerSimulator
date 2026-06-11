@@ -19,7 +19,7 @@ void UCalendar::NativeConstruct()
 
 int UCalendar::GetRandomTeam()
 {
-	GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return NULL;
 	int NumberOfTeams = GameMode->GetTeamsAmount();
 	if (NumberOfTeams <= 0) return NULL;
@@ -33,9 +33,7 @@ void UCalendar::CreateMatches()
 	int TeamA = GetRandomTeam();
 	int TeamB = GetRandomTeam();
 	if (TeamA == TeamB)
-	{
 		while (TeamA == TeamB) TeamB = GetRandomTeam();
-	}
 	UCalendarLine* CalendarLine = CreateMatch(TeamA, TeamB);
 	if (!CalendarLine) return;
 	VB_Content->AddChildToVerticalBox(CalendarLine);
@@ -47,7 +45,6 @@ UCalendarLine* UCalendar::CreateMatch(int HomeTeamID, int VisitorTeamID)
 	if (!CalendarLineClass) return nullptr;
 	UCalendarLine* CalendarLine = CreateWidget<UCalendarLine>(this, CalendarLineClass);
 	if (!CalendarLine) return nullptr;
-	CalendarLine->SetMatchTeamsID(HomeTeamID, VisitorTeamID);
-	CalendarLine->SetTeamNames(GameMode->GetTeamName(HomeTeamID), GameMode->GetTeamName(VisitorTeamID));
+	CalendarLine->InitializeLine(HomeTeamID, VisitorTeamID);
 	return CalendarLine;
 }

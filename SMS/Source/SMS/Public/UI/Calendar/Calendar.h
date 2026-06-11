@@ -17,8 +17,6 @@ class SMS_API UCalendar : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-
 protected:
 
 	virtual void NativeConstruct() override;
@@ -45,7 +43,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	int AmountOfMatches = 3;
-
-	UPROPERTY()
-	ASMS_GameMode* GameMode;
 };

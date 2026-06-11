@@ -43,20 +43,19 @@ void ULeagueProgram::BindDelegates()
 void ULeagueProgram::InitializeTeams()
 {
 	if (!MatchManager) return;
-	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetHomeTeamData(), false);
-	UTeamRoster* Visitor = CreateTeamRoster(MatchManager->GetVisitorTeamData(), true);
+	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetHomeTeamID(), false);
+	UTeamRoster* Visitor = CreateTeamRoster(MatchManager->GetVisitorTeamID(), true);
 	RegisterTeamRoster(Home);
 	RegisterTeamRoster(Visitor);
 }
 
 
-UTeamRoster* ULeagueProgram::CreateTeamRoster(const FTeamRosterData* TeamData, bool IsVisitor)
+UTeamRoster* ULeagueProgram::CreateTeamRoster(int TeamID, bool IsVisitor)
 {
 	if (!TeamRosterClass) return nullptr;
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
 	if (!TeamRoster) return nullptr;
-	TeamRoster->SetTeamData(*TeamData);
-	TeamRoster->SetTeamStatus(IsVisitor);
+	TeamRoster->InitializeTeam(TeamID, IsVisitor);
 	return TeamRoster;
 }
 
@@ -134,7 +133,7 @@ void ULeagueProgram::PopulateRacers()
 {
 	for (const auto& Roster : TeamRosters)
 	{
-		Roster->TeamRosterManager->ForEachRacer([this](const FString& Name, int Id)
+		Roster->TeamManager->ForEachRacer([this](const FString& Name, int Id)
 		{
 			AssignRacers(Name, Id);
 		});
@@ -155,7 +154,7 @@ void ULeagueProgram::OnRaceFinished(int ID, int NewPoints)
 {
 	for (const auto& Roster : TeamRosters)
 	{
-		AddRacerPoints(ID, NewPoints,Roster->GetRacers());
+		AddRacerPoints(ID, NewPoints,Roster->GetRacerLines());
 	}
 }
 

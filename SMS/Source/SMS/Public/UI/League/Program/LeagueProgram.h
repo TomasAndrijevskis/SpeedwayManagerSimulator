@@ -53,7 +53,7 @@ private:
 
 	void InitializeTeams();
 
-	UTeamRoster* CreateTeamRoster(const FTeamRosterData* TeamData, bool IsVisitor);
+	UTeamRoster* CreateTeamRoster(int TeamID, bool IsVisitor);
 
 	void RegisterTeamRoster(UTeamRoster* TeamRoster);
 	
@@ -92,8 +92,4 @@ private:
 
 	UPROPERTY()
 	UMatchManager* MatchManager;
-	
-	int HomeOverallPts = 0;
-
-	int VisitorOverallPts = 0;
 };

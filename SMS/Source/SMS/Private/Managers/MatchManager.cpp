@@ -47,5 +47,7 @@ void UMatchManager::UpdateScore(int NewHomeTeamScore, int NewVisitorTeamScore){H
 int UMatchManager::GetHomeTeamScore() const{return HomeTeamScore;}
 int UMatchManager::GetVisitorTeamScore() const{return VisitorTeamScore;}
 int UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
+int UMatchManager::GetHomeTeamID() const{return HomeTeamID;}
+int UMatchManager::GetVisitorTeamID() const{return VisitorTeamID;}
 FTeamRosterData* UMatchManager::GetVisitorTeamData() const{return GameMode->GetTeamData(VisitorTeamID);}
 FTeamRosterData* UMatchManager::GetHomeTeamData()const{return GameMode->GetTeamData(HomeTeamID);}

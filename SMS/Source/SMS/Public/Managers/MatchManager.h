@@ -33,6 +33,10 @@ public:
 	void SetAmountOfRaces(int NewAmount);
 
 	int GetCurrentRaceNumber()const;
+
+	int GetHomeTeamID() const;
+
+	int GetVisitorTeamID() const;
 	
 	FTeamRosterData* GetHomeTeamData() const;
 
