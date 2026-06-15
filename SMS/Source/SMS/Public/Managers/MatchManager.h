@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/TeamData/TeamRosterData.h"
+#include "UI/League/Program/Race.h"
 #include "MatchManager.generated.h"
 
 class ASMS_GameMode;
@@ -15,10 +16,14 @@ class SMS_API UMatchManager : public UObject
 
 public:
 
+	void AddNewRace(URace* NewRace);
+
+	void AssignRacersToRace(const FString& Name, int Id);
+	
 	UFUNCTION()
 	void SimulateRace();
 
-	void SetOverallPts(int AddHomePts, int AddVisitorPts);
+	void UpdateOverallScore(int AddHomePts, int AddVisitorPts);
 	
 	void Init(ASMS_GameMode* CurrentGameMode);
 	
@@ -29,8 +34,6 @@ public:
 	int GetHomeTeamScore() const;
 	
 	int GetVisitorTeamScore() const;
-
-	void SetAmountOfRaces(int NewAmount);
 
 	int GetCurrentRaceNumber()const;
 
@@ -57,11 +60,12 @@ private:
 	UPROPERTY()
 	int VisitorTeamID;
 
-	int HomeTeamScore = 0;
+	UPROPERTY()
+	TArray<URace*> Races;
+	
+	int HomeOverallScore = 0;
 
-	int VisitorTeamScore = 0;
+	int VisitorOverallScore = 0;
 
 	int CurrentRace = 0;
-
-	int AmountOfRaces = 0;
 };

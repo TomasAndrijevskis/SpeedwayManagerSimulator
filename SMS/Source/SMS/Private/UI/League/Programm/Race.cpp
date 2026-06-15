@@ -27,7 +27,8 @@ void URace::BindDelegates()
 {
 	if (!RaceManager) return;
 	OnAssignRacerRequestDelegate.AddUObject(RaceManager, &URaceManager::AssignRacerToRace);
-	RaceManager->OnOverallScoreUpdatedDelegate.AddUObject(this, &URace::UpdateOverallScore);
+	OnSimulateRaceRequestDelegate.AddUObject(RaceManager, &URaceManager::SimulateRace);
+	OnRaceStatusChangedDelegate.AddUObject(RaceManager, &URaceManager::ChangeRaceStatus);
 }
 
 
@@ -35,6 +36,12 @@ void URace::SetRaceID(int NewID)
 {
 	ID = NewID;
 	NumbersBox_RaceNumber->SetText(ID);
+	OnIDSet();
+}
+
+
+void URace::OnIDSet()
+{
 	CreateRaceLines();
 	if (ID != 1) RaceManager->ChangeRaceStatus(false);
 }

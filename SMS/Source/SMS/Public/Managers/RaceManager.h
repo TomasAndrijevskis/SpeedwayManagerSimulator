@@ -17,19 +17,19 @@ public:
 	void SimulateRace();
 
 	void AddRaceLine(URaceLine* NewRaceLine);
+
+	void AssignRacerToRace(const FString& RacerName, int RacerID);
+	
+	void ChangeRaceStatus(bool bIsActive);
 	
 	TArray<URaceLine*> GetRaceLines();
 	
-
 	FOnRaceFinished OnRaceFinishedDelegate;
 
 	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 	
 private:
-
-	void AssignRacerToRace(const FString& RacerName, int RacerID);
 	
-	void ChangeRaceStatus(bool bIsActive);
 
 	void SortArray();
 

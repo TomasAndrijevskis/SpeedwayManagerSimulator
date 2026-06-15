@@ -2,8 +2,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Race.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/TeamData/TeamRosterData.h"
 #include "LeagueProgram.generated.h"
 
 class UMatchManager;
@@ -13,9 +13,8 @@ class UBackgroundBlur;
 class UVerticalBox;
 class UTeamRoster;
 class UButton;
-class URace;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnScoreUpdated, int, int)
+
 UCLASS()
 class SMS_API ULeagueProgram : public UUserWidget
 {
@@ -23,9 +22,7 @@ class SMS_API ULeagueProgram : public UUserWidget
 	
 public:
 
-	void InitializeMatchManager();
-	
-	FOnScoreUpdated OnScoreUpdatedDelegate;
+	void InitializeManagers();
 	
 protected:
 
@@ -57,8 +54,6 @@ private:
 
 	void RegisterTeamRoster(UTeamRoster* TeamRoster);
 	
-	void AssignRacers(const FString& Name, int Id);
-	
 	UFUNCTION()
 	void PopulateRacers();
 	
@@ -71,9 +66,9 @@ private:
 	
 	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
 
-	void OnRaceFinished(int ID, int NewPoints);
+	//void OnRaceFinished(int ID, int NewPoints);
 
-	void AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLine*>& Racers);
+	//void AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLine*>& Racers);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;
@@ -83,8 +78,6 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	int AmountOfRaces = 15;
-	
-	TArray<URace*> Races;
 
 	TArray<UTeamRoster*> TeamRosters;
 	

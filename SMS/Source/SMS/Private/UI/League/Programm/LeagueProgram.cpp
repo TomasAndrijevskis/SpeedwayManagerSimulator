@@ -9,14 +9,13 @@
 #include "Managers/MatchManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/Race.h"
-#include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 
 
 void ULeagueProgram::NativeConstruct()
 {
 	Super::NativeConstruct();
-	InitializeMatchManager();
+	InitializeManagers();
 	BindDelegates();
 	InitializeTeams();
 	CreateRaces();
@@ -24,7 +23,7 @@ void ULeagueProgram::NativeConstruct()
 }
 
 
-void ULeagueProgram::InitializeMatchManager()
+void ULeagueProgram::InitializeManagers()
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
@@ -36,7 +35,8 @@ void ULeagueProgram::BindDelegates()
 {
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
-	//Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PrepareToSimulateRace);
+	if (!MatchManager) return;
+	Button_SimulateRace->OnClicked.AddUniqueDynamic(MatchManager, &UMatchManager::SimulateRace);
 }
 
 
@@ -70,6 +70,7 @@ void ULeagueProgram::RegisterTeamRoster(UTeamRoster* TeamRoster)
 
 void ULeagueProgram::CreateRaces()
 {
+	if (!MatchManager) return;
 	FVector2d TempPosition = StartPosition;
 	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
 	FVector2d StartAlignment = FVector2d(0, 0);
@@ -81,7 +82,7 @@ void ULeagueProgram::CreateRaces()
 		if (NewRace)
 		{
 			NewRace->SetRaceID(i);
-			Races.Add(NewRace);
+			MatchManager->AddNewRace(NewRace);
 		}
 		TempPosition.Y += PositionOffset;
 		if (i % 5 == 0)
@@ -92,7 +93,6 @@ void ULeagueProgram::CreateRaces()
 			StartAlignment.X += Offset;
 		}
 	}
-	MatchManager->SetAmountOfRaces(Races.Num());
 }
 
 
@@ -130,25 +130,17 @@ void ULeagueProgram::ShowTeams()
 
 void ULeagueProgram::PopulateRacers()
 {
+	if (!MatchManager) return;
 	for (const auto& Roster : TeamRosters)
 	{
 		Roster->TeamManager->ForEachRacer([this](const FString& Name, int Id)
 		{
-			AssignRacers(Name, Id);
+			MatchManager->AssignRacersToRace(Name, Id);
 		});
 	}
 }
 
-
-void ULeagueProgram::AssignRacers(const FString& Name, int Id)
-{
-	for (const auto& Race : Races)
-	{
-		Race->OnAssignRacerRequestDelegate.Broadcast(Name, Id);
-	}
-}
-
-
+/*
 void ULeagueProgram::OnRaceFinished(int ID, int NewPoints)
 {
 	for (const auto& Roster : TeamRosters)
@@ -164,4 +156,4 @@ void ULeagueProgram::AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLin
 	{
 		if (Racer->GetID() == ID) Racer->OnValueAddRequestDelegate.Broadcast(FString::FromInt(NewPoints));
 	}
-}
+}*/

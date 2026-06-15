@@ -32,7 +32,7 @@ void UCalendarLine::StartMatch()
 	ULeagueProgram* LeagueProgram = CreateWidget<ULeagueProgram>(this, LeagueProgramClass);
 	if (!LeagueProgram) return;
 	MatchManager->SetTeamsID(HomeTeamID, VisitorTeamID);
-	LeagueProgram->InitializeMatchManager();
+	LeagueProgram->InitializeManagers();
 	LeagueProgram->AddToViewport(1);
 }
 

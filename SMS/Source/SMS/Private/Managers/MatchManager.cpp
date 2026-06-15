@@ -5,8 +5,14 @@
 
 void UMatchManager::SimulateRace()
 {
-	if (CurrentRace < AmountOfRaces)
+	UE_LOG(LogTemp, Warning, TEXT("Simulate race"));
+	if (CurrentRace <= Races.Num()-1)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("CurrentRace: %i"), CurrentRace+1);
+		Races[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
+		Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
+		CurrentRace++;
+		if (CurrentRace <= Races.Num()-1) Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
 		/*
 		   Races[CurrentRace]->OnOverallScoreUpdatedDelegate.AddUObject(this, &ULeagueProgram::SetOverallPts);
 		   Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgram::OnRaceFinished);
@@ -27,25 +33,36 @@ void UMatchManager::Init(ASMS_GameMode* CurrentGameMode)
 }
 
 
+void UMatchManager::UpdateOverallScore(int AddHomePts, int AddVisitorPts)
+{
+	HomeOverallScore += AddHomePts;
+	VisitorOverallScore += AddVisitorPts;
+	OnScoreUpdatedDelegate.Broadcast(HomeOverallScore, VisitorOverallScore);
+}
+
+void UMatchManager::AddNewRace(URace* NewRace)
+{
+	Races.Add(NewRace);
+}
+
+
+void UMatchManager::AssignRacersToRace(const FString& Name, int Id)
+{
+	for (const auto& Race : Races)
+	{
+		Race->OnAssignRacerRequestDelegate.Broadcast(Name, Id);
+	}
+}
+
+
 void UMatchManager::SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID)
 {
 	HomeTeamID = NewHomeTeamID;
 	VisitorTeamID = NewVisitorTeamID;
 }
 
-
-void UMatchManager::SetOverallPts(int AddHomePts, int AddVisitorPts)
-{
-	HomeTeamScore += AddHomePts;
-	VisitorTeamScore += AddVisitorPts;
-	OnScoreUpdatedDelegate.Broadcast(HomeTeamScore, VisitorTeamScore);
-}
-
-
-void UMatchManager::SetAmountOfRaces(int NewAmount){AmountOfRaces = NewAmount;}
-void UMatchManager::UpdateScore(int NewHomeTeamScore, int NewVisitorTeamScore){HomeTeamScore = NewHomeTeamScore;VisitorTeamScore = NewVisitorTeamScore;}
-int UMatchManager::GetHomeTeamScore() const{return HomeTeamScore;}
-int UMatchManager::GetVisitorTeamScore() const{return VisitorTeamScore;}
+int UMatchManager::GetHomeTeamScore() const{return HomeOverallScore;}
+int UMatchManager::GetVisitorTeamScore() const{return VisitorOverallScore;}
 int UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
 int UMatchManager::GetHomeTeamID() const{return HomeTeamID;}
 int UMatchManager::GetVisitorTeamID() const{return VisitorTeamID;}

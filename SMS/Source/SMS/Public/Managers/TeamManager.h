@@ -12,6 +12,8 @@ class SMS_API UTeamManager : public UObject
 	GENERATED_BODY()
 
 public:
+
+	void AddRacersToLineup(const FString& RacerName, int RacerStatLineID);
 	
 	void ForEachRacer(TFunction<void(const FString&, int)> Callback);
 
@@ -22,8 +24,6 @@ public:
 	const FString& GetTeamName() const;
 	
 private:
-
-	void AddRacersToLineup(const FString& RacerName, int RacerStatLineID);
 	
 	FTeamRosterData* TeamRosterData;
 
