@@ -6,30 +6,34 @@
 void UMatchManager::Init(ASMS_GameMode* CurrentGameMode)
 {
 	GameMode = CurrentGameMode;
-	//if (!GameMode) return;
 }
+
 
 void UMatchManager::SimulateRace()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Simulate race"));
 	if (CurrentRace <= Races.Num()-1)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CurrentRace: %i"), CurrentRace+1);
-		Races[CurrentRace]->OnScoreUpdatedDelegate.AddUObject(this, &UMatchManager::UpdateOverallScore);
+		BindRaceDelegates();
 		Races[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
-		Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
-		Races[CurrentRace]->OnScoreUpdatedDelegate.Clear();
-		CurrentRace++;
-		if (CurrentRace <= Races.Num()-1) Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
-		/*
-		   Races[CurrentRace]->OnOverallScoreUpdatedDelegate.AddUObject(this, &ULeagueProgram::SetOverallPts);
-		   Races[CurrentRace]->OnRaceFinishedDelegate.AddUObject(this, &ULeagueProgram::OnRaceFinished);
-		   Races[CurrentRace]->SimulateRace();
-		   Races[CurrentRace]->OnOverallScoreUpdatedDelegate.Clear();
-		   CurrentRace++;
-		   if (CurrentRace < Races.Num()) Races[CurrentRace]->ChangeRaceStatus(true);
-	   }*/
+		HandleRaceFinished();
 	}
+}
+
+
+void UMatchManager::BindRaceDelegates()
+{
+	Races[CurrentRace]->OnScoreUpdatedDelegate.AddUObject(this, &UMatchManager::UpdateOverallScore);
+	OnOverallScoreUpdatedDelegate.AddUObject(Races[CurrentRace], &URace::UpdateOverallScore);
+}
+
+
+void UMatchManager::HandleRaceFinished()
+{
+	Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
+	Races[CurrentRace]->OnScoreUpdatedDelegate.Clear();
+	OnOverallScoreUpdatedDelegate.Clear();
+	CurrentRace++;
+	if (CurrentRace <= Races.Num()-1) Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
 }
 
 
@@ -37,7 +41,7 @@ void UMatchManager::UpdateOverallScore(int AddHomePts, int AddVisitorPts)
 {
 	HomeOverallScore += AddHomePts;
 	VisitorOverallScore += AddVisitorPts;
-	OnScoreUpdatedDelegate.Broadcast(HomeOverallScore, VisitorOverallScore);
+	OnOverallScoreUpdatedDelegate.Broadcast(HomeOverallScore, VisitorOverallScore);
 }
 
 

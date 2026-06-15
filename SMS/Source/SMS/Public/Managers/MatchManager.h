@@ -8,7 +8,7 @@
 
 class ASMS_GameMode;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMatchFinished, int, int);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnScoreUpdated, int, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 UCLASS()
 class SMS_API UMatchManager : public UObject
 {
@@ -45,10 +45,14 @@ public:
 
 	FOnMatchFinished OnMatchFinishedDelegate;
 
-	FOnScoreUpdated OnScoreUpdatedDelegate;
+	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
 private:
 
+	void BindRaceDelegates();
+
+	void HandleRaceFinished();
+	
 	UPROPERTY()
 	ASMS_GameMode* GameMode;
 	

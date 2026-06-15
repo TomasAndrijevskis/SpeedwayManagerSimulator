@@ -17,7 +17,7 @@ class URaceLine;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAssignRacerRequest, const FString&, int);
 DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceStatusChanged, bool)
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnScoreUpdated, int, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 UCLASS()
 class SMS_API URace : public UUserWidget
 {
@@ -29,13 +29,15 @@ public:
 	
 	void SetRaceID(int NewID);
 
+	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
+	
 	FOnAssignRacerRequest OnAssignRacerRequestDelegate;
 
 	FOnSimulateRaceRequest OnSimulateRaceRequestDelegate;
 	
 	FOnRaceStatusChanged OnRaceStatusChangedDelegate;
 
-	FOnScoreUpdated OnScoreUpdatedDelegate;
+	FOnOverallScoreUpdated OnScoreUpdatedDelegate;
 	
 protected:
 
@@ -63,9 +65,7 @@ private:
 	void OnIDSet();
 
 	void OnRaceFinished();
-
-	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
-
+	
 	void UpdateRaceScore(int NewHomePts, int NewVisitorPts);
 	
 	UPROPERTY(EditDefaultsOnly)
