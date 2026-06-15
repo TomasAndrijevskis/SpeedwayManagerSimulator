@@ -29,6 +29,7 @@ void URace::BindDelegates()
 	OnAssignRacerRequestDelegate.AddUObject(RaceManager, &URaceManager::AssignRacerToRace);
 	OnSimulateRaceRequestDelegate.AddUObject(RaceManager, &URaceManager::SimulateRace);
 	OnRaceStatusChangedDelegate.AddUObject(RaceManager, &URaceManager::ChangeRaceStatus);
+	RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::OnRaceFinished);
 }
 
 
@@ -44,6 +45,17 @@ void URace::OnIDSet()
 {
 	CreateRaceLines();
 	if (ID != 1) RaceManager->ChangeRaceStatus(false);
+}
+
+
+void URace::OnRaceFinished()
+{
+	if (!RaceManager) return;
+	int RaceHomePts = 0;
+	int RaceVisitorPts = 0;
+	RaceManager->CalculateRaceResult(RaceHomePts, RaceVisitorPts);
+	UpdateRaceScore(RaceHomePts, RaceVisitorPts);
+	OnScoreUpdatedDelegate.Broadcast(RaceHomePts, RaceVisitorPts);
 }
 
 
@@ -93,4 +105,10 @@ void URace::SetRaceData()
 void URace::UpdateOverallScore(int NewHomePts, int NewVisitorPts)
 {
 	ScoreCounter->SetOverallScore(NewHomePts, NewVisitorPts);
+}
+
+
+void URace::UpdateRaceScore(int NewHomePts, int NewVisitorPts)
+{
+	ScoreCounter->SetRacePoints(NewHomePts, NewVisitorPts);
 }

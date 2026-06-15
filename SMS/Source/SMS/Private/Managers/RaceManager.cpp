@@ -10,10 +10,10 @@ void URaceManager::SimulateRace()
 	for (const auto& RaceLine : RaceLines)
 	{
 		RaceLine->SetPoints(Points);
-		OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
+		//OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
 		Points++;
 	}
-	CalculateRaceResult();
+	OnRaceFinishedDelegate.Broadcast();
 }
 
 
@@ -26,16 +26,13 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 }
 
 
-void URaceManager::CalculateRaceResult()
+void URaceManager::CalculateRaceResult(int& HomePts, int& VisitorPts)
 {
-	int HomePts = 0;
-	int VisitorPts = 0;
 	for (auto& RaceLine : RaceLines)
 	{
 		if (RaceLine->GetIsVisitor())  VisitorPts += RaceLine->GetPoints();
 		else HomePts += RaceLine->GetPoints();
 	}
-	OnOverallScoreUpdatedDelegate.Broadcast(HomePts, VisitorPts);
 }
 
 

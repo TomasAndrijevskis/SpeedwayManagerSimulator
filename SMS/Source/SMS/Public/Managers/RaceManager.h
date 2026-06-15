@@ -5,8 +5,8 @@
 #include "UI/League/Program/RaceLine.h"
 #include "RaceManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceFinished, int, int);
+//DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceFinished, int, int);
+DECLARE_MULTICAST_DELEGATE(FOnRaceFinished);
 UCLASS()
 class SMS_API URaceManager : public UObject
 {
@@ -23,17 +23,14 @@ public:
 	void ChangeRaceStatus(bool bIsActive);
 	
 	TArray<URaceLine*> GetRaceLines();
+
+	void CalculateRaceResult(int& HomePts, int& VisitorPts);
 	
 	FOnRaceFinished OnRaceFinishedDelegate;
-
-	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 	
 private:
 	
-
 	void SortArray();
-
-	void CalculateRaceResult();
 	
 	UPROPERTY()
 	TArray<URaceLine*> RaceLines;

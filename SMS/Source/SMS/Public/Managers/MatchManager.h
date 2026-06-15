@@ -28,9 +28,7 @@ public:
 	void Init(ASMS_GameMode* CurrentGameMode);
 	
 	void SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID);
-
-	void UpdateScore(int NewHomeTeamScore, int NewVisitorTeamScore);
-
+	
 	int GetHomeTeamScore() const;
 	
 	int GetVisitorTeamScore() const;
