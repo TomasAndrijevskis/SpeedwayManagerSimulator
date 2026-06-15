@@ -81,7 +81,6 @@ void ULeagueProgram::CreateRaces()
 		if (NewRace)
 		{
 			NewRace->SetRaceID(i);
-			if (i != 1) NewRace->ChangeRaceStatus(false);
 			Races.Add(NewRace);
 		}
 		TempPosition.Y += PositionOffset;
@@ -145,7 +144,7 @@ void ULeagueProgram::AssignRacers(const FString& Name, int Id)
 {
 	for (const auto& Race : Races)
 	{
-		Race->AssignRacerToRace(Name, Id);
+		Race->OnAssignRacerRequestDelegate.Broadcast(Name, Id);
 	}
 }
 

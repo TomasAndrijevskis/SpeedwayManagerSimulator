@@ -24,6 +24,7 @@ void UTeamManager::ForEachRacer(TFunction<void(const FString&, int)> Callback)
 	}
 }
 
+
 void UTeamManager::ForEachRacer(TFunction<void(const FString&)> Callback)
 {
 	for (const auto& Racer : TeamRosterData->Racers)

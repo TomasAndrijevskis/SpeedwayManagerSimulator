@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Race.generated.h"
 
+class URaceManager;
 class UVerticalBox;
 class UPointsManager;
 class URacePatternsDataAsset;
@@ -13,8 +14,7 @@ class UScoreCounter;
 class UTextBlock;
 class URaceLine;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceFinished, int, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAssignRacerRequest, const FString&, int);
 UCLASS()
 class SMS_API URace : public UUserWidget
 {
@@ -22,20 +22,18 @@ class SMS_API URace : public UUserWidget
 
 public:
 
-	void SimulateRace();
-
-	void AssignRacerToRace(FString RacerName, int RacerID);
-
+	void InitializeManagers();
+	
 	void SetRaceID(int NewID);
 
 	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
 
-	void ChangeRaceStatus(bool bIsActive);
+	FOnAssignRacerRequest OnAssignRacerRequestDelegate;
 	
-	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
+protected:
 
-	FOnRaceFinished OnRaceFinishedDelegate;
-
+	virtual void NativeConstruct() override;
+	
 private:
 
 	UPROPERTY(meta = (BindWidget))
@@ -46,12 +44,10 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Content;
+
+	void BindDelegates();
 	
-	void SortArray();
-
 	void SetRaceData();
-
-	void CalculateRaceResult();
 
 	void CreateRaceLines();
 	
@@ -62,9 +58,10 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URaceLine> RaceLineClass;
-	
-	TArray<URaceLine*> RaceLines;
 
+	UPROPERTY()
+	URaceManager* RaceManager;
+	
 	int ID;
 
 	int RaceLineAmount = 4;
