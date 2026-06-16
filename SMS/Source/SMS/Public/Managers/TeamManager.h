@@ -15,9 +15,9 @@ public:
 
 	void AddRacersToLineup(const FString& RacerName, int RacerStatLineID);
 	
-	void ForEachRacer(TFunction<void(const FString&, int)> Callback);
+	void ForEachRacerInLineup(TFunction<void(int, const FRacerData&)> Callback);
 
-	void ForEachRacer(TFunction<void(const FString&)> Callback);
+	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
 	
 	void SetTeamData(int ID);
 

@@ -34,7 +34,7 @@ void ASMS_GameMode::InitializeRacers()
 		Teams.FindOrAdd(TeamID).TeamName = TeamName;
 		Teams.FindOrAdd(TeamID).Racers.Add(Racer);
 	}
-	PrintTeams();
+	//PrintTeams();
 }
 
 

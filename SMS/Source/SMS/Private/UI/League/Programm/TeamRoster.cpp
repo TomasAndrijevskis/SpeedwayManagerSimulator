@@ -21,7 +21,7 @@ void UTeamRoster::InitializeTeam(int NewTeamID, bool bStatus)
 {
 	TeamID = NewTeamID;
 	IsVisitorTeam = bStatus;
-	SetTeamStatus(IsVisitorTeam);
+	SetTeamStatus();
 }
 
 
@@ -71,9 +71,9 @@ void UTeamRoster::FillTeamRosters()
 {
 	for (const auto& RacerLine : RacersLines)
 	{
-		TeamManager->ForEachRacer([this, RacerLine](const FString& Name)
+		TeamManager->ForEachRacerInRoster([this, RacerLine](const FRacerData& Data)
 		{
-			RacerLine->AddOption(Name);
+			RacerLine->AddOption(Data.Name);
 		});
 	}
 }
@@ -91,7 +91,7 @@ void UTeamRoster::UpdateTeamPoints(int NewPoints)
 }
 
 
-void UTeamRoster::SetTeamStatus(bool isVisitorTeam)
+void UTeamRoster::SetTeamStatus()
 {
 	if (IsVisitorTeam) NamesBox_TeamStatus->SetText("Visitor");
 	else NamesBox_TeamStatus->SetText("Home");

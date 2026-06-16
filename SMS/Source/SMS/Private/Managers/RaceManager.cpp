@@ -4,7 +4,6 @@
 
 void URaceManager::SimulateRace()
 {
-	UE_LOG(LogTemp, Error, TEXT("Simulate race"));
 	SortArray();
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)

@@ -58,7 +58,7 @@ private:
 
 	void InitializeManagers();
 
-	void SetTeamStatus(bool isVisitorTeam);
+	void SetTeamStatus();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;

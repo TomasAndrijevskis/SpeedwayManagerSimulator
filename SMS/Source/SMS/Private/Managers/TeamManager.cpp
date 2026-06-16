@@ -16,20 +16,20 @@ void UTeamManager::AddRacersToLineup(const FString& RacerName, int RacerStatLine
 }
 
 
-void UTeamManager::ForEachRacer(TFunction<void(const FString&, int)> Callback)
+void UTeamManager::ForEachRacerInLineup(TFunction<void(int, const FRacerData&)> Callback)
 {
 	for (const auto& Racer : Racers)
 	{
-		Callback(Racer.Value.Name, Racer.Key);
+		Callback(Racer.Key, Racer.Value);
 	}
 }
 
 
-void UTeamManager::ForEachRacer(TFunction<void(const FString&)> Callback)
+void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback)
 {
 	for (const auto& Racer : TeamRosterData->Racers)
 	{
-		Callback(Racer.Name);
+		Callback(Racer);
 	}
 }
 
@@ -39,6 +39,12 @@ void UTeamManager::SetTeamData(int ID)
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	TeamRosterData = GameMode->GetTeamData(ID);
+
+	/*UE_LOG(LogTemp, Error, TEXT("%s:"), *GetTeamName());
+	for (const auto& Racer : TeamRosterData->Racers)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Name, Racer.RacerStats.Rating);
+	}*/
 }
 
 
