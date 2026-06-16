@@ -18,7 +18,7 @@ public:
 
 	void AddNewRace(URace* NewRace);
 
-	void AssignRacersToRace(const FString& Name, int Id);
+	void AssignRacersToRace(const FString& Name, int ID);
 	
 	UFUNCTION()
 	void SimulateRace();

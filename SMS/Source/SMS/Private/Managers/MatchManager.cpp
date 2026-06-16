@@ -51,11 +51,11 @@ void UMatchManager::AddNewRace(URace* NewRace)
 }
 
 
-void UMatchManager::AssignRacersToRace(const FString& Name, int Id)
+void UMatchManager::AssignRacersToRace(const FString& Name, int ID)
 {
 	for (const auto& Race : Races)
 	{
-		Race->OnAssignRacerRequestDelegate.Broadcast(Name, Id);
+		Race->OnAssignRacerRequestDelegate.Broadcast(Name, ID);
 	}
 }
 

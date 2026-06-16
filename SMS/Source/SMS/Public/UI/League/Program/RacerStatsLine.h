@@ -11,7 +11,6 @@ class UNumbersBox;
 class UTextBlock;
 class UHorizontalBox;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAddRequest, const FString&)
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, const FString&, int);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPointsUpdated, int)
 UCLASS()
@@ -26,8 +25,6 @@ public:
 	void SetID(int NewID);
 
 	int GetID() const;
-	
-	FOnValueAddRequest OnValueAddRequestDelegate;
 
 	FOnRacerChosen OnRacerChosenDelegate;
 
@@ -58,23 +55,11 @@ private:
 
 	void UpdateOverallPoints(int Points);
 
-	int CountOverallPoints();
-
-	bool CanAddNewPointBox() const;
-
 	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
-
-	void AddPoints(const FString& NewPoints);
-
+	
 	void BindDelegates();
 
 	void InitializeManagers();
-	
-	UPROPERTY(VisibleAnywhere)
-	TArray<FString> RacerPoints;
-
-	UPROPERTY(EditDefaultsOnly)
-	int MaxRacesAmount = 7;
 
 	UPROPERTY(VisibleAnywhere)
 	int RacerStatsLineID;
