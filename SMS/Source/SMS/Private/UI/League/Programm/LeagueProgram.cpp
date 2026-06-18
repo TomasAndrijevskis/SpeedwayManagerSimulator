@@ -10,6 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
+#include "UI/League/Program/RacerStatsLine.h"
 
 
 void ULeagueProgram::NativeConstruct()
@@ -130,10 +131,26 @@ void ULeagueProgram::ShowTeams()
 
 void ULeagueProgram::PopulateRacers()
 {
+	UE_LOG(LogTemp, Warning, TEXT("PopulateRacers"));
 	if (!MatchManager) return;
+	UE_LOG(LogTemp, Warning, TEXT("MatchManager"));
 	for (const auto& Roster : TeamRosters)
 	{
 		Roster->TeamManager->CreateRacerManagers();
+		Roster->TeamManager->ForEachRacerInLineup([this, Roster](int ID, const FRacerData& Data)
+		{
+			UE_LOG(LogTemp, Error, TEXT("ID: %i"), ID);
+			for (auto RacerStatsLine : Roster->GetRacerStatsLines())
+			{
+				UE_LOG(LogTemp, Error, TEXT("StatsLineID: %i"), RacerStatsLine->GetID());
+				if (RacerStatsLine->GetID() == ID)
+				{
+					RacerStatsLine->InitializeManagers(Data.RacerManager);
+					break;
+				}
+				
+			}
+		});
 		Roster->TeamManager->ForEachRacerInLineup([this](int ID, const FRacerData& Data)
 		{
 			MatchManager->RequestToAssignRacersToRace(Data, ID);

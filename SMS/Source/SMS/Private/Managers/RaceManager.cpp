@@ -6,13 +6,14 @@ void URaceManager::SimulateRace()
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		RaceLine->GenerateRating();
+		RaceLine->CalculateRating();
 	}
 	SortArray();
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
 		RaceLine->SetPointsPerRace(Points);
+		RaceLine->OnRaceFinished();
 		//OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
 		Points++;
 	}
@@ -49,7 +50,7 @@ void URaceManager::SortArray()
 {
 	RaceLines.Sort([](URaceLine& L1, URaceLine& L2)
 	{
-		return L1.GetRaceRating() < L2.GetRaceRating();
+		return L1.GetRacerRating() < L2.GetRacerRating();
 	});
 }
 

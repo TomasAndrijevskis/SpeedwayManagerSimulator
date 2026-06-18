@@ -68,14 +68,14 @@ USlider* URaceLine::CreateSlider()
 }
 
 
-void URaceLine::GenerateRating()
+void URaceLine::CalculateRating()
 {
 	int Start = FMath::RandRange(1,5);
 	int Driving = FMath::RandRange(1,10);
 	if (!GetIsVisitor()) Driving += FMath::RandRange(1,2);
 	int RacerRating = RacerData.RacerStats.Rating;
-	CurrentRaceRating = Start + Driving + RacerRating;
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s, Race rating: %i"), *RacerData.Name, CurrentRaceRating);
+	CurrentRacerRating = Start + Driving + RacerRating;
+	UE_LOG(LogTemp, Warning, TEXT("Name: %s, Race rating: %i"), *RacerData.Name, CurrentRacerRating);
 }
 
 
@@ -86,10 +86,16 @@ void URaceLine::SetPointsPerRace(int NewPoints)
 }
 
 
+void URaceLine::OnRaceFinished()
+{
+	RacerData.RacerManager->OnValueAddRequestDelegate.Broadcast(FString::FromInt(Points));
+}
+
+
 int URaceLine::GetRaceLineID()const{return RaceLineID;}
 int URaceLine::GetRacerID() const{return RacerID;}
 int URaceLine::GetPointsPerRace() const{ return Points;}
-int URaceLine::GetRaceRating() const{return CurrentRaceRating;}
+int URaceLine::GetRacerRating() const{return CurrentRacerRating;}
 bool URaceLine::GetIsVisitor() const {return RacerData.RacerManager->IsVisitor();}
 void URaceLine::SetRaceLineID(int NewID){RaceLineID = NewID;}
 void URaceLine::SetRacerID(int NewID){RacerID = NewID;}

@@ -30,7 +30,7 @@ public:
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 
-	void GenerateRating();
+	void CalculateRating();
 
 	int GetRaceLineID() const;
 
@@ -48,7 +48,9 @@ public:
 
 	bool GetIsVisitor() const;
 
-	int GetRaceRating() const;
+	int GetRacerRating() const;
+
+	void OnRaceFinished();
 	
 protected:
 
@@ -86,5 +88,5 @@ private:
 
 	int Points = 0;
 
-	int CurrentRaceRating = 0;
+	int CurrentRacerRating = 0;
 };

@@ -37,6 +37,7 @@ void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callb
 
 void UTeamManager::CreateRacerManagers()
 {
+	UE_LOG(LogTemp, Warning, TEXT("CreateRacerManagers"));
 	for (auto& Racer : Racers)
 	{
 		URacerManager* NewRacerManager = NewObject<URacerManager>(this);

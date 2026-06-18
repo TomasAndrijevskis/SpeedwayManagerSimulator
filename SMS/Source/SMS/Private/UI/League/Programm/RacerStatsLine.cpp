@@ -9,14 +9,14 @@
 void URacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	InitializeManagers();
-	BindDelegates();
+	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
 }
 
 
-void URacerStatsLine::InitializeManagers()
+void URacerStatsLine::InitializeManagers(URacerManager* RacerManagerRef)
 {
-	RacerManager = NewObject<URacerManager>(this);
+	RacerManager = RacerManagerRef;
+	BindDelegates();
 }
 
 
@@ -25,7 +25,6 @@ void URacerStatsLine::BindDelegates()
 	if (!RacerManager) return;
 	RacerManager->OnValueAddRequestDelegate.AddUObject(RacerManager, &URacerManager::AddPoints);
 	RacerManager->OnPointsAddedDelegate.AddUObject(this, &URacerStatsLine::CreateNewPointsBox);
-	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
 }
 
 
@@ -42,7 +41,7 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points)
 	if (!NewNumbersBox) return;
 	NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
-	//UpdateOverallPoints(RacerManager->CountOverallPoints(HB_Points->HasAnyChildren()));
+	UpdateOverallPoints(RacerManager->CountOverallPoints(HB_Points->HasAnyChildren()));
 	OnPointsUpdatedDelegate.Broadcast(FCString::Atoi(*Points));
 }
 

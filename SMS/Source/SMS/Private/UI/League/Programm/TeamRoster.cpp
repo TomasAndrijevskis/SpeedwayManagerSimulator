@@ -49,7 +49,7 @@ void UTeamRoster::CreateRacerStatLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
-			RacersLines.Add(NewStatLine);
+			RacerStatsLines.Add(NewStatLine);
 			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
 		}
@@ -69,7 +69,7 @@ URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 
 void UTeamRoster::FillTeamRosters()
 {
-	for (const auto& RacerLine : RacersLines)
+	for (const auto& RacerLine : RacerStatsLines)
 	{
 		TeamManager->ForEachRacerInRoster([this, RacerLine](const FRacerData& Data)
 		{
@@ -98,4 +98,4 @@ void UTeamRoster::SetTeamStatus()
 }
 
 
-TArray<URacerStatsLine*>& UTeamRoster::GetRacerLines(){return RacersLines;}
+TArray<URacerStatsLine*>& UTeamRoster::GetRacerStatsLines(){return RacerStatsLines;}

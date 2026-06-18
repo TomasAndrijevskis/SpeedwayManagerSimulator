@@ -26,10 +26,12 @@ public:
 
 	int GetID() const;
 
+	void InitializeManagers(URacerManager* RacerManagerRef);
+	
 	FOnRacerChosen OnRacerChosenDelegate;
 
 	FOnPointsUpdated OnPointsUpdatedDelegate;
-	
+
 protected:
 
 	virtual void NativeConstruct() override;
@@ -58,8 +60,6 @@ private:
 	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 	void BindDelegates();
-
-	void InitializeManagers();
 
 	UPROPERTY(VisibleAnywhere)
 	int RacerStatsLineID;

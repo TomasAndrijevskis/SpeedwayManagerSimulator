@@ -21,7 +21,7 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 
-	TArray<URacerStatsLine*>& GetRacerLines();
+	TArray<URacerStatsLine*>& GetRacerStatsLines();
 
 	void InitializeTeam(int NewTeamID, bool bStatus);
 	
@@ -64,7 +64,7 @@ private:
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
 	
 	UPROPERTY()
-	TArray<URacerStatsLine*> RacersLines;
+	TArray<URacerStatsLine*> RacerStatsLines;
 	
 	bool IsVisitorTeam = false;
 	
