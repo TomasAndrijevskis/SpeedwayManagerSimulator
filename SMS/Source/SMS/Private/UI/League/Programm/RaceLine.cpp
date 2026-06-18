@@ -5,6 +5,8 @@
 #include "Components/OverlaySlot.h"
 #include "Components/PanelWidget.h"
 #include "Components/Slider.h"
+#include "Data/RacersData/RacerData.h"
+#include "Managers/RacerManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
@@ -14,7 +16,13 @@ void URaceLine::NativeConstruct()
 {
 	Super::NativeConstruct();
 	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLine::OnRacerReplaced);
-	GenerateRandomNumber();
+}
+
+
+void URaceLine::SetRacerData(const FRacerData& NewRacerData)
+{
+	RacerData = NewRacerData;
+	SetRacerName(RacerData.Name);
 }
 
 
@@ -27,8 +35,6 @@ void URaceLine::SetRacerName(const FString& NewRacerName)
 void URaceLine::SetRacerValues(const FColor& NewHelmetColour, int NewRacerID)
 {
 	RacerID = NewRacerID;
-	if (RacerID <= 6) IsVisitor = false;
-	else IsVisitor = true;
 	NumbersBox_RacerNumber->SetText(RacerID);
 	NumbersBox_RacerNumber->SetColour(NewHelmetColour);
 }
@@ -62,9 +68,14 @@ USlider* URaceLine::CreateSlider()
 }
 
 
-void URaceLine::GenerateRandomNumber()
+void URaceLine::GenerateRating()
 {
-	RandomNumber = FMath::RandRange(0,100);
+	int Start = FMath::RandRange(1,5);
+	int Driving = FMath::RandRange(1,10);
+	if (!GetIsVisitor()) Driving += FMath::RandRange(1,2);
+	int RacerRating = RacerData.RacerStats.Rating;
+	CurrentRaceRating = Start + Driving + RacerRating;
+	UE_LOG(LogTemp, Warning, TEXT("Name: %s, Race rating: %i"), *RacerData.Name, CurrentRaceRating);
 }
 
 
@@ -75,11 +86,10 @@ void URaceLine::SetPoints(int NewPoints)
 }
 
 
-int URaceLine::GetGeneratedNumber()const{return RandomNumber;}
 int URaceLine::GetRaceLineID()const{return RaceLineID;}
 int URaceLine::GetRacerID() const{return RacerID;}
-int URaceLine::GetPoints() const{ return Points; }
-bool URaceLine::GetIsVisitor() const {return IsVisitor;}
-void URaceLine::SetIsVisitor(bool Visitor){IsVisitor = Visitor;}
+int URaceLine::GetPoints() const{ return Points;}
+int URaceLine::GetRaceRating() const{return CurrentRaceRating;}
+bool URaceLine::GetIsVisitor() const {return RacerData.RacerManager->IsVisitor();}
 void URaceLine::SetRaceLineID(int NewID){RaceLineID = NewID;}
 void URaceLine::SetRacerID(int NewID){RacerID = NewID;}

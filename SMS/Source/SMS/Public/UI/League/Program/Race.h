@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RacersData/RacerData.h"
 #include "Race.generated.h"
 
 class URaceManager;
@@ -14,7 +15,7 @@ class UScoreCounter;
 class UTextBlock;
 class URaceLine;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAssignRacerRequest, const FString&, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAssignRacerRequest, const FRacerData&, int);
 DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceStatusChanged, bool)
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/RacersData/RacerData.h"
 #include "UI/League/Program/RaceLine.h"
 #include "RaceManager.generated.h"
 
@@ -18,7 +19,7 @@ public:
 
 	void AddRaceLine(URaceLine* NewRaceLine);
 
-	void AssignRacerToRace(const FString& RacerName, int RacerID);
+	void AssignRacerToRace(const FRacerData& RacerData, int RacerID);
 	
 	void ChangeRaceStatus(bool bIsActive);
 	

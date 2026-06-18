@@ -14,12 +14,14 @@ class SMS_API URacerManager : public UObject
 
 public:
 
-	void Init(int NewRacerNumber, const FRacerData& RacerData);
+	void Initialize(int NewRacerNumber, const FRacerData& RacerData);
 
 	int CountOverallPoints(bool CanCount);
 
 	void AddPoints(const FString& NewPoints);
 
+	bool IsVisitor() const;
+	
 	FOnValueAddRequest OnValueAddRequestDelegate;
 
 	FOnPointsAdded OnPointsAddedDelegate;
@@ -33,6 +35,8 @@ private:
 	FRacerData Data;
 
 	int MaxRacesAmount = 7;
+
+	bool bIsVisitor = false;
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<FString> RacerPoints;

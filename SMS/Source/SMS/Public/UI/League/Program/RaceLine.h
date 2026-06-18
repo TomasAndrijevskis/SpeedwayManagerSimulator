@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RacersData/RacerData.h"
 #include "RaceLine.generated.h"
 
 
@@ -23,6 +24,8 @@ class SMS_API URaceLine : public UUserWidget
 public:
 	
 	void SetRacerName(const FString& NewRacerName);
+
+	void SetRacerData(const FRacerData& NewRacerData);
 	
 	void SetPoints(int NewPoints);
 
@@ -31,9 +34,7 @@ public:
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 
-	void GenerateRandomNumber();
-
-	int GetGeneratedNumber() const;
+	void GenerateRating();
 
 	int GetRaceLineID() const;
 
@@ -47,9 +48,9 @@ public:
 	
 	void SetRacerValues(const FColor& NewHelmetColour, int NewRacerID);
 
-	void SetIsVisitor(bool Visitor);
-
 	bool GetIsVisitor() const;
+
+	int GetRaceRating() const;
 	
 protected:
 
@@ -76,14 +77,14 @@ private:
 
 	UPROPERTY()
 	UMatchManager* MatchManager;
-	
-	int RandomNumber = 0;
+
+	FRacerData RacerData;
 	
 	int RaceLineID;
 
 	int RacerID;
-	
-	bool IsVisitor;
 
 	int Points = 0;
+
+	int CurrentRaceRating = 0;
 };

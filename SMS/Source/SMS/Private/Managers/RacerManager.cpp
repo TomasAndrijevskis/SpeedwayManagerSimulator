@@ -2,10 +2,15 @@
 #include "Managers/RacerManager.h"
 
 
-void URacerManager::Init(int NewRacerNumber, const FRacerData& RacerData)
+void URacerManager::Initialize(int NewRacerNumber, const FRacerData& RacerData)
 {
 	RacerNumber = NewRacerNumber;
 	Data = RacerData;
+	if (RacerNumber <= 6) bIsVisitor = false;
+	else bIsVisitor = true;
+	UE_LOG(LogTemp, Warning, TEXT("Number: %i, Name: %s"), NewRacerNumber, *RacerData.Name);
+	UE_LOG(LogTemp, Warning, TEXT("IsVisitor: %i"), bIsVisitor);
+	UE_LOG(LogTemp, Display, TEXT("-----"));
 }
 
 
@@ -35,3 +40,6 @@ bool URacerManager::CanAddNewPointBox() const
 	if (RacerPoints.Num() < MaxRacesAmount) return true;
 	return false;
 }
+
+
+bool URacerManager::IsVisitor() const{return bIsVisitor;}

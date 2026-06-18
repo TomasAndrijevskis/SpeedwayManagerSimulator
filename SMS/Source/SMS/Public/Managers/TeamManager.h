@@ -6,6 +6,8 @@
 #include "TeamManager.generated.h"
 
 
+class URacerManager;
+
 UCLASS()
 class SMS_API UTeamManager : public UObject
 {
@@ -22,6 +24,8 @@ public:
 	void SetTeamData(int ID);
 
 	const FString& GetTeamName() const;
+
+	void CreateRacerManagers();
 	
 private:
 	

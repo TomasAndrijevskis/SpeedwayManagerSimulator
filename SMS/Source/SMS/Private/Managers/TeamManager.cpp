@@ -2,6 +2,7 @@
 #include "Managers/TeamManager.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/RacerManager.h"
 
 
 void UTeamManager::AddRacersToLineup(const FString& RacerName, int RacerStatLineID)
@@ -32,6 +33,21 @@ void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callb
 		Callback(Racer);
 	}
 }
+
+
+void UTeamManager::CreateRacerManagers()
+{
+	for (auto& Racer : Racers)
+	{
+		URacerManager* NewRacerManager = NewObject<URacerManager>(this);
+		if (NewRacerManager)
+		{
+			NewRacerManager->Initialize(Racer.Key, Racer.Value);
+			Racer.Value.RacerManager = NewRacerManager;
+		}
+	}
+}
+
 
 
 void UTeamManager::SetTeamData(int ID)

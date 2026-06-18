@@ -133,9 +133,10 @@ void ULeagueProgram::PopulateRacers()
 	if (!MatchManager) return;
 	for (const auto& Roster : TeamRosters)
 	{
+		Roster->TeamManager->CreateRacerManagers();
 		Roster->TeamManager->ForEachRacerInLineup([this](int ID, const FRacerData& Data)
 		{
-			MatchManager->AssignRacersToRace(Data.Name, ID);
+			MatchManager->AssignRacersToRace(Data, ID);
 		});
 	}
 }

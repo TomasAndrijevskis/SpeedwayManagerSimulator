@@ -4,6 +4,10 @@
 
 void URaceManager::SimulateRace()
 {
+	for (const auto& RaceLine : RaceLines)
+	{
+		RaceLine->GenerateRating();
+	}
 	SortArray();
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
@@ -13,6 +17,7 @@ void URaceManager::SimulateRace()
 		Points++;
 	}
 	OnRaceFinishedDelegate.Broadcast();
+	UE_LOG(LogTemp, Error, TEXT("---------"));
 }
 
 
@@ -27,11 +32,16 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 
 void URaceManager::CalculateRaceResult(int& HomePts, int& VisitorPts)
 {
-	for (auto& RaceLine : RaceLines)
+	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetIsVisitor())  VisitorPts += RaceLine->GetPoints();
+		if (RaceLine->GetIsVisitor())
+		{
+			UE_LOG(LogTemp, Display, TEXT("Is visitor: %i"), RaceLine->GetRacerID());
+			VisitorPts += RaceLine->GetPoints();
+		}
 		else HomePts += RaceLine->GetPoints();
 	}
+	UE_LOG(LogTemp, Error, TEXT("Result: %i, %i"), HomePts, VisitorPts);
 }
 
 
@@ -39,7 +49,7 @@ void URaceManager::SortArray()
 {
 	RaceLines.Sort([](URaceLine& L1, URaceLine& L2)
 	{
-		return L1.GetGeneratedNumber() < L2.GetGeneratedNumber();
+		return L1.GetRaceRating() < L2.GetRaceRating();
 	});
 }
 
@@ -50,11 +60,11 @@ void URaceManager::AddRaceLine(URaceLine* NewRaceLine)
 }
 
 
-void URaceManager::AssignRacerToRace(const FString& RacerName, int RacerID)
+void URaceManager::AssignRacerToRace(const FRacerData& RacerData, int RacerID)
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetRacerID() == RacerID) RaceLine->SetRacerName(RacerName);
+		if (RaceLine->GetRacerID() == RacerID) RaceLine->SetRacerData(RacerData);
 	}
 }
 

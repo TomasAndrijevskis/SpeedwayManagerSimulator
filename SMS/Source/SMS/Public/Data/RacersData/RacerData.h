@@ -6,6 +6,8 @@
 #include "RacerData.generated.h"
 
 
+class URacerManager;
+
 USTRUCT(BlueprintType)
 struct FRacerData
 {
@@ -22,4 +24,7 @@ struct FRacerData
 	
 	UPROPERTY(EditDefaultsOnly)
 	FRacerStats RacerStats;
+
+	UPROPERTY()
+	URacerManager* RacerManager;
 };
