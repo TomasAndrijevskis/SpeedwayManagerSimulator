@@ -31,6 +31,10 @@ public:
 	void SetRaceID(int NewID);
 
 	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
+
+	const FColor& GetRequiredHelmetColor(int RaceId, int RaceLineId)const;
+
+	int GetRacerId(int RaceId, int RaceLineId)const;
 	
 	FOnAssignRacerRequest OnAssignRacerRequestDelegate;
 
@@ -78,7 +82,7 @@ private:
 	UPROPERTY()
 	URaceManager* RaceManager;
 	
-	int ID;
+	int RaceID;
 
 	int RaceLineAmount = 4;
 };

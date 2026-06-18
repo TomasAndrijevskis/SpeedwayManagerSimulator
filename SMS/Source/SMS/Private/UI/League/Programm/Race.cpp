@@ -35,8 +35,8 @@ void URace::BindDelegates()
 
 void URace::SetRaceID(int NewID)
 {
-	ID = NewID;
-	NumbersBox_RaceNumber->SetText(ID);
+	RaceID = NewID;
+	NumbersBox_RaceNumber->SetText(RaceID);
 	OnIDSet();
 }
 
@@ -44,7 +44,7 @@ void URace::SetRaceID(int NewID)
 void URace::OnIDSet()
 {
 	CreateRaceLines();
-	if (ID != 1) RaceManager->ChangeRaceStatus(false);
+	if (RaceID != 1) RaceManager->ChangeRaceStatus(false);
 }
 
 
@@ -95,9 +95,9 @@ void URace::SetRaceData()
 	if (!RaceDataAsset) return;
 	for (auto& RaceLine : RaceManager->GetRaceLines())
 	{
-		RaceLine->SetRacerValues(
-			RaceDataAsset->RacePatterns[ID].HelmetColors[RaceLine->GetRaceLineID()],
-			RaceDataAsset->RacePatterns[ID].RacerIDs[RaceLine->GetRaceLineID()]);
+		RaceLine->SetRaceLineData(
+			GetRequiredHelmetColor(RaceID, RaceLine->GetRaceLineID()),
+			GetRacerId(RaceID, RaceLine->GetRaceLineID()));
 	}
 }
 
@@ -112,3 +112,7 @@ void URace::UpdateRaceScore(int NewHomePts, int NewVisitorPts)
 {
 	ScoreCounter->SetRacePoints(NewHomePts, NewVisitorPts);
 }
+
+
+const FColor& URace::GetRequiredHelmetColor(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].HelmetColors[RaceLineId];}
+int URace::GetRacerId(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].RacerIDs[RaceLineId];}

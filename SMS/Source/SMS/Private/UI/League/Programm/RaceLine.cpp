@@ -32,7 +32,7 @@ void URaceLine::SetRacerName(const FString& NewRacerName)
 }
 
 
-void URaceLine::SetRacerValues(const FColor& NewHelmetColour, int NewRacerID)
+void URaceLine::SetRaceLineData(const FColor& NewHelmetColour, int NewRacerID)
 {
 	RacerID = NewRacerID;
 	NumbersBox_RacerNumber->SetText(RacerID);
@@ -79,7 +79,7 @@ void URaceLine::GenerateRating()
 }
 
 
-void URaceLine::SetPoints(int NewPoints)
+void URaceLine::SetPointsPerRace(int NewPoints)
 {
 	Points = NewPoints;
 	NumbersBox_PointsPerRace->SetText(Points);
@@ -88,7 +88,7 @@ void URaceLine::SetPoints(int NewPoints)
 
 int URaceLine::GetRaceLineID()const{return RaceLineID;}
 int URaceLine::GetRacerID() const{return RacerID;}
-int URaceLine::GetPoints() const{ return Points;}
+int URaceLine::GetPointsPerRace() const{ return Points;}
 int URaceLine::GetRaceRating() const{return CurrentRaceRating;}
 bool URaceLine::GetIsVisitor() const {return RacerData.RacerManager->IsVisitor();}
 void URaceLine::SetRaceLineID(int NewID){RaceLineID = NewID;}

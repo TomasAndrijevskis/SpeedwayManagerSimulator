@@ -51,7 +51,7 @@ void UMatchManager::AddNewRace(URace* NewRace)
 }
 
 
-void UMatchManager::AssignRacersToRace(const FRacerData& Data, int ID)
+void UMatchManager::RequestToAssignRacersToRace(const FRacerData& Data, int ID)
 {
 	for (const auto& Race : Races)
 	{

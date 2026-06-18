@@ -22,12 +22,8 @@ class SMS_API URaceLine : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	
-	void SetRacerName(const FString& NewRacerName);
 
 	void SetRacerData(const FRacerData& NewRacerData);
-	
-	void SetPoints(int NewPoints);
 
 	void ChangeRider();
 
@@ -40,13 +36,15 @@ public:
 
 	int GetRacerID() const;
 
-	int GetPoints() const;
+	int GetPointsPerRace() const;
+
+	void SetPointsPerRace(int NewPoints);
 	
 	void SetRaceLineID(int NewID);
 
 	void SetRacerID(int NewID);
 	
-	void SetRacerValues(const FColor& NewHelmetColour, int NewRacerID);
+	void SetRaceLineData(const FColor& NewHelmetColour, int NewRacerID);
 
 	bool GetIsVisitor() const;
 
@@ -75,6 +73,8 @@ private:
 	
 	USlider* CreateSlider();
 
+	void SetRacerName(const FString& NewRacerName);
+	
 	UPROPERTY()
 	UMatchManager* MatchManager;
 

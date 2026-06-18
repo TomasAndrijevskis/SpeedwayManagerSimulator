@@ -12,7 +12,7 @@ void URaceManager::SimulateRace()
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
-		RaceLine->SetPoints(Points);
+		RaceLine->SetPointsPerRace(Points);
 		//OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
 		Points++;
 	}
@@ -37,9 +37,9 @@ void URaceManager::CalculateRaceResult(int& HomePts, int& VisitorPts)
 		if (RaceLine->GetIsVisitor())
 		{
 			UE_LOG(LogTemp, Display, TEXT("Is visitor: %i"), RaceLine->GetRacerID());
-			VisitorPts += RaceLine->GetPoints();
+			VisitorPts += RaceLine->GetPointsPerRace();
 		}
-		else HomePts += RaceLine->GetPoints();
+		else HomePts += RaceLine->GetPointsPerRace();
 	}
 	UE_LOG(LogTemp, Error, TEXT("Result: %i, %i"), HomePts, VisitorPts);
 }
