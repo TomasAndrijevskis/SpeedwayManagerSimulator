@@ -32,5 +32,6 @@ private:
 	FTeamRosterData* TeamRosterData;
 
 	//Lineup for current match
+	UPROPERTY()
 	TMap<int, FRacerData> Racers;
 };

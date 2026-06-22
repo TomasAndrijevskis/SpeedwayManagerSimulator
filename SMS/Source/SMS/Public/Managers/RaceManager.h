@@ -6,7 +6,6 @@
 #include "UI/League/Program/RaceLine.h"
 #include "RaceManager.generated.h"
 
-//DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceFinished, int, int);
 DECLARE_MULTICAST_DELEGATE(FOnRaceFinished);
 UCLASS()
 class SMS_API URaceManager : public UObject
@@ -31,7 +30,7 @@ public:
 	
 private:
 	
-	void SortArray();
+	void SortLinesByRating();
 	
 	UPROPERTY()
 	TArray<URaceLine*> RaceLines;

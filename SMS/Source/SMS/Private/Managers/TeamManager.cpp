@@ -56,12 +56,6 @@ void UTeamManager::SetTeamData(int ID)
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	TeamRosterData = GameMode->GetTeamData(ID);
-
-	/*UE_LOG(LogTemp, Error, TEXT("%s:"), *GetTeamName());
-	for (const auto& Racer : TeamRosterData->Racers)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Name, Racer.RacerStats.Rating);
-	}*/
 }
 
 

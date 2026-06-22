@@ -63,12 +63,10 @@ private:
 	void ShowTeams();
 
 	void CreateRaces();
+
+	void Test();
 	
 	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
-
-	//void OnRaceFinished(int ID, int NewPoints);
-
-	//void AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLine*>& Racers);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;

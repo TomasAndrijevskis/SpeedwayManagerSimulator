@@ -6,15 +6,14 @@ void URaceManager::SimulateRace()
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		RaceLine->CalculateRating();
+		RaceLine->OnRaceStartedDelegate.Broadcast();
 	}
-	SortArray();
+	SortLinesByRating();
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
 		RaceLine->SetPointsPerRace(Points);
 		RaceLine->OnRaceFinished();
-		//OnRaceFinishedDelegate.Broadcast(RaceLine->GetRacerID(),Points);
 		Points++;
 	}
 	OnRaceFinishedDelegate.Broadcast();
@@ -35,21 +34,24 @@ void URaceManager::CalculateRaceResult(int& HomePts, int& VisitorPts)
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetIsVisitor())
+		if (RaceLine->IsVisitor())
 		{
-			UE_LOG(LogTemp, Display, TEXT("Is visitor: %i"), RaceLine->GetRacerID());
 			VisitorPts += RaceLine->GetPointsPerRace();
 		}
 		else HomePts += RaceLine->GetPointsPerRace();
 	}
-	UE_LOG(LogTemp, Error, TEXT("Result: %i, %i"), HomePts, VisitorPts);
 }
 
 
-void URaceManager::SortArray()
+void URaceManager::SortLinesByRating()
 {
-	RaceLines.Sort([](URaceLine& L1, URaceLine& L2)
+	RaceLines.Sort([](const URaceLine& L1, const URaceLine& L2)
 	{
+		if (L1.GetRacerRating() == L2.GetRacerRating())
+		{
+			UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!Same rating!!!!!!!!!!!!!"));
+			return L1.GetTieBreaker() < L2.GetTieBreaker();
+		}
 		return L1.GetRacerRating() < L2.GetRacerRating();
 	});
 }

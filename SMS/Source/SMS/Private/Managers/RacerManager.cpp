@@ -14,6 +14,24 @@ void URacerManager::Initialize(int NewRacerNumber, const FRacerData& RacerData)
 }
 
 
+int URacerManager::CalculateRating()
+{
+	int Start = FMath::RandRange(1,5);
+	int Driving = FMath::RandRange(1,10);
+	if (!IsVisitor()) Driving += FMath::RandRange(1,2);
+	int RacerRating = Data.RacerStats.Rating;
+	int CurrentRacerRating = Start + Driving + RacerRating;
+	
+	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.Name);
+	UE_LOG(LogTemp, Warning, TEXT("Start rating: %i"), Start);
+	UE_LOG(LogTemp, Warning, TEXT("Driving rating: %i"), Driving);
+	UE_LOG(LogTemp, Warning, TEXT("Race rating: %i"), CurrentRacerRating);
+	UE_LOG(LogTemp, Display, TEXT("-----"));
+	
+	return CurrentRacerRating;
+}
+
+
 void URacerManager::AddPoints(const FString& NewPoints)
 {
 	if (!CanAddNewPointBox()) return;

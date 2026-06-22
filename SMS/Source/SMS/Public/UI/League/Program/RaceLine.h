@@ -16,6 +16,8 @@ class USlider;
 class UTextBlock;
 class UHorizontalBox;
 
+DECLARE_DELEGATE_RetVal(int, FOnCalculateRatingRequest);
+DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
 UCLASS()
 class SMS_API URaceLine : public UUserWidget
 {
@@ -29,8 +31,6 @@ public:
 
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
-
-	void CalculateRating();
 
 	int GetRaceLineID() const;
 
@@ -46,11 +46,19 @@ public:
 	
 	void SetRaceLineData(const FColor& NewHelmetColour, int NewRacerID);
 
-	bool GetIsVisitor() const;
+	bool IsVisitor() const;
 
 	int GetRacerRating() const;
 
 	void OnRaceFinished();
+
+	int GetTieBreaker() const;
+
+	void SetTieBreaker();
+	
+	FOnCalculateRatingRequest OnCalculateRatingRequestDelegate;
+
+	FOnRaceStarted OnRaceStartedDelegate;
 	
 protected:
 
@@ -76,10 +84,17 @@ private:
 	USlider* CreateSlider();
 
 	void SetRacerName(const FString& NewRacerName);
+
+	void CalculateRating();
+
+	void BindDelegates();
 	
 	UPROPERTY()
 	UMatchManager* MatchManager;
 
+	UPROPERTY()
+	URacerManager* RacerManager;
+	
 	FRacerData RacerData;
 	
 	int RaceLineID;
@@ -89,4 +104,6 @@ private:
 	int Points = 0;
 
 	int CurrentRacerRating = 0;
+
+	int TieBreakerValue = 0;
 };

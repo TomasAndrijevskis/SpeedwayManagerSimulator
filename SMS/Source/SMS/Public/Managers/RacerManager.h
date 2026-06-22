@@ -21,6 +21,8 @@ public:
 	void AddPoints(const FString& NewPoints);
 
 	bool IsVisitor() const;
+
+	int CalculateRating();
 	
 	FOnValueAddRequest OnValueAddRequestDelegate;
 

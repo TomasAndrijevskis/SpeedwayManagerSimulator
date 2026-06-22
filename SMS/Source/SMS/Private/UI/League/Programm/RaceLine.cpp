@@ -21,8 +21,19 @@ void URaceLine::NativeConstruct()
 
 void URaceLine::SetRacerData(const FRacerData& NewRacerData)
 {
+	if (!NewRacerData.RacerManager) return;
 	RacerData = NewRacerData;
+	RacerManager = RacerData.RacerManager;
 	SetRacerName(RacerData.Name);
+	BindDelegates();
+}
+
+
+void URaceLine::BindDelegates()
+{
+	if (!RacerManager) return;
+	OnCalculateRatingRequestDelegate.BindUObject(RacerManager, &URacerManager::CalculateRating);
+	OnRaceStartedDelegate.AddUObject(this, &URaceLine::CalculateRating);
 }
 
 
@@ -57,6 +68,13 @@ void URaceLine::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type Selectio
 }
 
 
+void URaceLine::CalculateRating()
+{
+	SetTieBreaker();
+	CurrentRacerRating = OnCalculateRatingRequestDelegate.Execute();
+}
+
+
 USlider* URaceLine::CreateSlider()
 {
 	if (!WidgetTree) return nullptr;
@@ -65,17 +83,6 @@ USlider* URaceLine::CreateSlider()
 	NewSlider->SetSliderBarColor(FColor::Black);
 	NewSlider->SetSliderHandleColor(FColor::Transparent);
 	return NewSlider;
-}
-
-
-void URaceLine::CalculateRating()
-{
-	int Start = FMath::RandRange(1,5);
-	int Driving = FMath::RandRange(1,10);
-	if (!GetIsVisitor()) Driving += FMath::RandRange(1,2);
-	int RacerRating = RacerData.RacerStats.Rating;
-	CurrentRacerRating = Start + Driving + RacerRating;
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s, Race rating: %i"), *RacerData.Name, CurrentRacerRating);
 }
 
 
@@ -88,14 +95,23 @@ void URaceLine::SetPointsPerRace(int NewPoints)
 
 void URaceLine::OnRaceFinished()
 {
-	RacerData.RacerManager->OnValueAddRequestDelegate.Broadcast(FString::FromInt(Points));
+	if (!RacerManager) return;
+	RacerManager->OnValueAddRequestDelegate.Broadcast(FString::FromInt(Points));
 }
 
 
+void URaceLine::SetTieBreaker()
+{
+	TieBreakerValue = FMath::RandRange(1,100);
+	UE_LOG(LogTemp, Warning, TEXT("TieBreaker: %i"),  TieBreakerValue);
+}
+
+
+int URaceLine::GetTieBreaker() const{return TieBreakerValue;}
 int URaceLine::GetRaceLineID()const{return RaceLineID;}
 int URaceLine::GetRacerID() const{return RacerID;}
-int URaceLine::GetPointsPerRace() const{ return Points;}
+int URaceLine::GetPointsPerRace() const{return Points;}
 int URaceLine::GetRacerRating() const{return CurrentRacerRating;}
-bool URaceLine::GetIsVisitor() const {return RacerData.RacerManager->IsVisitor();}
+bool URaceLine::IsVisitor() const {return RacerManager->IsVisitor();}
 void URaceLine::SetRaceLineID(int NewID){RaceLineID = NewID;}
 void URaceLine::SetRacerID(int NewID){RacerID = NewID;}
