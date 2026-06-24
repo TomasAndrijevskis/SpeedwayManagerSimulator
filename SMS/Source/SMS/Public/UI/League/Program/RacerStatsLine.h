@@ -26,6 +26,8 @@ public:
 	int GetID() const;
 
 	void InitializeManagers(URacerManager* RacerManagerRef);
+
+	void ChooseRandomOption();//Testing
 	
 	FOnRacerChosen OnRacerChosenDelegate;
 

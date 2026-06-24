@@ -93,6 +93,15 @@ void UTeamRoster::FillTeamRosterOptions()
 }
 
 
+void UTeamRoster::RandomizeTeamRoster()
+{
+	for (const auto& RacerStatsLine : RacerStatsLines)
+	{
+		RacerStatsLine->ChooseRandomOption();
+	}
+}
+
+
 void UTeamRoster::SetTeamName()
 {
 	NamesBox_TeamName->SetText(TeamManager->GetTeamName());

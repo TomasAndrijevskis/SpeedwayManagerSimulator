@@ -51,6 +51,16 @@ void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type Sele
 }
 
 
+void URacerStatsLine::ChooseRandomOption()
+{
+	int OptionsAmount = ChooseBox_Racer->GetNumberOfOptions();
+	int RandomOption = FMath::RandRange(0, OptionsAmount - 1);
+	FString SelectedOption = ChooseBox_Racer->GetSelectedOption(RandomOption);
+	ChooseBox_Racer->SetRandomOption(SelectedOption);
+	OnRacerChosenDelegate.Broadcast(SelectedOption, RacerStatsLineID);
+}
+
+
 void URacerStatsLine::UpdateOverallPoints(int Points)
 {
 	NumbersBox_OverallPoints->SetText(Points);

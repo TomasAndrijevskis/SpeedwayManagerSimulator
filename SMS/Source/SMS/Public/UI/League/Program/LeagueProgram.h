@@ -41,6 +41,9 @@ private:
 	UButton* Button_ShowTeams;
 
 	UPROPERTY(meta = (BindWidget))
+	UButton* Button_RandomizeTeamRosters;
+	
+	UPROPERTY(meta = (BindWidget))
 	UButton* Button_ConfirmTeams;
 	
 	UPROPERTY(meta = (BindWidget))
@@ -74,6 +77,9 @@ private:
 	void StartRace();
 
 	void BindSimulateButtonAction(const bool IsNominatedRace);
+
+	UFUNCTION()
+	void RandomizeTeamRosters();//Testing
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;

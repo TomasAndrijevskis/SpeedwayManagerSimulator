@@ -24,6 +24,8 @@ public:
 	TArray<URacerStatsLine*>& GetRacerStatsLines();
 
 	void InitializeTeam(int NewTeamID, bool bStatus);
+
+	void RandomizeTeamRoster();//Testing
 	
 	UPROPERTY()
 	UTeamManager* TeamManager;

@@ -19,6 +19,12 @@ public:
 	void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
 
 	void AddOption(const FString& NewOption);
+
+	int GetNumberOfOptions() const;
+
+	FString GetSelectedOption(int Index) const;
+
+	void SetRandomOption(const FString& RandomOption);
 	
 	FOnSelectionChanged OnSelectionChangedDelegate;
 
