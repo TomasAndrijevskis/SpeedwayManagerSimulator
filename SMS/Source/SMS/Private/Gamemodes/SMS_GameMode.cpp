@@ -2,6 +2,7 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Data/RacersData/RacersDataAsset.h"
 #include "Managers/MatchManager.h"
+#include "Managers/ScoreManager.h"
 
 
 void ASMS_GameMode::BeginPlay()
@@ -15,8 +16,9 @@ void ASMS_GameMode::BeginPlay()
 void ASMS_GameMode::InitializeManagers()
 {
 	MatchManager = NewObject<UMatchManager>(this);
-	if (!MatchManager) return;
-	MatchManager->Init(this);
+	ScoreManager = NewObject<UScoreManager>(this);
+	if (!MatchManager || !ScoreManager) return;
+	MatchManager->InitializeManager(this);
 }
 
 

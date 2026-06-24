@@ -8,6 +8,7 @@
 #include "SMS_GameMode.generated.h"
 
 
+class UScoreManager;
 class UTeamManager;
 class UMatchManager;
 class URacersDataAsset;
@@ -34,6 +35,9 @@ public:
 
 	UPROPERTY()
 	UMatchManager* MatchManager;
+
+	UPROPERTY()
+	UScoreManager* ScoreManager;
 	
 private:
 

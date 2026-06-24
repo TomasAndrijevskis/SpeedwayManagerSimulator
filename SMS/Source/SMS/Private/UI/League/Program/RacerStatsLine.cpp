@@ -42,7 +42,6 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points)
 	NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
 	UpdateOverallPoints(RacerManager->CountOverallPoints(HB_Points->HasAnyChildren()));
-	OnPointsUpdatedDelegate.Broadcast(FCString::Atoi(*Points));
 }
 
 

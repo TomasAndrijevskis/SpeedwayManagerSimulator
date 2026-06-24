@@ -2,6 +2,19 @@
 #include "Managers/RaceManager.h"
 
 
+void URaceManager::BindDelegates()
+{
+	OnRaceStatusChangedDelegate.AddUObject(this, &URaceManager::ChangeRaceStatus);
+	OnSimulateRaceRequestDelegate.AddUObject(this, &URaceManager::SimulateRace);
+}
+
+
+void URaceManager::UpdateOverallScore(int HomePts, int VisitorPts)
+{
+	OnOverallScoreUpdatedDelegate.Broadcast(HomePts, VisitorPts);
+}
+
+
 void URaceManager::SimulateRace()
 {
 	for (const auto& RaceLine : RaceLines)
@@ -16,7 +29,7 @@ void URaceManager::SimulateRace()
 		RaceLine->OnRaceFinished();
 		Points++;
 	}
-	OnRaceFinishedDelegate.Broadcast();
+	CalculateRaceResult();
 	UE_LOG(LogTemp, Error, TEXT("---------"));
 }
 
@@ -30,8 +43,10 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 }
 
 
-void URaceManager::CalculateRaceResult(int& HomePts, int& VisitorPts)
+void URaceManager::CalculateRaceResult()
 {
+	int HomePts = 0;
+	int VisitorPts = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
 		if (RaceLine->IsVisitor())
@@ -40,6 +55,7 @@ void URaceManager::CalculateRaceResult(int& HomePts, int& VisitorPts)
 		}
 		else HomePts += RaceLine->GetPointsPerRace();
 	}
+	OnRaceScoreUpdatedDelegate.Broadcast(HomePts, VisitorPts);
 }
 
 

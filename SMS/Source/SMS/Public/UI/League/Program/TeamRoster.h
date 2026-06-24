@@ -3,11 +3,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/TeamData/TeamRosterData.h"
 #include "Managers/TeamManager.h"
 #include "TeamRoster.generated.h"
 
 
+class UScoreManager;
 class UTeamsDataAsset;
 class UVerticalBox;
 class UNumbersBox;
@@ -59,12 +59,17 @@ private:
 	void InitializeManagers();
 
 	void SetTeamStatus();
+
+	void BindDelegates();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
 	
 	UPROPERTY()
 	TArray<URacerStatsLine*> RacerStatsLines;
+
+	UPROPERTY()
+	UScoreManager* ScoreManager;
 	
 	bool IsVisitorTeam = false;
 	

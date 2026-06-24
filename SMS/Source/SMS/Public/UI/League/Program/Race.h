@@ -3,7 +3,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/RacersData/RacerData.h"
 #include "Race.generated.h"
 
 class URaceManager;
@@ -15,10 +14,6 @@ class UScoreCounter;
 class UTextBlock;
 class URaceLine;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAssignRacerRequest, const FRacerData&, int);
-DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceStatusChanged, bool)
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 UCLASS()
 class SMS_API URace : public UUserWidget
 {
@@ -28,21 +23,15 @@ public:
 
 	void InitializeManagers();
 	
-	void SetRaceID(int NewID);
+	void InitializeWidget(int NewID);
 
 	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
 
 	const FColor& GetRequiredHelmetColor(int RaceId, int RaceLineId)const;
 
 	int GetRacerId(int RaceId, int RaceLineId)const;
-	
-	FOnAssignRacerRequest OnAssignRacerRequestDelegate;
 
-	FOnSimulateRaceRequest OnSimulateRaceRequestDelegate;
-	
-	FOnRaceStatusChanged OnRaceStatusChangedDelegate;
-
-	FOnOverallScoreUpdated OnScoreUpdatedDelegate;
+	URaceManager* GetRaceManager() const;
 	
 protected:
 
@@ -66,8 +55,6 @@ private:
 	URaceLine* CreateRaceLine(int RaceLineID);
 
 	void OnIDSet();
-
-	void OnRaceFinished();
 	
 	void UpdateRaceScore(int NewHomePts, int NewVisitorPts);
 	

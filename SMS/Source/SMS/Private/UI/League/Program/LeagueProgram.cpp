@@ -117,8 +117,8 @@ void ULeagueProgram::CreateRaces()
 		URace* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
 		if (NewRace)
 		{
-			NewRace->SetRaceID(i);
-			MatchManager->AddNewRace(NewRace);
+			NewRace->InitializeWidget(i);
+			MatchManager->AddNewRace(NewRace->GetRaceManager());
 		}
 		TempPosition.Y += PositionOffset;
 		if (i % 5 == 0)

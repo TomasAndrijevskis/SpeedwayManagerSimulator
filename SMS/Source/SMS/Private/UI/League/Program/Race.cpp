@@ -17,23 +17,7 @@ void URace::NativeConstruct()
 }
 
 
-void URace::InitializeManagers()
-{
-	RaceManager = NewObject<URaceManager>(this);
-}
-
-
-void URace::BindDelegates()
-{
-	if (!RaceManager) return;
-	OnAssignRacerRequestDelegate.AddUObject(RaceManager, &URaceManager::AssignRacerToRace);
-	OnSimulateRaceRequestDelegate.AddUObject(RaceManager, &URaceManager::SimulateRace);
-	OnRaceStatusChangedDelegate.AddUObject(RaceManager, &URaceManager::ChangeRaceStatus);
-	RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::OnRaceFinished);
-}
-
-
-void URace::SetRaceID(int NewID)
+void URace::InitializeWidget(int NewID)
 {
 	RaceID = NewID;
 	NumbersBox_RaceNumber->SetText(RaceID);
@@ -48,14 +32,19 @@ void URace::OnIDSet()
 }
 
 
-void URace::OnRaceFinished()
+void URace::InitializeManagers()
+{
+	RaceManager = NewObject<URaceManager>(this);
+	if (!RaceManager) return;
+	RaceManager->BindDelegates();
+}
+
+
+void URace::BindDelegates()
 {
 	if (!RaceManager) return;
-	int RaceHomePts = 0;
-	int RaceVisitorPts = 0;
-	RaceManager->CalculateRaceResult(RaceHomePts, RaceVisitorPts);
-	UpdateRaceScore(RaceHomePts, RaceVisitorPts);
-	OnScoreUpdatedDelegate.Broadcast(RaceHomePts, RaceVisitorPts);
+	RaceManager->OnRaceScoreUpdatedDelegate.AddUObject(this, &URace::UpdateRaceScore);
+	RaceManager->OnOverallScoreUpdatedDelegate.AddUObject(this, &URace::UpdateOverallScore);
 }
 
 
@@ -106,3 +95,4 @@ void URace::UpdateRaceScore(int NewHomePts, int NewVisitorPts)
 
 const FColor& URace::GetRequiredHelmetColor(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].HelmetColors[RaceLineId];}
 int URace::GetRacerId(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].RacerIDs[RaceLineId];}
+URaceManager* URace::GetRaceManager() const{return RaceManager;}

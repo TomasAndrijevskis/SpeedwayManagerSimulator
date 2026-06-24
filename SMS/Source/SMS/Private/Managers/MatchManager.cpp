@@ -1,14 +1,18 @@
 
 #include "Managers/MatchManager.h"
 #include "Gamemodes/SMS_GameMode.h"
+#include "Managers/RaceManager.h"
+#include "Managers/ScoreManager.h"
 #include "UI/League/Program/RacerStatsLine.h"
 #include "UI/League/Program/TeamRoster.h"
 
 
-void UMatchManager::Init(ASMS_GameMode* CurrentGameMode)
+void UMatchManager::InitializeManager(ASMS_GameMode* CurrentGameMode)
 {
 	if (!CurrentGameMode) return;
 	GameMode = CurrentGameMode;
+	ScoreManager = GameMode->ScoreManager;
+	if (!ScoreManager) return;
 	BindDelegates();
 }
 
@@ -22,10 +26,10 @@ void UMatchManager::BindDelegates()
 
 void UMatchManager::SimulateRace()
 {
-	if (CurrentRace <= Races.Num()-1)
+	if (CurrentRace <= RaceManagers.Num()-1)
 	{
 		BindRaceDelegates();
-		Races[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
+		RaceManagers[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
 		HandleRaceFinished();
 	}
 }
@@ -33,18 +37,18 @@ void UMatchManager::SimulateRace()
 
 void UMatchManager::BindRaceDelegates()
 {
-	Races[CurrentRace]->OnScoreUpdatedDelegate.AddUObject(this, &UMatchManager::UpdateOverallScore);
-	OnOverallScoreUpdatedDelegate.AddUObject(Races[CurrentRace], &URace::UpdateOverallScore);
+	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateOverallScore);
+	ScoreManager->OnOverallScoreUpdatedDelegate.AddUObject(RaceManagers[CurrentRace], &URaceManager::UpdateOverallScore);
 }
 
 
 void UMatchManager::HandleRaceFinished()
 {
-	Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
-	Races[CurrentRace]->OnScoreUpdatedDelegate.Clear();
-	OnOverallScoreUpdatedDelegate.Clear();
+	RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
+	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.Clear();
+	ScoreManager->OnOverallScoreUpdatedDelegate.Clear();
 	CurrentRace++;
-	if (CurrentRace <= Races.Num()-1) Races[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
+	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
 	if (CurrentRace == 13) OnNominatedRacesStaredDelegate.Broadcast(true);
 }
 
@@ -74,25 +78,19 @@ void UMatchManager::PopulateRacers(TArray<UTeamRoster*> TeamRosters)
 }
 
 
-void UMatchManager::UpdateOverallScore(int AddHomePts, int AddVisitorPts)
-{
-	HomeOverallScore += AddHomePts;
-	VisitorOverallScore += AddVisitorPts;
-	OnOverallScoreUpdatedDelegate.Broadcast(HomeOverallScore, VisitorOverallScore);
-}
 
-
-void UMatchManager::AddNewRace(URace* NewRace)
+void UMatchManager::AddNewRace(URaceManager* NewRace)
 {
-	Races.Add(NewRace);
+	if (!NewRace) return;
+	RaceManagers.Add(NewRace);
 }
 
 
 void UMatchManager::RequestToAssignRacersToRace(const FRacerData& Data, int ID)
 {
-	for (const auto& Race : Races)
+	for (const auto& RaceManager : RaceManagers)
 	{
-		Race->OnAssignRacerRequestDelegate.Broadcast(Data, ID);
+		RaceManager->AssignRacerToRace(Data, ID);
 	}
 }
 
@@ -104,11 +102,9 @@ void UMatchManager::SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID)
 }
 
 
-int UMatchManager::GetHomeTeamScore() const{return HomeOverallScore;}
-int UMatchManager::GetVisitorTeamScore() const{return VisitorOverallScore;}
 int UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
 int UMatchManager::GetHomeTeamID() const{return HomeTeamID;}
 int UMatchManager::GetVisitorTeamID() const{return VisitorTeamID;}
-int UMatchManager::GetAmountOfRaces() const{return Races.Num();}
+int UMatchManager::GetAmountOfRaces() const{return RaceManagers.Num();}
 FTeamRosterData* UMatchManager::GetVisitorTeamData() const{return GameMode->GetTeamData(VisitorTeamID);}
 FTeamRosterData* UMatchManager::GetHomeTeamData()const{return GameMode->GetTeamData(HomeTeamID);}

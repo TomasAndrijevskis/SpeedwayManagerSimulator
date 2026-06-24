@@ -6,11 +6,11 @@
 #include "UI/League/Program/Race.h"
 #include "MatchManager.generated.h"
 
+class UScoreManager;
 class UTeamRoster;
 class ASMS_GameMode;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMatchFinished, int, int);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnNominatedRacesStared, const bool);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStared);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPopulateRacersRequest, TArray<UTeamRoster*>);
@@ -21,17 +21,13 @@ class SMS_API UMatchManager : public UObject
 
 public:
 
-	void AddNewRace(URace* NewRace);
-
+	void AddNewRace(URaceManager* NewRace);
+	
 	void RequestToAssignRacersToRace(const FRacerData& Data, int ID);
 	
-	void Init(ASMS_GameMode* CurrentGameMode);
+	void InitializeManager(ASMS_GameMode* CurrentGameMode);
 	
 	void SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID);
-	
-	int GetHomeTeamScore() const;
-	
-	int GetVisitorTeamScore() const;
 
 	int GetCurrentRaceNumber()const;
 
@@ -46,8 +42,6 @@ public:
 	FTeamRosterData* GetVisitorTeamData() const;
 
 	FOnMatchFinished OnMatchFinishedDelegate;
-
-	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
 	FOnNominatedRacesStared OnNominatedRacesStaredDelegate;
 
@@ -65,12 +59,13 @@ private:
 	
 	void SimulateRace();
 
-	void UpdateOverallScore(int AddHomePts, int AddVisitorPts);
-
 	void PopulateRacers(TArray<UTeamRoster*> TeamRosters);
 	
 	UPROPERTY()
 	ASMS_GameMode* GameMode;
+
+	UPROPERTY()
+	UScoreManager* ScoreManager;
 	
 	UPROPERTY()
 	int HomeTeamID;
@@ -79,11 +74,7 @@ private:
 	int VisitorTeamID;
 
 	UPROPERTY()
-	TArray<URace*> Races;
+	TArray<URaceManager*> RaceManagers;
 	
-	int HomeOverallScore = 0;
-
-	int VisitorOverallScore = 0;
-
 	int CurrentRace = 0;
 };

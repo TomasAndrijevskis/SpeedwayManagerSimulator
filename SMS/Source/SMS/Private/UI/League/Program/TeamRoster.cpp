@@ -2,6 +2,9 @@
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Gamemodes/SMS_GameMode.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/ScoreManager.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
@@ -11,6 +14,7 @@ void UTeamRoster::NativeConstruct()
 {
 	Super::NativeConstruct();
 	InitializeManagers();
+	BindDelegates();
 	CreateRacerStatLines();
 	SetTeamName();
 	FillTeamRosterOptions();
@@ -27,9 +31,20 @@ void UTeamRoster::InitializeTeam(int NewTeamID, bool bStatus)
 
 void UTeamRoster::InitializeManagers()
 {
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	ScoreManager = GameMode->ScoreManager;
 	TeamManager = NewObject<UTeamManager>(this);
-	if (!TeamManager) return;
+	if (!TeamManager || !ScoreManager) return;
 	TeamManager->SetTeamData(TeamID);
+}
+
+
+void UTeamRoster::BindDelegates()
+{
+	if (!ScoreManager) return;
+	if (IsVisitorTeam) ScoreManager->OnVisitorPtsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
+	else ScoreManager->OnHomePtsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 }
 
 
@@ -50,7 +65,6 @@ void UTeamRoster::CreateRacerStatLines()
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			RacerStatsLines.Add(NewStatLine);
-			NewStatLine->OnPointsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
 		}
 	}
@@ -87,7 +101,7 @@ void UTeamRoster::SetTeamName()
 
 void UTeamRoster::UpdateTeamPoints(int NewPoints)
 {
-	NumbersBox_TeamPoints->AddNumber(NewPoints);
+	NumbersBox_TeamPoints->SetText(NewPoints);
 }
 
 

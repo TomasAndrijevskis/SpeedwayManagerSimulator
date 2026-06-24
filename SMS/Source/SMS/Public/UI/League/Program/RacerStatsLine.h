@@ -12,7 +12,6 @@ class UTextBlock;
 class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, const FString&, int);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPointsUpdated, int)
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
 {
@@ -29,8 +28,6 @@ public:
 	void InitializeManagers(URacerManager* RacerManagerRef);
 	
 	FOnRacerChosen OnRacerChosenDelegate;
-
-	FOnPointsUpdated OnPointsUpdatedDelegate;
 
 protected:
 
