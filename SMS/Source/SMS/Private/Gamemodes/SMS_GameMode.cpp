@@ -56,4 +56,4 @@ const FText& ASMS_GameMode::GetTeamName(int TeamID)const{return Teams.FindChecke
 const FText& ASMS_GameMode::GetTeamName(ETeams Team)const{return Teams.FindChecked(Team).TeamName;}
 FTeamRosterData* ASMS_GameMode::GetTeamData(ETeams Team){return &Teams.FindChecked(Team);}
 FTeamRosterData* ASMS_GameMode::GetTeamData(int TeamID){return &Teams.FindChecked(static_cast<ETeams>(TeamID));}
-int ASMS_GameMode::GetTeamsAmount()const{return Teams.Num()-1;}
+int ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}

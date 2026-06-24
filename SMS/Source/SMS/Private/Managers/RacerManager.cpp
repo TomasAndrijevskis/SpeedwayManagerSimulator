@@ -16,9 +16,9 @@ void URacerManager::Initialize(int NewRacerNumber, const FRacerData& RacerData)
 
 int URacerManager::CalculateRating()
 {
-	int Start = FMath::RandRange(1,5);
-	int Driving = FMath::RandRange(1,10);
-	if (!IsVisitor()) Driving += FMath::RandRange(1,2);
+	int Start = FMath::RandRange(0,5);
+	int Driving = FMath::RandRange(0,10);
+	if (!IsVisitor()) Driving += FMath::RandRange(0,2);
 	int RacerRating = Data.RacerStats.Rating;
 	int CurrentRacerRating = Start + Driving + RacerRating;
 	

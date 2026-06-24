@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "LeagueProgram.generated.h"
 
+class UFillNominatedRaces;
 class UMatchManager;
 class URacerStatsLine;
 class UCanvasPanel;
@@ -64,17 +65,26 @@ private:
 
 	void CreateRaces();
 
-	void Test();
+	UFUNCTION()
+	void FillNominatedRaces();
 	
 	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
+
+	UFUNCTION()
+	void StartRace();
+
+	void BindSimulateButtonAction(const bool IsNominatedRace);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UTeamRoster> TeamRosterClass;
-	
+
 	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UFillNominatedRaces> FillNominatedRacesClass;
+	
+	UPROPERTY(VisibleAnywhere)
 	int AmountOfRaces = 15;
 
 	TArray<UTeamRoster*> TeamRosters;

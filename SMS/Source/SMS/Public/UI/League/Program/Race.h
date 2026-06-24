@@ -60,8 +60,6 @@ private:
 	UVerticalBox* VB_Content;
 
 	void BindDelegates();
-	
-	void SetRaceData();
 
 	void CreateRaceLines();
 	

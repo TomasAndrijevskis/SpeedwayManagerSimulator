@@ -10,7 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
-#include "UI/League/Program/RacerStatsLine.h"
+#include "UI/League/Program/NominatedRaceWidgets/FillNominatedRaces.h"
 
 
 void ULeagueProgram::NativeConstruct()
@@ -36,8 +36,43 @@ void ULeagueProgram::BindDelegates()
 {
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
+	BindSimulateButtonAction(false);
 	if (!MatchManager) return;
-	Button_SimulateRace->OnClicked.AddUniqueDynamic(MatchManager, &UMatchManager::SimulateRace);
+	MatchManager->OnNominatedRacesStaredDelegate.AddUObject(this, &ULeagueProgram::BindSimulateButtonAction);
+}
+
+
+void ULeagueProgram::StartRace()
+{
+	if (!MatchManager) return;
+	MatchManager->OnRaceStaredDelegate.Broadcast();
+}
+
+
+void ULeagueProgram::BindSimulateButtonAction(const bool IsNominatedRace)
+{
+	if (IsNominatedRace)
+	{
+		Button_SimulateRace->OnClicked.Clear();
+		Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::FillNominatedRaces);
+	}
+	else
+	{
+		Button_SimulateRace->OnClicked.Clear();
+		Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
+	}
+}
+
+
+void ULeagueProgram::FillNominatedRaces()
+{
+	if (!FillNominatedRacesClass) return;
+	UFillNominatedRaces* FillNominatedRaces = CreateWidget<UFillNominatedRaces>(this, FillNominatedRacesClass);
+	if (!FillNominatedRaces) return;
+	FillNominatedRaces->InitializeManagers();
+			FillNominatedRaces->InitializeWidget();
+	FillNominatedRaces->AddToViewport(2);
+	FillNominatedRaces->OnConfirmedDelegate.AddUObject(this, &ULeagueProgram::BindSimulateButtonAction);
 }
 
 
@@ -131,47 +166,6 @@ void ULeagueProgram::ShowTeams()
 
 void ULeagueProgram::PopulateRacers()
 {
-	UE_LOG(LogTemp, Warning, TEXT("PopulateRacers"));
 	if (!MatchManager) return;
-	UE_LOG(LogTemp, Warning, TEXT("MatchManager"));
-	for (const auto& Roster : TeamRosters)
-	{
-		Roster->TeamManager->CreateRacerManagers();
-		Roster->TeamManager->ForEachRacerInLineup([this, Roster](int ID, const FRacerData& Data)
-		{
-			UE_LOG(LogTemp, Error, TEXT("ID: %i"), ID);
-			for (auto RacerStatsLine : Roster->GetRacerStatsLines())
-			{
-				UE_LOG(LogTemp, Error, TEXT("StatsLineID: %i"), RacerStatsLine->GetID());
-				if (RacerStatsLine->GetID() == ID)
-				{
-					RacerStatsLine->InitializeManagers(Data.RacerManager);
-					break;
-				}
-				
-			}
-		});
-		Roster->TeamManager->ForEachRacerInLineup([this](int ID, const FRacerData& Data)
-		{
-			MatchManager->RequestToAssignRacersToRace(Data, ID);
-		});
-	}
+	MatchManager->OnPopulateRacersRequestDelegate.Broadcast(TeamRosters);
 }
-
-/*
-void ULeagueProgram::OnRaceFinished(int ID, int NewPoints)
-{
-	for (const auto& Roster : TeamRosters)
-	{
-		AddRacerPoints(ID, NewPoints,Roster->GetRacerLines());
-	}
-}
-
-
-void ULeagueProgram::AddRacerPoints(int ID, int NewPoints, TArray<URacerStatsLine*>& Racers)
-{
-	for (auto& Racer : Racers)
-	{
-		if (Racer->GetID() == ID) Racer->OnValueAddRequestDelegate.Broadcast(FString::FromInt(NewPoints));
-	}
-}*/

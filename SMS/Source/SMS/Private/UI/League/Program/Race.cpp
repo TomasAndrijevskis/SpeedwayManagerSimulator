@@ -61,10 +61,10 @@ void URace::OnRaceFinished()
 
 void URace::CreateRaceLines()
 {
-	if (!RaceManager) return;
-	for (int i = 0; i < RaceLineAmount; i++)
+	if (!RaceManager || !RaceDataAsset) return;
+	for (int RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
 	{
-		URaceLine* NewRaceLine = CreateRaceLine(i);
+		URaceLine* NewRaceLine = CreateRaceLine(RaceLineID);
 		if (NewRaceLine)
 		{
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine);
@@ -73,10 +73,12 @@ void URace::CreateRaceLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
+			NewRaceLine->SetRaceLineData(
+				GetRequiredHelmetColor(RaceID, RaceLineID),
+				GetRacerId(RaceID, RaceLineID));
 			RaceManager->AddRaceLine(NewRaceLine);
 		}
 	}
-	SetRaceData();
 }
 
 
@@ -87,18 +89,6 @@ URaceLine* URace::CreateRaceLine(int RaceLineID)
 	if (!NewRaceLine) return nullptr;
 	NewRaceLine->SetRaceLineID(RaceLineID);
 	return NewRaceLine;
-}
-
-
-void URace::SetRaceData()
-{
-	if (!RaceDataAsset) return;
-	for (auto& RaceLine : RaceManager->GetRaceLines())
-	{
-		RaceLine->SetRaceLineData(
-			GetRequiredHelmetColor(RaceID, RaceLine->GetRaceLineID()),
-			GetRacerId(RaceID, RaceLine->GetRaceLineID()));
-	}
 }
 
 

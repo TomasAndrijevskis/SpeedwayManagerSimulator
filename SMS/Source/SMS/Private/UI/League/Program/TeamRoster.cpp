@@ -13,7 +13,7 @@ void UTeamRoster::NativeConstruct()
 	InitializeManagers();
 	CreateRacerStatLines();
 	SetTeamName();
-	FillTeamRosters();
+	FillTeamRosterOptions();
 }
 
 
@@ -67,7 +67,7 @@ URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 }
 
 
-void UTeamRoster::FillTeamRosters()
+void UTeamRoster::FillTeamRosterOptions()
 {
 	for (const auto& RacerLine : RacerStatsLines)
 	{

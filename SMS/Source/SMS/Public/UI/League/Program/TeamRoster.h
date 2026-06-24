@@ -52,7 +52,7 @@ private:
 
 	void UpdateTeamPoints(int NewPoints);
 
-	void FillTeamRosters();
+	void FillTeamRosterOptions();
 
 	void SetTeamName();
 
