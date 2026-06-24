@@ -3,6 +3,7 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/RacerManager.h"
+#include "UI/League/Program/RacerStatsLine.h"
 
 
 void UTeamManager::AddRacersToLineup(const FString& RacerName, int RacerStatLineID)
@@ -37,7 +38,6 @@ void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callb
 
 void UTeamManager::CreateRacerManagers()
 {
-	UE_LOG(LogTemp, Warning, TEXT("CreateRacerManagers"));
 	for (auto& Racer : Racers)
 	{
 		URacerManager* NewRacerManager = NewObject<URacerManager>(this);
@@ -50,7 +50,6 @@ void UTeamManager::CreateRacerManagers()
 }
 
 
-
 void UTeamManager::SetTeamData(int ID)
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
@@ -59,7 +58,27 @@ void UTeamManager::SetTeamData(int ID)
 }
 
 
-const FString& UTeamManager::GetTeamName() const
+void UTeamManager::RandomizeTeamRoster()
 {
-	return TeamRosterData->TeamName.ToString();
+	for (const auto& RacerStatsLine : RacerStatsLines)
+	{
+		RacerStatsLine->ChooseRandomOption();
+	}
 }
+
+
+void UTeamManager::FillTeamRosterOptions()
+{
+	for (const auto& RacerStatsLine : RacerStatsLines)
+	{
+		ForEachRacerInRoster([this, RacerStatsLine](const FRacerData& Data)
+		{
+			RacerStatsLine->AddOption(Data.Name);
+		});
+	}
+}
+
+
+void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
+TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
+const FString& UTeamManager::GetTeamName() const{return TeamRosterData->TeamName.ToString();}

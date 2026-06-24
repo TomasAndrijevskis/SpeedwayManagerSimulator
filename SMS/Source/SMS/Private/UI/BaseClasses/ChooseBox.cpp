@@ -27,10 +27,12 @@ int UChooseBox::GetNumberOfOptions() const
 	return ComboBox->GetOptionCount();
 }
 
+
 FString UChooseBox::GetSelectedOption(int Index) const
 {
 	return ComboBox->GetOptionAtIndex(Index);
 }
+
 
 void UChooseBox::SetRandomOption(const FString& RandomOption)
 {

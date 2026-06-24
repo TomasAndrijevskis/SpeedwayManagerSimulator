@@ -20,15 +20,10 @@ class SMS_API UTeamRoster : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
-	TArray<URacerStatsLine*>& GetRacerStatsLines();
-
+	
 	void InitializeTeam(int NewTeamID, bool bStatus);
 
-	void RandomizeTeamRoster();//Testing
-	
-	UPROPERTY()
-	UTeamManager* TeamManager;
+	UTeamManager* GetTeamManager() const;
 	
 protected:
 
@@ -54,8 +49,6 @@ private:
 
 	void UpdateTeamPoints(int NewPoints);
 
-	void FillTeamRosterOptions();
-
 	void SetTeamName();
 
 	void InitializeManagers();
@@ -66,12 +59,12 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
-	
-	UPROPERTY()
-	TArray<URacerStatsLine*> RacerStatsLines;
 
 	UPROPERTY()
 	UScoreManager* ScoreManager;
+
+	UPROPERTY()
+	UTeamManager* TeamManager;
 	
 	bool IsVisitorTeam = false;
 	

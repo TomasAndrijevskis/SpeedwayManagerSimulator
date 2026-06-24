@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "LeagueProgram.generated.h"
 
+class UTeamManager;
 class UFillNominatedRaces;
 class UMatchManager;
 class URacerStatsLine;
@@ -93,7 +94,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	int AmountOfRaces = 15;
 
-	TArray<UTeamRoster*> TeamRosters;
+	//TArray<UTeamRoster*> TeamRosters;
+
+	TArray<UTeamManager*> TeamManagers;
 	
 	FVector2d StartPosition = FVector2d(0,-540);
 

@@ -67,7 +67,7 @@ void ULeagueProgram::BindSimulateButtonAction(const bool IsNominatedRace)
 
 void ULeagueProgram::RandomizeTeamRosters()
 {
-	for (const auto& Roster : TeamRosters)
+	for (const auto& Roster : TeamManagers)
 	{
 		Roster->RandomizeTeamRoster();
 	}
@@ -110,7 +110,8 @@ void ULeagueProgram::RegisterTeamRoster(UTeamRoster* TeamRoster)
 {
 	if (!TeamRoster) return;
 	VB_Teams->AddChild(TeamRoster);
-	TeamRosters.Add(TeamRoster);
+	//TeamRosters.Add(TeamRoster);
+	TeamManagers.Add(TeamRoster->GetTeamManager());
 }
 
 
@@ -177,5 +178,5 @@ void ULeagueProgram::ShowTeams()
 void ULeagueProgram::PopulateRacers()
 {
 	if (!MatchManager) return;
-	MatchManager->OnPopulateRacersRequestDelegate.Broadcast(TeamRosters);
+	MatchManager->OnPopulateRacersRequestDelegate.Broadcast(TeamManagers);
 }

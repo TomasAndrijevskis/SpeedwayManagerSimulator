@@ -17,7 +17,6 @@ void UTeamRoster::NativeConstruct()
 	BindDelegates();
 	CreateRacerStatLines();
 	SetTeamName();
-	FillTeamRosterOptions();
 }
 
 
@@ -64,10 +63,11 @@ void UTeamRoster::CreateRacerStatLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
-			RacerStatsLines.Add(NewStatLine);
+			TeamManager->AddRacerStatsLine(NewStatLine);
 			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
 		}
 	}
+	TeamManager->FillTeamRosterOptions();
 }
 
 
@@ -78,27 +78,6 @@ URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 	if (!NewStatLine) return nullptr;
 	NewStatLine->SetID(ID);
 	return NewStatLine;
-}
-
-
-void UTeamRoster::FillTeamRosterOptions()
-{
-	for (const auto& RacerLine : RacerStatsLines)
-	{
-		TeamManager->ForEachRacerInRoster([this, RacerLine](const FRacerData& Data)
-		{
-			RacerLine->AddOption(Data.Name);
-		});
-	}
-}
-
-
-void UTeamRoster::RandomizeTeamRoster()
-{
-	for (const auto& RacerStatsLine : RacerStatsLines)
-	{
-		RacerStatsLine->ChooseRandomOption();
-	}
 }
 
 
@@ -121,4 +100,4 @@ void UTeamRoster::SetTeamStatus()
 }
 
 
-TArray<URacerStatsLine*>& UTeamRoster::GetRacerStatsLines(){return RacerStatsLines;}
+UTeamManager* UTeamRoster::GetTeamManager() const{return TeamManager;}

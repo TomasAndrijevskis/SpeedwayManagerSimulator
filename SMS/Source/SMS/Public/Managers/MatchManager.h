@@ -6,14 +6,14 @@
 #include "UI/League/Program/Race.h"
 #include "MatchManager.generated.h"
 
+class UTeamManager;
 class UScoreManager;
-class UTeamRoster;
 class ASMS_GameMode;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMatchFinished, int, int);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnNominatedRacesStared, const bool);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStared);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPopulateRacersRequest, TArray<UTeamRoster*>);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPopulateRacersRequest, TArray<UTeamManager*>);
 UCLASS()
 class SMS_API UMatchManager : public UObject
 {
@@ -59,7 +59,7 @@ private:
 	
 	void SimulateRace();
 
-	void PopulateRacers(TArray<UTeamRoster*> TeamRosters);
+	void PopulateRacers(TArray<UTeamManager*> TeamManagers);
 	
 	UPROPERTY()
 	ASMS_GameMode* GameMode;

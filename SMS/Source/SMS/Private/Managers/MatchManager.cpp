@@ -53,15 +53,15 @@ void UMatchManager::HandleRaceFinished()
 }
 
 
-void UMatchManager::PopulateRacers(TArray<UTeamRoster*> TeamRosters)
+void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagers)
 {
-	if (TeamRosters.IsEmpty()) return;
-	for (const auto& Roster : TeamRosters)
+	if (TeamManagers.IsEmpty()) return;
+	for (const auto& Manager : TeamManagers)
 	{
-		Roster->TeamManager->CreateRacerManagers();
-		Roster->TeamManager->ForEachRacerInLineup([this, Roster](int ID, const FRacerData& Data)
+		Manager->CreateRacerManagers();
+		Manager->ForEachRacerInLineup([this, Manager](int ID, const FRacerData& Data)
 		{
-			for (auto RacerStatsLine : Roster->GetRacerStatsLines())
+			for (const auto& RacerStatsLine : Manager->GetRacerStatsLines())
 			{
 				if (RacerStatsLine->GetID() == ID)
 				{
@@ -70,7 +70,7 @@ void UMatchManager::PopulateRacers(TArray<UTeamRoster*> TeamRosters)
 				}
 			}
 		});
-		Roster->TeamManager->ForEachRacerInLineup([this](int ID, const FRacerData& Data)
+		Manager->ForEachRacerInLineup([this](int ID, const FRacerData& Data)
 		{
 			RequestToAssignRacersToRace(Data, ID);
 		});

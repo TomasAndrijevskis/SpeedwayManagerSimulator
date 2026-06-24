@@ -6,6 +6,7 @@
 #include "TeamManager.generated.h"
 
 
+class URacerStatsLine;
 class URacerManager;
 
 UCLASS()
@@ -26,6 +27,14 @@ public:
 	const FString& GetTeamName() const;
 
 	void CreateRacerManagers();
+
+	void RandomizeTeamRoster();//Testing
+
+	void AddRacerStatsLine(URacerStatsLine* RacerStatsLine);
+
+	void FillTeamRosterOptions();
+	
+	TArray<URacerStatsLine*>& GetRacerStatsLines();
 	
 private:
 	
@@ -34,4 +43,7 @@ private:
 	//Lineup for current match
 	UPROPERTY()
 	TMap<int, FRacerData> Racers;
+
+	UPROPERTY()
+	TArray<URacerStatsLine*> RacerStatsLines;
 };
