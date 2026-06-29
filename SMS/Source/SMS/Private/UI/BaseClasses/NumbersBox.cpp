@@ -2,6 +2,7 @@
 #include "UI/BaseClasses/NumbersBox.h"
 #include "Components/Border.h"
 #include "Components/TextBlock.h"
+#include "Data/RaceData/EHelmetColour.h"
 
 
 void UNumbersBox::NativeConstruct()
@@ -31,9 +32,9 @@ void UNumbersBox::SetText(int NewText)
 }
 
 
-void UNumbersBox::SetColour(const FColor& NewColour)
+void UNumbersBox::SetColour(const EHelmetColour& NewColour)
 {
-	Border_BackgroundColour->SetBrushColor(NewColour);
+	Border_BackgroundColour->SetBrushColor(HelmetColours::GetHelmetColour(NewColour));
 }
 
 

@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RaceData/EHelmetColour.h"
 #include "NumbersBox.generated.h"
 
 class UBorder;
@@ -19,7 +20,7 @@ public:
 
 	void SetText(int NewText);
 
-	void SetColour(const FColor& NewColour);
+	void SetColour(const EHelmetColour& NewColour);
 
 	int GetNumber();
 

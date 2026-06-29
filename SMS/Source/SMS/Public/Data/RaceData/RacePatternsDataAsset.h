@@ -15,5 +15,4 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TMap<int, FRaceData> RacePatterns;
-
 };

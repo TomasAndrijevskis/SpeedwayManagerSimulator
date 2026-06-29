@@ -60,7 +60,7 @@ private:
 	
 	void BindDelegates();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
 	int RacerStatsLineID;
 
 	UPROPERTY()
