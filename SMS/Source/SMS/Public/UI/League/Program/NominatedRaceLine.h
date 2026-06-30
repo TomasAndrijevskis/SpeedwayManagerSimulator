@@ -3,9 +3,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RaceData/RaceLineData.h"
 #include "NominatedRaceLine.generated.h"
 
 
+class UTeamManager;
 class UChooseBox;
 class UNumbersBox;
 
@@ -16,7 +18,15 @@ class SMS_API UNominatedRaceLine : public UUserWidget
 	
 public:
 
-	void SetData(const FColor& NewHelmetColour, int NewRacerID);
+	void SetRaceLineID(int NewID);
+	
+	void SetRacerID(int NewRacerID);
+
+	void SetRaceLineData(const FRaceLineData& NewRaceLineData, const TArray<UTeamManager*>& TeamManagers);
+
+	void FillOptions();
+
+	void AddOption(const FString& RacerName);
 	
 private:
 
@@ -27,4 +37,11 @@ private:
 	UChooseBox* ChooseBox_ChooseRacer;
 
 	int RacerID;
+
+	int RaceLineID;
+	
+	FRaceLineData RaceLineData;
+
+	UPROPERTY()
+	UTeamManager* TeamManager;
 };
