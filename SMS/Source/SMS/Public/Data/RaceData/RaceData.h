@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "EHelmetColour.h"
+#include "RaceLineData.h"
 #include "RaceData.generated.h"
 
 
@@ -11,11 +11,8 @@ struct FRaceData
 	GENERATED_BODY()
 	
 	UPROPERTY(EditDefaultsOnly)
-	TArray<EHelmetColour> HelmetColours;
+	TArray<FRaceLineData> RaceLines;
 
 	UPROPERTY(EditDefaultsOnly)
 	bool IsNominatedRace = false;
-	
-	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "!IsNominatedRace"))
-	TArray<int> RacerIDs;
 };
