@@ -30,12 +30,3 @@ void UNominatedRaceLine::AddOption(const FString& RacerName)
 {
 	ChooseBox_ChooseRacer->AddOption(RacerName);
 }
-
-
-void UNominatedRaceLine::SetRacerID(int NewRacerID)
-{
-	RacerID = NewRacerID;
-}
-
-
-void UNominatedRaceLine::SetRaceLineID(int NewID){RaceLineID = NewID;}

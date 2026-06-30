@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "RaceLineBase.h"
 #include "Data/RaceData/RaceLineData.h"
 #include "NominatedRaceLine.generated.h"
 
@@ -12,15 +12,11 @@ class UChooseBox;
 class UNumbersBox;
 
 UCLASS()
-class SMS_API UNominatedRaceLine : public UUserWidget
+class SMS_API UNominatedRaceLine : public URaceLineBase
 {
 	GENERATED_BODY()
 	
 public:
-
-	void SetRaceLineID(int NewID);
-	
-	void SetRacerID(int NewRacerID);
 
 	void SetRaceLineData(const FRaceLineData& NewRaceLineData, const TArray<UTeamManager*>& TeamManagers);
 
@@ -31,17 +27,8 @@ public:
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	UNumbersBox* NumbersBox_RacerNumber;
-
-	UPROPERTY(meta = (BindWidget))
 	UChooseBox* ChooseBox_ChooseRacer;
-
-	int RacerID;
-
-	int RaceLineID;
 	
-	FRaceLineData RaceLineData;
-
 	UPROPERTY()
 	UTeamManager* TeamManager;
 };
