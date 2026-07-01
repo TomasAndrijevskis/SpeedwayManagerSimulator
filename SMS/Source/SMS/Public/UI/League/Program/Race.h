@@ -3,8 +3,12 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RaceData/RaceLineData.h"
 #include "Race.generated.h"
 
+class UNominatedRaceLine;
+class URaceLine;
+class URaceLineBase;
 class URaceManager;
 class UVerticalBox;
 class UPointsManager;
@@ -12,7 +16,6 @@ class URacePatternsDataAsset;
 class UNumbersBox;
 class UScoreCounter;
 class UTextBlock;
-class URaceLine;
 
 UCLASS()
 class SMS_API URace : public UUserWidget
@@ -27,10 +30,8 @@ public:
 
 	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
 
-	const FColor& GetRequiredHelmetColor(int RaceId, int RaceLineId)const;
-
-	int GetRacerId(int RaceId, int RaceLineId)const;
-
+	FRaceLineData& GetRaceLineData(int RaceId, int RaceLineId) const;
+	
 	URaceManager* GetRaceManager() const;
 	
 protected:
@@ -52,8 +53,10 @@ private:
 
 	void CreateRaceLines();
 	
-	URaceLine* CreateRaceLine(int RaceLineID);
+	URaceLineBase* CreateRaceLine(int RaceLineID);
 
+	URaceLineBase* CreateNominatedRaceLine(int RaceLineID);
+	
 	void OnIDSet();
 	
 	void UpdateRaceScore(int NewHomePts, int NewVisitorPts);
@@ -64,10 +67,11 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URaceLine> RaceLineClass;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UNominatedRaceLine> NominatedRaceLineClass;
+	
 	UPROPERTY()
 	URaceManager* RaceManager;
 	
 	int RaceID;
-
-	int RaceLineAmount = 4;
 };

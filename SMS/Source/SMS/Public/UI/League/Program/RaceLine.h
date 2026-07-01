@@ -13,10 +13,12 @@ class SMS_API URaceLine : public URaceLineBase
 {
 	GENERATED_BODY()
 
+protected:
+
+	virtual void SetRacerName(const FString& NewRacerName) override;
+	
 private:
 	
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_RacerName;
-
-	void SetRacerName(const FString& NewRacerName);
 };

@@ -4,10 +4,12 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/RaceData/RaceLineData.h"
-#include "Data/RacersData/RacerData.h"
+#include "Data/RacersData/RacerMatchData.h"
 #include "RaceLineBase.generated.h"
 
 
+struct FRacerMatchData;
+class URacerManager;
 class USlider;
 class UChooseBox;
 class UOverlay;
@@ -33,12 +35,10 @@ public:
 	int GetRacerRating() const;
 	
 	int GetTieBreaker() const;
-
-	bool IsVisitor() const;
 	
 	void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 
-	void SetRacerData(const FRacerData& NewRacerData);
+	void SetRacerData(const FRacerMatchData& NewRacerData, URacerManager* RacerManagerRef);
 
 	void ChangeRider();
 
@@ -46,6 +46,8 @@ public:
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 	void OnRaceFinished();
+
+	bool IsVisitor() const;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 	
@@ -64,25 +66,24 @@ protected:
 	UNumbersBox* NumbersBox_PointsPerRace;
 
 	virtual void NativeConstruct() override;
+
+	virtual void SetRacerName(const FString& NewRacerName){};
 	
 	UPROPERTY()
 	URacerManager* RacerManager;
 	
-	FRacerData RacerData;
+	FRacerMatchData RacerData;
 
 	FRaceLineData RaceLineData;
 	
 private:
 
 	void BindDelegates();
+	void CalculateRating();
 
 	USlider* CreateSlider();
-
+	
 	int RaceLineID = 0;
 
 	int RacerID = 0;
-
-	int Points = 0;
-
-	bool bIsVisitor = false;
 };

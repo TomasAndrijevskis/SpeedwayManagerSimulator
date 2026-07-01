@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/RacersData/RacerData.h"
+#include "Data/RacersData/RacerMatchData.h"
 #include "RacerManager.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAddRequest, const FString&)
@@ -14,15 +14,21 @@ class SMS_API URacerManager : public UObject
 
 public:
 
-	void Initialize(int NewRacerNumber, const FRacerData& RacerData);
+	void Initialize(const FRacerMatchData& RacerData);
 
 	int CountOverallPoints(bool CanCount);
 
 	void AddPoints(const FString& NewPoints);
 
 	bool IsVisitor() const;
+	
+	void CalculateRating();
 
-	int CalculateRating();
+	void SetTieBreaker();
+
+	int GetTieBreaker() const;
+
+	int GetCurrentRaceRating() const;
 	
 	FOnValueAddRequest OnValueAddRequestDelegate;
 
@@ -31,14 +37,17 @@ public:
 private:
 
 	bool CanAddNewPointBox() const;
-	
+
+	//Number during match 1-6 / 7-12
 	int RacerNumber;
 	
-	FRacerData Data;
+	FRacerMatchData Data;
 
 	int MaxRacesAmount = 7;
 
-	bool bIsVisitor = false;
+	int TieBreakerValue = 0;
+
+	int CurrentRacerRating = 0;
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<FString> RacerPoints;

@@ -1,5 +1,6 @@
 
 #include "Managers/RaceManager.h"
+#include "Data/RacersData/RacerMatchData.h"
 
 
 void URaceManager::BindDelegates()
@@ -61,7 +62,7 @@ void URaceManager::CalculateRaceResult()
 
 void URaceManager::SortLinesByRating()
 {
-	RaceLines.Sort([](const URaceLine& L1, const URaceLine& L2)
+	RaceLines.Sort([](const URaceLineBase& L1, const URaceLineBase& L2)
 	{
 		if (L1.GetRacerRating() == L2.GetRacerRating())
 		{
@@ -73,19 +74,19 @@ void URaceManager::SortLinesByRating()
 }
 
 
-void URaceManager::AddRaceLine(URaceLine* NewRaceLine)
+void URaceManager::AddRaceLine(URaceLineBase* NewRaceLine)
 {
 	RaceLines.Add(NewRaceLine);
 }
 
 
-void URaceManager::AssignRacerToRace(const FRacerData& RacerData, int RacerID)
+void URaceManager::AssignRacerToRace(const FRacerMatchData& RacerData, URacerManager* RacerManagerRef)
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetRacerID() == RacerID) RaceLine->SetRacerData(RacerData);
+		if (RaceLine->GetRacerID() == RacerData.RacerNumber) RaceLine->SetRacerData(RacerData, RacerManagerRef);
 	}
 }
 
 
-TArray<URaceLine*> URaceManager::GetRaceLines(){return RaceLines;}
+TArray<URaceLineBase*> URaceManager::GetRaceLines(){return RaceLines;}

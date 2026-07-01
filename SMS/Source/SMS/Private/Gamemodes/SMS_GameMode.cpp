@@ -24,17 +24,15 @@ void ASMS_GameMode::InitializeManagers()
 
 void ASMS_GameMode::InitializeRacers()
 {
-	for (const auto& RacerData : RacersDataAsset->Racers)
+	for (auto& Racer : RacersDataAsset->Racers)
 	{
-		FRacerData Racer;
-		Racer.ID = RacerData.ID;
-		Racer.Name = RacerData.Name;
-		Racer.RacerStats = RacerData.RacerStats;
-		ETeams TeamID = RacerData.InitialTeam;
+		FRacerData RacerData;
+		RacerData = Racer;
+		ETeams TeamID = Racer.InitialTeam;
 		FText TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(TeamID);
 		Teams.FindOrAdd(TeamID).TeamID = TeamID;
 		Teams.FindOrAdd(TeamID).TeamName = TeamName;
-		Teams.FindOrAdd(TeamID).Racers.Add(Racer);
+		Teams.FindOrAdd(TeamID).Racers.Add(RacerData);
 	}
 	//PrintTeams();
 }

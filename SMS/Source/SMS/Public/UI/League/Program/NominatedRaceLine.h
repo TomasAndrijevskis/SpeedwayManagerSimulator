@@ -23,6 +23,10 @@ public:
 	void FillOptions();
 
 	void AddOption(const FString& RacerName);
+
+protected:
+
+	//virtual void SetRacerName(const FString& NewRacerName) override;
 	
 private:
 

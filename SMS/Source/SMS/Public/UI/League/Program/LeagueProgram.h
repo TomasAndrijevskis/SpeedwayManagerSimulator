@@ -68,16 +68,11 @@ private:
 	void ShowTeams();
 
 	void CreateRaces();
-
-	UFUNCTION()
-	void FillNominatedRaces();
 	
 	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
 
 	UFUNCTION()
 	void StartRace();
-
-	void BindSimulateButtonAction(const bool IsNominatedRace);
 
 	UFUNCTION()
 	void RandomizeTeamRosters();//Testing
@@ -87,14 +82,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UTeamRoster> TeamRosterClass;
-
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UFillNominatedRaces> FillNominatedRacesClass;
 	
 	UPROPERTY(VisibleAnywhere)
 	int AmountOfRaces = 15;
-
-	//TArray<UTeamRoster*> TeamRosters;
 
 	TArray<UTeamManager*> TeamManagers;
 	

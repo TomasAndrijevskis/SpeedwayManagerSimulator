@@ -10,7 +10,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
-#include "UI/League/Program/NominatedRaceWidgets/FillNominatedRaces.h"
 
 
 void ULeagueProgram::NativeConstruct()
@@ -37,9 +36,8 @@ void ULeagueProgram::BindDelegates()
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
-	BindSimulateButtonAction(false);
 	if (!MatchManager) return;
-	MatchManager->OnNominatedRacesStaredDelegate.AddUObject(this, &ULeagueProgram::BindSimulateButtonAction);
+	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
 }
 
 
@@ -50,39 +48,12 @@ void ULeagueProgram::StartRace()
 }
 
 
-void ULeagueProgram::BindSimulateButtonAction(const bool IsNominatedRace)
-{
-	if (IsNominatedRace)
-	{
-		Button_SimulateRace->OnClicked.Clear();
-		Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::FillNominatedRaces);
-	}
-	else
-	{
-		Button_SimulateRace->OnClicked.Clear();
-		Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
-	}
-}
-
-
 void ULeagueProgram::RandomizeTeamRosters()
 {
 	for (const auto& Roster : TeamManagers)
 	{
 		Roster->RandomizeTeamRoster();
 	}
-}
-
-
-void ULeagueProgram::FillNominatedRaces()
-{
-	if (!FillNominatedRacesClass) return;
-	UFillNominatedRaces* FillNominatedRaces = CreateWidget<UFillNominatedRaces>(this, FillNominatedRacesClass);
-	if (!FillNominatedRaces) return;
-	FillNominatedRaces->InitializeManagers();
-			FillNominatedRaces->InitializeWidget();
-	FillNominatedRaces->AddToViewport(2);
-	FillNominatedRaces->OnConfirmedDelegate.AddUObject(this, &ULeagueProgram::BindSimulateButtonAction);
 }
 
 

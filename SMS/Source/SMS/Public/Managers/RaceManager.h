@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/RacersData/RacerData.h"
+#include "Data/RacersData/RacerMatchData.h"
 #include "UI/League/Program/RaceLine.h"
 #include "RaceManager.generated.h"
 
@@ -18,13 +18,13 @@ class SMS_API URaceManager : public UObject
 
 public:
 
-	void AddRaceLine(URaceLine* NewRaceLine);
+	void AddRaceLine(URaceLineBase* NewRaceLine);
 
-	void AssignRacerToRace(const FRacerData& RacerData, int RacerID);
+	void AssignRacerToRace(const FRacerMatchData& RacerData, URacerManager* RacerManagerRef);
 	
 	void ChangeRaceStatus(bool bIsActive);
 	
-	TArray<URaceLine*> GetRaceLines();
+	TArray<URaceLineBase*> GetRaceLines();
 
 	void CalculateRaceResult();
 
@@ -49,5 +49,6 @@ private:
 	void SimulateRace();
 	
 	UPROPERTY()
-	TArray<URaceLine*> RaceLines;
+	TArray<URaceLineBase*> RaceLines;
+	
 };

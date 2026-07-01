@@ -1,4 +1,5 @@
 
+#include "UI/League/Program/RaceLineBase.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
@@ -6,7 +7,6 @@
 #include "Managers/RacerManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "UI/League/Program/RaceLineBase.h"
 
 
 void URaceLineBase::NativeConstruct()
@@ -18,21 +18,19 @@ void URaceLineBase::NativeConstruct()
 
 void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 {
-	RacerID = NewRaceLineData.RacerIDs;
+	RacerID = NewRaceLineData.RacerID;
 	RaceLineData = NewRaceLineData;
 	if (RacerID != 0) NumbersBox_RacerNumber->SetText(RacerID);
 	NumbersBox_RacerNumber->SetColour(NewRaceLineData.HelmetColour);
 }
 
 
-
-void URaceLineBase::SetRacerData(const FRacerData& NewRacerData)
+void URaceLineBase::SetRacerData(const FRacerMatchData& NewRacerData, URacerManager* RacerManagerRef)
 {
-	if (!NewRacerData.RacerManager) return;
+	if (!RacerManagerRef || NewRacerData.RacerData.ID == INDEX_NONE) return;
 	RacerData = NewRacerData;
-	RacerManager = RacerData.RacerManager;
-	RacerManager->SetIsVisitor(RaceLineData.IsVisitor());
-	//////SetRacerName(RacerData.Name);
+	RacerManager = RacerManagerRef;
+	SetRacerName(RacerData.RacerData.Name);
 	BindDelegates();
 }
 
@@ -40,21 +38,28 @@ void URaceLineBase::SetRacerData(const FRacerData& NewRacerData)
 void URaceLineBase::BindDelegates()
 {
 	if (!RacerManager) return;
-	OnRaceStartedDelegate.AddUObject(RacerManager, &URacerManager::SetTieBreaker);
+	OnRaceStartedDelegate.AddUObject(this, &URaceLineBase::CalculateRating);
+}
+
+
+void URaceLineBase::CalculateRating()
+{
+	if (!RacerManager) return;
+	RacerManager->SetTieBreaker();
+	RacerManager->CalculateRating();
 }
 
 
 void URaceLineBase::SetPointsPerRace(int NewPoints)
 {
-	Points = NewPoints;
-	NumbersBox_PointsPerRace->SetText(Points);
+	NumbersBox_PointsPerRace->SetText(NewPoints);
 }
 
 
 void URaceLineBase::OnRaceFinished()
 {
 	if (!RacerManager) return;
-	RacerManager->OnValueAddRequestDelegate.Broadcast(FString::FromInt(Points));
+	RacerManager->OnValueAddRequestDelegate.Broadcast(NumbersBox_PointsPerRace->GetNumberAsString());
 }
 
 
@@ -67,7 +72,6 @@ USlider* URaceLineBase::CreateSlider()
 	NewSlider->SetSliderHandleColor(FColor::Transparent);
 	return NewSlider;
 }
-
 
 
 void URaceLineBase::ChangeRider()
@@ -92,6 +96,6 @@ void URaceLineBase::SetRaceLineID(int NewID){RaceLineID = NewID;}
 int URaceLineBase::GetRaceLineID()const{return RaceLineID;}
 int URaceLineBase::GetRacerID()const{return RacerID;}
 int URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
-int URaceLineBase::GetRacerRating()const{return RacerManager->CalculateRating();}
-int URaceLineBase::GetPointsPerRace()const{return Points;}
+int URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
+int URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
 bool URaceLineBase::IsVisitor()const{return RacerManager->IsVisitor();}

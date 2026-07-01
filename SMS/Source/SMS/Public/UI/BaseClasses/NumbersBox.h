@@ -24,6 +24,8 @@ public:
 
 	int GetNumber();
 
+	const FString& GetNumberAsString() const;
+	
 	void AddNumber(int AddNumber);
 	
 protected:

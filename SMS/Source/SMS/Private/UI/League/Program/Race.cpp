@@ -7,6 +7,7 @@
 #include "UI/BaseClasses/NumbersBox.h"
 #include "SMS/Public/UI/League/Program/RaceLine.h"
 #include "SMS/Public/UI/League/Program/ScoreCounter.h"
+#include "UI/League/Program/NominatedRaceLine.h"
 
 
 void URace::NativeConstruct()
@@ -51,9 +52,13 @@ void URace::BindDelegates()
 void URace::CreateRaceLines()
 {
 	if (!RaceManager || !RaceDataAsset) return;
+	const int RaceLineAmount = RaceDataAsset->RacePatterns[RaceID].RaceLines.Num();
 	for (int RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
 	{
-		URaceLine* NewRaceLine = CreateRaceLine(RaceLineID);
+		URaceLineBase* NewRaceLine;
+		if (!RaceDataAsset->RacePatterns[RaceID].IsNominatedRace) NewRaceLine = CreateRaceLine(RaceLineID);
+		else  NewRaceLine = CreateNominatedRaceLine(RaceLineID);
+		
 		if (NewRaceLine)
 		{
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine);
@@ -62,19 +67,27 @@ void URace::CreateRaceLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
-			NewRaceLine->SetRaceLineData(
-				GetRequiredHelmetColor(RaceID, RaceLineID),
-				GetRacerId(RaceID, RaceLineID));
+			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceID, RaceLineID));
 			RaceManager->AddRaceLine(NewRaceLine);
 		}
 	}
 }
 
 
-URaceLine* URace::CreateRaceLine(int RaceLineID)
+URaceLineBase* URace::CreateRaceLine(int RaceLineID)
 {
 	if (!RaceLineClass) return nullptr;
 	URaceLine* NewRaceLine = CreateWidget<URaceLine>(this, RaceLineClass);
+	if (!NewRaceLine) return nullptr;
+	NewRaceLine->SetRaceLineID(RaceLineID);
+	return NewRaceLine;
+}
+
+
+URaceLineBase* URace::CreateNominatedRaceLine(int RaceLineID)
+{
+	if (!NominatedRaceLineClass) return nullptr;
+	UNominatedRaceLine* NewRaceLine = CreateWidget<UNominatedRaceLine>(this, NominatedRaceLineClass);
 	if (!NewRaceLine) return nullptr;
 	NewRaceLine->SetRaceLineID(RaceLineID);
 	return NewRaceLine;
@@ -93,6 +106,5 @@ void URace::UpdateRaceScore(int NewHomePts, int NewVisitorPts)
 }
 
 
-const FColor& URace::GetRequiredHelmetColor(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].HelmetColors[RaceLineId];}
-int URace::GetRacerId(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].RacerIDs[RaceLineId];}
 URaceManager* URace::GetRaceManager() const{return RaceManager;}
+FRaceLineData& URace::GetRaceLineData(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].RaceLines[RaceLineId];}

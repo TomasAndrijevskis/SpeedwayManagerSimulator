@@ -49,6 +49,12 @@ int UNumbersBox::GetNumber()
 }
 
 
+const FString& UNumbersBox::GetNumberAsString() const
+{
+	return Text->GetText().ToString();
+}
+
+
 void UNumbersBox::AddNumber(int AddNumber)
 {
 	int CurrentNumber = GetNumber();

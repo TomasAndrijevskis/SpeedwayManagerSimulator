@@ -7,22 +7,22 @@
 
 void UNominatedRaceLine::SetRaceLineData(const FRaceLineData& NewRaceLineData, const TArray<UTeamManager*>& TeamManagers)
 {
-	RaceLineData = NewRaceLineData;
+	/*RaceLineData = NewRaceLineData;
 	for (const auto& Manager : TeamManagers)
 	{
-		if (RaceLineData.IsVisitor() == Manager->IsVisitor()) TeamManager = Manager;
+		//if (RaceLineData.IsVisitor() == Manager->IsVisitor()) TeamManager = Manager;
 	}
 	NumbersBox_RacerNumber->SetColour(RaceLineData.HelmetColour);
-	FillOptions();
+	FillOptions();*/
 }
 
 
 void UNominatedRaceLine::FillOptions()
 {
-	TeamManager->ForEachRacerInLineup([this](int ID, const FRacerData& Data)
+	/*TeamManager->ForEachRacerInLineup([this](int ID, const FRacerMatchData& Data)
 	{
-		AddOption(Data.Name);
-	});
+		AddOption(Data.RacerData.Name);
+	});*/
 }
 
 

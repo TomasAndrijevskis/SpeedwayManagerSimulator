@@ -13,16 +13,40 @@ void UTeamManager::AddRacersToLineup(const FString& RacerName, int RacerStatLine
 		return RacerData.Name == RacerName;
 	}))
 	{
-		Racers.Add(RacerStatLineID, *FoundRacerData);
+		FRacerMatchData NewRacerData;
+		NewRacerData.RacerData = *FoundRacerData;
+		NewRacerData.RacerNumber = RacerStatLineID;
+		Racers.Add(RacerStatLineID, NewRacerData);
 	}
 }
 
 
-void UTeamManager::ForEachRacerInLineup(TFunction<void(int, const FRacerData&)> Callback)
+void UTeamManager::ForEachRacerInLineup(TFunction<void(int)> Callback)
+{
+	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager*)
+	{
+		Callback(Data.RacerNumber);
+	});
+}
+
+
+void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> Callback)
+{
+	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager*)
+	{
+		Callback(Data);
+	});
+}
+
+
+void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
 {
 	for (const auto& Racer : Racers)
 	{
-		Callback(Racer.Key, Racer.Value);
+		if (URacerManager** FoundManager = RacerManagers.Find(Racer.Key))
+		{
+			Callback(Racer.Value, *FoundManager);
+		}
 	}
 }
 
@@ -38,23 +62,24 @@ void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callb
 
 void UTeamManager::CreateRacerManagers()
 {
-	for (auto& Racer : Racers)
+	for (const auto& Racer : Racers)
 	{
 		URacerManager* NewRacerManager = NewObject<URacerManager>(this);
 		if (NewRacerManager)
 		{
-			NewRacerManager->Initialize(Racer.Key, Racer.Value);
-			Racer.Value.RacerManager = NewRacerManager;
+			NewRacerManager->Initialize(Racer.Value);
+			RacerManagers.Add(Racer.Key, NewRacerManager);
 		}
 	}
 }
 
 
-void UTeamManager::SetTeamData(int ID)
+void UTeamManager::SetTeamData(int ID, bool IsVisitor)
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	TeamRosterData = GameMode->GetTeamData(ID);
+	IsVisitorTeam = IsVisitor;
 }
 
 
@@ -81,4 +106,6 @@ void UTeamManager::FillTeamRosterOptions()
 
 void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
 TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
+bool UTeamManager::IsVisitor()const{return IsVisitorTeam;}
+TMap<int, URacerManager*> UTeamManager::GetRacerManagers() {return RacerManagers;}
 const FString& UTeamManager::GetTeamName() const{return TeamRosterData->TeamName.ToString();}

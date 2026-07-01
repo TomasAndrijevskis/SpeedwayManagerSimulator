@@ -35,7 +35,7 @@ void UTeamRoster::InitializeManagers()
 	ScoreManager = GameMode->ScoreManager;
 	TeamManager = NewObject<UTeamManager>(this);
 	if (!TeamManager || !ScoreManager) return;
-	TeamManager->SetTeamData(TeamID);
+	TeamManager->SetTeamData(TeamID, IsVisitorTeam);
 }
 
 
