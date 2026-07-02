@@ -87,7 +87,7 @@ void UTeamManager::RandomizeTeamRoster()
 {
 	for (const auto& RacerStatsLine : RacerStatsLines)
 	{
-		RacerStatsLine->ChooseRandomOption();
+		RacerStatsLine->ChooseRandomOption(ChosenOptions);
 	}
 }
 

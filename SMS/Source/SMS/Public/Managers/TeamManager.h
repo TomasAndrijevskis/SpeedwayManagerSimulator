@@ -61,4 +61,6 @@ private:
 	TMap<int, URacerManager*> RacerManagers;
 	
 	bool bIsVisitorTeam;
+
+	TArray<int> ChosenOptions;
 };

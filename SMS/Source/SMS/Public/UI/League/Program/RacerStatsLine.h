@@ -27,7 +27,7 @@ public:
 
 	void InitializeManagers(URacerManager* RacerManagerRef);
 
-	void ChooseRandomOption();//Testing
+	void ChooseRandomOption(TArray<int>& ChosenOptions);//Testing
 	
 	FOnRacerChosen OnRacerChosenDelegate;
 
