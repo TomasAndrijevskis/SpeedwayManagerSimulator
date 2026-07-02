@@ -8,11 +8,11 @@ void URacerManager::Initialize(const FRacerMatchData& RacerData)
 }
 
 
-void URacerManager::CalculateRating()
+void URacerManager::CalculateRating(bool IsVisitor)
 {
 	int Start = FMath::RandRange(0,5);
 	int Driving = FMath::RandRange(0,10);
-	if (!IsVisitor()) Driving += FMath::RandRange(0,2);
+	if (!IsVisitor) Driving += FMath::RandRange(0,2);
 	int RacerRating = Data.RacerData.RacerStats.Rating;
 	CurrentRacerRating = Start + Driving + RacerRating;
 	
@@ -39,9 +39,8 @@ void URacerManager::AddPoints(const FString& NewPoints)
 }
 
 
-int URacerManager::CountOverallPoints(bool CanCount)
+int URacerManager::CountOverallPoints()
 {
-	if (!CanCount) return 0;
 	int sum = 0;
 	for (const auto& Element : RacerPoints)
 	{
@@ -61,4 +60,3 @@ bool URacerManager::CanAddNewPointBox() const
 
 int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
-bool URacerManager::IsVisitor() const{return Data.IsVisitor();}

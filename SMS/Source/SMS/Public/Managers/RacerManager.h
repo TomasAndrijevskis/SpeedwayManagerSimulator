@@ -15,13 +15,11 @@ public:
 
 	void Initialize(const FRacerMatchData& RacerData);
 
-	int CountOverallPoints(bool CanCount);
+	int CountOverallPoints();
 
 	void AddPoints(const FString& NewPoints);
-
-	bool IsVisitor() const;
 	
-	void CalculateRating();
+	void CalculateRating(bool IsVisitor);
 
 	void SetTieBreaker();
 

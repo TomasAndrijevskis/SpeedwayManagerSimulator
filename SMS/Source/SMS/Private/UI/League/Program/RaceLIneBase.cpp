@@ -46,7 +46,7 @@ void URaceLineBase::OnRaceStarted()
 {
 	if (!RacerManager) return;
 	RacerManager->SetTieBreaker();
-	RacerManager->CalculateRating();
+	RacerManager->CalculateRating(IsVisitor());
 }
 
 
@@ -92,4 +92,4 @@ int URaceLineBase::GetRacerID()const{return RacerID;}
 int URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
-bool URaceLineBase::IsVisitor()const{return RacerManager->IsVisitor();}
+bool URaceLineBase::IsVisitor()const{return RaceLineData.IsVisitor();}

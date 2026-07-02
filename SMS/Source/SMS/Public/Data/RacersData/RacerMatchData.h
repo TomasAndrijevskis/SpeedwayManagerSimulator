@@ -17,9 +17,4 @@ struct FRacerMatchData
 
 	UPROPERTY()
 	int RacerNumber;
-
-	bool IsVisitor() const
-	{
-		return RacerNumber >= 7;
-	};
 };

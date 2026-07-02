@@ -42,7 +42,7 @@ public:
 	
 	TArray<URacerStatsLine*>& GetRacerStatsLines();
 
-	bool IsVisitor() const;
+	bool IsVisitorTeam() const;
 
 	TMap<int, URacerManager*> GetRacerManagers();
 	
@@ -60,5 +60,5 @@ private:
 	UPROPERTY()
 	TMap<int, URacerManager*> RacerManagers;
 	
-	bool IsVisitorTeam;
+	bool bIsVisitorTeam;
 };

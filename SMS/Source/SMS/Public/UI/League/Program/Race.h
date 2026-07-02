@@ -34,10 +34,6 @@ public:
 	
 	URaceManager* GetRaceManager() const;
 	
-protected:
-
-	virtual void NativeConstruct() override;
-	
 private:
 
 	UPROPERTY(meta = (BindWidget))

@@ -81,7 +81,6 @@ void ULeagueProgram::RegisterTeamRoster(UTeamRoster* TeamRoster)
 {
 	if (!TeamRoster) return;
 	VB_Teams->AddChild(TeamRoster);
-	//TeamRosters.Add(TeamRoster);
 	TeamManagers.Add(TeamRoster->GetTeamManager());
 }
 
@@ -92,18 +91,18 @@ void ULeagueProgram::CreateRaces()
 	FVector2d TempPosition = StartPosition;
 	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
 	FVector2d StartAlignment = FVector2d(0, 0);
-	for (int i = 1; i <= AmountOfRaces; i++)
+	for (int RaceID = 1; RaceID <= AmountOfRaces; RaceID++)
 	{
 		const float PositionOffset = 162.0f;
 		const float Offset = 0.5f;
 		URace* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
 		if (NewRace)
 		{
-			NewRace->InitializeWidget(i);
+			NewRace->InitializeWidget(RaceID);
 			MatchManager->AddNewRace(NewRace->GetRaceManager());
 		}
 		TempPosition.Y += PositionOffset;
-		if (i % 5 == 0)
+		if (RaceID % 5 == 0)
 		{
 			TempPosition = StartPosition;
 			StartAnchors.Minimum.X += Offset;
@@ -149,5 +148,5 @@ void ULeagueProgram::ShowTeams()
 void ULeagueProgram::PopulateRacers()
 {
 	if (!MatchManager) return;
-	MatchManager->OnPopulateRacersRequestDelegate.Broadcast(TeamManagers);
+	MatchManager->CreateRacerManagers(TeamManagers);
 }

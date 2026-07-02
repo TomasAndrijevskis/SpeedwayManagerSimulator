@@ -10,18 +10,12 @@
 #include "UI/League/Program/NominatedRaceLine.h"
 
 
-void URace::NativeConstruct()
-{
-	Super::NativeConstruct();
-	InitializeManagers();
-	BindDelegates();
-}
-
-
 void URace::InitializeWidget(int NewID)
 {
 	RaceID = NewID;
 	NumbersBox_RaceNumber->SetText(RaceID);
+	InitializeManagers();
+	BindDelegates();
 	OnIDSet();
 }
 

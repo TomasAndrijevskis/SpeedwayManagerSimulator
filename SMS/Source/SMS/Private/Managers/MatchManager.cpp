@@ -19,7 +19,6 @@ void UMatchManager::InitializeManager(ASMS_GameMode* CurrentGameMode)
 
 void UMatchManager::BindDelegates()
 {
-	OnPopulateRacersRequestDelegate.AddUObject(this, &UMatchManager::PopulateRacers);
 	OnRaceStaredDelegate.AddUObject(this, &UMatchManager::SimulateRace);
 }
 
@@ -49,16 +48,26 @@ void UMatchManager::HandleRaceFinished()
 	ScoreManager->OnOverallScoreUpdatedDelegate.Clear();
 	CurrentRace++;
 	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
-	if (CurrentRace == 13) OnNominatedRacesStaredDelegate.Broadcast(true);
 }
 
 
-void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagers)
+void UMatchManager::CreateRacerManagers(TArray<UTeamManager*> TeamManagersRef)
 {
-	if (TeamManagers.IsEmpty()) return;
-	for (const auto& Manager : TeamManagers)
+	if (TeamManagersRef.IsEmpty()) return;
+	for (const auto& Manager : TeamManagersRef)
 	{
 		Manager->CreateRacerManagers();
+	}
+	PopulateRacers(TeamManagersRef);
+	OnRacerManagersCreatedDelegate.Broadcast(TeamManagersRef);
+}
+
+
+void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagersRef)
+{
+	if (TeamManagersRef.IsEmpty()) return;
+	for (const auto& Manager : TeamManagersRef)
+	{
 		Manager->ForEachRacerInLineup([this, Manager](int RacerNumber)
 		{
 			for (const auto& RacerStatsLine : Manager->GetRacerStatsLines())

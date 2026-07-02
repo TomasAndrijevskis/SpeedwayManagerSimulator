@@ -40,7 +40,7 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points)
 	if (!NewNumbersBox) return;
 	NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
-	UpdateOverallPoints(RacerManager->CountOverallPoints(HB_Points->HasAnyChildren()));
+	UpdateOverallPoints(RacerManager->CountOverallPoints());
 }
 
 

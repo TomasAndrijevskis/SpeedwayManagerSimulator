@@ -15,5 +15,10 @@ struct FRaceLineData
 	
 	UPROPERTY(EditDefaultsOnly)
 	int RacerID;
+
+	bool IsVisitor() const
+	{
+		return HelmetColour == EHelmetColour::White || HelmetColour == EHelmetColour::Yellow;
+	};
 	
 };

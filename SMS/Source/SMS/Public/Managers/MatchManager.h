@@ -11,9 +11,8 @@ class UScoreManager;
 class ASMS_GameMode;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMatchFinished, int, int);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNominatedRacesStared, const bool);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStared);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPopulateRacersRequest, TArray<UTeamManager*>);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnRacerManagersCreated, TArray<UTeamManager*>);
 UCLASS()
 class SMS_API UMatchManager : public UObject
 {
@@ -36,6 +35,8 @@ public:
 	int GetVisitorTeamID() const;
 
 	int GetAmountOfRaces() const;
+
+	void CreateRacerManagers(TArray<UTeamManager*> TeamManagersRef);
 	
 	FTeamRosterData* GetHomeTeamData() const;
 
@@ -43,11 +44,9 @@ public:
 
 	FOnMatchFinished OnMatchFinishedDelegate;
 
-	FOnNominatedRacesStared OnNominatedRacesStaredDelegate;
-
 	FOnRaceStared OnRaceStaredDelegate;
 
-	FOnPopulateRacersRequest OnPopulateRacersRequestDelegate;
+	FOnRacerManagersCreated OnRacerManagersCreatedDelegate;
 	
 private:
 
@@ -59,7 +58,7 @@ private:
 	
 	void SimulateRace();
 
-	void PopulateRacers(TArray<UTeamManager*> TeamManagers);
+	void PopulateRacers(TArray<UTeamManager*> TeamManagersRef);
 	
 	UPROPERTY()
 	ASMS_GameMode* GameMode;

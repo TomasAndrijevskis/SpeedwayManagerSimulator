@@ -23,7 +23,7 @@ void UTeamManager::AddRacersToLineup(const FString& RacerName, int RacerStatLine
 
 void UTeamManager::ForEachRacerInLineup(TFunction<void(int)> Callback)
 {
-	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager*)
+	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data)
 	{
 		Callback(Data.RacerNumber);
 	});
@@ -32,10 +32,10 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(int)> Callback)
 
 void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> Callback)
 {
-	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager*)
+	for (const auto& Racer : Racers)
 	{
-		Callback(Data);
-	});
+		Callback(Racer.Value);
+	}
 }
 
 
@@ -79,7 +79,7 @@ void UTeamManager::SetTeamData(int ID, bool IsVisitor)
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	TeamRosterData = GameMode->GetTeamData(ID);
-	IsVisitorTeam = IsVisitor;
+	bIsVisitorTeam = IsVisitor;
 }
 
 
@@ -106,6 +106,6 @@ void UTeamManager::FillTeamRosterOptions()
 
 void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
 TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
-bool UTeamManager::IsVisitor()const{return IsVisitorTeam;}
+bool UTeamManager::IsVisitorTeam()const{return bIsVisitorTeam;}
 TMap<int, URacerManager*> UTeamManager::GetRacerManagers() {return RacerManagers;}
 const FString& UTeamManager::GetTeamName() const{return TeamRosterData->TeamName.ToString();}

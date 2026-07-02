@@ -36,16 +36,16 @@ public:
 	
 	int GetTieBreaker() const;
 	
-	void SetRaceLineData(const FRaceLineData& NewRaceLineData);
+	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 
 	void SetRacerData(const FRacerMatchData& NewRacerData, URacerManager* RacerManagerRef);
 
+	bool IsVisitor() const;
+	
 	void ChangeRider();
 
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
-
-	bool IsVisitor() const;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 	
