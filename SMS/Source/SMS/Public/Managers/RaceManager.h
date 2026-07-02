@@ -6,7 +6,6 @@
 #include "UI/League/Program/RaceLine.h"
 #include "RaceManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE(FOnRaceFinished);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceStatusChanged, bool)
@@ -31,8 +30,6 @@ public:
 	void BindDelegates();
 	
 	void UpdateOverallScore(int HomePts, int VisitorPts);
-	
-	FOnRaceFinished OnRaceFinishedDelegate;
 
 	FOnRaceScoreUpdated OnRaceScoreUpdatedDelegate;
 
@@ -50,5 +47,4 @@ private:
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;
-	
 };

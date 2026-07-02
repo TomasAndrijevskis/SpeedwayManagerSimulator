@@ -44,8 +44,6 @@ public:
 
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
-	
-	void OnRaceFinished();
 
 	bool IsVisitor() const;
 	
@@ -65,8 +63,6 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_PointsPerRace;
 
-	virtual void NativeConstruct() override;
-
 	virtual void SetRacerName(const FString& NewRacerName){};
 	
 	UPROPERTY()
@@ -78,8 +74,11 @@ protected:
 	
 private:
 
+	void BindManagerDelegates();
+
 	void BindDelegates();
-	void CalculateRating();
+	
+	void OnRaceStarted();
 
 	USlider* CreateSlider();
 	

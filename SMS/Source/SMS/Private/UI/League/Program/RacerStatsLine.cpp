@@ -23,7 +23,6 @@ void URacerStatsLine::InitializeManagers(URacerManager* RacerManagerRef)
 void URacerStatsLine::BindDelegates()
 {
 	if (!RacerManager) return;
-	RacerManager->OnValueAddRequestDelegate.AddUObject(RacerManager, &URacerManager::AddPoints);
 	RacerManager->OnPointsAddedDelegate.AddUObject(this, &URacerStatsLine::CreateNewPointsBox);
 }
 

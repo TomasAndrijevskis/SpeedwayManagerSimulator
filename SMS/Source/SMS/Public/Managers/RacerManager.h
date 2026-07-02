@@ -5,7 +5,6 @@
 #include "Data/RacersData/RacerMatchData.h"
 #include "RacerManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueAddRequest, const FString&)
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPointsAdded, const FString&)
 UCLASS()
 class SMS_API URacerManager : public UObject
@@ -29,8 +28,6 @@ public:
 	int GetTieBreaker() const;
 
 	int GetCurrentRaceRating() const;
-	
-	FOnValueAddRequest OnValueAddRequestDelegate;
 
 	FOnPointsAdded OnPointsAddedDelegate;
 	

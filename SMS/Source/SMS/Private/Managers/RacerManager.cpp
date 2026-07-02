@@ -5,8 +5,6 @@
 void URacerManager::Initialize(const FRacerMatchData& RacerData)
 {
 	Data = RacerData;
-	//UE_LOG(LogTemp, Warning, TEXT("Number: %i, Name: %s"), Data.RacerNumber, *Data.RacerData.Name);
-	//UE_LOG(LogTemp, Display, TEXT("-----"));
 }
 
 

@@ -27,7 +27,6 @@ void URaceManager::SimulateRace()
 	for (const auto& RaceLine : RaceLines)
 	{
 		RaceLine->SetPointsPerRace(Points);
-		RaceLine->OnRaceFinished();
 		Points++;
 	}
 	CalculateRaceResult();

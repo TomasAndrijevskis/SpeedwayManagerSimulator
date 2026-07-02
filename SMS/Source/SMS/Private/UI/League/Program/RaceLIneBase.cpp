@@ -9,19 +9,13 @@
 #include "UI/BaseClasses/NumbersBox.h"
 
 
-void URaceLineBase::NativeConstruct()
-{
-	Super::NativeConstruct();
-	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLineBase::OnRacerReplaced);
-}
-
-
 void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 {
 	RacerID = NewRaceLineData.RacerID;
 	RaceLineData = NewRaceLineData;
 	if (RacerID != 0) NumbersBox_RacerNumber->SetText(RacerID);
 	NumbersBox_RacerNumber->SetColour(NewRaceLineData.HelmetColour);
+	BindDelegates();
 }
 
 
@@ -31,18 +25,24 @@ void URaceLineBase::SetRacerData(const FRacerMatchData& NewRacerData, URacerMana
 	RacerData = NewRacerData;
 	RacerManager = RacerManagerRef;
 	SetRacerName(RacerData.RacerData.Name);
-	BindDelegates();
+	BindManagerDelegates();
+}
+
+
+void URaceLineBase::BindManagerDelegates()
+{
+	if (!RacerManager) return;
+	OnRaceStartedDelegate.AddUObject(this, &URaceLineBase::OnRaceStarted);
 }
 
 
 void URaceLineBase::BindDelegates()
 {
-	if (!RacerManager) return;
-	OnRaceStartedDelegate.AddUObject(this, &URaceLineBase::CalculateRating);
+	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLineBase::OnRacerReplaced);
 }
 
 
-void URaceLineBase::CalculateRating()
+void URaceLineBase::OnRaceStarted()
 {
 	if (!RacerManager) return;
 	RacerManager->SetTieBreaker();
@@ -53,13 +53,7 @@ void URaceLineBase::CalculateRating()
 void URaceLineBase::SetPointsPerRace(int NewPoints)
 {
 	NumbersBox_PointsPerRace->SetText(NewPoints);
-}
-
-
-void URaceLineBase::OnRaceFinished()
-{
-	if (!RacerManager) return;
-	RacerManager->OnValueAddRequestDelegate.Broadcast(NumbersBox_PointsPerRace->GetNumberAsString());
+	if (RacerManager) RacerManager->AddPoints(FString::FromInt(NewPoints));
 }
 
 
