@@ -4,18 +4,38 @@
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
 #include "Components/Slider.h"
+#include "Gamemodes/SMS_GameMode.h"
+#include "Kismet/GameplayStatics.h"
+#include "Managers/MatchManager.h"
 #include "Managers/RacerManager.h"
+#include "Managers/TeamManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
 
+void URaceLineBase::NativeConstruct()
+{
+	Super::NativeConstruct();
+	InitializeWidget();
+}
+
+
+void URaceLineBase::InitializeWidget()
+{
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	UMatchManager* MatchManager = GameMode->MatchManager;
+	if (!MatchManager) return;
+	MatchManager->OnRacerManagersCreatedDelegate.AddUObject(this, &URaceLineBase::SetTeamManager);
+	BindDelegates();
+}
+
+
 void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 {
-	RacerID = NewRaceLineData.RacerID;
 	RaceLineData = NewRaceLineData;
-	if (RacerID != 0) NumbersBox_RacerNumber->SetText(RacerID);
+	SetRacerNumber(RaceLineData.RacerID);
 	NumbersBox_RacerNumber->SetColour(NewRaceLineData.HelmetColour);
-	BindDelegates();
 }
 
 
@@ -24,7 +44,7 @@ void URaceLineBase::SetRacerData(const FRacerMatchData& NewRacerData, URacerMana
 	if (!RacerManagerRef || NewRacerData.RacerData.ID == INDEX_NONE) return;
 	RacerData = NewRacerData;
 	RacerManager = RacerManagerRef;
-	SetRacerName(RacerData.RacerData.Name);
+	if(!IsReplacement) SetRacerName(RacerData.RacerData.Name);
 	BindManagerDelegates();
 }
 
@@ -38,7 +58,40 @@ void URaceLineBase::BindManagerDelegates()
 
 void URaceLineBase::BindDelegates()
 {
-	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLineBase::OnRacerReplaced);
+	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLineBase::OnRacerChosen);
+}
+
+
+void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
+{
+	for (const auto& Manager : TeamManagersRef)
+	{
+		if (!Manager) continue;
+		if (RaceLineData.IsVisitor() == Manager->IsVisitorTeam())
+		{
+			TeamManager = Manager;
+			break;
+		}
+	}
+	FillOptions();
+}
+
+
+void URaceLineBase::FillOptions()
+{
+	if (!TeamManager) return;
+	TeamManager->ForEachRacerInLineup([this](const FRacerMatchData& Data, URacerManager* Manager)
+	{
+		AddOption(Data, Manager);
+	});
+}
+
+
+void URaceLineBase::AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager)
+{
+	ChooseBox_RacerReplacement->AddOption(Data.RacerData.Name);
+	RacerManagers.Add(NewRacerManager, Data);
+	IsReplacement = true;
 }
 
 
@@ -50,21 +103,25 @@ void URaceLineBase::OnRaceStarted()
 }
 
 
-void URaceLineBase::SetPointsPerRace(const FString& NewPoints,  bool AddBonus)
+void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 {
 	NumbersBox_PointsPerRace->SetText(NewPoints);
 	if (RacerManager) RacerManager->AddPoints(NewPoints, AddBonus);
 }
 
 
-USlider* URaceLineBase::CreateSlider()
+void URaceLineBase::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (!WidgetTree) return nullptr;
-	USlider* NewSlider = WidgetTree->ConstructWidget<USlider>(USlider::StaticClass());
-	if (!NewSlider) return nullptr;
-	NewSlider->SetSliderBarColor(FColor::Black);
-	NewSlider->SetSliderHandleColor(FColor::Transparent);
-	return NewSlider;
+	for (const auto Manager : RacerManagers)
+	{
+		if (Manager.Value.RacerData.Name == SelectedItem)
+		{
+			SetRacerData(Manager.Value, Manager.Key);
+			if (!IsReplacement) SetRacerNumber(Manager.Value.RacerNumber);
+			if (IsReplacement) ChangeRider();
+			return;
+		}
+	}
 }
 
 
@@ -79,16 +136,26 @@ void URaceLineBase::ChangeRider()
 }
 
 
-void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
+USlider* URaceLineBase::CreateSlider()
 {
-	ChangeRider();
+	if (!WidgetTree) return nullptr;
+	USlider* NewSlider = WidgetTree->ConstructWidget<USlider>(USlider::StaticClass());
+	if (!NewSlider) return nullptr;
+	NewSlider->SetSliderBarColor(FColor::Black);
+	NewSlider->SetSliderHandleColor(FColor::Transparent);
+	return NewSlider;
 }
 
 
-void URaceLineBase::SetRacerID(int NewRacerID){RacerID = NewRacerID;}
+void URaceLineBase::SetRacerNumber(int NewRacerNumber)
+{
+	RacerNumber = NewRacerNumber;
+	if (RacerNumber != 0) NumbersBox_RacerNumber->SetText(RacerNumber);
+}
+
+
 void URaceLineBase::SetRaceLineID(int NewID){RaceLineID = NewID;}
-int URaceLineBase::GetRaceLineID()const{return RaceLineID;}
-int URaceLineBase::GetRacerID()const{return RacerID;}
+int URaceLineBase::GetRacerNumber()const{return RacerNumber;}
 int URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}

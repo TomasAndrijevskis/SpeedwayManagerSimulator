@@ -76,6 +76,9 @@ private:
 
 	UFUNCTION()
 	void RandomizeTeamRosters();//Testing
+
+	UFUNCTION()
+	void DisableButtons();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;

@@ -14,10 +14,7 @@ class SMS_API UChooseBox : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
-	UFUNCTION()
-	void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
-
+	
 	void AddOption(const FString& NewOption);
 
 	int GetNumberOfOptions() const;
@@ -36,4 +33,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UComboBoxString* ComboBox;
+
+	UFUNCTION()
+	void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
 };

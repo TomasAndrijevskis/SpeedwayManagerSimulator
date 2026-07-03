@@ -10,7 +10,7 @@ void URacerManager::Initialize(const FRacerMatchData& RacerData)
 
 void URacerManager::CalculateRating(bool IsVisitor)
 {
-	int Defect = FMath::RandRange(1, 15);
+	int Defect = FMath::RandRange(1, 20);
 	if (Defect == 1)
 	{
 		CurrentRacerRating = 0;

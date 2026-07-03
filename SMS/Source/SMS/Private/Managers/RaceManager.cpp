@@ -89,7 +89,7 @@ void URaceManager::AssignRacerToRace(const FRacerMatchData& RacerData, URacerMan
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetRacerID() == RacerData.RacerNumber) RaceLine->SetRacerData(RacerData, RacerManagerRef);
+		if (RaceLine->GetRacerNumber() == RacerData.RacerNumber) RaceLine->SetRacerData(RacerData, RacerManagerRef);
 	}
 }
 

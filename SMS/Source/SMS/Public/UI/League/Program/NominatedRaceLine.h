@@ -7,7 +7,6 @@
 #include "NominatedRaceLine.generated.h"
 
 
-class UTeamManager;
 class UChooseBox;
 class UNumbersBox;
 
@@ -20,32 +19,14 @@ public:
 
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData) override;
 
-
 protected:
-
-	virtual void NativeConstruct() override;
 	
-	//virtual void SetRacerName(const FString& NewRacerName) override;
+	virtual void BindDelegates() override;
 	
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	UChooseBox* ChooseBox_ChooseRacer;
-
-	void InitializeWidget();
-
-	void SetTeamManager(TArray<UTeamManager*> TeamManagersRef);
-
-	UFUNCTION()
-	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
-
-	void FillOptions();
+	UChooseBox* ChooseBox_ChooseMainRacer;
 	
-	void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager);
-	
-	UPROPERTY()
-	UTeamManager* TeamManager;
-	
-	UPROPERTY()
-	TMap<URacerManager*, FRacerMatchData> RacerManagers;
+	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager) override;
 };

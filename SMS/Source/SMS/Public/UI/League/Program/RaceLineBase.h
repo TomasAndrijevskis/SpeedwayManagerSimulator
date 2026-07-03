@@ -8,6 +8,8 @@
 #include "RaceLineBase.generated.h"
 
 
+class UTeamManager;
+class UMatchManager;
 struct FRacerMatchData;
 class URacerManager;
 class USlider;
@@ -24,10 +26,8 @@ class SMS_API URaceLineBase : public UUserWidget
 public:
 
 	void SetRaceLineID(int NewID);
-	int GetRaceLineID() const;
 	
-	void SetRacerID(int NewRacerID);
-	int GetRacerID() const;
+	int GetRacerNumber() const;
 	
 	void SetPointsPerRace(const FString& NewPoints, bool AddBonus);
 	int GetPointsPerRace() const;
@@ -45,10 +45,10 @@ public:
 	void ChangeRider();
 
 	UFUNCTION()
-	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
-	
+	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
+
 	FOnRaceStarted OnRaceStartedDelegate;
-	
+
 protected:
 
 	UPROPERTY(meta = (BindWidget))
@@ -64,25 +64,45 @@ protected:
 	UNumbersBox* NumbersBox_PointsPerRace;
 
 	virtual void SetRacerName(const FString& NewRacerName){};
-	
-	UPROPERTY()
-	URacerManager* RacerManager;
+
+	virtual void NativeConstruct() override;
+
+	virtual void InitializeWidget();
+
+	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager);
+
+	virtual void BindDelegates();
 	
 	FRacerMatchData RacerData;
 
 	FRaceLineData RaceLineData;
+
+	UPROPERTY()
+	UTeamManager* TeamManager;
+
+	UPROPERTY()
+	URacerManager* RacerManager;
+
+	UPROPERTY()
+	TMap<URacerManager*, FRacerMatchData> RacerManagers;
+
+	bool IsReplacement = false;
 	
 private:
 
 	void BindManagerDelegates();
-
-	void BindDelegates();
 	
 	void OnRaceStarted();
 
 	USlider* CreateSlider();
+
+	void SetTeamManager(TArray<UTeamManager*> TeamManagersRef);
+
+	void FillOptions();
+
+	void SetRacerNumber(int NewRacerNumber);
 	
 	int RaceLineID = 0;
 
-	int RacerID = 0;
+	int RacerNumber = 0;
 };

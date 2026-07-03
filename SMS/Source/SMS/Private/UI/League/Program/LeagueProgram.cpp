@@ -34,10 +34,18 @@ void ULeagueProgram::InitializeManagers()
 void ULeagueProgram::BindDelegates()
 {
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
+	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::DisableButtons);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
 	if (!MatchManager) return;
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
+}
+
+
+void ULeagueProgram::DisableButtons()
+{
+	Button_ConfirmTeams->SetIsEnabled(false);
+	Button_RandomizeTeamRosters->SetIsEnabled(false);
 }
 
 
