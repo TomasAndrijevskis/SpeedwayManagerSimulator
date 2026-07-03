@@ -23,12 +23,17 @@ void URaceManager::SimulateRace()
 		RaceLine->OnRaceStartedDelegate.Broadcast();
 	}
 	SortLinesByRating();
-	int Points = 0;
-	for (const auto& RaceLine : RaceLines)
+	for (int Position = 0, Points = 3; Position < RaceLines.Num(); Position++, Points--)
 	{
-		if (RaceLine->GetRacerRating() == 0) RaceLine->SetPointsPerRace("D");
-		else RaceLine->SetPointsPerRace(Points);
-		Points++;
+		URaceLineBase* CurrentLine = RaceLines[Position];
+		const bool IsVisitor = CurrentLine->IsVisitor();
+		bool HasBonus = false;
+		if (Position != 0 && Position < RaceLines.Num() - 1)
+			HasBonus = RaceLines[Position - 1]->IsVisitor() == IsVisitor;
+		if (CurrentLine->GetRacerRating() == 0)
+			CurrentLine->SetPointsPerRace(DidNotFinish, false);
+		else
+			CurrentLine->SetPointsPerRace(FString::FromInt(Points), HasBonus);
 	}
 	CalculateRaceResult();
 	UE_LOG(LogTemp, Error, TEXT("---------"));
@@ -67,9 +72,9 @@ void URaceManager::SortLinesByRating()
 		if (L1.GetRacerRating() == L2.GetRacerRating())
 		{
 			//UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!Same rating!!!!!!!!!!!!!"));
-			return L1.GetTieBreaker() < L2.GetTieBreaker();
+			return L1.GetTieBreaker() > L2.GetTieBreaker();
 		}
-		return L1.GetRacerRating() < L2.GetRacerRating();
+		return L1.GetRacerRating() > L2.GetRacerRating();
 	});
 }
 

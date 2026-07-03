@@ -22,12 +22,12 @@ void URacerManager::CalculateRating(bool IsVisitor)
 	int RacerRating = Data.RacerData.RacerStats.Rating;
 	CurrentRacerRating = Start + Driving + RacerRating;
 	
-	/*UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.RacerData.Name);
+	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.RacerData.Name);
 	UE_LOG(LogTemp, Warning, TEXT("TieBreaker: %i"), TieBreakerValue);
 	UE_LOG(LogTemp, Warning, TEXT("Start rating: %i"), Start);
 	UE_LOG(LogTemp, Warning, TEXT("Driving rating: %i"), Driving);
 	UE_LOG(LogTemp, Warning, TEXT("Race rating: %i"), CurrentRacerRating);
-	UE_LOG(LogTemp, Display, TEXT("-----"));*/
+	UE_LOG(LogTemp, Display, TEXT("-----"));
 }
 
 
@@ -37,11 +37,11 @@ void URacerManager::SetTieBreaker()
 }
 
 
-void URacerManager::AddPoints(const FString& NewPoints)
+void URacerManager::AddPoints(const FString& NewPoints, bool AddBonus)
 {
 	if (!CanAddNewPointBox()) return;
 	RacerPoints.Add(NewPoints);
-	OnPointsAddedDelegate.Broadcast(NewPoints);
+	OnPointsAddedDelegate.Broadcast(NewPoints, AddBonus);
 }
 
 

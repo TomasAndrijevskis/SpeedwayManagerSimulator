@@ -47,4 +47,6 @@ private:
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;
+	
+	const FString DidNotFinish = TEXT("D");
 };

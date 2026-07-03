@@ -52,7 +52,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UNumbersBox> PointsBoxClass;
 
-	void CreateNewPointsBox(const FString& Points);
+	void CreateNewPointsBox(const FString& Points, bool AddBonus);
 
 	void UpdateOverallPoints(int Points);
 

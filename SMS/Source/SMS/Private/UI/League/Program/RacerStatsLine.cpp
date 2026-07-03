@@ -33,12 +33,13 @@ void URacerStatsLine::AddOption(const FString& NewOption)
 }
 
 
-void URacerStatsLine::CreateNewPointsBox(const FString& Points)
+void URacerStatsLine::CreateNewPointsBox(const FString& Points, bool AddBonus)
 {
 	if (!PointsBoxClass || !RacerManager) return;
 	UNumbersBox* NewNumbersBox = Cast<UNumbersBox>(CreateWidget(this, PointsBoxClass));
 	if (!NewNumbersBox) return;
-	NewNumbersBox->SetText(Points);
+	if (AddBonus) NewNumbersBox->SetText(Points + "*");
+	else NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
 	UpdateOverallPoints(RacerManager->CountOverallPoints());
 }

@@ -28,9 +28,8 @@ public:
 	
 	void SetRacerID(int NewRacerID);
 	int GetRacerID() const;
-
-	void SetPointsPerRace(int NewPoints);
-	void SetPointsPerRace(const FString& NewPoints);
+	
+	void SetPointsPerRace(const FString& NewPoints, bool AddBonus);
 	int GetPointsPerRace() const;
 	
 	int GetRacerRating() const;

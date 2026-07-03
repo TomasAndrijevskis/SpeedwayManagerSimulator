@@ -50,17 +50,10 @@ void URaceLineBase::OnRaceStarted()
 }
 
 
-void URaceLineBase::SetPointsPerRace(int NewPoints)
+void URaceLineBase::SetPointsPerRace(const FString& NewPoints,  bool AddBonus)
 {
 	NumbersBox_PointsPerRace->SetText(NewPoints);
-	if (RacerManager) RacerManager->AddPoints(FString::FromInt(NewPoints));
-}
-
-
-void URaceLineBase::SetPointsPerRace(const FString& NewPoints)
-{
-	NumbersBox_PointsPerRace->SetText(NewPoints);
-	if (RacerManager) RacerManager->AddPoints(NewPoints);
+	if (RacerManager) RacerManager->AddPoints(NewPoints, AddBonus);
 }
 
 

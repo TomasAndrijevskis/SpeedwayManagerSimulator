@@ -5,7 +5,7 @@
 #include "Data/RacersData/RacerMatchData.h"
 #include "RacerManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPointsAdded, const FString&)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPointsAdded, const FString&, bool)
 UCLASS()
 class SMS_API URacerManager : public UObject
 {
@@ -17,7 +17,7 @@ public:
 
 	int CountOverallPoints();
 
-	void AddPoints(const FString& NewPoints);
+	void AddPoints(const FString& NewPoints, bool AddBonus);
 	
 	void CalculateRating(bool IsVisitor);
 
@@ -46,5 +46,4 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<FString> RacerPoints;
-	
 };
