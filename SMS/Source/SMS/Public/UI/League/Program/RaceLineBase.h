@@ -30,6 +30,7 @@ public:
 	int GetRacerID() const;
 
 	void SetPointsPerRace(int NewPoints);
+	void SetPointsPerRace(const FString& NewPoints);
 	int GetPointsPerRace() const;
 	
 	int GetRacerRating() const;

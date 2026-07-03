@@ -57,6 +57,13 @@ void URaceLineBase::SetPointsPerRace(int NewPoints)
 }
 
 
+void URaceLineBase::SetPointsPerRace(const FString& NewPoints)
+{
+	NumbersBox_PointsPerRace->SetText(NewPoints);
+	if (RacerManager) RacerManager->AddPoints(NewPoints);
+}
+
+
 USlider* URaceLineBase::CreateSlider()
 {
 	if (!WidgetTree) return nullptr;

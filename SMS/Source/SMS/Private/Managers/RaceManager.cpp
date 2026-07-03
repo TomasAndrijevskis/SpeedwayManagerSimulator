@@ -26,7 +26,8 @@ void URaceManager::SimulateRace()
 	int Points = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
-		RaceLine->SetPointsPerRace(Points);
+		if (RaceLine->GetRacerRating() == 0) RaceLine->SetPointsPerRace("D");
+		else RaceLine->SetPointsPerRace(Points);
 		Points++;
 	}
 	CalculateRaceResult();
@@ -65,7 +66,7 @@ void URaceManager::SortLinesByRating()
 	{
 		if (L1.GetRacerRating() == L2.GetRacerRating())
 		{
-			UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!Same rating!!!!!!!!!!!!!"));
+			//UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!Same rating!!!!!!!!!!!!!"));
 			return L1.GetTieBreaker() < L2.GetTieBreaker();
 		}
 		return L1.GetRacerRating() < L2.GetRacerRating();
