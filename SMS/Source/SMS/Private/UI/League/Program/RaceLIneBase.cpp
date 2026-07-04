@@ -58,7 +58,7 @@ void URaceLineBase::BindManagerDelegates()
 
 void URaceLineBase::BindDelegates()
 {
-	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLineBase::OnRacerChosen);
+	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &URaceLineBase::OnRacerReplaced);
 }
 
 
@@ -91,7 +91,6 @@ void URaceLineBase::AddOption(const FRacerMatchData& Data, URacerManager* NewRac
 {
 	ChooseBox_RacerReplacement->AddOption(Data.RacerData.Name);
 	RacerManagers.Add(NewRacerManager, Data);
-	IsReplacement = true;
 }
 
 
@@ -112,13 +111,32 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 
 void URaceLineBase::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	for (const auto Manager : RacerManagers)
+	FindSelectedRacer(SelectedItem, [this](URacerManager* Manager, const FRacerMatchData& Data)
+	{
+		SetRacerData(Data, Manager);
+		SetRacerNumber(Data.RacerNumber);
+	});
+}
+
+
+void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
+{
+	FindSelectedRacer(SelectedItem, [this](URacerManager* Manager, const FRacerMatchData& Data)
+	{
+		IsReplacement = true;
+		SetRacerData(Data, Manager);
+		ChangeRider();
+	});
+}
+
+
+void URaceLineBase::FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback)
+{
+	for (const auto& Manager : RacerManagers)
 	{
 		if (Manager.Value.RacerData.Name == SelectedItem)
 		{
-			SetRacerData(Manager.Value, Manager.Key);
-			if (!IsReplacement) SetRacerNumber(Manager.Value.RacerNumber);
-			if (IsReplacement) ChangeRider();
+			Callback(Manager.Key, Manager.Value);
 			return;
 		}
 	}

@@ -24,5 +24,4 @@ void UNominatedRaceLine::AddOption(const FRacerMatchData& Data, URacerManager* N
 	Super::AddOption(Data, NewRacerManager);
 	ChooseBox_ChooseMainRacer->AddOption(Data.RacerData.Name);
 	RacerManagers.Add(NewRacerManager, Data);
-	IsReplacement = false;
 }

@@ -44,9 +44,6 @@ public:
 	
 	void ChangeRider();
 
-	UFUNCTION()
-	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
-
 	FOnRaceStarted OnRaceStartedDelegate;
 
 protected:
@@ -72,6 +69,12 @@ protected:
 	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager);
 
 	virtual void BindDelegates();
+
+	UFUNCTION()
+	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
+
+	UFUNCTION()
+	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 	FRacerMatchData RacerData;
 
@@ -101,6 +104,8 @@ private:
 	void FillOptions();
 
 	void SetRacerNumber(int NewRacerNumber);
+
+	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
 	
 	int RaceLineID = 0;
 
