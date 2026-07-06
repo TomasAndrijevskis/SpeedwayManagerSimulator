@@ -28,7 +28,7 @@ void UMatchManager::SimulateRace()
 	if (CurrentRace <= RaceManagers.Num()-1)
 	{
 		BindRaceDelegates();
-		RaceManagers[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
+		RaceManagers[CurrentRace]->OnRaceSimulationStartedDelegate.Broadcast();
 		HandleRaceFinished();
 	}
 }

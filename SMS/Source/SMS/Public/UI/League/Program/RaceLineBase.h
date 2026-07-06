@@ -10,7 +10,6 @@
 
 class UTeamManager;
 class UMatchManager;
-struct FRacerMatchData;
 class URacerManager;
 class USlider;
 class UChooseBox;
@@ -44,6 +43,8 @@ public:
 	
 	void ChangeRider();
 
+	void HandleRace(bool bIsActive);
+	
 	FOnRaceStarted OnRaceStartedDelegate;
 
 protected:
@@ -101,11 +102,11 @@ private:
 
 	void SetTeamManager(TArray<UTeamManager*> TeamManagersRef);
 
-	void FillOptions();
-
 	void SetRacerNumber(int NewRacerNumber);
 
 	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
+
+	void FillOptions();
 	
 	int RaceLineID = 0;
 

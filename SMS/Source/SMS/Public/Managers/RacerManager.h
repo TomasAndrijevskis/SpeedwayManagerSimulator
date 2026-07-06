@@ -28,6 +28,10 @@ public:
 	int GetCurrentRaceRating() const;
 
 	FOnPointsAdded OnPointsAddedDelegate;
+
+	void IncreaseRaceAmount();
+
+	bool CanReplace() const;
 	
 private:
 
@@ -43,6 +47,8 @@ private:
 	int TieBreakerValue = 0;
 
 	int CurrentRacerRating = 0;
+
+	int RaceAmount = 0;
 	
 	UPROPERTY(VisibleAnywhere)
 	TArray<FString> RacerPoints;

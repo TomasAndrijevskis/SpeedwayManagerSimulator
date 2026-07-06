@@ -6,7 +6,7 @@
 void URaceManager::BindDelegates()
 {
 	OnRaceStatusChangedDelegate.AddUObject(this, &URaceManager::ChangeRaceStatus);
-	OnSimulateRaceRequestDelegate.AddUObject(this, &URaceManager::SimulateRace);
+	OnRaceSimulationStartedDelegate.AddUObject(this, &URaceManager::SimulateRace);
 }
 
 
@@ -44,7 +44,7 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 {
 	for (auto& RaceLine : RaceLines)
 	{
-		RaceLine->SetIsEnabled(bIsActive);
+		RaceLine->HandleRace(bIsActive);
 	}
 }
 

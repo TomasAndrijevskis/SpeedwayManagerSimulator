@@ -7,6 +7,7 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MatchManager.h"
+#include "Managers/RaceFunctionLibrary.h"
 #include "Managers/RacerManager.h"
 #include "Managers/TeamManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
@@ -31,6 +32,17 @@ void URaceLineBase::InitializeWidget()
 }
 
 
+void URaceLineBase::HandleRace(bool bIsActive)
+{
+	SetIsEnabled(bIsActive);
+	/*if (bIsActive && UMyBlueprintFunctionLibrary::IsReplacementPossible(1, 7))
+	{
+		FillOptions();
+	}*/
+	if (bIsActive) FillOptions();
+}
+
+
 void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 {
 	RaceLineData = NewRaceLineData;
@@ -44,6 +56,7 @@ void URaceLineBase::SetRacerData(const FRacerMatchData& NewRacerData, URacerMana
 	if (!RacerManagerRef || NewRacerData.RacerData.ID == INDEX_NONE) return;
 	RacerData = NewRacerData;
 	RacerManager = RacerManagerRef;
+	RacerManager->IncreaseRaceAmount();
 	if(!IsReplacement) SetRacerName(RacerData.RacerData.Name);
 	BindManagerDelegates();
 }
@@ -73,7 +86,6 @@ void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
 			break;
 		}
 	}
-	FillOptions();
 }
 
 
@@ -82,7 +94,8 @@ void URaceLineBase::FillOptions()
 	if (!TeamManager) return;
 	TeamManager->ForEachRacerInLineup([this](const FRacerMatchData& Data, URacerManager* Manager)
 	{
-		AddOption(Data, Manager);
+		if (!Manager) return;
+		if (Manager->CanReplace()) AddOption(Data, Manager);
 	});
 }
 
