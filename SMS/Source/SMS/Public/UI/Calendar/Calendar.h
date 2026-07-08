@@ -41,7 +41,7 @@ private:
 	
 	int GetRandomTeam();
 
-	void SetTeam(int& Team);
+	void SetTeamID(int& Team);
 	
 	UPROPERTY(EditDefaultsOnly)
 	int AmountOfMatches = 3;

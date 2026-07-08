@@ -107,10 +107,9 @@ void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
 void URaceLineBase::FillOptions()
 {
 	if (!TeamManager) return;
-	TeamManager->ForEachRacerInLineup([this](const FRacerMatchData& Data, URacerManager* RacerManager)
+	TeamManager->GetAvailableReplacementRacers([this](const FRacerMatchData& Data, URacerManager* RacerManager)
 	{
-		if (!RacerManager) return;
-		if (RacerManager->CanDriveMore()) AddOption(Data, RacerManager);
+		AddOption(Data, RacerManager);
 	});
 }
 
@@ -135,7 +134,7 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 	NumbersBox_PointsPerRace->SetText(NewPoints);
 	if (RacerManager) RacerManager->AddPoints(NewPoints, AddBonus);
 }
-
+ 
 
 void URaceLineBase::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {

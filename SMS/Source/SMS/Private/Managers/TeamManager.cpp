@@ -49,6 +49,15 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&, U
 }
 
 
+void UTeamManager::GetAvailableReplacementRacers(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
+{
+	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager* RacerManager)
+	{
+		if (RacerManager->CanDriveMore()) Callback(Data, RacerManager);
+	});
+}
+
+
 void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback)
 {
 	for (const auto& Racer : TeamData->Racers)

@@ -28,7 +28,7 @@ void UMatchManager::SimulateRace()
 	if (CurrentRace <= RaceManagers.Num()-1)
 	{
 		BindRaceDelegates();
-		RaceManagers[CurrentRace]->OnRaceSimulationStartedDelegate.Broadcast();
+		RaceManagers[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
 		HandleRaceFinished();
 	}
 }
@@ -37,17 +37,12 @@ void UMatchManager::SimulateRace()
 void UMatchManager::BindRaceDelegates()
 {
 	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateScore);
-	//ScoreManager->OnOverallScoreUpdatedDelegate.AddUObject(RaceManagers[CurrentRace], &URaceManager::UpdateOverallScore);
 }
 
 
 void UMatchManager::HandleRaceFinished()
 {
-	RaceManagers[CurrentRace]->OnRaceFinishedDelegate.Broadcast();
-	RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
-	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.Clear();
 	ScoreManager->ClearLastRaceScore();
-	//ScoreManager->OnOverallScoreUpdatedDelegate.Clear();
 	CurrentRace++;
 	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
 }

@@ -9,7 +9,7 @@
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceStatusChanged, bool)
-DECLARE_MULTICAST_DELEGATE(FOnRaceSimulationStarted);
+DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
 DECLARE_MULTICAST_DELEGATE(FOnRaceFinished);
 UCLASS()
 class SMS_API URaceManager : public UObject
@@ -36,7 +36,7 @@ public:
 
 	FOnRaceStatusChanged OnRaceStatusChangedDelegate;
 
-	FOnRaceSimulationStarted OnRaceSimulationStartedDelegate;
+	FOnSimulateRaceRequest OnSimulateRaceRequestDelegate;
 
 	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
@@ -47,6 +47,8 @@ private:
 	void SortLinesByRating();
 
 	void SimulateRace();
+
+	void OnRaceFinished();
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;

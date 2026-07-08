@@ -28,10 +28,10 @@ int UCalendar::GetRandomTeam()
 }
 
 
-void UCalendar::SetTeam(int& Team)
+void UCalendar::SetTeamID(int& Team)
 {
 	Team = GetRandomTeam();
-	if (ChosenOptions.Contains(Team)) SetTeam(Team);
+	if (ChosenOptions.Contains(Team)) SetTeamID(Team);
 	else ChosenOptions.Add(Team);
 }
 
@@ -40,8 +40,8 @@ void UCalendar::CreateMatches()
 {
 	int TeamA;
 	int TeamB;
-	SetTeam(TeamA);
-	SetTeam(TeamB);
+	SetTeamID(TeamA);
+	SetTeamID(TeamB);
 	UCalendarLine* CalendarLine = CreateMatch(TeamA, TeamB);
 	if (!CalendarLine) return;
 	VB_Content->AddChildToVerticalBox(CalendarLine);

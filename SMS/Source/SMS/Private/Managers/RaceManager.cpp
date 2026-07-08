@@ -6,7 +6,7 @@
 void URaceManager::BindDelegates()
 {
 	OnRaceStatusChangedDelegate.AddUObject(this, &URaceManager::ChangeRaceStatus);
-	OnRaceSimulationStartedDelegate.AddUObject(this, &URaceManager::SimulateRace);
+	OnSimulateRaceRequestDelegate.AddUObject(this, &URaceManager::SimulateRace);
 }
 
 
@@ -36,7 +36,15 @@ void URaceManager::SimulateRace()
 			CurrentLine->SetPointsPerRace(FString::FromInt(Points), HasBonus);
 	}
 	CalculateRaceResult();
-	UE_LOG(LogTemp, Error, TEXT("---------"));
+	OnRaceFinished();
+}
+
+
+void URaceManager::OnRaceFinished()
+{
+	OnRaceFinishedDelegate.Broadcast();
+	OnRaceStatusChangedDelegate.Broadcast(false);
+	OnRaceScoreUpdatedDelegate.Clear();
 }
 
 
@@ -51,12 +59,8 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 
 void URaceManager::CalculateRaceResult()
 {
-	//int HomePts = 0;
-	//int VisitorPts = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
-		//if (RaceLine->IsVisitor()) VisitorPts += RaceLine->GetPointsPerRace();
-		//else HomePts += RaceLine->GetPointsPerRace();
 		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeamID(), RaceLine->GetPointsPerRace());
 	}
 }
@@ -68,7 +72,6 @@ void URaceManager::SortLinesByRating()
 	{
 		if (L1.GetRacerRating() == L2.GetRacerRating())
 		{
-			//UE_LOG(LogTemp, Error, TEXT("!!!!!!!!!!!!Same rating!!!!!!!!!!!!!"));
 			return L1.GetTieBreaker() > L2.GetTieBreaker();
 		}
 		return L1.GetRacerRating() > L2.GetRacerRating();

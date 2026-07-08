@@ -25,6 +25,8 @@ public:
 	void ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> Callback);
 
 	void ForEachRacerInLineup(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback);
+
+	void GetAvailableReplacementRacers(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback);
 	
 	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
 	
