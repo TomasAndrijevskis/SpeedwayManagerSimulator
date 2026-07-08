@@ -45,6 +45,7 @@ void UMatchManager::HandleRaceFinished()
 	ScoreManager->ClearLastRaceScore();
 	CurrentRace++;
 	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
+	else OnMatchEndedDelegate.Broadcast();
 }
 
 

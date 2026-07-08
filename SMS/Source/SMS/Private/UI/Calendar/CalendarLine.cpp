@@ -4,14 +4,29 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Managers/MatchManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/ScoreManager.h"
 #include "UI/BaseClasses/NamesBox.h"
+#include "UI/BaseClasses/NumbersBox.h"
 #include "UI/League/Program/LeagueProgram.h"
 
 
 void UCalendarLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::StartMatch);
+	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::InitializeManagers);
+}
+
+
+void UCalendarLine::InitializeManagers()
+{
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	GameMode->CreateRequiredManagers();
+	MatchManager = GameMode->GetMatchManager();
+	ScoreManager = GameMode->GetScoreManager();
+	if (!MatchManager || !ScoreManager) return;
+	MatchManager->OnMatchEndedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
+	StartMatch();
 }
 
 
@@ -19,10 +34,19 @@ void UCalendarLine::InitializeLine(int NewHomeTeamID, int NewVisitorTeamID)
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
-	MatchManager = GameMode->GetMatchManager();
-	if (!MatchManager) return;
 	SetMatchTeamID(NewHomeTeamID, NewVisitorTeamID);
 	DisplayTeamNames(GameMode->GetTeamName(HomeTeamID), GameMode->GetTeamName(VisitorTeamID));
+}
+
+
+void UCalendarLine::OnMatchEnded()
+{
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	Button_StartMatch->OnClicked.Clear();
+	Button_StartMatch->SetIsEnabled(false);
+	if (!ScoreManager) return;
+	DisplayFinalScore(ScoreManager->GetTeamScore(false), ScoreManager->GetTeamScore(true));
 }
 
 
@@ -42,6 +66,13 @@ void UCalendarLine::DisplayTeamNames(const FText& HomeTeamName, const FText& Vis
 {
 	NamesBox_HomeTeamName->SetText(HomeTeamName);
 	NamesBox_VisitorTeamName->SetText(VisitorTeamName);
+}
+
+
+void UCalendarLine::DisplayFinalScore(int HomePoints, int VisitorPoints)
+{
+	NumbersBox_HomeTeamScore->SetText(HomePoints);
+	NumbersBox_VisitorTeamScore->SetText(VisitorPoints);
 }
 
 

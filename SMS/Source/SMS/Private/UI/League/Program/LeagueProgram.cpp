@@ -4,6 +4,7 @@
 #include "Components/Button.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
+#include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Managers/MatchManager.h"
@@ -16,7 +17,6 @@
 void ULeagueProgram::NativeConstruct()
 {
 	Super::NativeConstruct();
-	InitializeManagers();
 	BindDelegates();
 	InitializeTeams();
 	CreateRaces();
@@ -34,12 +34,13 @@ void ULeagueProgram::InitializeManagers()
 
 void ULeagueProgram::BindDelegates()
 {
+	if (!MatchManager) return;
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::DisableButtons);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
-	if (!MatchManager) return;
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
+	MatchManager->OnMatchEndedDelegate.AddUObject(this, &ULeagueProgram::ChangeButtonBehaviour);
 }
 
 
@@ -47,6 +48,20 @@ void ULeagueProgram::DisableButtons()
 {
 	Button_ConfirmTeams->SetIsEnabled(false);
 	Button_RandomizeTeamRosters->SetIsEnabled(false);
+}
+
+
+void ULeagueProgram::ChangeButtonBehaviour()
+{
+	Text_SimulateButton->SetText(FText::FromString("End match"));
+	Button_SimulateRace->OnClicked.Clear();
+	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::FinishMatch);
+}
+
+
+void ULeagueProgram::FinishMatch()
+{
+	this->RemoveFromParent();
 }
 
 

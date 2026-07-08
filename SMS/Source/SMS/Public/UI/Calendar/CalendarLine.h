@@ -6,6 +6,7 @@
 #include "CalendarLine.generated.h"
 
 
+class UScoreManager;
 class UNumbersBox;
 class UMatchManager;
 class ASMS_GameMode;
@@ -47,14 +48,24 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_StartMatch;
 
+	void OnMatchEnded();
+	
 	UFUNCTION()
 	void StartMatch();
+
+	void DisplayFinalScore(int HomePoints, int VisitorPoints);
+
+	UFUNCTION()
+	void InitializeManagers();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ULeagueProgram> LeagueProgramClass;
 
 	UPROPERTY()
 	UMatchManager* MatchManager;
+
+	UPROPERTY()
+	UScoreManager* ScoreManager;
 	
 	int HomeTeamID;
 	

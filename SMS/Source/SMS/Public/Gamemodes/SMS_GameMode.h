@@ -32,14 +32,16 @@ public:
 	UMatchManager* GetMatchManager() const;
 
 	UScoreManager* GetScoreManager() const;
+
+	void CreateRequiredManagers();
+
+	void DestroyUsedManagers();
 	
 private:
 
 	void InitializeRacers();
 
 	void PrintTeams();
-
-	void InitializeManagers();
 	
 	UPROPERTY(EditDefaultsOnly)
 	URacersDataAsset* RacersDataAsset;
@@ -47,9 +49,9 @@ private:
 	TMap<ETeams, FTeamMatchData> Teams;
 	
 	UPROPERTY()
-	UMatchManager* MatchManager;
+	UMatchManager* CurrentMatchManager;
 
 	UPROPERTY()
-	UScoreManager* ScoreManager;
+	UScoreManager* CurrentScoreManager;
 	
 };

@@ -10,7 +10,7 @@ class UTeamManager;
 class UScoreManager;
 class ASMS_GameMode;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMatchFinished, int, int);
+DECLARE_MULTICAST_DELEGATE(FOnMatchEnded);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStared);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRacerManagersCreated, TArray<UTeamManager*>);
 UCLASS()
@@ -35,9 +35,9 @@ public:
 	void CreateRacerManagers(TArray<UTeamManager*> TeamManagersRef);
 
 	FTeamMatchData* GetTeamData(bool Status);
-	
-	FOnMatchFinished OnMatchFinishedDelegate;
 
+	FOnMatchEnded OnMatchEndedDelegate;
+	
 	FOnRaceStared OnRaceStaredDelegate;
 
 	FOnRacerManagersCreated OnRacerManagersCreatedDelegate;

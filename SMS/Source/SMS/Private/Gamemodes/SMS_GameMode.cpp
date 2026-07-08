@@ -8,17 +8,22 @@
 void ASMS_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	InitializeManagers();
 	InitializeRacers();
 }
 
 
-void ASMS_GameMode::InitializeManagers()
+void ASMS_GameMode::CreateRequiredManagers()
 {
-	MatchManager = NewObject<UMatchManager>(this);
-	ScoreManager = NewObject<UScoreManager>(this);
-	if (!MatchManager || !ScoreManager) return;
-	MatchManager->InitializeManager(this);
+	CurrentMatchManager = NewObject<UMatchManager>(this);
+	CurrentScoreManager = NewObject<UScoreManager>(this);
+	if (!CurrentMatchManager || !CurrentScoreManager) return;
+	CurrentMatchManager->InitializeManager(this);
+}
+
+
+void ASMS_GameMode::DestroyUsedManagers()
+{
+	CurrentMatchManager = nullptr;
 }
 
 
@@ -55,5 +60,5 @@ void ASMS_GameMode::PrintTeams()
 const FText& ASMS_GameMode::GetTeamName(int TeamID)const{return Teams.FindChecked(static_cast<ETeams>(TeamID)).TeamName;}
 FTeamMatchData ASMS_GameMode::GetTeamData(int TeamID){return Teams.FindChecked(static_cast<ETeams>(TeamID));}
 int ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
-UMatchManager* ASMS_GameMode::GetMatchManager() const{return MatchManager;}
-UScoreManager* ASMS_GameMode::GetScoreManager() const{return ScoreManager;}
+UMatchManager* ASMS_GameMode::GetMatchManager() const{return CurrentMatchManager;}
+UScoreManager* ASMS_GameMode::GetScoreManager() const{return CurrentScoreManager;}

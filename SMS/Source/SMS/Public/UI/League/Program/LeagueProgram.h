@@ -26,7 +26,7 @@ class SMS_API ULeagueProgram : public UUserWidget
 public:
 
 	void InitializeManagers();
-	
+
 protected:
 
 	virtual void NativeConstruct() override;
@@ -39,6 +39,9 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_SimulateRace;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* Text_SimulateButton;
+	
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_ShowTeams;
 
@@ -80,6 +83,12 @@ private:
 
 	UFUNCTION()
 	void DisableButtons();
+
+	UFUNCTION()
+	void FinishMatch();
+
+	UFUNCTION()
+	void ChangeButtonBehaviour();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;
