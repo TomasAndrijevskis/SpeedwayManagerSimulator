@@ -54,7 +54,7 @@ private:
 
 	void CreateNewPointsBox(const FString& Points, bool AddBonus);
 
-	void UpdateOverallPoints(int Points);
+	void UpdateOverallPoints(int Points, int Bonus);
 
 	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
 	

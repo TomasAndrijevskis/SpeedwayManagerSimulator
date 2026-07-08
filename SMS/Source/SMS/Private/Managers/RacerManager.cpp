@@ -39,8 +39,8 @@ void URacerManager::SetTieBreaker()
 
 void URacerManager::AddPoints(const FString& NewPoints, bool AddBonus)
 {
-	if (!CanAddNewPointBox()) return;
 	RacerPoints.Add(NewPoints);
+	if (AddBonus) RacerBonuses++;
 	OnPointsAddedDelegate.Broadcast(NewPoints, AddBonus);
 }
 
@@ -64,13 +64,7 @@ void URacerManager::IncreaseRaceAmount()
 }
 
 
-bool URacerManager::CanAddNewPointBox() const
-{
-	if (RacerPoints.Num() < MaxRacesAmount) return true;
-	return false;
-}
-
-
 int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
+int URacerManager::GetBonusAmount() const{return RacerBonuses;}
 bool URacerManager::CanDriveMore() const {return RaceAmount < MaxRacesAmount;}

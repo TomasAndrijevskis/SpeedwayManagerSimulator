@@ -41,7 +41,7 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points, bool AddBonus)
 	if (AddBonus) NewNumbersBox->SetText(Points + "*");
 	else NewNumbersBox->SetText(Points);
 	HB_Points->AddChild(NewNumbersBox);
-	UpdateOverallPoints(RacerManager->CountOverallPoints());
+	UpdateOverallPoints(RacerManager->CountOverallPoints(), RacerManager->GetBonusAmount());
 }
 
 
@@ -69,9 +69,11 @@ void URacerStatsLine::ChooseRandomOption(TArray<int>& ChosenOptions)
 }
 
 
-void URacerStatsLine::UpdateOverallPoints(int Points)
+void URacerStatsLine::UpdateOverallPoints(int Points, int Bonus)
 {
-	NumbersBox_OverallPoints->SetText(Points);
+	const FString NewText = FString::Printf(TEXT("%d+%d"), Points, Bonus);;
+	if (Bonus > 0) NumbersBox_OverallPoints->SetText(NewText);
+	else NumbersBox_OverallPoints->SetText(Points);
 }
 
 

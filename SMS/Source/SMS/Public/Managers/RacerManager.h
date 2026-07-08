@@ -32,11 +32,14 @@ public:
 	void IncreaseRaceAmount();
 
 	bool CanDriveMore() const;
+
+	int GetBonusAmount() const;
 	
 private:
 
-	bool CanAddNewPointBox() const;
-
+	UPROPERTY()
+	TArray<FString> RacerPoints;
+	
 	//Number during match 1-6 / 7-12
 	int RacerNumber;
 	
@@ -50,6 +53,5 @@ private:
 
 	int RaceAmount = 0;
 	
-	UPROPERTY(VisibleAnywhere)
-	TArray<FString> RacerPoints;
+	int RacerBonuses;
 };
