@@ -1,14 +1,12 @@
 
 #include "Managers/TeamManager.h"
-#include "Gamemodes/SMS_GameMode.h"
-#include "Kismet/GameplayStatics.h"
 #include "Managers/RacerManager.h"
 #include "UI/League/Program/RacerStatsLine.h"
 
 
 void UTeamManager::AddRacersToLineup(const FString& RacerName, int RacerStatLineID)
 {
-	if (const auto* FoundRacerData = Algo::FindByPredicate(TeamRosterData->Racers, [&RacerName](const auto& RacerData)
+	if (const auto* FoundRacerData = Algo::FindByPredicate(TeamData->Racers, [&RacerName](const auto& RacerData)
 	{
 		return RacerData.Name == RacerName;
 	}))
@@ -53,7 +51,7 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&, U
 
 void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback)
 {
-	for (const auto& Racer : TeamRosterData->Racers)
+	for (const auto& Racer : TeamData->Racers)
 	{
 		Callback(Racer);
 	}
@@ -71,15 +69,6 @@ void UTeamManager::CreateRacerManagers()
 			RacerManagers.Add(Racer.Key, NewRacerManager);
 		}
 	}
-}
-
-
-void UTeamManager::SetTeamData(int ID, bool IsVisitor)
-{
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	TeamRosterData = GameMode->GetTeamData(ID);
-	bIsVisitorTeam = IsVisitor;
 }
 
 
@@ -104,8 +93,10 @@ void UTeamManager::FillTeamRosterOptions()
 }
 
 
+void UTeamManager::SetTeamData(FTeamMatchData* NewTeamData){TeamData = NewTeamData;}
 void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
 TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
-bool UTeamManager::IsVisitorTeam()const{return bIsVisitorTeam;}
+bool UTeamManager::IsVisitorTeam()const{return TeamData->IsVisitorTeam;}
 TMap<int, URacerManager*> UTeamManager::GetRacerManagers() {return RacerManagers;}
-const FString& UTeamManager::GetTeamName() const{return TeamRosterData->TeamName.ToString();}
+const FString& UTeamManager::GetTeamName() const{return TeamData->TeamName.ToString();}
+int UTeamManager::GetTeamID() const{return TeamData->TeamID;}

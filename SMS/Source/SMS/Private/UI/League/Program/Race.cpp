@@ -3,7 +3,10 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
+#include "Gamemodes/SMS_GameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "Managers/RaceManager.h"
+#include "Managers/ScoreManager.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "SMS/Public/UI/League/Program/RaceLine.h"
 #include "SMS/Public/UI/League/Program/ScoreCounter.h"
@@ -29,17 +32,20 @@ void URace::OnIDSet()
 
 void URace::InitializeManagers()
 {
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	ScoreManager = GameMode->GetScoreManager();
 	RaceManager = NewObject<URaceManager>(this);
-	if (!RaceManager) return;
+	if (!RaceManager || !ScoreManager) return;
 	RaceManager->BindDelegates();
 }
 
 
 void URace::BindDelegates()
 {
-	if (!RaceManager) return;
-	RaceManager->OnRaceScoreUpdatedDelegate.AddUObject(this, &URace::UpdateRaceScore);
-	RaceManager->OnOverallScoreUpdatedDelegate.AddUObject(this, &URace::UpdateOverallScore);
+	if (!RaceManager || !ScoreManager) return;
+	RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateRacePoints);
+	RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateOverallScore);
 }
 
 
@@ -50,9 +56,8 @@ void URace::CreateRaceLines()
 	for (int RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
 	{
 		URaceLineBase* NewRaceLine;
-		if (!RaceDataAsset->RacePatterns[RaceID].IsNominatedRace) NewRaceLine = CreateRaceLine(RaceLineID);
+		if (!IsNominatedRace()) NewRaceLine = CreateRaceLine(RaceLineID);
 		else  NewRaceLine = CreateNominatedRaceLine(RaceLineID);
-		
 		if (NewRaceLine)
 		{
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine);
@@ -61,7 +66,8 @@ void URace::CreateRaceLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
-			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceID, RaceLineID));
+			
+			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
 			RaceManager->AddRaceLine(NewRaceLine);
 		}
 	}
@@ -88,17 +94,24 @@ URaceLineBase* URace::CreateNominatedRaceLine(int RaceLineID)
 }
 
 
-void URace::UpdateOverallScore(int NewHomePts, int NewVisitorPts)
+void URace::UpdateRacePoints()
 {
-	ScoreCounter->SetOverallScore(NewHomePts, NewVisitorPts);
+	if (!ScoreManager) return;
+	ScoreCounter->SetRacePoints(
+		ScoreManager->GetRaceScore(false),
+		ScoreManager->GetRaceScore(true));
 }
 
 
-void URace::UpdateRaceScore(int NewHomePts, int NewVisitorPts)
+void URace::UpdateOverallScore()
 {
-	ScoreCounter->SetRacePoints(NewHomePts, NewVisitorPts);
+	if (!ScoreManager) return;
+	ScoreCounter->SetOverallScore(
+		ScoreManager->GetTeamScore(false),
+		ScoreManager->GetTeamScore(true));
 }
 
 
 URaceManager* URace::GetRaceManager() const{return RaceManager;}
-FRaceLineData& URace::GetRaceLineData(int RaceId, int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceId].RaceLines[RaceLineId];}
+FRaceLineData& URace::GetRaceLineData(int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}
+bool URace::IsNominatedRace() const{return RaceDataAsset->RacePatterns[RaceID].IsNominatedRace;}

@@ -2,15 +2,52 @@
 #include "Managers/ScoreManager.h"
 
 
-void UScoreManager::UpdateOverallScore(int AddHomePts, int AddVisitorPts)
+void UScoreManager::AddTeamRef(FTeamMatchData* TeamData)
 {
-	HomeOverallScore += AddHomePts;
-	VisitorOverallScore += AddVisitorPts;
-	OnOverallScoreUpdatedDelegate.Broadcast(HomeOverallScore, VisitorOverallScore);
-	OnHomePtsUpdatedDelegate.Broadcast(HomeOverallScore);
-	OnVisitorPtsUpdatedDelegate.Broadcast(VisitorOverallScore);
+	Teams.Add(TeamData);
 }
 
 
-int UScoreManager::GetHomeTeamScore() const{return HomeOverallScore;}
-int UScoreManager::GetVisitorTeamScore() const{return VisitorOverallScore;}
+void UScoreManager::UpdateScore(int TeamID, int PointsToAdd)
+{
+	for (auto& Team : Teams)
+	{
+		if (Team->TeamID == TeamID)
+		{
+			Team->TeamScore += PointsToAdd;
+			Team->LastRaceScore += PointsToAdd;
+			OnTeamOverallScoreUpdatedDelegate.Broadcast(Team->TeamID, Team->TeamScore);
+		}
+	}
+}
+
+
+void UScoreManager::ClearLastRaceScore()
+{
+	for (auto& Team : Teams)
+	{
+		Team->LastRaceScore = 0;
+	}
+}
+
+
+int UScoreManager::GetTeamScore(bool IsVisitor) const
+{
+	for (auto& Team : Teams)
+	{
+		if (Team->IsVisitorTeam == IsVisitor)
+			return Team->TeamScore;
+	}
+	return 0;
+}
+
+
+int UScoreManager::GetRaceScore(bool IsVisitor) const
+{
+	for (auto& Team : Teams)
+	{
+		if (Team->IsVisitorTeam == IsVisitor)
+			return Team->LastRaceScore;
+	}
+	return 0;
+}

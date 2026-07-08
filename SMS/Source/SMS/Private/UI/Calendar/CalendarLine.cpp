@@ -19,10 +19,10 @@ void UCalendarLine::InitializeLine(int NewHomeTeamID, int NewVisitorTeamID)
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
-	MatchManager = GameMode->MatchManager;
+	MatchManager = GameMode->GetMatchManager();
 	if (!MatchManager) return;
 	SetMatchTeamID(NewHomeTeamID, NewVisitorTeamID);
-	SetTeamNames(GameMode->GetTeamName(HomeTeamID), GameMode->GetTeamName(VisitorTeamID));
+	DisplayTeamNames(GameMode->GetTeamName(HomeTeamID), GameMode->GetTeamName(VisitorTeamID));
 }
 
 
@@ -31,17 +31,22 @@ void UCalendarLine::StartMatch()
 	if (!LeagueProgramClass || !MatchManager) return;
 	ULeagueProgram* LeagueProgram = CreateWidget<ULeagueProgram>(this, LeagueProgramClass);
 	if (!LeagueProgram) return;
-	MatchManager->SetTeamsID(HomeTeamID, VisitorTeamID);
+	MatchManager->SetTeamID(HomeTeamID, false);
+	MatchManager->SetTeamID(VisitorTeamID, true);
 	LeagueProgram->InitializeManagers();
 	LeagueProgram->AddToViewport(1);
 }
 
 
-void UCalendarLine::SetTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName)
+void UCalendarLine::DisplayTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName)
 {
 	NamesBox_HomeTeamName->SetText(HomeTeamName);
 	NamesBox_VisitorTeamName->SetText(VisitorTeamName);
 }
 
 
-void UCalendarLine::SetMatchTeamID(int NewHomeTeamID, int NewVisitorTeamID){HomeTeamID = NewHomeTeamID; VisitorTeamID = NewVisitorTeamID;}
+void UCalendarLine::SetMatchTeamID(int NewHomeTeamID, int NewVisitorTeamID)
+{
+	HomeTeamID = NewHomeTeamID;
+	VisitorTeamID = NewVisitorTeamID;
+}

@@ -8,6 +8,7 @@
 #include "RaceLineBase.generated.h"
 
 
+class UScoreManager;
 class UTeamManager;
 class UMatchManager;
 class URacerManager;
@@ -43,7 +44,9 @@ public:
 	
 	void ChangeRider();
 
-	void HandleRace(bool bIsActive);
+	virtual void HandleRace(bool bIsActive);
+
+	int GetTeamID() const;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 
@@ -76,6 +79,12 @@ protected:
 
 	UFUNCTION()
 	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
+
+	void ChangeChooseBoxStatus(bool Status);
+
+	void FillOptions();
+
+	virtual void HandleFillingOptions(bool bIsActive, bool bCanReplace);
 	
 	FRacerMatchData RacerData;
 
@@ -87,6 +96,9 @@ protected:
 	UPROPERTY()
 	URacerManager* RacerManager;
 
+	UPROPERTY()
+	UScoreManager* ScoreManager;
+	
 	UPROPERTY()
 	TMap<URacerManager*, FRacerMatchData> RacerManagers;
 
@@ -105,10 +117,10 @@ private:
 	void SetRacerNumber(int NewRacerNumber);
 
 	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
-
-	void FillOptions();
+	
 	
 	int RaceLineID = 0;
 
 	int RacerNumber = 0;
+	
 };

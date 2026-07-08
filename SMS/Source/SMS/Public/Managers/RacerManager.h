@@ -31,7 +31,7 @@ public:
 
 	void IncreaseRaceAmount();
 
-	bool CanReplace() const;
+	bool CanDriveMore() const;
 	
 private:
 

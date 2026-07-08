@@ -16,12 +16,15 @@ class SMS_API UNominatedRaceLine : public URaceLineBase
 	GENERATED_BODY()
 	
 public:
-
+	 
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData) override;
 
+	
 protected:
 	
 	virtual void BindDelegates() override;
+
+	virtual void HandleFillingOptions(bool bIsActive, bool bCanReplace) override;
 	
 private:
 

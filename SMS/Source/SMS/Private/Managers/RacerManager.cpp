@@ -73,4 +73,4 @@ bool URacerManager::CanAddNewPointBox() const
 
 int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
-bool URacerManager::CanReplace() const {return RaceAmount < MaxRacesAmount;}
+bool URacerManager::CanDriveMore() const {return RaceAmount < MaxRacesAmount;}

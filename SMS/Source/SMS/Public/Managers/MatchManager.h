@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/TeamData/TeamRosterData.h"
+#include "Data/TeamData/TeamMatchData.h"
 #include "UI/League/Program/Race.h"
 #include "MatchManager.generated.h"
 
@@ -26,22 +26,16 @@ public:
 	
 	void InitializeManager(ASMS_GameMode* CurrentGameMode);
 	
-	void SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID);
+	void SetTeamID(int NewTeamID, bool IsVisitor);
 
 	int GetCurrentRaceNumber()const;
-
-	int GetHomeTeamID() const;
-
-	int GetVisitorTeamID() const;
 
 	int GetAmountOfRaces() const;
 
 	void CreateRacerManagers(TArray<UTeamManager*> TeamManagersRef);
+
+	FTeamMatchData* GetTeamData(bool Status);
 	
-	FTeamRosterData* GetHomeTeamData() const;
-
-	FTeamRosterData* GetVisitorTeamData() const;
-
 	FOnMatchFinished OnMatchFinishedDelegate;
 
 	FOnRaceStared OnRaceStaredDelegate;
@@ -65,15 +59,11 @@ private:
 
 	UPROPERTY()
 	UScoreManager* ScoreManager;
-	
-	UPROPERTY()
-	int HomeTeamID;
-
-	UPROPERTY()
-	int VisitorTeamID;
 
 	UPROPERTY()
 	TArray<URaceManager*> RaceManagers;
+
+	TArray<FTeamMatchData> Teams;
 	
 	int CurrentRace = 0;
 };

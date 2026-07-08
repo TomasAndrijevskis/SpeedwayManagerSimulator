@@ -8,6 +8,7 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Managers/MatchManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/TeamManager.h"
 #include "SMS/Public/UI/League/Program/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 
@@ -27,7 +28,7 @@ void ULeagueProgram::InitializeManagers()
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
-	MatchManager = GameMode->MatchManager;
+	MatchManager = GameMode->GetMatchManager();
 }
 
 
@@ -68,19 +69,19 @@ void ULeagueProgram::RandomizeTeamRosters()
 void ULeagueProgram::InitializeTeams()
 {
 	if (!MatchManager) return;
-	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetHomeTeamID(), false);
-	UTeamRoster* Visitor = CreateTeamRoster(MatchManager->GetVisitorTeamID(), true);
+	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetTeamData(false));
+	UTeamRoster* Visitor = CreateTeamRoster(MatchManager->GetTeamData(true));
 	RegisterTeamRoster(Home);
 	RegisterTeamRoster(Visitor);
 }
 
 
-UTeamRoster* ULeagueProgram::CreateTeamRoster(int TeamID, bool IsVisitor)
+UTeamRoster* ULeagueProgram::CreateTeamRoster(FTeamMatchData* TeamData)
 {
 	if (!TeamRosterClass) return nullptr;
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
 	if (!TeamRoster) return nullptr;
-	TeamRoster->InitializeTeam(TeamID, IsVisitor);
+	TeamRoster->InitializeTeam(TeamData);
 	return TeamRoster;
 }
 

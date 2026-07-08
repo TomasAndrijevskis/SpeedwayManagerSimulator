@@ -3,7 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/TeamData/ETeams.h"
-#include "Data/TeamData/TeamRosterData.h"
+#include "Data/TeamData/TeamMatchData.h"
 #include "GameFramework/GameMode.h"
 #include "SMS_GameMode.generated.h"
 
@@ -22,22 +22,16 @@ class SMS_API ASMS_GameMode : public AGameMode
 public:
 
 	virtual void BeginPlay() override;
-	
-	FTeamRosterData* GetTeamData(ETeams Team);
 
-	FTeamRosterData* GetTeamData(int TeamID);
+	FTeamMatchData GetTeamData(int TeamID);
 
-	const FText& GetTeamName(int TeamID)const;
-
-	const FText& GetTeamName(ETeams Team)const;
+	const FText& GetTeamName(int TeamID) const;
 	
 	int GetTeamsAmount() const;
 
-	UPROPERTY()
-	UMatchManager* MatchManager;
+	UMatchManager* GetMatchManager() const;
 
-	UPROPERTY()
-	UScoreManager* ScoreManager;
+	UScoreManager* GetScoreManager() const;
 	
 private:
 
@@ -50,5 +44,12 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	URacersDataAsset* RacersDataAsset;
 
-	TMap<ETeams, FTeamRosterData> Teams;
+	TMap<ETeams, FTeamMatchData> Teams;
+	
+	UPROPERTY()
+	UMatchManager* MatchManager;
+
+	UPROPERTY()
+	UScoreManager* ScoreManager;
+	
 };

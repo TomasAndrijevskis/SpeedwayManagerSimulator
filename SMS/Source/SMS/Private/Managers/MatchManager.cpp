@@ -3,15 +3,15 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Managers/RaceManager.h"
 #include "Managers/ScoreManager.h"
+#include "Managers/TeamManager.h"
 #include "UI/League/Program/RacerStatsLine.h"
-#include "UI/League/Program/TeamRoster.h"
 
 
 void UMatchManager::InitializeManager(ASMS_GameMode* CurrentGameMode)
 {
 	if (!CurrentGameMode) return;
 	GameMode = CurrentGameMode;
-	ScoreManager = GameMode->ScoreManager;
+	ScoreManager = GameMode->GetScoreManager();
 	if (!ScoreManager) return;
 	BindDelegates();
 }
@@ -36,16 +36,18 @@ void UMatchManager::SimulateRace()
 
 void UMatchManager::BindRaceDelegates()
 {
-	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateOverallScore);
-	ScoreManager->OnOverallScoreUpdatedDelegate.AddUObject(RaceManagers[CurrentRace], &URaceManager::UpdateOverallScore);
+	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateScore);
+	//ScoreManager->OnOverallScoreUpdatedDelegate.AddUObject(RaceManagers[CurrentRace], &URaceManager::UpdateOverallScore);
 }
 
 
 void UMatchManager::HandleRaceFinished()
 {
+	RaceManagers[CurrentRace]->OnRaceFinishedDelegate.Broadcast();
 	RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(false);
 	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.Clear();
-	ScoreManager->OnOverallScoreUpdatedDelegate.Clear();
+	ScoreManager->ClearLastRaceScore();
+	//ScoreManager->OnOverallScoreUpdatedDelegate.Clear();
 	CurrentRace++;
 	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
 }
@@ -106,16 +108,23 @@ void UMatchManager::RequestToAssignRacersToRace(const FRacerMatchData& Data, URa
 }
 
 
-void UMatchManager::SetTeamsID(int NewHomeTeamID, int NewVisitorTeamID)
+void UMatchManager::SetTeamID(int NewTeamID, bool IsVisitor)
 {
-	HomeTeamID = NewHomeTeamID;
-	VisitorTeamID = NewVisitorTeamID;
+	FTeamMatchData Data = GameMode->GetTeamData(NewTeamID);
+	Data.IsVisitorTeam = IsVisitor;
+	Teams.Add(Data);
+}
+
+
+FTeamMatchData* UMatchManager::GetTeamData(bool Status)
+{
+	for (auto& Team : Teams)
+	{
+		if (Team.IsVisitorTeam == Status) return &Team;
+	}
+	return nullptr;
 }
 
 
 int UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
-int UMatchManager::GetHomeTeamID() const{return HomeTeamID;}
-int UMatchManager::GetVisitorTeamID() const{return VisitorTeamID;}
 int UMatchManager::GetAmountOfRaces() const{return RaceManagers.Num();}
-FTeamRosterData* UMatchManager::GetVisitorTeamData() const{return GameMode->GetTeamData(VisitorTeamID);}
-FTeamRosterData* UMatchManager::GetHomeTeamData()const{return GameMode->GetTeamData(HomeTeamID);}

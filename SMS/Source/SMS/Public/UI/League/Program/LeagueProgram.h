@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "Race.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/TeamData/TeamMatchData.h"
 #include "LeagueProgram.generated.h"
 
 class UTeamManager;
@@ -55,7 +56,7 @@ private:
 
 	void InitializeTeams();
 
-	UTeamRoster* CreateTeamRoster(int TeamID, bool IsVisitor);
+	UTeamRoster* CreateTeamRoster(FTeamMatchData* TeamData);
 
 	void RegisterTeamRoster(UTeamRoster* TeamRoster);
 	

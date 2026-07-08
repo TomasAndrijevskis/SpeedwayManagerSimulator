@@ -5,45 +5,41 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/ScoreManager.h"
+#include "Managers/TeamManager.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 
 
-void UTeamRoster::NativeConstruct()
+void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData)
 {
-	Super::NativeConstruct();
-	InitializeManagers();
+	if (!NewTeamData) return;
+	TeamID = NewTeamData->TeamID;
+	InitializeManagers(NewTeamData);
 	BindDelegates();
 	CreateRacerStatLines();
-	SetTeamName();
+	DisplayTeamName();
+	DisplayTeamStatus();
 }
 
 
-void UTeamRoster::InitializeTeam(int NewTeamID, bool bStatus)
+void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData)
 {
-	TeamID = NewTeamID;
-	IsVisitorTeam = bStatus;
-	SetTeamStatus();
-}
-
-
-void UTeamRoster::InitializeManagers()
-{
+	if (!NewTeamData) return;
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
-	ScoreManager = GameMode->ScoreManager;
+	ScoreManager = GameMode->GetScoreManager();
 	TeamManager = NewObject<UTeamManager>(this);
 	if (!TeamManager || !ScoreManager) return;
-	TeamManager->SetTeamData(TeamID, IsVisitorTeam);
+	TeamManager->SetTeamData(NewTeamData);
+	ScoreManager->AddTeamRef(NewTeamData);
 }
 
 
 void UTeamRoster::BindDelegates()
 {
 	if (!ScoreManager) return;
-	if (IsVisitorTeam) ScoreManager->OnVisitorPtsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
-	else ScoreManager->OnHomePtsUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
+	ScoreManager->OnTeamOverallScoreUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 }
 
 
@@ -51,7 +47,7 @@ void UTeamRoster::CreateRacerStatLines()
 {
 	if (!TeamManager) return;
 	int Id = 1;
-	if (IsVisitorTeam) Id = 7;
+	if (TeamManager->IsVisitorTeam()) Id = 7;
 	for (int i = 0; i < RacersAmount; i++, Id++)
 	{
 		URacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
@@ -81,21 +77,23 @@ URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
 }
 
 
-void UTeamRoster::SetTeamName()
+void UTeamRoster::DisplayTeamName()
 {
+	if (!TeamManager) return;
 	NamesBox_TeamName->SetText(TeamManager->GetTeamName());
 }
 
 
-void UTeamRoster::UpdateTeamPoints(int NewPoints)
+void UTeamRoster::UpdateTeamPoints(int TeamId, int NewPoints)
 {
-	NumbersBox_TeamPoints->SetText(NewPoints);
+	if (TeamID == TeamId) NumbersBox_TeamPoints->SetText(NewPoints);
 }
 
 
-void UTeamRoster::SetTeamStatus()
+void UTeamRoster::DisplayTeamStatus()
 {
-	if (IsVisitorTeam) NamesBox_TeamStatus->SetText("Visitor");
+	if (!TeamManager) return;
+	if (TeamManager->IsVisitorTeam()) NamesBox_TeamStatus->SetText("Visitor");
 	else NamesBox_TeamStatus->SetText("Home");
 }
 

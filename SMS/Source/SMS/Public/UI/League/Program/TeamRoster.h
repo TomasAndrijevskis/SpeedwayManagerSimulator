@@ -3,10 +3,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Managers/TeamManager.h"
+#include "Data/TeamData/TeamMatchData.h"
 #include "TeamRoster.generated.h"
 
 
+class UTeamManager;
 class UScoreManager;
 class UTeamsDataAsset;
 class UVerticalBox;
@@ -21,13 +22,9 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 	
-	void InitializeTeam(int NewTeamID, bool bStatus);
+	void InitializeTeam(FTeamMatchData* NewTeamData);
 
 	UTeamManager* GetTeamManager() const;
-	
-protected:
-
-	virtual void NativeConstruct() override;
 	
 private:
 	
@@ -47,13 +44,13 @@ private:
 	
 	URacerStatsLine* CreateRacerStatLine(int ID);
 
-	void UpdateTeamPoints(int NewPoints);
+	void UpdateTeamPoints(int TeamId, int NewPoints);
 
-	void SetTeamName();
+	void DisplayTeamName();
 
-	void InitializeManagers();
+	void InitializeManagers(FTeamMatchData* NewTeamData);
 
-	void SetTeamStatus();
+	void DisplayTeamStatus();
 
 	void BindDelegates();
 	
@@ -66,9 +63,7 @@ private:
 	UPROPERTY()
 	UTeamManager* TeamManager;
 	
-	bool IsVisitorTeam = false;
-	
 	int RacersAmount = 6;
 
-	int TeamID;
+	int TeamID = 0;
 };

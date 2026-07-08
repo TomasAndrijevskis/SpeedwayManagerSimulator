@@ -51,17 +51,14 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 
 void URaceManager::CalculateRaceResult()
 {
-	int HomePts = 0;
-	int VisitorPts = 0;
+	//int HomePts = 0;
+	//int VisitorPts = 0;
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->IsVisitor())
-		{
-			VisitorPts += RaceLine->GetPointsPerRace();
-		}
-		else HomePts += RaceLine->GetPointsPerRace();
+		//if (RaceLine->IsVisitor()) VisitorPts += RaceLine->GetPointsPerRace();
+		//else HomePts += RaceLine->GetPointsPerRace();
+		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeamID(), RaceLine->GetPointsPerRace());
 	}
-	OnRaceScoreUpdatedDelegate.Broadcast(HomePts, VisitorPts);
 }
 
 

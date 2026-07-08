@@ -2,11 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerMatchData.h"
-#include "TeamRosterData.generated.h"
+#include "TeamMatchData.generated.h"
 
 
 USTRUCT(BlueprintType)
-struct FTeamRosterData
+struct FTeamMatchData
 {
 	GENERATED_BODY()
 	
@@ -18,4 +18,13 @@ struct FTeamRosterData
 	
 	UPROPERTY()
 	TArray<FRacerData> Racers;
+
+	UPROPERTY()
+	bool IsVisitorTeam;
+
+	UPROPERTY()
+	int TeamScore = 0;
+
+	UPROPERTY()
+	int LastRaceScore = 0;
 };

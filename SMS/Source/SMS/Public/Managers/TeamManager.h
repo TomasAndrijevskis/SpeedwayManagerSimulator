@@ -4,7 +4,7 @@
 #include "CoreMinimal.h"
 #include "RacerManager.h"
 #include "Data/RacersData/RacerMatchData.h"
-#include "Data/TeamData/TeamRosterData.h"
+#include "Data/TeamData/TeamMatchData.h"
 #include "TeamManager.generated.h"
 
 
@@ -28,10 +28,12 @@ public:
 	
 	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
 	
-	void SetTeamData(int ID, bool IsVisitor);
+	void SetTeamData(FTeamMatchData* NewTeamData);
 
 	const FString& GetTeamName() const;
 
+	int GetTeamID() const;
+	
 	void CreateRacerManagers();
 
 	void RandomizeTeamRoster();//Testing
@@ -45,10 +47,11 @@ public:
 	bool IsVisitorTeam() const;
 
 	TMap<int, URacerManager*> GetRacerManagers();
+
 	
 private:
 	
-	FTeamRosterData* TeamRosterData;
+	FTeamMatchData* TeamData;
 
 	//Lineup for current match
 	UPROPERTY()
@@ -59,8 +62,6 @@ private:
 
 	UPROPERTY()
 	TMap<int, URacerManager*> RacerManagers;
-	
-	bool bIsVisitorTeam;
 
 	TArray<int> ChosenOptions;
 };

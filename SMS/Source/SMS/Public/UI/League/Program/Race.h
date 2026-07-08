@@ -6,6 +6,7 @@
 #include "Data/RaceData/RaceLineData.h"
 #include "Race.generated.h"
 
+class UScoreManager;
 class UNominatedRaceLine;
 class URaceLine;
 class URaceLineBase;
@@ -28,9 +29,13 @@ public:
 	
 	void InitializeWidget(int NewID);
 
-	void UpdateOverallScore(int NewHomePts, int NewVisitorPts);
+	void UpdateRacePoints();
+    
+	void UpdateOverallScore();
+	
+	FRaceLineData& GetRaceLineData(int RaceLineId) const;
 
-	FRaceLineData& GetRaceLineData(int RaceId, int RaceLineId) const;
+	bool IsNominatedRace() const;
 	
 	URaceManager* GetRaceManager() const;
 	
@@ -55,8 +60,6 @@ private:
 	
 	void OnIDSet();
 	
-	void UpdateRaceScore(int NewHomePts, int NewVisitorPts);
-	
 	UPROPERTY(EditDefaultsOnly)
 	URacePatternsDataAsset* RaceDataAsset;
 
@@ -68,6 +71,9 @@ private:
 	
 	UPROPERTY()
 	URaceManager* RaceManager;
+
+	UPROPERTY()
+	UScoreManager* ScoreManager;
 	
 	int RaceID;
 };

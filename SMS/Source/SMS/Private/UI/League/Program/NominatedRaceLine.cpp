@@ -12,6 +12,12 @@ void UNominatedRaceLine::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 }
 
 
+void UNominatedRaceLine::HandleFillingOptions(bool bIsActive, bool bCanReplace)
+{
+	if (bIsActive) FillOptions();
+}
+
+
 void UNominatedRaceLine::BindDelegates()
 {
 	Super::BindDelegates();
