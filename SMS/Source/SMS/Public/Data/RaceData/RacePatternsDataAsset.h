@@ -2,7 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RaceData.h"
+#include "RacePatternData.h"
 #include "Engine/DataAsset.h"
 #include "RacePatternsDataAsset.generated.h"
 
@@ -14,5 +14,5 @@ class SMS_API URacePatternsDataAsset : public UDataAsset
 public:
 	
 	UPROPERTY(EditDefaultsOnly)
-	TMap<int, FRaceData> RacePatterns;
+	TMap<int, FRacePatternData> RacePatterns;
 };

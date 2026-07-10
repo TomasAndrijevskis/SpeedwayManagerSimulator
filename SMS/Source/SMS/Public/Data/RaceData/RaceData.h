@@ -1,18 +1,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RaceLineData.h"
 #include "RaceData.generated.h"
 
+
+class URaceLineupManager;
+class URaceManager;
 
 USTRUCT(BlueprintType)
 struct FRaceData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditDefaultsOnly)
-	TArray<FRaceLineData> RaceLines;
+	UPROPERTY()
+	URaceManager* RaceManager;
 
-	UPROPERTY(EditDefaultsOnly)
-	bool IsNominatedRace = false;
+	UPROPERTY()
+	URaceLineupManager* RaceLineupManager;
 };
