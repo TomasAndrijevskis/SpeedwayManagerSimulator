@@ -1,18 +1,44 @@
 
 #include "Managers/RaceManager.h"
-#include "Data/RacersData/RacerMatchData.h"
+#include "Managers/RaceLineupManager.h"
+
+
+void URaceManager::InitializeManager()
+{
+	BindDelegates();
+	RaceLineupManager = NewObject<URaceLineupManager>(this);
+	if (!RaceLineupManager) return;
+	RaceLineupManager->InitializeManager();
+}
 
 
 void URaceManager::BindDelegates()
 {
-	OnRaceStatusChangedDelegate.AddUObject(this, &URaceManager::ChangeRaceStatus);
+	OnChangedRaceStatusRequestDelegate.AddUObject(this, &URaceManager::ChangeRaceStatus);
 	OnSimulateRaceRequestDelegate.AddUObject(this, &URaceManager::SimulateRace);
 }
 
 
-void URaceManager::UpdateOverallScore(int HomePts, int VisitorPts)
+void URaceManager::AddRaceLine(URaceLineBase* NewRaceLine)
 {
-	OnOverallScoreUpdatedDelegate.Broadcast(HomePts, VisitorPts);
+	RaceLines.Add(NewRaceLine);
+}
+
+
+void URaceManager::OnRaceLinesCreated() const
+{
+	if (!RaceLineupManager) return;
+	RaceLineupManager->SetRaceLines(RaceLines);
+}
+
+
+void URaceManager::ChangeRaceStatus(bool bIsActive)
+{
+	for (auto& RaceLine : RaceLines)
+	{
+		RaceLine->ChangeLineStatus(bIsActive);
+		RaceLine->HandleRaceLine(RaceLineupManager->IsTeamLosing(RaceLine));
+	}
 }
 
 
@@ -35,34 +61,26 @@ void URaceManager::SimulateRace()
 		else
 			CurrentLine->SetPointsPerRace(FString::FromInt(Points), HasBonus);
 	}
-	CalculateRaceResult();
+	UE_LOG(LogTemp, Error, TEXT("==================================="));
+	BroadcastRaceResult();
 	OnRaceFinished();
+}
+
+
+void URaceManager::BroadcastRaceResult()
+{
+	for (const auto& RaceLine : RaceLines)
+	{
+		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeamID(), RaceLine->GetPointsPerRace());
+	}
 }
 
 
 void URaceManager::OnRaceFinished()
 {
 	OnRaceFinishedDelegate.Broadcast();
-	OnRaceStatusChangedDelegate.Broadcast(false);
+	OnChangedRaceStatusRequestDelegate.Broadcast(false);
 	OnRaceScoreUpdatedDelegate.Clear();
-}
-
-
-void URaceManager::ChangeRaceStatus(bool bIsActive)
-{
-	for (auto& RaceLine : RaceLines)
-	{
-		RaceLine->HandleRace(bIsActive);
-	}
-}
-
-
-void URaceManager::CalculateRaceResult()
-{
-	for (const auto& RaceLine : RaceLines)
-	{
-		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeamID(), RaceLine->GetPointsPerRace());
-	}
 }
 
 
@@ -79,19 +97,5 @@ void URaceManager::SortLinesByRating()
 }
 
 
-void URaceManager::AddRaceLine(URaceLineBase* NewRaceLine)
-{
-	RaceLines.Add(NewRaceLine);
-}
-
-
-void URaceManager::AssignRacerToRace(const FRacerMatchData& RacerData, URacerManager* RacerManagerRef)
-{
-	for (const auto& RaceLine : RaceLines)
-	{
-		if (RaceLine->GetRacerNumber() == RacerData.RacerNumber) RaceLine->SetRacerData(RacerData, RacerManagerRef);
-	}
-}
-
-
 TArray<URaceLineBase*> URaceManager::GetRaceLines(){return RaceLines;}
+URaceLineupManager* URaceManager::GetRaceLineupManager() const{return RaceLineupManager;}

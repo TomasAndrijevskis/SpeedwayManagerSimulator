@@ -22,6 +22,12 @@ void UChooseBox::AddOption(const FString& NewOption)
 }
 
 
+void UChooseBox::RemoveOption(const FString& NewOption)
+{
+	ComboBox->RemoveOption(NewOption);
+}
+
+
 int UChooseBox::GetNumberOfOptions() const
 {
 	return ComboBox->GetOptionCount();

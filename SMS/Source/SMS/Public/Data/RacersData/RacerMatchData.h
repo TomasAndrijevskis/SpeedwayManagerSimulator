@@ -15,6 +15,12 @@ struct FRacerMatchData
 	UPROPERTY()
 	FRacerData RacerData;
 
+	//number during match 1-6 / 7-12
 	UPROPERTY()
 	int RacerNumber;
+
+	bool IsVisitor() const
+	{
+		return RacerNumber >= 7;
+	}
 };

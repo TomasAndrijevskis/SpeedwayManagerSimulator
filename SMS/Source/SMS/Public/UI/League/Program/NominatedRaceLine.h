@@ -24,7 +24,9 @@ protected:
 	
 	virtual void BindDelegates() override;
 
-	virtual void HandleFillingOptions(bool bIsActive, bool bCanReplace) override;
+	virtual void FillOptions(bool IsTeamLosing) override;
+
+	void HandleAddedOptions(bool IsTeamLosing);
 	
 private:
 

@@ -17,6 +17,8 @@ public:
 	
 	void AddOption(const FString& NewOption);
 
+	void RemoveOption(const FString& NewOption);
+	
 	int GetNumberOfOptions() const;
 
 	FString GetSelectedOption(int Index) const;

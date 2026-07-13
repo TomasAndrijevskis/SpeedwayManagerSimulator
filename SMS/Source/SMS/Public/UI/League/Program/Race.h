@@ -36,7 +36,7 @@ public:
 	FRaceLineData& GetRaceLineData(int RaceLineId) const;
 
 	bool IsNominatedRace() const;
-	
+
 	URaceManager* GetRaceManager() const;
 	
 private:

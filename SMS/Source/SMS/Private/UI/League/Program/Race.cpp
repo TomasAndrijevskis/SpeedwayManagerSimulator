@@ -23,13 +23,6 @@ void URace::InitializeWidget(int NewID)
 }
 
 
-void URace::OnIDSet()
-{
-	CreateRaceLines();
-	if (RaceID != 1) RaceManager->ChangeRaceStatus(false);
-}
-
-
 void URace::InitializeManagers()
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
@@ -37,15 +30,22 @@ void URace::InitializeManagers()
 	ScoreManager = GameMode->GetScoreManager();
 	RaceManager = NewObject<URaceManager>(this);
 	if (!RaceManager || !ScoreManager) return;
-	RaceManager->BindDelegates();
+	RaceManager->InitializeManager();
 }
 
 
 void URace::BindDelegates()
 {
-	if (!RaceManager || !ScoreManager) return;
+	if (!RaceManager) return;
 	RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateRacePoints);
 	RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateOverallScore);
+}
+
+
+void URace::OnIDSet()
+{
+	CreateRaceLines();
+	if (RaceID != 1) RaceManager->ChangeRaceStatus(false);
 }
 
 
@@ -57,7 +57,7 @@ void URace::CreateRaceLines()
 	{
 		URaceLineBase* NewRaceLine;
 		if (!IsNominatedRace()) NewRaceLine = CreateRaceLine(RaceLineID);
-		else  NewRaceLine = CreateNominatedRaceLine(RaceLineID);
+		else NewRaceLine = CreateNominatedRaceLine(RaceLineID);
 		if (NewRaceLine)
 		{
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine);
@@ -71,6 +71,7 @@ void URace::CreateRaceLines()
 			RaceManager->AddRaceLine(NewRaceLine);
 		}
 	}
+	RaceManager->OnRaceLinesCreated();
 }
 
 
@@ -112,6 +113,6 @@ void URace::UpdateOverallScore()
 }
 
 
-URaceManager* URace::GetRaceManager() const{return RaceManager;}
 FRaceLineData& URace::GetRaceLineData(int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}
 bool URace::IsNominatedRace() const{return RaceDataAsset->RacePatterns[RaceID].IsNominatedRace;}
+URaceManager* URace::GetRaceManager() const{return RaceManager;}

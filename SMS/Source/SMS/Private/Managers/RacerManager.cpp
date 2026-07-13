@@ -31,6 +31,25 @@ void URacerManager::CalculateRating(bool IsVisitor)
 }
 
 
+void URacerManager::AddParticipatedRace(URaceLineBase* RaceLineRef)
+{
+	if (!ParticipatedRacesRef.Contains(RaceLineRef)) ParticipatedRacesRef.Add(RaceLineRef);
+}
+
+
+void URacerManager::RemoveParticipatedRace(URaceLineBase* RaceLineRef)
+{
+	if (ParticipatedRacesRef.Contains(RaceLineRef)) ParticipatedRacesRef.Remove(RaceLineRef);
+}
+
+
+void URacerManager::OnRaceStarted()
+{
+	SetTieBreaker();
+	CalculateRating(Data.IsVisitor());
+}
+
+
 void URacerManager::SetTieBreaker()
 {
 	TieBreakerValue = FMath::RandRange(1,100);
@@ -57,14 +76,8 @@ int URacerManager::CountOverallPoints()
 }
 
 
-void URacerManager::IncreaseRaceAmount()
-{
-	RaceAmount++;
-	UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Data.RacerData.Name, RaceAmount);
-}
-
-
 int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int URacerManager::GetBonusAmount() const{return RacerBonuses;}
-bool URacerManager::CanDriveMore() const {return RaceAmount < MaxRacesAmount;}
+bool URacerManager::CanDriveMore() const {return ParticipatedRacesRef.Num() < MaxRacesAmount;}
+bool URacerManager::IsJunior() const {return Data.RacerData.IsJunior() && (Data.RacerNumber == 5 || Data.RacerNumber == 11);}

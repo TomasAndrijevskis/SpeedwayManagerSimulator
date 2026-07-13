@@ -8,7 +8,6 @@
 #include "RaceLineBase.generated.h"
 
 
-class UScoreManager;
 class UTeamManager;
 class UMatchManager;
 class URacerManager;
@@ -18,6 +17,7 @@ class UOverlay;
 class UNumbersBox;
 
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerReplaced, const URaceLineBase*, const FString&);
 UCLASS()
 class SMS_API URaceLineBase : public UUserWidget
 {
@@ -38,18 +38,24 @@ public:
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 
-	void SetRacerData(const FRacerMatchData& NewRacerData, URacerManager* RacerManagerRef);
+	void SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef);
 
 	bool IsVisitor() const;
 	
 	void ChangeRider();
 
-	virtual void HandleRace(bool bIsActive);
+	void ChangeLineStatus(bool bIsActive);
 
+	void HandleRaceLine(bool IsTeamLosing);
+	
 	int GetTeamID() const;
+
+	void RemoveOption(FString SelectedItem);
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 
+	FOnRacerReplaced OnRacerReplacedDelegate;
+	
 protected:
 
 	UPROPERTY(meta = (BindWidget))
@@ -82,12 +88,10 @@ protected:
 
 	void ChangeChooseBoxStatus(bool Status);
 
-	void FillOptions();
+	virtual void FillOptions(bool IsTeamLosing);
 
-	virtual void HandleFillingOptions(bool bIsActive, bool bCanReplace);
+	void HandleAddedOptions();
 	
-	FRacerMatchData RacerData;
-
 	FRaceLineData RaceLineData;
 
 	UPROPERTY()
@@ -95,9 +99,6 @@ protected:
 
 	UPROPERTY()
 	URacerManager* RacerManager;
-
-	UPROPERTY()
-	UScoreManager* ScoreManager;
 	
 	UPROPERTY()
 	TMap<URacerManager*, FRacerMatchData> RacerManagers;
@@ -107,8 +108,6 @@ protected:
 private:
 
 	void BindManagerDelegates();
-	
-	void OnRaceStarted();
 
 	USlider* CreateSlider();
 
@@ -118,9 +117,7 @@ private:
 
 	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
 	
-	
 	int RaceLineID = 0;
 
 	int RacerNumber = 0;
-	
 };

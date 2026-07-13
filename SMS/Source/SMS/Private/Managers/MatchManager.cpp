@@ -1,6 +1,7 @@
 
 #include "Managers/MatchManager.h"
 #include "Gamemodes/SMS_GameMode.h"
+#include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
@@ -25,7 +26,7 @@ void UMatchManager::BindDelegates()
 
 void UMatchManager::SimulateRace()
 {
-	if (CurrentRace <= RaceManagers.Num()-1)
+	if (CurrentRace <= RaceManagers.Num() - 1)
 	{
 		BindRaceDelegates();
 		RaceManagers[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
@@ -36,6 +37,7 @@ void UMatchManager::SimulateRace()
 
 void UMatchManager::BindRaceDelegates()
 {
+	if (!RaceManagers[CurrentRace]) return;
 	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateScore);
 }
 
@@ -44,7 +46,7 @@ void UMatchManager::HandleRaceFinished()
 {
 	ScoreManager->ClearLastRaceScore();
 	CurrentRace++;
-	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnRaceStatusChangedDelegate.Broadcast(true);
+	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnChangedRaceStatusRequestDelegate.Broadcast(true);
 	else OnMatchEndedDelegate.Broadcast();
 }
 
@@ -88,18 +90,18 @@ void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagersRef)
 }
 
 
-void UMatchManager::AddNewRace(URaceManager* NewRace)
+void UMatchManager::AddNewRace(URaceManager* RaceManagerRef)
 {
-	if (!NewRace) return;
-	RaceManagers.Add(NewRace);
+	if (!RaceManagerRef) return;
+	RaceManagers.Add(RaceManagerRef);
 }
 
 
 void UMatchManager::RequestToAssignRacersToRace(const FRacerMatchData& Data, URacerManager* RacerManagerRef)
 {
-	for (const auto& RaceManager : RaceManagers)
+	for (const auto& Race : RaceManagers)
 	{
-		RaceManager->AssignRacerToRace(Data, RacerManagerRef);
+		Race->GetRaceLineupManager()->AssignRacerToRace(Data, RacerManagerRef);
 	}
 }
 

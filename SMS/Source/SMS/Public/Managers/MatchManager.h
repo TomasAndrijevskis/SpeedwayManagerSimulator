@@ -20,7 +20,7 @@ class SMS_API UMatchManager : public UObject
 
 public:
 
-	void AddNewRace(URaceManager* NewRace);
+	void AddNewRace(URaceManager* RaceManagerRef);
 	
 	void RequestToAssignRacersToRace(const FRacerMatchData& Data, URacerManager* RacerManager);
 	

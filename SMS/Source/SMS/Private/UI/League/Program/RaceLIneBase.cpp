@@ -7,9 +7,7 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MatchManager.h"
-#include "Managers/RaceFunctionLibrary.h"
 #include "Managers/RacerManager.h"
-#include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
@@ -26,29 +24,25 @@ void URaceLineBase::InitializeWidget()
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
-	ScoreManager = GameMode->GetScoreManager();
 	UMatchManager* MatchManager = GameMode->GetMatchManager();
-	if (!MatchManager || !ScoreManager) return;
+	if (!MatchManager) return;
 	MatchManager->OnRacerManagersCreatedDelegate.AddUObject(this, &URaceLineBase::SetTeamManager);
 	BindDelegates();
 }
 
 
-void URaceLineBase::HandleRace(bool bIsActive)
+void URaceLineBase::ChangeLineStatus(bool bIsActive)
 {
 	SetIsEnabled(bIsActive);
-	if (!ScoreManager) return;
-	bool IsVisitor = RaceLineData.IsVisitor();
-	bool CanReplace = URaceFunctionLibrary::IsReplacementPossible(
-		ScoreManager->GetTeamScore(IsVisitor), ScoreManager->GetTeamScore(!IsVisitor));
-	ChangeChooseBoxStatus(CanReplace);
-	HandleFillingOptions(bIsActive, CanReplace);
 }
 
 
-void URaceLineBase::HandleFillingOptions(bool bIsActive, bool bCanReplace)
+void URaceLineBase::HandleRaceLine(bool IsTeamLosing)
 {
-	if (bIsActive && bCanReplace) FillOptions();
+	//if (!ScoreManager) return;
+	/*bool CanReplace = URaceFunctionLibrary::IsReplacementPossible(
+		ScoreManager->GetTeamScore(IsVisitor()), ScoreManager->GetTeamScore(!IsVisitor()));*/
+	FillOptions(IsTeamLosing);
 }
 
 
@@ -66,13 +60,12 @@ void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 }
 
 
-void URaceLineBase::SetRacerData(const FRacerMatchData& NewRacerData, URacerManager* RacerManagerRef)
+void URaceLineBase::SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef)
 {
-	if (!RacerManagerRef || NewRacerData.RacerData.ID == INDEX_NONE) return;
-	RacerData = NewRacerData;
+	if (!RacerManagerRef) return;
 	RacerManager = RacerManagerRef;
-	RacerManager->IncreaseRaceAmount();
-	if(!IsReplacement) SetRacerName(RacerData.RacerData.Name);
+	RacerManager->AddParticipatedRace(this);
+	if(!IsReplacement) SetRacerName(NewRacerName);
 	BindManagerDelegates();
 }
 
@@ -80,7 +73,7 @@ void URaceLineBase::SetRacerData(const FRacerMatchData& NewRacerData, URacerMana
 void URaceLineBase::BindManagerDelegates()
 {
 	if (!RacerManager) return;
-	OnRaceStartedDelegate.AddUObject(this, &URaceLineBase::OnRaceStarted);
+	OnRaceStartedDelegate.AddUObject(RacerManager, &URacerManager::OnRaceStarted);
 }
 
 
@@ -95,7 +88,7 @@ void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
 	for (const auto& Manager : TeamManagersRef)
 	{
 		if (!Manager) continue;
-		if (RaceLineData.IsVisitor() == Manager->IsVisitorTeam())
+		if (RaceLineData.IsVisitorLine() == Manager->IsVisitorTeam())
 		{
 			TeamManager = Manager;
 			break;
@@ -104,28 +97,34 @@ void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
 }
 
 
-void URaceLineBase::FillOptions()
+void URaceLineBase::FillOptions(bool IsTeamLosing)
 {
 	if (!TeamManager) return;
-	TeamManager->GetAvailableReplacementRacers([this](const FRacerMatchData& Data, URacerManager* RacerManager)
+	TeamManager->GetAvailableReplacementRacers(IsTeamLosing, RacerManager, [this](const FRacerMatchData& Data, URacerManager* RacerManager)
 	{
 		AddOption(Data, RacerManager);
 	});
+	HandleAddedOptions();
 }
 
 
 void URaceLineBase::AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager)
 {
-	ChooseBox_RacerReplacement->AddOption(Data.RacerData.Name);
 	RacerManagers.Add(NewRacerManager, Data);
 }
 
 
-void URaceLineBase::OnRaceStarted()
+void URaceLineBase::HandleAddedOptions()
 {
-	if (!RacerManager) return;
-	RacerManager->SetTieBreaker();
-	RacerManager->CalculateRating(IsVisitor());
+	if (RacerManagers.Num() > 0)
+	{
+		ChangeChooseBoxStatus(true);
+		for (const auto& Manager : RacerManagers)
+		{
+			ChooseBox_RacerReplacement->AddOption(Manager.Value.RacerData.Name);
+		}
+	}
+	else ChangeChooseBoxStatus(false);
 }
 
 
@@ -134,13 +133,13 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 	NumbersBox_PointsPerRace->SetText(NewPoints);
 	if (RacerManager) RacerManager->AddPoints(NewPoints, AddBonus);
 }
- 
+
 
 void URaceLineBase::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
 	FindSelectedRacer(SelectedItem, [this](URacerManager* Manager, const FRacerMatchData& Data)
 	{
-		SetRacerData(Data, Manager);
+		SetRacerData(Data.RacerData.Name, Manager);
 		SetRacerNumber(Data.RacerNumber);
 	});
 }
@@ -150,8 +149,10 @@ void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type Sele
 {
 	FindSelectedRacer(SelectedItem, [this](URacerManager* Manager, const FRacerMatchData& Data)
 	{
+		RacerManager->RemoveParticipatedRace(this);
 		IsReplacement = true;
-		SetRacerData(Data, Manager);
+		SetRacerData(Data.RacerData.Name, Manager);
+		OnRacerReplacedDelegate.Broadcast(this, Data.RacerData.Name);
 		ChangeRider();
 	});
 }
@@ -167,6 +168,12 @@ void URaceLineBase::FindSelectedRacer(const FString& SelectedItem, const TFuncti
 			return;
 		}
 	}
+}
+
+
+void URaceLineBase::RemoveOption(FString SelectedItem)
+{
+	ChooseBox_RacerReplacement->RemoveOption(SelectedItem);
 }
 
 
@@ -205,4 +212,4 @@ int URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
 int URaceLineBase::GetTeamID() const {return TeamManager->GetTeamID();}
-bool URaceLineBase::IsVisitor()const{return RaceLineData.IsVisitor();}
+bool URaceLineBase::IsVisitor()const{return RaceLineData.IsVisitorLine();}

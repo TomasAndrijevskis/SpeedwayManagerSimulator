@@ -12,16 +12,35 @@ void UNominatedRaceLine::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 }
 
 
-void UNominatedRaceLine::HandleFillingOptions(bool bIsActive, bool bCanReplace)
-{
-	if (bIsActive) FillOptions();
-}
-
-
 void UNominatedRaceLine::BindDelegates()
 {
 	Super::BindDelegates();
 	ChooseBox_ChooseMainRacer->OnSelectionChangedDelegate.AddUObject(this, &UNominatedRaceLine::OnRacerChosen);
+}
+
+
+void UNominatedRaceLine::FillOptions(bool IsTeamLosing)
+{
+	if (!TeamManager) return;
+	TeamManager->GetAvailableRacers( [this](const FRacerMatchData& Data, URacerManager* RacerManagerRef)
+	{
+		AddOption(Data, RacerManagerRef);
+	});
+	HandleAddedOptions(IsTeamLosing);
+}
+
+
+void UNominatedRaceLine::HandleAddedOptions(bool IsTeamLosing)
+{
+	if (RacerManagers.Num() > 0 && IsTeamLosing)
+	{
+		ChangeChooseBoxStatus(true);
+		for (const auto& Manager : RacerManagers)
+		{
+			ChooseBox_RacerReplacement->AddOption(Manager.Value.RacerData.Name);
+		}
+	}
+	else ChangeChooseBoxStatus(false);
 }
 
 

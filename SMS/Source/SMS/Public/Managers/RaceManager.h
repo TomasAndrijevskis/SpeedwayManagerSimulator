@@ -2,13 +2,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/RacersData/RacerMatchData.h"
 #include "UI/League/Program/RaceLine.h"
 #include "RaceManager.generated.h"
 
+class URaceLineupManager;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, int, int);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int, int);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceStatusChanged, bool)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeRaceStatusRequest, bool)
 DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
 DECLARE_MULTICAST_DELEGATE(FOnRaceFinished);
 UCLASS()
@@ -18,23 +18,23 @@ class SMS_API URaceManager : public UObject
 
 public:
 
+	void InitializeManager();
+	
 	void AddRaceLine(URaceLineBase* NewRaceLine);
-
-	void AssignRacerToRace(const FRacerMatchData& RacerData, URacerManager* RacerManagerRef);
 	
 	void ChangeRaceStatus(bool bIsActive);
 	
 	TArray<URaceLineBase*> GetRaceLines();
 
-	void CalculateRaceResult();
-
 	void BindDelegates();
-	
-	void UpdateOverallScore(int HomePts, int VisitorPts);
 
+	void OnRaceLinesCreated() const;
+	
+	URaceLineupManager* GetRaceLineupManager() const;
+	
 	FOnRaceScoreUpdated OnRaceScoreUpdatedDelegate;
 
-	FOnRaceStatusChanged OnRaceStatusChangedDelegate;
+	FOnChangeRaceStatusRequest OnChangedRaceStatusRequestDelegate;
 
 	FOnSimulateRaceRequest OnSimulateRaceRequestDelegate;
 
@@ -49,9 +49,14 @@ private:
 	void SimulateRace();
 
 	void OnRaceFinished();
+
+	void BroadcastRaceResult();
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;
+
+	UPROPERTY()
+	URaceLineupManager* RaceLineupManager;
 	
 	const FString DidNotFinish = TEXT("D");
 };

@@ -49,7 +49,25 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&, U
 }
 
 
-void UTeamManager::GetAvailableReplacementRacers(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
+void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, const URacerManager* RacerManagerRef, TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
+{
+	ForEachRacerInLineup([&Callback, IsTeamLosing, RacerManagerRef](const FRacerMatchData& Data, URacerManager* RacerManager)
+	{
+		if (IsTeamLosing)
+		{
+			if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef)
+				Callback(Data, RacerManager);
+		}
+		else
+		{
+			if (RacerManager->CanDriveMore() && RacerManager->IsJunior() && RacerManager != RacerManagerRef)
+				Callback(Data, RacerManager);
+		}
+	});
+}
+
+
+void UTeamManager::GetAvailableRacers(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
 {
 	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager* RacerManager)
 	{

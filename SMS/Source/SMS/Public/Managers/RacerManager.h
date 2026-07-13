@@ -5,7 +5,9 @@
 #include "Data/RacersData/RacerMatchData.h"
 #include "RacerManager.generated.h"
 
+class URaceLineBase;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPointsAdded, const FString&, bool)
+
 UCLASS()
 class SMS_API URacerManager : public UObject
 {
@@ -27,21 +29,27 @@ public:
 
 	int GetCurrentRaceRating() const;
 
-	FOnPointsAdded OnPointsAddedDelegate;
-
-	void IncreaseRaceAmount();
-
 	bool CanDriveMore() const;
-
+	
 	int GetBonusAmount() const;
+
+	void AddParticipatedRace(URaceLineBase* RaceLineRef);
+
+	void RemoveParticipatedRace(URaceLineBase* RaceLineRef);
+
+	void OnRaceStarted();
+
+	bool IsJunior() const;
+	
+	FOnPointsAdded OnPointsAddedDelegate;
 	
 private:
 
 	UPROPERTY()
 	TArray<FString> RacerPoints;
-	
-	//Number during match 1-6 / 7-12
-	int RacerNumber;
+
+	UPROPERTY()
+	TArray<URaceLineBase*> ParticipatedRacesRef;
 	
 	FRacerMatchData Data;
 
@@ -50,8 +58,6 @@ private:
 	int TieBreakerValue = 0;
 
 	int CurrentRacerRating = 0;
-
-	int RaceAmount = 0;
 	
 	int RacerBonuses;
 };

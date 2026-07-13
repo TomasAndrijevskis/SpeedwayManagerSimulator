@@ -18,8 +18,16 @@ struct FRacerData
 	int ID;
 
 	UPROPERTY(EditDefaultsOnly)
+	int Age;
+
+	UPROPERTY(EditDefaultsOnly)
 	TEnumAsByte<ETeams> InitialTeam;
 	
 	UPROPERTY(EditDefaultsOnly)
 	FRacerStats RacerStats;
+
+	bool IsJunior() const
+	{
+		return Age <= 24;
+	}
 };
