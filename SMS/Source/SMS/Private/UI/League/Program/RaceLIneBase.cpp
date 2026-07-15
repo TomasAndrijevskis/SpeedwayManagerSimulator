@@ -162,7 +162,7 @@ void URaceLineBase::FindSelectedRacer(const FString& SelectedItem, const TFuncti
 {
 	for (const auto& Manager : RacerManagers)
 	{
-		if (Manager.Value.RacerData.Name == SelectedItem)
+		if (Manager.Value.GetRacerName() == SelectedItem)
 		{
 			Callback(Manager.Key, Manager.Value);
 			return;

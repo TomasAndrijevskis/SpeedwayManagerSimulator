@@ -37,7 +37,7 @@ void UNominatedRaceLine::HandleAddedOptions(bool IsTeamLosing)
 		ChangeChooseBoxStatus(true);
 		for (const auto& Manager : RacerManagers)
 		{
-			ChooseBox_RacerReplacement->AddOption(Manager.Value.RacerData.Name);
+			ChooseBox_RacerReplacement->AddOption(Manager.Value.GetRacerName());
 		}
 	}
 	else ChangeChooseBoxStatus(false);
@@ -47,6 +47,6 @@ void UNominatedRaceLine::HandleAddedOptions(bool IsTeamLosing)
 void UNominatedRaceLine::AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager)
 {
 	Super::AddOption(Data, NewRacerManager);
-	ChooseBox_ChooseMainRacer->AddOption(Data.RacerData.Name);
+	ChooseBox_ChooseMainRacer->AddOption(Data.GetRacerName());
 	RacerManagers.Add(NewRacerManager, Data);
 }

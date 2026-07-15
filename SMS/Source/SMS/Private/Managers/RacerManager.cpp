@@ -19,7 +19,7 @@ void URacerManager::CalculateRating(bool IsVisitor)
 	int Start = FMath::RandRange(0,5);
 	int Driving = FMath::RandRange(0,10);
 	if (!IsVisitor) Driving += FMath::RandRange(0,2);
-	int RacerRating = Data.RacerData.RacerStats.Rating;
+	int RacerRating = Data.GetBaseRating();
 	CurrentRacerRating = Start + Driving + RacerRating;
 	
 	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.RacerData.Name);
@@ -80,4 +80,4 @@ int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int URacerManager::GetBonusAmount() const{return RacerBonuses;}
 bool URacerManager::CanDriveMore() const {return ParticipatedRacesRef.Num() < MaxRacesAmount;}
-bool URacerManager::IsJunior() const {return Data.RacerData.IsJunior() && (Data.RacerNumber == 5 || Data.RacerNumber == 11);}
+bool URacerManager::IsJunior() const {return Data.IsJunior();}

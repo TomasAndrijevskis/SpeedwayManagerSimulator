@@ -5,8 +5,6 @@
 #include "RacerMatchData.generated.h"
 
 
-class URacerManager;
-
 USTRUCT(BlueprintType)
 struct FRacerMatchData
 {
@@ -22,5 +20,30 @@ struct FRacerMatchData
 	bool IsVisitor() const
 	{
 		return RacerNumber >= 7;
+	}
+
+	bool IsJunior() const
+	{
+		return RacerData.Age <= 23 && (RacerNumber == 5 || RacerNumber == 11);
+	}
+
+	bool IsU26Racer() const
+	{
+		return RacerData.Age <= 26;
+	}
+
+	bool IsReplacement() const
+	{
+		return RacerNumber == 6 || RacerNumber == 12;
+	}
+
+	int GetBaseRating() const
+	{
+		return RacerData.RacerStats.Rating;
+	}
+
+	FString GetRacerName() const
+	{
+		return RacerData.Name;
 	}
 };

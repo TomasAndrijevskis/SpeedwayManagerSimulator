@@ -43,7 +43,7 @@ void URaceLineupManager::AssignRacerToRace(const FRacerMatchData& RacerData, URa
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		if (RaceLine->GetRacerNumber() == RacerData.RacerNumber) RaceLine->SetRacerData(RacerData.RacerData.Name, RacerManagerRef);
+		if (RaceLine->GetRacerNumber() == RacerData.RacerNumber) RaceLine->SetRacerData(RacerData.GetRacerName(), RacerManagerRef);
 	}
 }
 
