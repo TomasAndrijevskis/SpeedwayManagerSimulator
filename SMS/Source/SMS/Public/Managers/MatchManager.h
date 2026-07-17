@@ -24,7 +24,7 @@ public:
 
 	void AddNewRace(int RaceId, FRaceData RaceData);
 	
-	void RequestToAssignRacersToRace(const FRacerMatchData& Data, URacerManager* RacerManager);
+	void RequestToAssignRacersToRace(URacerManager* RacerManager);
 	
 	void InitializeManager(ASMS_GameMode* CurrentGameMode);
 	

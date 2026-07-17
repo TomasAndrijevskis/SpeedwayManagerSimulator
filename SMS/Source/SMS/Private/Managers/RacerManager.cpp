@@ -84,6 +84,9 @@ int URacerManager::CountOverallPoints()
 int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int URacerManager::GetBonusAmount() const{return RacerBonuses;}
+int URacerManager::GetRacerNumber() const{return Data.RacerNumber;}
 bool URacerManager::CanDriveMore() const {return ParticipatedRacesRef.Num() < MaxRacesAmount;}
 bool URacerManager::IsJunior() const {return Data.IsJunior();}
-FRacerMatchData& URacerManager::GetRacerData() {return Data;}
+bool URacerManager::IsReplacement() const{return Data.IsReplacement();}
+bool URacerManager::IsVisitor() const{return Data.IsVisitor();}
+FString URacerManager::GetRacerName() const{return Data.GetRacerName();}

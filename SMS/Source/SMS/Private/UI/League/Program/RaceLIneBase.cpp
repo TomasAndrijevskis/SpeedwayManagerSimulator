@@ -52,12 +52,12 @@ void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 }
 
 
-void URaceLineBase::SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef, bool IsReplacement)
+void URaceLineBase::SetRacerData(URacerManager* RacerManagerRef, bool IsReplacement)
 {
 	if (!RacerManagerRef) return;
 	RacerManager = RacerManagerRef;
 	RacerManager->AddParticipatedRace(this);
-	if(!IsReplacement) SetRacerName(NewRacerName);
+	if(!IsReplacement) SetRacerName(RacerManager->GetRacerName());
 	BindManagerDelegates();
 }
 

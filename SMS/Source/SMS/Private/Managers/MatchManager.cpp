@@ -87,9 +87,9 @@ void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagersRef)
 				}
 			}
 		});
-		Manager->ForEachRacerInLineup([this](const FRacerMatchData& Data, URacerManager* RacerManagerRef)
+		Manager->ForEachRacerInLineup([this](URacerManager* RacerManagerRef)
 		{
-			RequestToAssignRacersToRace(Data, RacerManagerRef);
+			RequestToAssignRacersToRace(RacerManagerRef);
 		});
 	}
 }
@@ -101,11 +101,11 @@ void UMatchManager::AddNewRace(const int RaceId, const FRaceData RaceData)
 }
 
 
-void UMatchManager::RequestToAssignRacersToRace(const FRacerMatchData& Data, URacerManager* RacerManagerRef)
+void UMatchManager::RequestToAssignRacersToRace(URacerManager* RacerManagerRef)
 {
 	for (const auto& Race : Races)
 	{
-		Race.Value.RaceLineupManager->AssignRacerToRace(Data, RacerManagerRef);//!!!!!!!!
+		Race.Value.RaceLineupManager->AssignRacerToRace(RacerManagerRef);//!!!!!!!!
 	}
 }
 

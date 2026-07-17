@@ -39,7 +39,7 @@ public:
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 
-	void SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef, bool IsReplacement);
+	void SetRacerData(URacerManager* RacerManagerRef, bool IsReplacement);
 	
 	void CrossOutRacer();
 

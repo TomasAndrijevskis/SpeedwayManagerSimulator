@@ -40,8 +40,14 @@ public:
 	void OnRaceStarted();
 
 	bool IsJunior() const;
+	
+	FString GetRacerName() const;
 
-	FRacerMatchData& GetRacerData();
+	bool IsReplacement() const;
+
+	bool IsVisitor() const;
+
+	int GetRacerNumber() const;
 	
 	FOnPointsAdded OnPointsAddedDelegate;
 	

@@ -29,12 +29,9 @@ protected:
 	
 	virtual void BindDelegates() override;
 
-	//virtual void FillOptions(bool IsTeamLosing) override;
-	
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	UChooseBox* ChooseBox_ChooseMainRacer;
 	
-	//virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager) override;
 };

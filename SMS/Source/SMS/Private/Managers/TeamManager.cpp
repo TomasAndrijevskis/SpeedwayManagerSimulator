@@ -37,43 +37,43 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> 
 }
 
 
-void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
+void UTeamManager::ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback)
 {
 	for (const auto& Racer : Racers)
 	{
 		if (URacerManager** FoundManager = RacerManagers.Find(Racer.Key))
 		{
-			Callback(Racer.Value, *FoundManager);
+			Callback(*FoundManager);
 		}
 	}
 }
 
 
-void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, bool IsNominatedRace, const URacerManager* RacerManagerRef, TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
+void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, bool IsNominatedRace, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback)
 {
-	ForEachRacerInLineup([&Callback, IsTeamLosing, IsNominatedRace, RacerManagerRef](const FRacerMatchData& Data, URacerManager* RacerManager)
+	ForEachRacerInLineup([&Callback, IsTeamLosing, IsNominatedRace, RacerManagerRef](URacerManager* RacerManager)
 	{
 		if (IsTeamLosing || IsNominatedRace)
 		{
 			if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef)
-				Callback(Data, RacerManager);
+				Callback(RacerManager);
 		}
 		else
 		{
-			if (RacerManager->CanDriveMore() &&
-				(RacerManager->GetRacerData().IsJunior() || RacerManager->GetRacerData().IsReplacement())
+			if (RacerManager->CanDriveMore()
+				&& (RacerManager->IsJunior() || RacerManager->IsReplacement())
 				&& RacerManager != RacerManagerRef)
-				Callback(Data, RacerManager);
+				Callback(RacerManager);
 		}
 	});
 }
 
 
-void UTeamManager::GetAvailableRacers(TFunction<void(const FRacerMatchData&, URacerManager*)> Callback)
+void UTeamManager::GetAvailableRacers(TFunction<void(URacerManager*)> Callback)
 {
-	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data, URacerManager* RacerManager)
+	ForEachRacerInLineup([&Callback](URacerManager* RacerManager)
 	{
-		if (RacerManager->CanDriveMore()) Callback(Data, RacerManager);
+		if (RacerManager->CanDriveMore()) Callback(RacerManager);
 	});
 }
 

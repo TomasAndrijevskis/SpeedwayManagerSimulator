@@ -28,15 +28,15 @@ public:
 
 	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
 
-	void AssignRacerToRace(const FRacerMatchData& RacerData, URacerManager* RacerManagerRef);
+	void AssignRacerToRace(URacerManager* RacerManagerRef);
 
 	bool IsTeamLosing(URaceLineBase* RaceLineRef) const;
 
 	void OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName);
 
-	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
+	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*)>& Callback);
 
-	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager);
+	virtual void AddOption(URacerManager* NewRacerManager);
 	
 	void HandleAddedOptions();
 	
@@ -60,8 +60,8 @@ private:
 	UTeamManager* TeamManager;
 	
 	UPROPERTY()
-	TMap<URacerManager*, FRacerMatchData> RacerOptions;
-
+	TArray<URacerManager*> RacerOptions;
+	
 	UPROPERTY()
 	TArray<URacerManager*> DeniedOptions;
 };
