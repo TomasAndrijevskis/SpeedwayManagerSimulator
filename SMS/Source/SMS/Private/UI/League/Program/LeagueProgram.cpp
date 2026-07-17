@@ -123,7 +123,7 @@ void ULeagueProgram::CreateRaces()
 		if (NewRace)
 		{
 			NewRace->InitializeWidget(RaceID);
-			MatchManager->AddNewRace(NewRace->GetRaceManager());
+			MatchManager->AddNewRace(RaceID, NewRace->GetRaceData());
 		}
 		TempPosition.Y += PositionOffset;
 		if (RaceID % 5 == 0)

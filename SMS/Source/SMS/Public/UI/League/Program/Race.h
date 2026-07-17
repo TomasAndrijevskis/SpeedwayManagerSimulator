@@ -3,9 +3,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RaceData/RaceData.h"
 #include "Data/RaceData/RaceLineData.h"
 #include "Race.generated.h"
 
+class URaceLineupManager;
 class UScoreManager;
 class UNominatedRaceLine;
 class URaceLine;
@@ -24,8 +26,6 @@ class SMS_API URace : public UUserWidget
 	GENERATED_BODY()
 
 public:
-
-	void InitializeManagers();
 	
 	void InitializeWidget(int NewID);
 
@@ -37,7 +37,7 @@ public:
 
 	bool IsNominatedRace() const;
 
-	URaceManager* GetRaceManager() const;
+	FRaceData& GetRaceData();
 	
 private:
 
@@ -59,6 +59,10 @@ private:
 	URaceLineBase* CreateNominatedRaceLine(int RaceLineID);
 	
 	void OnIDSet();
+
+	void InitializeManagers();
+
+	void InitializeRaceData();
 	
 	UPROPERTY(EditDefaultsOnly)
 	URacePatternsDataAsset* RaceDataAsset;
@@ -68,12 +72,11 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UNominatedRaceLine> NominatedRaceLineClass;
-	
-	UPROPERTY()
-	URaceManager* RaceManager;
 
 	UPROPERTY()
 	UScoreManager* ScoreManager;
+
+	FRaceData Data;
 	
 	int RaceID;
 };

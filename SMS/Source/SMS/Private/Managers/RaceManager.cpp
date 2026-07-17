@@ -1,14 +1,11 @@
 
 #include "Managers/RaceManager.h"
-#include "Managers/RaceLineupManager.h"
 
 
-void URaceManager::InitializeManager()
+void URaceManager::InitializeManager(bool NewIsNominatedRace)
 {
 	BindDelegates();
-	RaceLineupManager = NewObject<URaceLineupManager>(this);
-	if (!RaceLineupManager) return;
-	RaceLineupManager->InitializeManager();
+	bIsNominatedRace = NewIsNominatedRace;
 }
 
 
@@ -25,19 +22,11 @@ void URaceManager::AddRaceLine(URaceLineBase* NewRaceLine)
 }
 
 
-void URaceManager::OnRaceLinesCreated() const
-{
-	if (!RaceLineupManager) return;
-	RaceLineupManager->SetRaceLines(RaceLines);
-}
-
-
 void URaceManager::ChangeRaceStatus(bool bIsActive)
 {
 	for (auto& RaceLine : RaceLines)
 	{
 		RaceLine->ChangeLineStatus(bIsActive);
-		RaceLine->HandleRaceLine(RaceLineupManager->IsTeamLosing(RaceLine));
 	}
 }
 
@@ -52,10 +41,10 @@ void URaceManager::SimulateRace()
 	for (int Position = 0, Points = 3; Position < RaceLines.Num(); Position++, Points--)
 	{
 		URaceLineBase* CurrentLine = RaceLines[Position];
-		const bool IsVisitor = CurrentLine->IsVisitor();
+		const bool IsVisitor = CurrentLine->GetRaceLineData().IsVisitorLine();
 		bool HasBonus = false;
 		if (Position != 0 && Position < RaceLines.Num() - 1)
-			HasBonus = RaceLines[Position - 1]->IsVisitor() == IsVisitor;
+			HasBonus = RaceLines[Position - 1]->GetRaceLineData().IsVisitorLine() == IsVisitor;
 		if (CurrentLine->GetRacerRating() == 0)
 			CurrentLine->SetPointsPerRace(DidNotFinish, false);
 		else
@@ -98,4 +87,4 @@ void URaceManager::SortLinesByRating()
 
 
 TArray<URaceLineBase*> URaceManager::GetRaceLines(){return RaceLines;}
-URaceLineupManager* URaceManager::GetRaceLineupManager() const{return RaceLineupManager;}
+bool URaceManager::IsNominatedRace()const{return bIsNominatedRace;}

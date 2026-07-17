@@ -26,10 +26,10 @@ void UMatchManager::BindDelegates()
 
 void UMatchManager::SimulateRace()
 {
-	if (CurrentRace <= RaceManagers.Num() - 1)
+	if (CurrentRace <= Races.Num())
 	{
 		BindRaceDelegates();
-		RaceManagers[CurrentRace]->OnSimulateRaceRequestDelegate.Broadcast();
+		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast();
 		HandleRaceFinished();
 	}
 }
@@ -37,8 +37,8 @@ void UMatchManager::SimulateRace()
 
 void UMatchManager::BindRaceDelegates()
 {
-	if (!RaceManagers[CurrentRace]) return;
-	RaceManagers[CurrentRace]->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateScore);
+	if (!Races[CurrentRace].RaceManager) return;
+	Races[CurrentRace].RaceManager->OnRaceScoreUpdatedDelegate.AddUObject(ScoreManager, &UScoreManager::UpdateScore);
 }
 
 
@@ -46,7 +46,12 @@ void UMatchManager::HandleRaceFinished()
 {
 	ScoreManager->ClearLastRaceScore();
 	CurrentRace++;
-	if (CurrentRace <= RaceManagers.Num()-1) RaceManagers[CurrentRace]->OnChangedRaceStatusRequestDelegate.Broadcast(true);
+	if (CurrentRace <= Races.Num())
+	{
+		Races[CurrentRace].RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(true);
+		bool IsNominatedRace = Races[CurrentRace].RaceManager->IsNominatedRace();
+		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesRequestDelegate.Broadcast(IsNominatedRace);
+	}
 	else OnMatchEndedDelegate.Broadcast();
 }
 
@@ -90,18 +95,17 @@ void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagersRef)
 }
 
 
-void UMatchManager::AddNewRace(URaceManager* RaceManagerRef)
+void UMatchManager::AddNewRace(const int RaceId, const FRaceData RaceData)
 {
-	if (!RaceManagerRef) return;
-	RaceManagers.Add(RaceManagerRef);
+	Races.Add(RaceId, RaceData);
 }
 
 
 void UMatchManager::RequestToAssignRacersToRace(const FRacerMatchData& Data, URacerManager* RacerManagerRef)
 {
-	for (const auto& Race : RaceManagers)
+	for (const auto& Race : Races)
 	{
-		Race->GetRaceLineupManager()->AssignRacerToRace(Data, RacerManagerRef);
+		Race.Value.RaceLineupManager->AssignRacerToRace(Data, RacerManagerRef);//!!!!!!!!
 	}
 }
 
@@ -125,4 +129,4 @@ FTeamMatchData* UMatchManager::GetTeamData(bool Status)
 
 
 int UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
-int UMatchManager::GetAmountOfRaces() const{return RaceManagers.Num();}
+int UMatchManager::GetAmountOfRaces() const{return Races.Num();}

@@ -47,7 +47,7 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points, bool AddBonus)
 
 void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	OnRacerChosenDelegate.Broadcast(SelectedItem, RacerStatsLineID);
+	OnRacerSelectedDelegate.Broadcast(SelectedItem, RacerStatsLineID);
 }
 
 
@@ -63,7 +63,7 @@ void URacerStatsLine::ChooseRandomOption(TArray<int>& ChosenOptions)
 	{
 		FString SelectedOption = ChooseBox_Racer->GetSelectedOption(RandomOption);
 		ChooseBox_Racer->SetRandomOption(SelectedOption);
-		OnRacerChosenDelegate.Broadcast(SelectedOption, RacerStatsLineID);
+		OnRacerSelectedDelegate.Broadcast(SelectedOption, RacerStatsLineID);
 		ChosenOptions.Add(RandomOption);
 	}
 }

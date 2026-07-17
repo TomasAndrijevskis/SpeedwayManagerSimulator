@@ -40,6 +40,8 @@ public:
 	void OnRaceStarted();
 
 	bool IsJunior() const;
+
+	FRacerMatchData& GetRacerData();
 	
 	FOnPointsAdded OnPointsAddedDelegate;
 	

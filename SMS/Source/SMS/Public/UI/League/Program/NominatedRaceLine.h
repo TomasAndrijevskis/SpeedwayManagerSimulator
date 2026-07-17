@@ -19,19 +19,22 @@ public:
 	 
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData) override;
 
+	virtual void AddOption(FString SelectedItem) override;
+	virtual void RemoveFromReplacementSelection(FString SelectedItem) override;
+	virtual void RemoveFromMainSelection(FString SelectedItem) override;
+	
+	virtual void LockChosenRacer() override;
 	
 protected:
 	
 	virtual void BindDelegates() override;
 
-	virtual void FillOptions(bool IsTeamLosing) override;
-
-	void HandleAddedOptions(bool IsTeamLosing);
+	//virtual void FillOptions(bool IsTeamLosing) override;
 	
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	UChooseBox* ChooseBox_ChooseMainRacer;
 	
-	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager) override;
+	//virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager) override;
 };

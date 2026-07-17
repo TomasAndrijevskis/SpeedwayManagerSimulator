@@ -25,9 +25,4 @@ struct FRacerData
 	
 	UPROPERTY(EditDefaultsOnly)
 	FRacerStats RacerStats;
-
-	bool IsJunior() const
-	{
-		return Age <= 24;
-	}
 };

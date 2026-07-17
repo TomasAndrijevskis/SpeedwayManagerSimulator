@@ -28,21 +28,13 @@ void URaceLineBase::InitializeWidget()
 	if (!MatchManager) return;
 	MatchManager->OnRacerManagersCreatedDelegate.AddUObject(this, &URaceLineBase::SetTeamManager);
 	BindDelegates();
+	ChangeChooseBoxStatus(false);
 }
 
 
 void URaceLineBase::ChangeLineStatus(bool bIsActive)
 {
 	SetIsEnabled(bIsActive);
-}
-
-
-void URaceLineBase::HandleRaceLine(bool IsTeamLosing)
-{
-	//if (!ScoreManager) return;
-	/*bool CanReplace = URaceFunctionLibrary::IsReplacementPossible(
-		ScoreManager->GetTeamScore(IsVisitor()), ScoreManager->GetTeamScore(!IsVisitor()));*/
-	FillOptions(IsTeamLosing);
 }
 
 
@@ -60,7 +52,7 @@ void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 }
 
 
-void URaceLineBase::SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef)
+void URaceLineBase::SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef, bool IsReplacement)
 {
 	if (!RacerManagerRef) return;
 	RacerManager = RacerManagerRef;
@@ -97,37 +89,6 @@ void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
 }
 
 
-void URaceLineBase::FillOptions(bool IsTeamLosing)
-{
-	if (!TeamManager) return;
-	TeamManager->GetAvailableReplacementRacers(IsTeamLosing, RacerManager, [this](const FRacerMatchData& Data, URacerManager* RacerManager)
-	{
-		AddOption(Data, RacerManager);
-	});
-	HandleAddedOptions();
-}
-
-
-void URaceLineBase::AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager)
-{
-	RacerManagers.Add(NewRacerManager, Data);
-}
-
-
-void URaceLineBase::HandleAddedOptions()
-{
-	if (RacerManagers.Num() > 0)
-	{
-		ChangeChooseBoxStatus(true);
-		for (const auto& Manager : RacerManagers)
-		{
-			ChooseBox_RacerReplacement->AddOption(Manager.Value.RacerData.Name);
-		}
-	}
-	else ChangeChooseBoxStatus(false);
-}
-
-
 void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 {
 	NumbersBox_PointsPerRace->SetText(NewPoints);
@@ -137,47 +98,31 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 
 void URaceLineBase::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	FindSelectedRacer(SelectedItem, [this](URacerManager* Manager, const FRacerMatchData& Data)
-	{
-		SetRacerData(Data.RacerData.Name, Manager);
-		SetRacerNumber(Data.RacerNumber);
-	});
+	OnRacerChosenDelegate.Broadcast(this, SelectedItem);
 }
 
 
 void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	FindSelectedRacer(SelectedItem, [this](URacerManager* Manager, const FRacerMatchData& Data)
-	{
-		RacerManager->RemoveParticipatedRace(this);
-		IsReplacement = true;
-		SetRacerData(Data.RacerData.Name, Manager);
-		OnRacerReplacedDelegate.Broadcast(this, Data.RacerData.Name);
-		ChangeRider();
-	});
+	OnRacerReplacedDelegate.Broadcast(this, SelectedItem);
+	CrossOutRacer();
 }
 
 
-void URaceLineBase::FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback)
+void URaceLineBase::AddOption(FString SelectedItem)
 {
-	for (const auto& Manager : RacerManagers)
-	{
-		if (Manager.Value.GetRacerName() == SelectedItem)
-		{
-			Callback(Manager.Key, Manager.Value);
-			return;
-		}
-	}
+	ChooseBox_RacerReplacement->AddOption(SelectedItem);
 }
 
 
-void URaceLineBase::RemoveOption(FString SelectedItem)
+void URaceLineBase::RemoveFromReplacementSelection(FString SelectedItem)
 {
 	ChooseBox_RacerReplacement->RemoveOption(SelectedItem);
+	if (!ChooseBox_RacerReplacement->AnyOptionsLeft()) ChangeChooseBoxStatus(false);
 }
 
 
-void URaceLineBase::ChangeRider()
+void URaceLineBase::CrossOutRacer()
 {
 	USlider* NewSlider = CreateSlider();
 	if (!NewSlider) return;
@@ -211,5 +156,7 @@ int URaceLineBase::GetRacerNumber()const{return RacerNumber;}
 int URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
-int URaceLineBase::GetTeamID() const {return TeamManager->GetTeamID();}
-bool URaceLineBase::IsVisitor()const{return RaceLineData.IsVisitorLine();}
+int URaceLineBase::GetTeamID()const{return TeamManager->GetTeamID();}
+URacerManager* URaceLineBase::GetRacerManager()const{return RacerManager;}
+UTeamManager* URaceLineBase::GetTeamManager()const{return TeamManager;}
+FRaceLineData& URaceLineBase::GetRaceLineData(){return RaceLineData;}

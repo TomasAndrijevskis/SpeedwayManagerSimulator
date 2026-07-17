@@ -44,3 +44,9 @@ void UChooseBox::SetRandomOption(const FString& RandomOption)
 {
 	ComboBox->SetSelectedOption(RandomOption);
 }
+
+
+bool UChooseBox::AnyOptionsLeft() const
+{
+	return ComboBox->GetOptionCount() > 0;
+}

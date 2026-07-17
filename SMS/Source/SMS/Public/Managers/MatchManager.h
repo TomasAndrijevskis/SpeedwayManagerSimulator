@@ -2,10 +2,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/RaceData/RaceData.h"
 #include "Data/TeamData/TeamMatchData.h"
 #include "UI/League/Program/Race.h"
 #include "MatchManager.generated.h"
 
+class URacerManager;
 class UTeamManager;
 class UScoreManager;
 class ASMS_GameMode;
@@ -20,7 +22,7 @@ class SMS_API UMatchManager : public UObject
 
 public:
 
-	void AddNewRace(URaceManager* RaceManagerRef);
+	void AddNewRace(int RaceId, FRaceData RaceData);
 	
 	void RequestToAssignRacersToRace(const FRacerMatchData& Data, URacerManager* RacerManager);
 	
@@ -63,7 +65,10 @@ private:
 	UPROPERTY()
 	TArray<URaceManager*> RaceManagers;
 
+	UPROPERTY()
+	TMap<int, FRaceData> Races;
+	
 	TArray<FTeamMatchData> Teams;
 	
-	int CurrentRace = 0;
+	int CurrentRace = 1;
 };

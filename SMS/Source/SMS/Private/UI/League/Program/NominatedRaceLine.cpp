@@ -1,6 +1,5 @@
 
 #include "UI/League/Program/NominatedRaceLine.h"
-#include "Managers/TeamManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -19,34 +18,27 @@ void UNominatedRaceLine::BindDelegates()
 }
 
 
-void UNominatedRaceLine::FillOptions(bool IsTeamLosing)
+void UNominatedRaceLine::AddOption(FString SelectedItem)
 {
-	if (!TeamManager) return;
-	TeamManager->GetAvailableRacers( [this](const FRacerMatchData& Data, URacerManager* RacerManagerRef)
-	{
-		AddOption(Data, RacerManagerRef);
-	});
-	HandleAddedOptions(IsTeamLosing);
+	Super::AddOption(SelectedItem);
+	ChooseBox_ChooseMainRacer->AddOption(SelectedItem);
 }
 
 
-void UNominatedRaceLine::HandleAddedOptions(bool IsTeamLosing)
+void UNominatedRaceLine::RemoveFromReplacementSelection(FString SelectedItem)
 {
-	if (RacerManagers.Num() > 0 && IsTeamLosing)
-	{
-		ChangeChooseBoxStatus(true);
-		for (const auto& Manager : RacerManagers)
-		{
-			ChooseBox_RacerReplacement->AddOption(Manager.Value.GetRacerName());
-		}
-	}
-	else ChangeChooseBoxStatus(false);
+	ChooseBox_RacerReplacement->RemoveOption(SelectedItem);
 }
 
 
-void UNominatedRaceLine::AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager)
+void UNominatedRaceLine::RemoveFromMainSelection(FString SelectedItem)
 {
-	Super::AddOption(Data, NewRacerManager);
-	ChooseBox_ChooseMainRacer->AddOption(Data.GetRacerName());
-	RacerManagers.Add(NewRacerManager, Data);
+	ChooseBox_ChooseMainRacer->RemoveOption(SelectedItem);
+	if (!ChooseBox_RacerReplacement->AnyOptionsLeft()) ChangeChooseBoxStatus(false);
+}
+
+
+void UNominatedRaceLine::LockChosenRacer()
+{
+	ChooseBox_ChooseMainRacer->SetIsEnabled(false);
 }

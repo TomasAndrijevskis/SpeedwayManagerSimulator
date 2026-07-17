@@ -24,6 +24,8 @@ public:
 	FString GetSelectedOption(int Index) const;
 
 	void SetRandomOption(const FString& RandomOption);
+
+	bool AnyOptionsLeft() const;
 	
 	FOnSelectionChanged OnSelectionChangedDelegate;
 

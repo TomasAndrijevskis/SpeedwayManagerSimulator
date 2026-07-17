@@ -1,5 +1,6 @@
 
 #include "Managers/RacerManager.h"
+#include "UI/League/Program/RaceLineBase.h"
 
 
 void URacerManager::Initialize(const FRacerMatchData& RacerData)
@@ -39,7 +40,11 @@ void URacerManager::AddParticipatedRace(URaceLineBase* RaceLineRef)
 
 void URacerManager::RemoveParticipatedRace(URaceLineBase* RaceLineRef)
 {
-	if (ParticipatedRacesRef.Contains(RaceLineRef)) ParticipatedRacesRef.Remove(RaceLineRef);
+	if (ParticipatedRacesRef.Contains(RaceLineRef))
+	{
+		RaceLineRef->OnRaceStartedDelegate.RemoveAll(this);
+		ParticipatedRacesRef.Remove(RaceLineRef);
+	}
 }
 
 
@@ -81,3 +86,4 @@ int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int URacerManager::GetBonusAmount() const{return RacerBonuses;}
 bool URacerManager::CanDriveMore() const {return ParticipatedRacesRef.Num() < MaxRacesAmount;}
 bool URacerManager::IsJunior() const {return Data.IsJunior();}
+FRacerMatchData& URacerManager::GetRacerData() {return Data;}

@@ -10,7 +10,7 @@ class UScoreManager;
 class URaceLineBase;
 class URacerManager;
 
-//DECLARE_MULTICAST_DELEGATE_OneParam(FOnHandleRaceLineRequest, bool);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHandleRaceLinesRequest, bool);
 UCLASS()
 class SMS_API URaceLineupManager : public UObject
 {
@@ -20,20 +20,36 @@ public:
 
 	void InitializeManager();
 	
-	void SetRaceLines(const TArray<URaceLineBase*>& NewRaceLines);
+	void HandleRaceLines(bool IsNominatedRace);
 	
-	void BindRaceLineDelegates();
+	void FillOptions(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef);
 
-	void OnRacerReplaced(const URaceLineBase* RaceLineRef, const FString& RacerName);
+	void AddRaceLine(URaceLineBase* NewRaceLine);
+
+	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
 
 	void AssignRacerToRace(const FRacerMatchData& RacerData, URacerManager* RacerManagerRef);
 
-	bool IsTeamLosing(const URaceLineBase* RaceLineRef) const;
+	bool IsTeamLosing(URaceLineBase* RaceLineRef) const;
+
+	void OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName);
+
+	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
+
+	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager);
 	
-	//FOnHandleRaceLineRequest OnHandleRaceLineRequestDelegate;
+	void HandleAddedOptions();
+	
+	void OnRaceInitialized();
+	
+	FOnHandleRaceLinesRequest OnHandleRaceLinesRequestDelegate;
 	
 private:
 
+	void BindDelegates();
+
+	void BindRaceLineDelegates();
+	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;
 
@@ -42,4 +58,10 @@ private:
 
 	UPROPERTY()
 	UTeamManager* TeamManager;
+	
+	UPROPERTY()
+	TMap<URacerManager*, FRacerMatchData> RacerOptions;
+
+	UPROPERTY()
+	TArray<URacerManager*> DeniedOptions;
 };

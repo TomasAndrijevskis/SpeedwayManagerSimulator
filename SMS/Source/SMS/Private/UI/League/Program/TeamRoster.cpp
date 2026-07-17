@@ -60,7 +60,7 @@ void UTeamRoster::CreateRacerStatLines()
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			TeamManager->AddRacerStatsLine(NewStatLine);
-			NewStatLine->OnRacerChosenDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
+			NewStatLine->OnRacerSelectedDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
 		}
 	}
 	TeamManager->FillTeamRosterOptions();

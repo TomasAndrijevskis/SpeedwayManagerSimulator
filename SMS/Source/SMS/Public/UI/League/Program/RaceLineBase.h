@@ -4,7 +4,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/RaceData/RaceLineData.h"
-#include "Data/RacersData/RacerMatchData.h"
 #include "RaceLineBase.generated.h"
 
 
@@ -17,7 +16,8 @@ class UOverlay;
 class UNumbersBox;
 
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerReplaced, const URaceLineBase*, const FString&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerReplaced, URaceLineBase*, const FString&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, URaceLineBase*, const FString&);
 UCLASS()
 class SMS_API URaceLineBase : public UUserWidget
 {
@@ -26,7 +26,8 @@ class SMS_API URaceLineBase : public UUserWidget
 public:
 
 	void SetRaceLineID(int NewID);
-	
+
+	void SetRacerNumber(int NewRacerNumber);
 	int GetRacerNumber() const;
 	
 	void SetPointsPerRace(const FString& NewPoints, bool AddBonus);
@@ -38,23 +39,33 @@ public:
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 
-	void SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef);
-
-	bool IsVisitor() const;
+	void SetRacerData(const FString& NewRacerName, URacerManager* RacerManagerRef, bool IsReplacement);
 	
-	void ChangeRider();
+	void CrossOutRacer();
 
 	void ChangeLineStatus(bool bIsActive);
-
-	void HandleRaceLine(bool IsTeamLosing);
 	
 	int GetTeamID() const;
 
-	void RemoveOption(FString SelectedItem);
+	virtual void AddOption(FString SelectedItem);
+	virtual void RemoveFromReplacementSelection(FString SelectedItem);
+	virtual void RemoveFromMainSelection(FString SelectedItem){};
+	
+	void ChangeChooseBoxStatus(bool Status);
+
+	virtual void LockChosenRacer(){};
+	
+	URacerManager* GetRacerManager() const;
+	
+	UTeamManager* GetTeamManager() const;
+
+	FRaceLineData& GetRaceLineData();
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 
 	FOnRacerReplaced OnRacerReplacedDelegate;
+
+	FOnRacerChosen OnRacerChosenDelegate;
 	
 protected:
 
@@ -75,22 +86,11 @@ protected:
 	virtual void NativeConstruct() override;
 
 	virtual void InitializeWidget();
-
-	virtual void AddOption(const FRacerMatchData& Data, URacerManager* NewRacerManager);
-
+	
 	virtual void BindDelegates();
 
 	UFUNCTION()
 	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
-
-	UFUNCTION()
-	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
-
-	void ChangeChooseBoxStatus(bool Status);
-
-	virtual void FillOptions(bool IsTeamLosing);
-
-	void HandleAddedOptions();
 	
 	FRaceLineData RaceLineData;
 
@@ -100,11 +100,6 @@ protected:
 	UPROPERTY()
 	URacerManager* RacerManager;
 	
-	UPROPERTY()
-	TMap<URacerManager*, FRacerMatchData> RacerManagers;
-
-	bool IsReplacement = false;
-	
 private:
 
 	void BindManagerDelegates();
@@ -113,9 +108,8 @@ private:
 
 	void SetTeamManager(TArray<UTeamManager*> TeamManagersRef);
 
-	void SetRacerNumber(int NewRacerNumber);
-
-	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*, const FRacerMatchData&)>& Callback);
+	UFUNCTION()
+	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 	int RaceLineID = 0;
 

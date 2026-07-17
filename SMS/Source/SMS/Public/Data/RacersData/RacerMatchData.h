@@ -42,6 +42,11 @@ struct FRacerMatchData
 		return RacerData.RacerStats.Rating;
 	}
 
+	int GetRacerNumber() const
+	{
+		return RacerNumber;
+	}
+	
 	FString GetRacerName() const
 	{
 		return RacerData.Name;

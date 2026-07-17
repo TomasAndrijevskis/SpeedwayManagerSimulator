@@ -11,7 +11,7 @@ class UNumbersBox;
 class UTextBlock;
 class UHorizontalBox;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, const FString&, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int);
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
 {
@@ -27,9 +27,9 @@ public:
 
 	void InitializeManagers(URacerManager* RacerManagerRef);
 
-	void ChooseRandomOption(TArray<int>& ChosenOptions);//Testing
+	void ChooseRandomOption(TArray<int>& ChosenOptions); // for testing
 	
-	FOnRacerChosen OnRacerChosenDelegate;
+	FOnRacerSelected OnRacerSelectedDelegate;
 
 protected:
 
