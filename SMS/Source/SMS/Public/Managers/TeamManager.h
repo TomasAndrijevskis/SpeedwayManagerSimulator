@@ -45,6 +45,10 @@ public:
 	void AddRacerStatsLine(URacerStatsLine* RacerStatsLine);
 
 	void FillTeamRosterOptions();
+
+	void LockChosenRacers() const;
+	
+	bool CheckChosenRacers() const;
 	
 	TArray<URacerStatsLine*>& GetRacerStatsLines();
 

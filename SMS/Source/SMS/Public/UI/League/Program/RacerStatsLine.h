@@ -28,6 +28,8 @@ public:
 	void InitializeManagers(URacerManager* RacerManagerRef);
 
 	void ChooseRandomOption(TArray<int>& ChosenOptions); // for testing
+
+	void LockRacer();
 	
 	FOnRacerSelected OnRacerSelectedDelegate;
 

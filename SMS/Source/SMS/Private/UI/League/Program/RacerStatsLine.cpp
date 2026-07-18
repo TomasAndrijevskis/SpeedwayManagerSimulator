@@ -55,10 +55,7 @@ void URacerStatsLine::ChooseRandomOption(TArray<int>& ChosenOptions)
 {
 	int OptionsAmount = ChooseBox_Racer->GetNumberOfOptions();
 	int RandomOption = FMath::RandRange(0, OptionsAmount - 1);
-	if (ChosenOptions.Contains(RandomOption))
-	{
-		ChooseRandomOption(ChosenOptions);
-	}
+	if (ChosenOptions.Contains(RandomOption)) ChooseRandomOption(ChosenOptions);
 	else
 	{
 		FString SelectedOption = ChooseBox_Racer->GetSelectedOption(RandomOption);
@@ -66,6 +63,12 @@ void URacerStatsLine::ChooseRandomOption(TArray<int>& ChosenOptions)
 		OnRacerSelectedDelegate.Broadcast(SelectedOption, RacerStatsLineID);
 		ChosenOptions.Add(RandomOption);
 	}
+}
+
+
+void URacerStatsLine::LockRacer()
+{
+	ChooseBox_Racer->SetIsEnabled(false);
 }
 
 

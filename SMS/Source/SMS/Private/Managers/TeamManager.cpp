@@ -122,6 +122,22 @@ void UTeamManager::FillTeamRosterOptions()
 }
 
 
+void UTeamManager::LockChosenRacers() const
+{
+	for (const auto& StatsLine : RacerStatsLines)
+	{
+		StatsLine->LockRacer();
+	}
+}
+
+
+bool UTeamManager::CheckChosenRacers() const
+{
+	if (Racers.Num() < 6) return false;
+	return true;
+}
+
+
 void UTeamManager::SetTeamData(FTeamMatchData* NewTeamData){TeamData = NewTeamData;}
 void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
 TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}

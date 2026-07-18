@@ -36,7 +36,6 @@ void ULeagueProgram::BindDelegates()
 {
 	if (!MatchManager) return;
 	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::PopulateRacers);
-	Button_ConfirmTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::DisableButtons);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
@@ -171,6 +170,16 @@ void ULeagueProgram::ShowTeams()
 
 void ULeagueProgram::PopulateRacers()
 {
-	if (!MatchManager) return;
+	if (!MatchManager || TeamManagers.IsEmpty()) return;
+	for (const auto& Manager : TeamManagers)
+	{
+		if (!Manager->CheckChosenRacers()) return;
+	}
+	for (const auto& Manager : TeamManagers)
+	{
+		Manager->LockChosenRacers();
+	}
 	MatchManager->CreateRacerManagers(TeamManagers);
+	DisableButtons();
+	ShowTeams();
 }

@@ -104,7 +104,7 @@ void URaceLineupManager::OnRacerChosen(URaceLineBase* RaceLineRef, const FString
 	{
 		RaceLineRef->SetRacerData(Manager, false);
 		RaceLineRef->SetRacerNumber(Manager->GetRacerNumber());
-		RaceLineRef->LockChosenRacer();
+		RaceLineRef->LockChosenRacer();//!!!!!!!!!!!!!!!
 	});
 }
 
