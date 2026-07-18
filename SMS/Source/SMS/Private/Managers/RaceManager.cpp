@@ -86,5 +86,16 @@ void URaceManager::SortLinesByRating()
 }
 
 
+bool URaceManager::CheckAllRacersInRace() const
+{
+	for (const auto& RaceLine : RaceLines)
+	{
+		if (!RaceLine->IsRacerSet()) return false;
+	}
+	return true;
+}
+
+
+
 TArray<URaceLineBase*> URaceManager::GetRaceLines(){return RaceLines;}
 bool URaceManager::IsNominatedRace()const{return bIsNominatedRace;}

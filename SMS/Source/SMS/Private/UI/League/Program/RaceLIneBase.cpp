@@ -59,6 +59,7 @@ void URaceLineBase::SetRacerData(URacerManager* RacerManagerRef, bool IsReplacem
 	RacerManager->AddParticipatedRace(this);
 	if(!IsReplacement) SetRacerName(RacerManager->GetRacerName());
 	BindManagerDelegates();
+	bIsRacerSet = true;
 }
 
 
@@ -160,3 +161,4 @@ int URaceLineBase::GetTeamID()const{return TeamManager->GetTeamID();}
 URacerManager* URaceLineBase::GetRacerManager()const{return RacerManager;}
 UTeamManager* URaceLineBase::GetTeamManager()const{return TeamManager;}
 FRaceLineData& URaceLineBase::GetRaceLineData(){return RaceLineData;}
+bool URaceLineBase::IsRacerSet() const{return bIsRacerSet;}

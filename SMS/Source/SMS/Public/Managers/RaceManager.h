@@ -28,6 +28,8 @@ public:
 	void BindDelegates();
 
 	bool IsNominatedRace() const;
+
+	bool CheckAllRacersInRace() const;
 	
 	FOnRaceScoreUpdated OnRaceScoreUpdatedDelegate;
 

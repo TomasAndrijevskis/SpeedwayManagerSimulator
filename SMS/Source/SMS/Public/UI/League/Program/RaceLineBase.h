@@ -60,6 +60,8 @@ public:
 	UTeamManager* GetTeamManager() const;
 
 	FRaceLineData& GetRaceLineData();
+
+	bool IsRacerSet() const;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 
@@ -114,4 +116,6 @@ private:
 	int RaceLineID = 0;
 
 	int RacerNumber = 0;
+
+	bool bIsRacerSet = false;
 };
