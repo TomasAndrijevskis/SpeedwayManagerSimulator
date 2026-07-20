@@ -37,50 +37,93 @@ void URaceLineupManager::BindRaceLineDelegates()
 }
 
 
+
 void URaceLineupManager::HandleRaceLines(bool IsNominatedRace)
 {
 	if (RaceLines.IsEmpty()) return;
-	for (const auto& RaceLine : RaceLines)
+	if (!IsNominatedRace)
 	{
-		DeniedOptions.Add(RaceLine->GetRacerManager());
+		for (const auto& RaceLine : RaceLines)
+		{
+			DeniedOptions.Add(RaceLine->GetRacerManager());
+		}
 	}
+	HandleOptions(IsNominatedRace);
+}
+
+
+void URaceLineupManager::HandleOptions(bool IsNominatedRace)
+{
 	for (const auto& RaceLine : RaceLines)
 	{
 		FillOptions(IsTeamLosing(RaceLine), IsNominatedRace, RaceLine->GetTeamManager(), RaceLine);
 	}
-	HandleAddedOptions();
+	HandleAddedOptions(IsNominatedRace);
 }
 
 
 void URaceLineupManager::FillOptions(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef)
 {
 	if (!TeamManagerRef || !RaceLineRef) return;
-	TeamManagerRef->GetAvailableReplacementRacers(IsTeamLosing, IsNominatedRace, RaceLineRef->GetRacerManager(), [this](URacerManager* RacerManager)
+	TeamManagerRef->GetAvailableReplacementRacers(IsTeamLosing, RaceLineRef->GetRacerManager(), [this](URacerManager* RacerManager)
 	{
-		if (!DeniedOptions.Contains(RacerManager) && !RacerOptions.Contains(RacerManager))
-			AddOption(RacerManager);
+		if (!DeniedOptions.Contains(RacerManager) && !RacerReplacementOptions.Contains(RacerManager))
+			AddReplacementOption(RacerManager);
 	});
+	if (IsNominatedRace)
+	{
+		TeamManagerRef->GetAvailableRacers(RaceLineRef->GetRacerManager(), [this](URacerManager* RacerManager)
+		{
+			if (!RacerMainOptions.Contains(RacerManager))
+				AddMainOption(RacerManager);
+		});
+	}
 }
 
 
-void URaceLineupManager::AddOption(URacerManager* NewRacerManager)
+void URaceLineupManager::AddReplacementOption(URacerManager* NewRacerManager)
 {
-	RacerOptions.Add(NewRacerManager);
+	RacerReplacementOptions.Add(NewRacerManager);
 }
 
 
-void URaceLineupManager::HandleAddedOptions()
+void URaceLineupManager::AddMainOption(URacerManager* NewRacerManager)
 {
-	if (RacerOptions.IsEmpty()) return;
+	RacerMainOptions.Add(NewRacerManager);
+}
+
+
+void URaceLineupManager::HandleAddedOptions(bool IsNominatedRace)
+{
+	if (RacerReplacementOptions.IsEmpty()) return;
 	for (const auto& Line : RaceLines)
 	{
-		for (const auto& Racer : RacerOptions)
+		if (IsNominatedRace)
 		{
-			if (Line->GetRaceLineData().IsVisitorLine() == Racer->IsVisitor())
+			FillOptionsInWidget(RacerMainOptions, *Line, [](URaceLineBase& Line, const FString& Name)
 			{
-				Line->AddOption(Racer->GetRacerName());
-				Line->ChangeChooseBoxStatus(true);
-			}
+				Line.AddMainOption(Name);
+			});
+		}
+		FillOptionsInWidget(RacerReplacementOptions, *Line, [](URaceLineBase& Line, const FString& Name)
+		{
+			Line.AddReplacementOption(Name);
+		});
+	}
+}
+
+
+void URaceLineupManager::FillOptionsInWidget(TArray<URacerManager*>& OptionsArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption)
+{
+	if (OptionsArray.IsEmpty()) return;
+	for (const auto& Racer : OptionsArray)
+	{
+		if (RaceLineRef.GetRaceLineData().IsVisitorLine() == Racer->IsVisitor())
+		{
+			AddOption(RaceLineRef, Racer->GetRacerName());
+			//RaceLineRef.AddMainOption(Racer->GetRacerName());
+			//RaceLineRef.AddReplacementOption(Racer->GetRacerName());
+			RaceLineRef.ChangeChooseBoxStatus(true);
 		}
 	}
 }
@@ -100,7 +143,7 @@ void URaceLineupManager::OnRacerChosen(URaceLineBase* RaceLineRef, const FString
 		RaceLine->RemoveFromReplacementSelection(RacerName);
 		
 	}
-	FindSelectedRacer(RacerName, [RaceLineRef](URacerManager* Manager)
+	FindSelectedRacer(RacerName, RacerMainOptions, [RaceLineRef](URacerManager* Manager)
 	{
 		RaceLineRef->SetRacerData(Manager, false);
 		RaceLineRef->SetRacerNumber(Manager->GetRacerNumber());
@@ -119,7 +162,7 @@ void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FStri
 			RaceLine->RemoveFromMainSelection(RacerName);
 		}
 	}
-	FindSelectedRacer(RacerName, [this, RaceLineRef](URacerManager* Manager)
+	FindSelectedRacer(RacerName, RacerReplacementOptions, [this, RaceLineRef](URacerManager* Manager)
 	{
 		RaceLineRef->GetRacerManager()->RemoveParticipatedRace(RaceLineRef);
 		RaceLineRef->SetRacerData(Manager, true);
@@ -127,9 +170,10 @@ void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FStri
 }
 
 
-void URaceLineupManager::FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*)>& Callback)
+void URaceLineupManager::FindSelectedRacer(const FString& SelectedItem, TArray<URacerManager*>& OptionsArray, const TFunction<void(URacerManager*)>& Callback)
 {
-	for (const auto& Manager : RacerOptions)
+	if (OptionsArray.IsEmpty()) return;
+	for (const auto& Manager : OptionsArray)
 	{
 		if (Manager->GetRacerName() == SelectedItem)
 		{

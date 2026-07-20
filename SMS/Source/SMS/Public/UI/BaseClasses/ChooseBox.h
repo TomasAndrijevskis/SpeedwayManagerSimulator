@@ -26,6 +26,8 @@ public:
 	void SetRandomOption(const FString& RandomOption);
 
 	bool AnyOptionsLeft() const;
+
+	void ChangeStatus();
 	
 	FOnSelectionChanged OnSelectionChangedDelegate;
 

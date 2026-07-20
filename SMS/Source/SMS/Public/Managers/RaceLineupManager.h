@@ -2,7 +2,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/RacersData/RacerMatchData.h"
 #include "RaceLineupManager.generated.h"
 
 class UTeamManager;
@@ -19,26 +18,12 @@ class SMS_API URaceLineupManager : public UObject
 public:
 
 	void InitializeManager();
-	
-	void HandleRaceLines(bool IsNominatedRace);
-	
-	void FillOptions(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef);
 
 	void AddRaceLine(URaceLineBase* NewRaceLine);
-
-	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
 
 	void AssignRacerToRace(URacerManager* RacerManagerRef);
 
 	bool IsTeamLosing(URaceLineBase* RaceLineRef) const;
-
-	void OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName);
-
-	void FindSelectedRacer(const FString& SelectedItem, const TFunction<void(URacerManager*)>& Callback);
-
-	virtual void AddOption(URacerManager* NewRacerManager);
-	
-	void HandleAddedOptions();
 	
 	void OnRaceInitialized();
 	
@@ -49,6 +34,26 @@ private:
 	void BindDelegates();
 
 	void BindRaceLineDelegates();
+
+	void OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName);
+
+	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
+	
+	void FindSelectedRacer(const FString& SelectedItem, TArray<URacerManager*>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
+	
+	void HandleAddedOptions(bool IsNominatedRace);
+
+	void AddReplacementOption(URacerManager* NewRacerManager);
+
+	void AddMainOption(URacerManager* NewRacerManager);
+	
+	void HandleRaceLines(bool IsNominatedRace);
+
+	void HandleOptions(bool IsNominatedRace);
+	
+	void FillOptions(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef);
+
+	static void FillOptionsInWidget(TArray<URacerManager*>& OptionsArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption);
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;
@@ -60,7 +65,10 @@ private:
 	UTeamManager* TeamManager;
 	
 	UPROPERTY()
-	TArray<URacerManager*> RacerOptions;
+	TArray<URacerManager*> RacerReplacementOptions;
+
+	UPROPERTY()
+	TArray<URacerManager*> RacerMainOptions;
 	
 	UPROPERTY()
 	TArray<URacerManager*> DeniedOptions;

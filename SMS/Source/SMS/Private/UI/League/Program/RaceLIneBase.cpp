@@ -110,7 +110,7 @@ void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type Sele
 }
 
 
-void URaceLineBase::AddOption(FString SelectedItem)
+void URaceLineBase::AddReplacementOption(FString SelectedItem)
 {
 	ChooseBox_RacerReplacement->AddOption(SelectedItem);
 }

@@ -19,7 +19,7 @@ public:
 	 
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData) override;
 
-	virtual void AddOption(FString SelectedItem) override;
+	virtual void AddMainOption(FString SelectedItem) override;
 	virtual void RemoveFromReplacementSelection(FString SelectedItem) override;
 	virtual void RemoveFromMainSelection(FString SelectedItem) override;
 	

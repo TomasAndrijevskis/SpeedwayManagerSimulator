@@ -7,6 +7,7 @@ void UChooseBox::NativeConstruct()
 {
 	Super::NativeConstruct();
 	ComboBox->OnSelectionChanged.AddUniqueDynamic(this, &UChooseBox::OnSelectionChanged);
+	
 }
 
 
@@ -49,4 +50,10 @@ void UChooseBox::SetRandomOption(const FString& RandomOption)
 bool UChooseBox::AnyOptionsLeft() const
 {
 	return ComboBox->GetOptionCount() > 0;
+}
+
+
+void UChooseBox::ChangeStatus()
+{
+	ComboBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 }

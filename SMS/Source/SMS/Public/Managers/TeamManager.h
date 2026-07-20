@@ -26,9 +26,9 @@ public:
 
 	void ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback);
 
-	void GetAvailableReplacementRacers(bool IsTeamLosing, bool IsNominatedRace, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback);
-
-	void GetAvailableRacers(TFunction<void(URacerManager*)> Callback);
+	void GetAvailableReplacementRacers(bool IsTeamLosing, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback);
+	
+	void GetAvailableRacers(const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback);
 	
 	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
 	

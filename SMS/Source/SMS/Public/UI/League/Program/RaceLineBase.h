@@ -47,7 +47,8 @@ public:
 	
 	int GetTeamID() const;
 
-	virtual void AddOption(FString SelectedItem);
+	void AddReplacementOption(FString SelectedItem);
+	virtual void AddMainOption(FString SelectedItem){};
 	virtual void RemoveFromReplacementSelection(FString SelectedItem);
 	virtual void RemoveFromMainSelection(FString SelectedItem){};
 	

@@ -49,11 +49,11 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback
 }
 
 
-void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, bool IsNominatedRace, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback)
+void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback)
 {
-	ForEachRacerInLineup([&Callback, IsTeamLosing, IsNominatedRace, RacerManagerRef](URacerManager* RacerManager)
+	ForEachRacerInLineup([&Callback, IsTeamLosing, RacerManagerRef](URacerManager* RacerManager)
 	{
-		if (IsTeamLosing || IsNominatedRace)
+		if (IsTeamLosing)
 		{
 			if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef)
 				Callback(RacerManager);
@@ -69,11 +69,12 @@ void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, bool IsNomin
 }
 
 
-void UTeamManager::GetAvailableRacers(TFunction<void(URacerManager*)> Callback)
+void UTeamManager::GetAvailableRacers(const URacerManager* RacerManagerRef,TFunction<void(URacerManager*)> Callback)
 {
-	ForEachRacerInLineup([&Callback](URacerManager* RacerManager)
+	ForEachRacerInLineup([&Callback, RacerManagerRef](URacerManager* RacerManager)
 	{
-		if (RacerManager->CanDriveMore()) Callback(RacerManager);
+		if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef)
+			Callback(RacerManager);
 	});
 }
 

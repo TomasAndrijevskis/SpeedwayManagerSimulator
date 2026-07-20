@@ -68,7 +68,7 @@ void URacerStatsLine::ChooseRandomOption(TArray<int>& ChosenOptions)
 
 void URacerStatsLine::LockRacer()
 {
-	ChooseBox_Racer->SetIsEnabled(false);
+	ChooseBox_Racer->ChangeStatus();
 }
 
 

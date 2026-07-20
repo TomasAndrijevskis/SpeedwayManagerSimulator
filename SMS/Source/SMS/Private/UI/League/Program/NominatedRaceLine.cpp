@@ -18,9 +18,8 @@ void UNominatedRaceLine::BindDelegates()
 }
 
 
-void UNominatedRaceLine::AddOption(FString SelectedItem)
+void UNominatedRaceLine::AddMainOption(FString SelectedItem)
 {
-	Super::AddOption(SelectedItem);
 	ChooseBox_ChooseMainRacer->AddOption(SelectedItem);
 }
 
