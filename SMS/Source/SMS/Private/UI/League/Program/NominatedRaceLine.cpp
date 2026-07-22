@@ -26,6 +26,13 @@ void UNominatedRaceLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type S
 }
 
 
+void UNominatedRaceLine::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
+{
+	ChooseBox_ChooseMainRacer->MakeChooseBoxUnavailable();
+	Super::OnRacerReplaced(SelectedItem, SelectionType);
+}
+
+
 void UNominatedRaceLine::AddMainOption(FString SelectedItem)
 {
 	if (ChooseBox_ChooseMainRacer->DoesOptionExists(SelectedItem)) return;

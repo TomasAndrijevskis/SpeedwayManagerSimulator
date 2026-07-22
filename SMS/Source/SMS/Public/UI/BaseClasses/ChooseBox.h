@@ -27,7 +27,7 @@ public:
 
 	bool AnyOptionsLeft() const;
 
-	void ChangeStatus();
+	void MakeChooseBoxUnavailable();
 
 	bool DoesOptionExists(const FString& OptionName) const;
 	

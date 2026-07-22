@@ -53,7 +53,7 @@ bool UChooseBox::AnyOptionsLeft() const
 }
 
 
-void UChooseBox::ChangeStatus()
+void UChooseBox::MakeChooseBoxUnavailable()
 {
 	ComboBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 }

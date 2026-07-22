@@ -142,6 +142,7 @@ void URaceLineupManager::OnRacerChosen(URaceLineBase* RaceLineRef, const FString
 	{
 		RaceLineRef->SetRacerData(Manager, false);
 		RaceLineRef->SetRacerNumber(Manager->GetRacerNumber());
+		Manager->SetParticipatedInNominatedRace(true);
 		AvailableMainRacers.Remove(Manager);
 		UnavailableOptions.Add(Manager);
 	});
@@ -172,6 +173,7 @@ void URaceLineupManager::RestoreRacerAvailability(URaceLineBase* RaceLineRef, UR
 {
 	if (UnavailableOptions.Contains(RacerManagerRef)) UnavailableOptions.Remove(RacerManagerRef);
 	RacerManagerRef->RemoveParticipatedRace(RaceLineRef);
+	RacerManagerRef->SetParticipatedInNominatedRace(false);
 	AvailableReplacementRacers.Empty();
 	AvailableMainRacers.Empty();
 	BuildAvailableRacersLists(true);

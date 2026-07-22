@@ -95,6 +95,9 @@ protected:
 
 	UFUNCTION()
 	virtual void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType){};
+
+	UFUNCTION()
+	virtual void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 	FRaceLineData RaceLineData;
 
@@ -111,9 +114,6 @@ private:
 	USlider* CreateSlider();
 
 	void SetTeamManager(TArray<UTeamManager*> TeamManagersRef);
-
-	UFUNCTION()
-	void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 	
 	int RaceLineID = 0;
 

@@ -73,7 +73,7 @@ void UTeamManager::GetAvailableRacers(const URacerManager* RacerManagerRef,TFunc
 {
 	ForEachRacerInLineup([&Callback, RacerManagerRef](URacerManager* RacerManager)
 	{
-		if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef)
+		if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef && !RacerManager->ParticipatedInNominatedRace())
 			Callback(RacerManager);
 	});
 }

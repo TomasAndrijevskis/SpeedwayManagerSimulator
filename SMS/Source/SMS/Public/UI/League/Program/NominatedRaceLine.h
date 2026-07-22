@@ -28,6 +28,8 @@ protected:
 
 	virtual void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType) override;
 	
+	virtual void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType) override;
+	
 private:
 
 	UPROPERTY(meta = (BindWidget))

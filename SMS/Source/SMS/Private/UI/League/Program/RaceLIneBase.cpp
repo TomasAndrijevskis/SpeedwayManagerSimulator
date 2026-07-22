@@ -99,7 +99,6 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 
 void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager);
 	OnRacerReplacedDelegate.Broadcast(this, SelectedItem);
 	CrossOutRacer();
 }

@@ -48,6 +48,9 @@ public:
 	bool IsVisitor() const;
 
 	int GetRacerNumber() const;
+
+	bool ParticipatedInNominatedRace() const;
+	void SetParticipatedInNominatedRace(bool NewParticipated);
 	
 	FOnPointsAdded OnPointsAddedDelegate;
 	
@@ -68,4 +71,6 @@ private:
 	int CurrentRacerRating = 0;
 	
 	int RacerBonuses;
+
+	bool bParticipatedInNominatedRace = false;
 };
