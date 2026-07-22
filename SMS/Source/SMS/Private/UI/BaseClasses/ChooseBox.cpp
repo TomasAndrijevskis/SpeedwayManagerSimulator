@@ -57,3 +57,13 @@ void UChooseBox::ChangeStatus()
 {
 	ComboBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
+
+
+bool UChooseBox::DoesOptionExists(const FString& OptionName) const
+{
+	for (int32 i = 0; i < ComboBox->GetOptionCount(); i++)
+	{
+		if (OptionName == ComboBox->GetOptionAtIndex(i)) return true;
+	}
+	return false;
+}

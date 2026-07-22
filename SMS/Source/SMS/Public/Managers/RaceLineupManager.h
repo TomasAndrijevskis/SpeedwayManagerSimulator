@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RacerManager.h"
 #include "RaceLineupManager.generated.h"
 
 class UTeamManager;
@@ -38,22 +39,24 @@ private:
 	void OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName);
 
 	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
-	
-	void FindSelectedRacer(const FString& SelectedItem, TArray<URacerManager*>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
-	
-	void HandleAddedOptions(bool IsNominatedRace);
 
-	void AddReplacementOption(URacerManager* NewRacerManager);
-
-	void AddMainOption(URacerManager* NewRacerManager);
+	static void FindSelectedRacerByName(const FString& SelectedItem, TArray<URacerManager*>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
 	
-	void HandleRaceLines(bool IsNominatedRace);
+	void UpdateSelectionWidgets(bool IsNominatedRace);
 
-	void HandleOptions(bool IsNominatedRace);
+	void RegisterAvailableReplacementRacer(URacerManager* NewRacerManager);
+
+	void RegisterAvailableMainRacer(URacerManager* NewRacerManager);
 	
-	void FillOptions(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef);
+	void InitializeRaceLineOptions(bool IsNominatedRace);
 
-	static void FillOptionsInWidget(TArray<URacerManager*>& OptionsArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption);
+	void BuildAvailableRacersLists(bool IsNominatedRace);
+	
+	void FillAvailableRacers(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef);
+
+	static void FillOptionsInComboBox(TArray<URacerManager*>& OptionsArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption);
+
+	void RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManagerRef);
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> RaceLines;
@@ -65,11 +68,11 @@ private:
 	UTeamManager* TeamManager;
 	
 	UPROPERTY()
-	TArray<URacerManager*> RacerReplacementOptions;
+	TArray<URacerManager*> AvailableReplacementRacers;
 
 	UPROPERTY()
-	TArray<URacerManager*> RacerMainOptions;
+	TArray<URacerManager*> AvailableMainRacers;
 	
 	UPROPERTY()
-	TArray<URacerManager*> DeniedOptions;
+	TArray<URacerManager*> UnavailableOptions;
 };

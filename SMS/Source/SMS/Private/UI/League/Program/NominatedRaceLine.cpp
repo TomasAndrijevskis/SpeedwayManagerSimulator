@@ -1,5 +1,6 @@
 
 #include "UI/League/Program/NominatedRaceLine.h"
+#include "Managers/RacerManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -18,15 +19,17 @@ void UNominatedRaceLine::BindDelegates()
 }
 
 
-void UNominatedRaceLine::AddMainOption(FString SelectedItem)
+void UNominatedRaceLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	ChooseBox_ChooseMainRacer->AddOption(SelectedItem);
+	if (RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager);
+	OnRacerChosenDelegate.Broadcast(this, SelectedItem);
 }
 
 
-void UNominatedRaceLine::RemoveFromReplacementSelection(FString SelectedItem)
+void UNominatedRaceLine::AddMainOption(FString SelectedItem)
 {
-	ChooseBox_RacerReplacement->RemoveOption(SelectedItem);
+	if (ChooseBox_ChooseMainRacer->DoesOptionExists(SelectedItem)) return;
+	ChooseBox_ChooseMainRacer->AddOption(SelectedItem);
 }
 
 
@@ -34,10 +37,4 @@ void UNominatedRaceLine::RemoveFromMainSelection(FString SelectedItem)
 {
 	ChooseBox_ChooseMainRacer->RemoveOption(SelectedItem);
 	if (!ChooseBox_RacerReplacement->AnyOptionsLeft()) ChangeChooseBoxStatus(false);
-}
-
-
-void UNominatedRaceLine::LockChosenRacer()
-{
-	ChooseBox_ChooseMainRacer->SetIsEnabled(false);
 }

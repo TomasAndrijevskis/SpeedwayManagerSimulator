@@ -28,6 +28,8 @@ public:
 	bool AnyOptionsLeft() const;
 
 	void ChangeStatus();
+
+	bool DoesOptionExists(const FString& OptionName) const;
 	
 	FOnSelectionChanged OnSelectionChangedDelegate;
 

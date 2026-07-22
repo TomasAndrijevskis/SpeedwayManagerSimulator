@@ -18,6 +18,7 @@ class UNumbersBox;
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerReplaced, URaceLineBase*, const FString&);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, URaceLineBase*, const FString&);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSelectedRacerChanged, URaceLineBase*, URacerManager*);
 UCLASS()
 class SMS_API URaceLineBase : public UUserWidget
 {
@@ -49,12 +50,10 @@ public:
 
 	void AddReplacementOption(FString SelectedItem);
 	virtual void AddMainOption(FString SelectedItem){};
-	virtual void RemoveFromReplacementSelection(FString SelectedItem);
+	void RemoveFromReplacementSelection(FString SelectedItem);
 	virtual void RemoveFromMainSelection(FString SelectedItem){};
 	
 	void ChangeChooseBoxStatus(bool Status);
-
-	virtual void LockChosenRacer(){};
 	
 	URacerManager* GetRacerManager() const;
 	
@@ -69,6 +68,8 @@ public:
 	FOnRacerReplaced OnRacerReplacedDelegate;
 
 	FOnRacerChosen OnRacerChosenDelegate;
+	
+	FOnSelectedRacerChanged OnSelectedRacerChangedDelegate;
 	
 protected:
 
@@ -88,12 +89,12 @@ protected:
 
 	virtual void NativeConstruct() override;
 
-	virtual void InitializeWidget();
+	void InitializeWidget();
 	
 	virtual void BindDelegates();
 
 	UFUNCTION()
-	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
+	virtual void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType){};
 	
 	FRaceLineData RaceLineData;
 

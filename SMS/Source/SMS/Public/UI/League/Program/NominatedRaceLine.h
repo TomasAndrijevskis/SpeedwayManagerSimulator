@@ -20,15 +20,14 @@ public:
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData) override;
 
 	virtual void AddMainOption(FString SelectedItem) override;
-	virtual void RemoveFromReplacementSelection(FString SelectedItem) override;
 	virtual void RemoveFromMainSelection(FString SelectedItem) override;
-	
-	virtual void LockChosenRacer() override;
-	
+
 protected:
 	
 	virtual void BindDelegates() override;
 
+	virtual void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType) override;
+	
 private:
 
 	UPROPERTY(meta = (BindWidget))
