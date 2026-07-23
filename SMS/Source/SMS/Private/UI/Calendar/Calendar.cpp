@@ -10,10 +10,19 @@
 void UCalendar::NativeConstruct()
 {
 	Super::NativeConstruct();
+	SetAmountOfMatches();
 	for (int i = 0; i < AmountOfMatches; i++)
 	{
 		CreateMatches();
 	}
+}
+
+
+void UCalendar::SetAmountOfMatches()
+{
+	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	AmountOfMatches = GameMode->GetTeamsAmount() / 2;
 }
 
 

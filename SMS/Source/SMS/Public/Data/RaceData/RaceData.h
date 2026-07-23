@@ -13,8 +13,8 @@ struct FRaceData
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	URaceManager* RaceManager;
+	URaceManager* RaceManager = nullptr;
 	
 	UPROPERTY()
-	URaceLineupManager* RaceLineupManager;
+	URaceLineupManager* RaceLineupManager = nullptr;
 };

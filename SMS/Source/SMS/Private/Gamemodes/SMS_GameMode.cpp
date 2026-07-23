@@ -29,11 +29,13 @@ void ASMS_GameMode::DestroyUsedManagers()
 
 void ASMS_GameMode::InitializeRacers()
 {
-	for (auto& Racer : RacersDataAsset->Racers)
+	if (!RacersDataTable) return;
+	TArray<FRacerData*> Racers;
+	RacersDataTable->GetAllRows(TEXT("Find racers"), Racers);
+	for (const auto& Racer : Racers)
 	{
-		FRacerData RacerData;
-		RacerData = Racer;
-		ETeams TeamID = Racer.InitialTeam;
+		FRacerData RacerData = *Racer;
+		ETeams TeamID = Racer->InitialTeam;
 		FText TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(TeamID);
 		Teams.FindOrAdd(TeamID).TeamID = TeamID;
 		Teams.FindOrAdd(TeamID).TeamName = TeamName;

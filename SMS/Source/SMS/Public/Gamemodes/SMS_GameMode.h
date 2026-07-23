@@ -42,10 +42,10 @@ private:
 	void InitializeRacers();
 
 	void PrintTeams();
-	
-	UPROPERTY(EditDefaultsOnly)
-	URacersDataAsset* RacersDataAsset;
 
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* RacersDataTable;
+	
 	TMap<ETeams, FTeamMatchData> Teams;
 	
 	UPROPERTY()

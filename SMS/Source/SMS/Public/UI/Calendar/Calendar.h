@@ -42,9 +42,11 @@ private:
 	int GetRandomTeam();
 
 	void SetTeamID(int& Team);
+
+	void SetAmountOfMatches();
 	
-	UPROPERTY(EditDefaultsOnly)
-	int AmountOfMatches = 3;
+	UPROPERTY()
+	int AmountOfMatches;
 
 	TArray<int> ChosenOptions;
 };

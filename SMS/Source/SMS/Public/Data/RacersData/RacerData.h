@@ -7,18 +7,18 @@
 
 
 USTRUCT(BlueprintType)
-struct FRacerData
+struct FRacerData : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly)
-	FString Name;
+	int32 ID = 0;
+	
+	UPROPERTY(EditDefaultsOnly)
+	FString Name = "";
 
 	UPROPERTY(EditDefaultsOnly)
-	int ID;
-
-	UPROPERTY(EditDefaultsOnly)
-	int Age;
+	int32 Age = 0;
 
 	UPROPERTY(EditDefaultsOnly)
 	TEnumAsByte<ETeams> InitialTeam;

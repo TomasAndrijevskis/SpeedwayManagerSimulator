@@ -10,5 +10,5 @@ struct FRacerStats
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly)
-	int Rating;
+	int32 Rating = 0;
 };
