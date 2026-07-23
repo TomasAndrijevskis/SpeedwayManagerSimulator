@@ -13,5 +13,11 @@ enum ETeams
 	WCz UMETA(DisplayName = "Włókniarz Częstochowa"),
 	UT UMETA(DisplayName = "Unibax Toruń"),
 	ML UMETA(DisplayName = "Motor Lublin"),
-	SG UMETA(DisplayName = "Stal Gorzów"),
+	SGo UMETA(DisplayName = "Stal Gorzów"),
+	RR UMETA(DisplayName = "Row Rybnik"),
+	UL UMETA(DisplayName = "Unia Leszno"),
+	OL UMETA(DisplayName = "Orzeł Lódz"),
+	WG UMETA(DisplayName = "Wybrzeże Gdańsk"),
+	FZ UMETA(DisplayName = "Falubaz Zielona Góra"),
+	SGn UMETA(DisplayName = "Start Gniezno"),
 };
