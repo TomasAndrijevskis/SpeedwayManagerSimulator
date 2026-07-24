@@ -27,9 +27,15 @@ void URacerStatsLine::BindDelegates()
 }
 
 
-void URacerStatsLine::AddOption(const FString& NewOption)
+void URacerStatsLine::AddOption(const FString& Option)
 {
-	ChooseBox_Racer->AddOption(NewOption);
+	ChooseBox_Racer->AddOption(Option);
+}
+
+
+void URacerStatsLine::RemoveOption(const FString& Option)
+{
+	ChooseBox_Racer->RemoveOption(Option);
 }
 
 
@@ -45,9 +51,19 @@ void URacerStatsLine::CreateNewPointsBox(const FString& Points, bool AddBonus)
 }
 
 
-void URacerStatsLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
+void URacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type SelectionType)
 {
-	OnRacerSelectedDelegate.Broadcast(SelectedItem, RacerStatsLineID);
+	if (PreviousOption == "")
+	{
+		PreviousOption = SelectedOption;
+		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, "");
+	}
+	else
+	{
+		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, PreviousOption);
+		PreviousOption = SelectedOption;
+	}
+	OnRacerSelectedDelegate.Broadcast(SelectedOption, RacerStatsLineID);
 }
 
 
@@ -58,7 +74,7 @@ void URacerStatsLine::ChooseRandomOption(TArray<int>& ChosenOptions)
 	if (ChosenOptions.Contains(RandomOption)) ChooseRandomOption(ChosenOptions);
 	else
 	{
-		FString SelectedOption = ChooseBox_Racer->GetSelectedOption(RandomOption);
+		FString SelectedOption = ChooseBox_Racer->GetSelectedOptionAtIndex(RandomOption);
 		ChooseBox_Racer->SetRandomOption(SelectedOption);
 		OnRacerSelectedDelegate.Broadcast(SelectedOption, RacerStatsLineID);
 		ChosenOptions.Add(RandomOption);
@@ -74,7 +90,7 @@ void URacerStatsLine::LockRacer()
 
 void URacerStatsLine::UpdateOverallPoints(int Points, int Bonus)
 {
-	const FString NewText = FString::Printf(TEXT("%d+%d"), Points, Bonus);;
+	const FString NewText = FString::Printf(TEXT("%d+%d"), Points, Bonus);
 	if (Bonus > 0) NumbersBox_OverallPoints->SetText(NewText);
 	else NumbersBox_OverallPoints->SetText(Points);
 }
@@ -88,3 +104,4 @@ void URacerStatsLine::SetID(int NewID)
 
 
 int URacerStatsLine::GetID() const{return RacerStatsLineID;}
+int URacerStatsLine::GetNumberOfOptions() const{return ChooseBox_Racer->GetNumberOfOptions();}

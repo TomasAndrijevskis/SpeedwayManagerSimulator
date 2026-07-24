@@ -102,7 +102,7 @@ void UTeamManager::CreateRacerManagers()
 }
 
 
-void UTeamManager::RandomizeTeamRoster()
+void UTeamManager::MakeRandomTeamRoster()
 {
 	for (const auto& RacerStatsLine : RacerStatsLines)
 	{
@@ -132,7 +132,21 @@ void UTeamManager::LockChosenRacers() const
 }
 
 
-bool UTeamManager::CheckChosenRacers() const
+void UTeamManager::UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, const FString& PreviousOption)
+{
+	for (auto& StatsLine : RacerStatsLines)
+	{
+		if (StatsLine != RacerStatsLineRef)
+		{
+			StatsLine->RemoveOption(SelectedOption);
+			if (PreviousOption != "") StatsLine->AddOption(PreviousOption);
+		}
+		if (StatsLine->GetNumberOfOptions() <= 1) StatsLine->AddOption("");
+	}
+}
+
+
+bool UTeamManager::IsRosterValid() const
 {
 	if (Racers.Num() < 6) return false;
 	return true;

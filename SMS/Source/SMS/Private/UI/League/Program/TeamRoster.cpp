@@ -61,6 +61,7 @@ void UTeamRoster::CreateRacerStatLines()
 			}
 			TeamManager->AddRacerStatsLine(NewStatLine);
 			NewStatLine->OnRacerSelectedDelegate.AddUObject(TeamManager, &UTeamManager::AddRacersToLineup);
+			NewStatLine->OnSelectedOptionChangedDelegate.AddUObject(TeamManager, &UTeamManager::UpdateStatsLineOptions);
 		}
 	}
 	TeamManager->FillTeamRosterOptions();

@@ -40,7 +40,7 @@ public:
 	
 	void CreateRacerManagers();
 
-	void RandomizeTeamRoster();//Testing
+	void MakeRandomTeamRoster();//Testing
 
 	void AddRacerStatsLine(URacerStatsLine* RacerStatsLine);
 
@@ -48,7 +48,7 @@ public:
 
 	void LockChosenRacers() const;
 	
-	bool CheckChosenRacers() const;
+	bool IsRosterValid() const;
 	
 	TArray<URacerStatsLine*>& GetRacerStatsLines();
 
@@ -56,6 +56,7 @@ public:
 
 	TMap<int, URacerManager*> GetRacerManagers();
 
+	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, const FString& PreviousOption);
 	
 private:
 	

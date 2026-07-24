@@ -15,14 +15,14 @@ class SMS_API UChooseBox : public UUserWidget
 
 public:
 	
-	void AddOption(const FString& NewOption);
+	void AddOption(const FString& Option);
 
-	void RemoveOption(const FString& NewOption);
+	void RemoveOption(const FString& Option);
 	
 	int GetNumberOfOptions() const;
 
-	FString GetSelectedOption(int Index) const;
-
+	FString GetSelectedOptionAtIndex(int Index) const;
+	
 	void SetRandomOption(const FString& RandomOption);
 
 	bool AnyOptionsLeft() const;

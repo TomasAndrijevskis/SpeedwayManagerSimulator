@@ -12,6 +12,7 @@ class UTextBlock;
 class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const URacerStatsLine*, const FString&, const FString&);
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
 {
@@ -19,7 +20,9 @@ class SMS_API URacerStatsLine : public UUserWidget
 
 public:
 
-	void AddOption(const FString& NewOption);
+	void AddOption(const FString& Option);
+
+	void RemoveOption(const FString& Option);
 	
 	void SetID(int NewID);
 
@@ -30,9 +33,13 @@ public:
 	void ChooseRandomOption(TArray<int>& ChosenOptions); // for testing
 
 	void LockRacer();
+
+	int GetNumberOfOptions() const;
 	
 	FOnRacerSelected OnRacerSelectedDelegate;
 
+	FOnSelectedOptionChanged OnSelectedOptionChangedDelegate;
+	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -58,7 +65,7 @@ private:
 
 	void UpdateOverallPoints(int Points, int Bonus);
 
-	void OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType);
+	void OnRacerChosen(FString SelectedOption, ESelectInfo::Type SelectionType);
 	
 	void BindDelegates();
 
@@ -67,4 +74,6 @@ private:
 
 	UPROPERTY()
 	URacerManager* RacerManager;
+
+	FString PreviousOption = "";
 };

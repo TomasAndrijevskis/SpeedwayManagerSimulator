@@ -7,7 +7,6 @@ void UChooseBox::NativeConstruct()
 {
 	Super::NativeConstruct();
 	ComboBox->OnSelectionChanged.AddUniqueDynamic(this, &UChooseBox::OnSelectionChanged);
-	
 }
 
 
@@ -17,15 +16,15 @@ void UChooseBox::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type Sele
 }
 
 
-void UChooseBox::AddOption(const FString& NewOption)
+void UChooseBox::AddOption(const FString& Option)
 {
-	ComboBox->AddOption(NewOption);
+	ComboBox->AddOption(Option);
 }
 
 
-void UChooseBox::RemoveOption(const FString& NewOption)
+void UChooseBox::RemoveOption(const FString& Option)
 {
-	ComboBox->RemoveOption(NewOption);
+	ComboBox->RemoveOption(Option);
 }
 
 
@@ -35,7 +34,7 @@ int UChooseBox::GetNumberOfOptions() const
 }
 
 
-FString UChooseBox::GetSelectedOption(int Index) const
+FString UChooseBox::GetSelectedOptionAtIndex(int Index) const
 {
 	return ComboBox->GetOptionAtIndex(Index);
 }

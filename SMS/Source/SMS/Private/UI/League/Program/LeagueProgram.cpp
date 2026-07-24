@@ -75,7 +75,7 @@ void ULeagueProgram::RandomizeTeamRosters()
 {
 	for (const auto& Roster : TeamManagers)
 	{
-		Roster->RandomizeTeamRoster();
+		Roster->MakeRandomTeamRoster();
 	}
 }
 
@@ -173,7 +173,7 @@ void ULeagueProgram::PopulateRacers()
 	if (!MatchManager || TeamManagers.IsEmpty()) return;
 	for (const auto& Manager : TeamManagers)
 	{
-		if (!Manager->CheckChosenRacers()) return;
+		if (!Manager->IsRosterValid()) return;
 	}
 	for (const auto& Manager : TeamManagers)
 	{
