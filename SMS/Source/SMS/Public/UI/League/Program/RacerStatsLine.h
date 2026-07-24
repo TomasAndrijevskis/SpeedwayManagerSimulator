@@ -30,7 +30,7 @@ public:
 
 	void InitializeManagers(URacerManager* RacerManagerRef);
 
-	void ChooseRandomOption(TArray<int>& ChosenOptions); // for testing
+	void ChooseRandomOption(); // for testing
 
 	void LockRacer();
 
