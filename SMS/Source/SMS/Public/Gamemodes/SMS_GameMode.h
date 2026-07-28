@@ -8,6 +8,7 @@
 #include "SMS_GameMode.generated.h"
 
 
+class URuleBook;
 class UScoreManager;
 class UTeamManager;
 class UMatchManager;
@@ -30,9 +31,7 @@ public:
 	int GetTeamsAmount() const;
 
 	UMatchManager* GetMatchManager() const;
-
-	UScoreManager* GetScoreManager() const;
-
+	
 	void CreateRequiredManagers();
 
 	void DestroyUsedManagers();
@@ -44,14 +43,10 @@ private:
 	void PrintTeams();
 
 	UPROPERTY(EditDefaultsOnly)
-	UDataTable* RacersDataTable;
+	TObjectPtr<UDataTable> RacersDataTable;
+	
+	UPROPERTY()
+	TObjectPtr<UMatchManager> CurrentMatchManager;
 	
 	TMap<ETeams, FTeamMatchData> Teams;
-	
-	UPROPERTY()
-	UMatchManager* CurrentMatchManager;
-
-	UPROPERTY()
-	UScoreManager* CurrentScoreManager;
-	
 };

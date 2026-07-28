@@ -1,6 +1,7 @@
 
 #include "Managers/TeamManager.h"
 #include "Managers/RacerManager.h"
+#include "Managers/RuleBook.h"
 #include "UI/League/Program/RacerStatsLine.h"
 
 
@@ -49,32 +50,26 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback
 }
 
 
-void UTeamManager::GetAvailableReplacementRacers(bool IsTeamLosing, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback)
+void UTeamManager::GetAvailableReplacementRacers(const URacerManager* OriginalRacerManager, URuleBook* RuleBook, TFunction<void(URacerManager*)> Callback)
 {
-	ForEachRacerInLineup([&Callback, IsTeamLosing, RacerManagerRef](URacerManager* RacerManager)
+	ForEachRacerInLineup([&Callback, OriginalRacerManager, RuleBook](URacerManager* ReplacementRacerManager)
 	{
-		if (IsTeamLosing)
+		if (RuleBook->CanReplace(OriginalRacerManager, ReplacementRacerManager))
 		{
-			if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef)
-				Callback(RacerManager);
-		}
-		else
-		{
-			if (RacerManager->CanDriveMore()
-				&& (RacerManager->IsJunior() || RacerManager->IsReplacement())
-				&& RacerManager != RacerManagerRef)
-				Callback(RacerManager);
+			Callback(ReplacementRacerManager);
 		}
 	});
 }
 
 
-void UTeamManager::GetAvailableRacers(const URacerManager* RacerManagerRef,TFunction<void(URacerManager*)> Callback)
+void UTeamManager::GetAvailableRacers(URuleBook* RuleBook, TFunction<void(URacerManager*)> Callback)
 {
-	ForEachRacerInLineup([&Callback, RacerManagerRef](URacerManager* RacerManager)
+	ForEachRacerInLineup([&Callback, RuleBook](URacerManager* RacerManager)
 	{
-		if (RacerManager->CanDriveMore() && RacerManager != RacerManagerRef && !RacerManager->ParticipatedInNominatedRace())
+		if (RuleBook->CanParticipateInNominatedRace(RacerManager))
+		{
 			Callback(RacerManager);
+		}
 	});
 }
 
@@ -85,6 +80,7 @@ void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callb
 	{
 		Callback(Racer);
 	}
+	
 }
 
 
@@ -106,7 +102,7 @@ void UTeamManager::MakeRandomTeamRoster()
 {
 	for (const auto& RacerStatsLine : RacerStatsLines)
 	{
-		RacerStatsLine->ChooseRandomOption(ChosenOptions);
+		RacerStatsLine->ChooseRandomOption();
 	}
 }
 
@@ -141,7 +137,7 @@ void UTeamManager::UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineR
 			StatsLine->RemoveOption(SelectedOption);
 			if (PreviousOption != "") StatsLine->AddOption(PreviousOption);
 		}
-		if (StatsLine->GetNumberOfOptions() <= 1) StatsLine->AddOption("");
+		if (StatsLine->GetNumberOfOptions() == 1) StatsLine->AddOption("");
 	}
 }
 

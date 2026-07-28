@@ -32,18 +32,6 @@ void URaceLineBase::InitializeWidget()
 }
 
 
-void URaceLineBase::ChangeLineStatus(bool bIsActive)
-{
-	SetIsEnabled(bIsActive);
-}
-
-
-void URaceLineBase::ChangeChooseBoxStatus(bool Status)
-{
-	ChooseBox_RacerReplacement->SetIsEnabled(Status);
-}
-
-
 void URaceLineBase::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 {
 	RaceLineData = NewRaceLineData;
@@ -144,6 +132,18 @@ void URaceLineBase::SetRacerNumber(int NewRacerNumber)
 {
 	RacerNumber = NewRacerNumber;
 	if (RacerNumber != 0) NumbersBox_RacerNumber->SetText(RacerNumber);
+}
+
+
+void URaceLineBase::ChangeLineStatus(bool bIsActive)
+{
+	SetIsEnabled(bIsActive);
+}
+
+
+void URaceLineBase::ChangeChooseBoxStatus(bool Status)
+{
+	ChooseBox_RacerReplacement->SetIsEnabled(Status);
 }
 
 

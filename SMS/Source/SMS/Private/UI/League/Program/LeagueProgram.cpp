@@ -92,10 +92,10 @@ void ULeagueProgram::InitializeTeams()
 
 UTeamRoster* ULeagueProgram::CreateTeamRoster(FTeamMatchData* TeamData)
 {
-	if (!TeamRosterClass) return nullptr;
+	if (!TeamRosterClass || !MatchManager) return nullptr;
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
 	if (!TeamRoster) return nullptr;
-	TeamRoster->InitializeTeam(TeamData);
+	TeamRoster->InitializeTeam(TeamData, MatchManager->GetScoreManager());
 	return TeamRoster;
 }
 
@@ -121,7 +121,7 @@ void ULeagueProgram::CreateRaces()
 		URace* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
 		if (NewRace)
 		{
-			NewRace->InitializeWidget(RaceID);
+			NewRace->InitializeWidget(RaceID, MatchManager->GetScoreManager(), MatchManager->GetRuleBook());
 			MatchManager->AddNewRace(RaceID, NewRace->GetRaceData());
 		}
 		TempPosition.Y += PositionOffset;

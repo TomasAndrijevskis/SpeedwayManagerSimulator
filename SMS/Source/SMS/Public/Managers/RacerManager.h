@@ -28,28 +28,28 @@ public:
 	int GetTieBreaker() const;
 
 	int GetCurrentRaceRating() const;
-
-	bool CanDriveMore() const;
 	
 	int GetBonusAmount() const;
 
+	int GetParticipatedRacesAmount() const;
+	
 	void AddParticipatedRace(URaceLineBase* RaceLineRef);
 
 	void RemoveParticipatedRace(URaceLineBase* RaceLineRef);
 
 	void OnRaceStarted();
 
-	bool IsJunior() const;
+	int GetRacerAge() const;
 	
 	FString GetRacerName() const;
-
-	bool IsReplacement() const;
 
 	bool IsVisitor() const;
 
 	int GetRacerNumber() const;
 
-	bool ParticipatedInNominatedRace() const;
+	bool CanDriveMore(int MaxAmountOfRaces) const;
+	
+	bool DidParticipateInNominatedRace() const;
 	void SetParticipatedInNominatedRace(bool NewParticipated);
 	
 	FOnPointsAdded OnPointsAddedDelegate;
@@ -63,8 +63,6 @@ private:
 	TArray<URaceLineBase*> ParticipatedRacesRef;
 	
 	FRacerMatchData Data;
-
-	int MaxRacesAmount = 7;
 
 	int TieBreakerValue = 0;
 

@@ -7,6 +7,7 @@
 #include "UI/League/Program/Race.h"
 #include "MatchManager.generated.h"
 
+class URuleBook;
 class URacerManager;
 class UTeamManager;
 class UScoreManager;
@@ -38,6 +39,10 @@ public:
 
 	FTeamMatchData* GetTeamData(bool Status);
 
+	UScoreManager* GetScoreManager() const;
+
+	URuleBook* GetRuleBook() const;
+	
 	FOnMatchEnded OnMatchEndedDelegate;
 	
 	FOnRaceStared OnRaceStaredDelegate;
@@ -60,10 +65,13 @@ private:
 	ASMS_GameMode* GameMode;
 
 	UPROPERTY()
-	UScoreManager* ScoreManager;
+	TObjectPtr<UScoreManager> ScoreManager;
 
 	UPROPERTY()
-	TArray<URaceManager*> RaceManagers;
+	TObjectPtr<URuleBook> RuleBook;
+	
+	UPROPERTY()
+	TArray<TObjectPtr<URaceManager>> RaceManagers;
 
 	UPROPERTY()
 	TMap<int, FRaceData> Races;

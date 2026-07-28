@@ -52,7 +52,7 @@ bool UChooseBox::AnyOptionsLeft() const
 }
 
 
-void UChooseBox::MakeChooseBoxUnavailable()
+void UChooseBox::DisableChooseBox()
 {
 	ComboBox->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
@@ -65,4 +65,15 @@ bool UChooseBox::DoesOptionExists(const FString& OptionName) const
 		if (OptionName == ComboBox->GetOptionAtIndex(i)) return true;
 	}
 	return false;
+}
+
+bool UChooseBox::IsAnyOptionChosen() const
+{
+	return ComboBox->GetSelectedIndex() != -1;
+}
+
+
+void UChooseBox::ClearSelection()
+{
+	ComboBox->ClearSelection();
 }

@@ -3,8 +3,6 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
-#include "Gamemodes/SMS_GameMode.h"
-#include "Kismet/GameplayStatics.h"
 #include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
 #include "Managers/ScoreManager.h"
@@ -14,33 +12,31 @@
 #include "UI/League/Program/NominatedRaceLine.h"
 
 
-void URace::InitializeWidget(int NewID)
+void URace::InitializeWidget(int NewID, UScoreManager* ScoreManagerRef, URuleBook* RuleBook)
 {
 	RaceID = NewID;
 	NumbersBox_RaceNumber->SetText(RaceID);
-	InitializeRaceData();
-	InitializeManagers();
+	InitializeManagers(ScoreManagerRef);
+	InitializeRaceData(RuleBook);
 	BindDelegates();
 	OnIDSet();
 }
 
 
-void URace::InitializeManagers()
+void URace::InitializeManagers(UScoreManager* ScoreManagerRef)
 {
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	ScoreManager = GameMode->GetScoreManager();
+	ScoreManager = ScoreManagerRef;
 }
 
 
-void URace::InitializeRaceData()
+void URace::InitializeRaceData(URuleBook* RuleBook)
 {
 	FRaceData data;
 	data.RaceManager = NewObject<URaceManager>(this);
 	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
 	if (!data.RaceManager || !data.RaceLineupManager) return;
 	data.RaceManager->InitializeManager(IsNominatedRace());
-	data.RaceLineupManager->InitializeManager();
+	data.RaceLineupManager->InitializeManager(RuleBook);
 	Data = data;
 }
 

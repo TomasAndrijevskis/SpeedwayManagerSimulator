@@ -51,7 +51,7 @@ void URacerManager::RemoveParticipatedRace(URaceLineBase* RaceLineRef)
 void URacerManager::OnRaceStarted()
 {
 	SetTieBreaker();
-	CalculateRating(Data.IsVisitor());
+	CalculateRating(IsVisitor());
 }
 
 
@@ -84,11 +84,11 @@ int URacerManager::CountOverallPoints()
 void URacerManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
 int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
-int URacerManager::GetBonusAmount() const{return RacerBonuses;}
-int URacerManager::GetRacerNumber() const{return Data.RacerNumber;}
-bool URacerManager::ParticipatedInNominatedRace() const{return bParticipatedInNominatedRace;}
-bool URacerManager::CanDriveMore() const {return ParticipatedRacesRef.Num() < MaxRacesAmount;}
-bool URacerManager::IsJunior() const {return Data.IsJunior();}
-bool URacerManager::IsReplacement() const{return Data.IsReplacement();}
-bool URacerManager::IsVisitor() const{return Data.IsVisitor();}
-FString URacerManager::GetRacerName() const{return Data.GetRacerName();}
+int URacerManager::GetBonusAmount() const {return RacerBonuses;}
+int URacerManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
+int URacerManager::GetRacerNumber() const {return Data.RacerNumber;}
+int URacerManager::GetRacerAge() const {return Data.GetRacerAge();}
+bool URacerManager::CanDriveMore(int MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
+bool URacerManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
+bool URacerManager::IsVisitor() const {return Data.IsVisitor();}
+FString URacerManager::GetRacerName() const {return Data.GetRacerName();}

@@ -2,7 +2,6 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Data/RacersData/RacersDataAsset.h"
 #include "Managers/MatchManager.h"
-#include "Managers/ScoreManager.h"
 
 
 void ASMS_GameMode::BeginPlay()
@@ -15,8 +14,7 @@ void ASMS_GameMode::BeginPlay()
 void ASMS_GameMode::CreateRequiredManagers()
 {
 	CurrentMatchManager = NewObject<UMatchManager>(this);
-	CurrentScoreManager = NewObject<UScoreManager>(this);
-	if (!CurrentMatchManager || !CurrentScoreManager) return;
+	if (!CurrentMatchManager) return;
 	CurrentMatchManager->InitializeManager(this);
 }
 
@@ -63,4 +61,3 @@ const FText& ASMS_GameMode::GetTeamName(int TeamID)const{return Teams.FindChecke
 FTeamMatchData ASMS_GameMode::GetTeamData(int TeamID){return Teams.FindChecked(static_cast<ETeams>(TeamID));}
 int ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
 UMatchManager* ASMS_GameMode::GetMatchManager() const{return CurrentMatchManager;}
-UScoreManager* ASMS_GameMode::GetScoreManager() const{return CurrentScoreManager;}

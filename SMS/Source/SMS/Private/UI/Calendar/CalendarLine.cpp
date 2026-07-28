@@ -23,8 +23,8 @@ void UCalendarLine::InitializeManagers()
 	if (!GameMode) return;
 	GameMode->CreateRequiredManagers();
 	MatchManager = GameMode->GetMatchManager();
-	ScoreManager = GameMode->GetScoreManager();
-	if (!MatchManager || !ScoreManager) return;
+	if (!MatchManager) return;
+	ScoreManager = MatchManager->GetScoreManager();
 	MatchManager->OnMatchEndedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
 	StartMatch();
 }

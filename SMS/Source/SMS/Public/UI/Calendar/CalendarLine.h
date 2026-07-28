@@ -9,7 +9,6 @@
 class UScoreManager;
 class UNumbersBox;
 class UMatchManager;
-class ASMS_GameMode;
 class ULeagueProgram;
 class UButton;
 class UNamesBox;
@@ -62,10 +61,10 @@ private:
 	TSubclassOf<ULeagueProgram> LeagueProgramClass;
 
 	UPROPERTY()
-	UMatchManager* MatchManager;
+	TObjectPtr<UMatchManager> MatchManager;
 
 	UPROPERTY()
-	UScoreManager* ScoreManager;
+	TObjectPtr<UScoreManager> ScoreManager;
 	
 	int HomeTeamID;
 	

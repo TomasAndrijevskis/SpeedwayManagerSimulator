@@ -8,6 +8,7 @@
 #include "TeamManager.generated.h"
 
 
+class URuleBook;
 class URacerStatsLine;
 class URacerManager;
 
@@ -26,9 +27,9 @@ public:
 
 	void ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback);
 
-	void GetAvailableReplacementRacers(bool IsTeamLosing, const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback);
+	void GetAvailableReplacementRacers(const URacerManager* OriginalRacerManager, URuleBook* RuleBook, TFunction<void(URacerManager*)> Callback);
 	
-	void GetAvailableRacers(const URacerManager* RacerManagerRef, TFunction<void(URacerManager*)> Callback);
+	void GetAvailableRacers(URuleBook* RuleBook, TFunction<void(URacerManager*)> Callback);
 	
 	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
 	
@@ -71,6 +72,4 @@ private:
 
 	UPROPERTY()
 	TMap<int, URacerManager*> RacerManagers;
-
-	TArray<int> ChosenOptions;
 };

@@ -4,12 +4,12 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamMatchData.h"
+#include "Managers/ScoreManager.h"
 #include "TeamRoster.generated.h"
 
 
 class UTeamManager;
 class UScoreManager;
-class UTeamsDataAsset;
 class UVerticalBox;
 class UNumbersBox;
 class UNamesBox;
@@ -22,7 +22,7 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 	
-	void InitializeTeam(FTeamMatchData* NewTeamData);
+	void InitializeTeam(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef);
 
 	UTeamManager* GetTeamManager() const;
 	
@@ -48,7 +48,7 @@ private:
 
 	void DisplayTeamName();
 
-	void InitializeManagers(FTeamMatchData* NewTeamData);
+	void InitializeManagers(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef);
 
 	void DisplayTeamStatus();
 
@@ -58,10 +58,10 @@ private:
 	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
 
 	UPROPERTY()
-	UScoreManager* ScoreManager;
+	TObjectPtr<UScoreManager> ScoreManager;
 
 	UPROPERTY()
-	UTeamManager* TeamManager;
+	TObjectPtr<UTeamManager> TeamManager;
 	
 	int RacersAmount = 6;
 

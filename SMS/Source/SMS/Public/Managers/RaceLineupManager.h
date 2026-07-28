@@ -5,6 +5,7 @@
 #include "RacerManager.h"
 #include "RaceLineupManager.generated.h"
 
+class URuleBook;
 class UTeamManager;
 class UScoreManager;
 class URaceLineBase;
@@ -18,13 +19,11 @@ class SMS_API URaceLineupManager : public UObject
 
 public:
 
-	void InitializeManager();
+	void InitializeManager(URuleBook* RuleBookRef);
 
 	void AddRaceLine(URaceLineBase* NewRaceLine);
 
-	void AssignRacerToRace(URacerManager* RacerManagerRef);
-
-	bool IsTeamLosing(URaceLineBase* RaceLineRef) const;
+	void AssignRacerToRace(URacerManager* RacerManager);
 	
 	void OnRaceInitialized();
 	
@@ -40,39 +39,35 @@ private:
 
 	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
 
-	static void FindSelectedRacerByName(const FString& SelectedItem, TArray<URacerManager*>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
+	static void FindSelectedRacerByName(const FString& SelectedItem, TArray<TObjectPtr<URacerManager>>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
 	
-	void UpdateSelectionWidgets(bool IsNominatedRace);
+	void UpdateReplacementSelectionWidgets();
 
-	void RegisterAvailableReplacementRacer(URacerManager* NewRacerManager);
-
-	void RegisterAvailableMainRacer(URacerManager* NewRacerManager);
+	void UpdateMainSelectionWidgets();
 	
 	void InitializeRaceLineOptions(bool IsNominatedRace);
 
 	void BuildAvailableRacersLists(bool IsNominatedRace);
 	
-	void FillAvailableRacers(bool IsTeamLosing, bool IsNominatedRace, UTeamManager* TeamManagerRef, const URaceLineBase* RaceLineRef);
+	void FillPossibleReplacementRacers(const URaceLineBase* RaceLineRef);
 
-	static void FillOptionsInComboBox(TArray<URacerManager*>& OptionsArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption);
+	void FillPossibleMainRacers(UTeamManager* TeamManagerRef);
+	
+	void FillOptionsInComboBox(TArray<TObjectPtr<URacerManager>>& RacerArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption);
 
-	void RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManagerRef);
+	void RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManager);
 	
 	UPROPERTY()
-	TArray<URaceLineBase*> RaceLines;
-
-	UPROPERTY()
-	UScoreManager* ScoreManager;
-
-	UPROPERTY()
-	UTeamManager* TeamManager;
+	TArray<TObjectPtr<URaceLineBase>> RaceLines;
 	
 	UPROPERTY()
-	TArray<URacerManager*> AvailableReplacementRacers;
+	TObjectPtr<UTeamManager> TeamManager;
 
 	UPROPERTY()
-	TArray<URacerManager*> AvailableMainRacers;
+	TObjectPtr<URuleBook> RuleBook;
 	
 	UPROPERTY()
-	TArray<URacerManager*> UnavailableOptions;
+	TArray<TObjectPtr<URacerManager>> UnavailableRacers;
+	
+	TMap<TObjectPtr<URacerManager>, TArray<TObjectPtr<URacerManager>>> PossibleRacers;
 };

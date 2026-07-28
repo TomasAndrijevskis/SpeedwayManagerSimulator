@@ -22,19 +22,9 @@ struct FRacerMatchData
 		return RacerNumber >= 7;
 	}
 
-	bool IsJunior() const
+	bool IsOnJuniorPosition() const
 	{
-		return RacerData.Age <= 23 && (RacerNumber == 5 || RacerNumber == 11);
-	}
-
-	bool IsU26Racer() const
-	{
-		return RacerData.Age <= 26;
-	}
-
-	bool IsReplacement() const
-	{
-		return RacerNumber == 6 || RacerNumber == 12;
+		return RacerNumber == 5 || RacerNumber == 11;
 	}
 
 	int GetBaseRating() const
@@ -45,6 +35,11 @@ struct FRacerMatchData
 	int GetRacerNumber() const
 	{
 		return RacerNumber;
+	}
+	
+	int GetRacerAge() const
+	{
+		return RacerData.Age;
 	}
 	
 	FString GetRacerName() const

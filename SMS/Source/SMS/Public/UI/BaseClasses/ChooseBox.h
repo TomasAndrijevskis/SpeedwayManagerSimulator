@@ -27,9 +27,13 @@ public:
 
 	bool AnyOptionsLeft() const;
 
-	void MakeChooseBoxUnavailable();
+	void DisableChooseBox();
 
 	bool DoesOptionExists(const FString& OptionName) const;
+
+	bool IsAnyOptionChosen() const;
+
+	void ClearSelection();
 	
 	FOnSelectionChanged OnSelectionChangedDelegate;
 

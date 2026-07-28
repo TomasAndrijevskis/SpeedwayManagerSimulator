@@ -7,6 +7,7 @@
 #include "Data/RaceData/RaceLineData.h"
 #include "Race.generated.h"
 
+class URuleBook;
 class URaceLineupManager;
 class UScoreManager;
 class UNominatedRaceLine;
@@ -14,7 +15,6 @@ class URaceLine;
 class URaceLineBase;
 class URaceManager;
 class UVerticalBox;
-class UPointsManager;
 class URacePatternsDataAsset;
 class UNumbersBox;
 class UScoreCounter;
@@ -27,7 +27,7 @@ class SMS_API URace : public UUserWidget
 
 public:
 	
-	void InitializeWidget(int NewID);
+	void InitializeWidget(int NewID, UScoreManager* ScoreManagerRef, URuleBook* RuleBook);
 
 	void UpdateRacePoints();
     
@@ -60,9 +60,9 @@ private:
 	
 	void OnIDSet();
 
-	void InitializeManagers();
+	void InitializeManagers(UScoreManager* ScoreManagerRef);
 
-	void InitializeRaceData();
+	void InitializeRaceData(URuleBook* RuleBook);
 	
 	UPROPERTY(EditDefaultsOnly)
 	URacePatternsDataAsset* RaceDataAsset;
@@ -74,7 +74,7 @@ private:
 	TSubclassOf<UNominatedRaceLine> NominatedRaceLineClass;
 
 	UPROPERTY()
-	UScoreManager* ScoreManager;
+	TObjectPtr<UScoreManager> ScoreManager;
 
 	FRaceData Data;
 	

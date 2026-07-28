@@ -2,8 +2,6 @@
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
-#include "Gamemodes/SMS_GameMode.h"
-#include "Kismet/GameplayStatics.h"
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
 #include "UI/BaseClasses/NamesBox.h"
@@ -11,11 +9,11 @@
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 
 
-void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData)
+void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef)
 {
 	if (!NewTeamData) return;
 	TeamID = NewTeamData->TeamID;
-	InitializeManagers(NewTeamData);
+	InitializeManagers(NewTeamData, ScoreManagerRef);
 	BindDelegates();
 	CreateRacerStatLines();
 	DisplayTeamName();
@@ -23,12 +21,10 @@ void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData)
 }
 
 
-void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData)
+void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef)
 {
 	if (!NewTeamData) return;
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	ScoreManager = GameMode->GetScoreManager();
+	ScoreManager = ScoreManagerRef;
 	TeamManager = NewObject<UTeamManager>(this);
 	if (!TeamManager || !ScoreManager) return;
 	TeamManager->SetTeamData(NewTeamData);

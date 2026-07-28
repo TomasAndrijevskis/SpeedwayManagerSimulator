@@ -28,7 +28,12 @@ void UNominatedRaceLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type S
 
 void UNominatedRaceLine::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	ChooseBox_ChooseMainRacer->MakeChooseBoxUnavailable();
+	if (!ChooseBox_ChooseMainRacer->IsAnyOptionChosen())
+	{
+		ChooseBox_RacerReplacement->ClearSelection();
+		return;
+	}
+	ChooseBox_ChooseMainRacer->DisableChooseBox();
 	Super::OnRacerReplaced(SelectedItem, SelectionType);
 }
 

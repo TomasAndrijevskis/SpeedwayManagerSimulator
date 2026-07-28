@@ -99,10 +99,10 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	int AmountOfRaces = 15;
 
-	TArray<UTeamManager*> TeamManagers;
+	TArray<TObjectPtr<UTeamManager>> TeamManagers;
 	
 	FVector2d StartPosition = FVector2d(0,-540);
 
 	UPROPERTY()
-	UMatchManager* MatchManager;
+	TObjectPtr<UMatchManager> MatchManager;
 };
