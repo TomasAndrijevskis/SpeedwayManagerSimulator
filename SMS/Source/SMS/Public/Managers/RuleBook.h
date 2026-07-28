@@ -20,7 +20,7 @@ public:
 
 	void InitializeRules(UScoreManager* Manager);
 	
-	//bool IsRacerEligible(const URacerStatsLine& RacerStatsLineRef, int Age) const;
+	bool IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int Age) const;
 	
 	bool CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer) const;
 	

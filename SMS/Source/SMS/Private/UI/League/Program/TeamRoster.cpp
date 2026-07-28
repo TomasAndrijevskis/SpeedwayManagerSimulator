@@ -2,6 +2,7 @@
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Managers/MatchManager.h"
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
 #include "UI/BaseClasses/NamesBox.h"
@@ -9,22 +10,22 @@
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 
 
-void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef)
+void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, UMatchManager* MatchManagerRef)
 {
 	if (!NewTeamData) return;
 	TeamID = NewTeamData->TeamID;
-	InitializeManagers(NewTeamData, ScoreManagerRef);
+	InitializeManagers(NewTeamData, MatchManagerRef);
 	BindDelegates();
-	CreateRacerStatLines();
+	CreateRacerStatLines(MatchManagerRef);
 	DisplayTeamName();
 	DisplayTeamStatus();
 }
 
 
-void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef)
+void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData, UMatchManager* MatchManagerRef)
 {
 	if (!NewTeamData) return;
-	ScoreManager = ScoreManagerRef;
+	ScoreManager = MatchManagerRef->GetScoreManager();
 	TeamManager = NewObject<UTeamManager>(this);
 	if (!TeamManager || !ScoreManager) return;
 	TeamManager->SetTeamData(NewTeamData);
@@ -39,7 +40,7 @@ void UTeamRoster::BindDelegates()
 }
 
 
-void UTeamRoster::CreateRacerStatLines()
+void UTeamRoster::CreateRacerStatLines(UMatchManager* MatchManagerRef)
 {
 	if (!TeamManager) return;
 	int Id = 1;
@@ -60,6 +61,7 @@ void UTeamRoster::CreateRacerStatLines()
 			NewStatLine->OnSelectedOptionChangedDelegate.AddUObject(TeamManager, &UTeamManager::UpdateStatsLineOptions);
 		}
 	}
+	TeamManager->SetRuleBook(MatchManagerRef->GetRuleBook());
 	TeamManager->FillTeamRosterOptions();
 }
 

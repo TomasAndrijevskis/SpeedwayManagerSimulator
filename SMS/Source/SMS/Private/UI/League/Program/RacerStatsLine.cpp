@@ -27,9 +27,10 @@ void URacerStatsLine::BindDelegates()
 }
 
 
-void URacerStatsLine::AddOption(const FString& Option)
+void URacerStatsLine::AddOption(const FRacerData Data)
 {
-	ChooseBox_Racer->AddOption(Option);
+	RacerData.Add(Data);
+	ChooseBox_Racer->AddOption(Data.Name);
 }
 
 
@@ -56,12 +57,19 @@ void URacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type Se
 	if (PreviousOption == "")
 	{
 		PreviousOption = SelectedOption;
-		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, "");
+		FRacerData EmptyData;
+		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, EmptyData);
 	}
 	else
 	{
-		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, PreviousOption);
-		PreviousOption = SelectedOption;
+		for (const auto& Data : RacerData)
+		{
+			if (Data.Name == PreviousOption)
+			{
+				SelectedData = Data; break;
+			}
+		}
+		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, SelectedData);
 	}
 	OnRacerSelectedDelegate.Broadcast(SelectedOption, RacerStatsLineID);
 }
@@ -69,10 +77,14 @@ void URacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type Se
 
 void URacerStatsLine::ChooseRandomOption()
 {
+	if (ChooseBox_Racer->GetSelectedOption() != "") return;
 	int OptionsAmount = ChooseBox_Racer->GetNumberOfOptions();
 	int RandomOption = FMath::RandRange(0, OptionsAmount - 1);
-	FString SelectedOption = ChooseBox_Racer->GetSelectedOptionAtIndex(RandomOption);
-	if (SelectedOption == "") ChooseRandomOption();
+	FString SelectedOption = ChooseBox_Racer->GetOptionAtIndex(RandomOption);
+	if (SelectedOption == "")
+	{
+		if (ChooseBox_Racer->AnyOptionsLeft()) ChooseRandomOption();
+	}
 	else
 	{
 		ChooseBox_Racer->SetRandomOption(SelectedOption);

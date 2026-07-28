@@ -19,7 +19,7 @@ class SMS_API URaceLineupManager : public UObject
 
 public:
 
-	void InitializeManager(URuleBook* RuleBookRef);
+	void InitializeManager();
 
 	void AddRaceLine(URaceLineBase* NewRaceLine);
 
@@ -62,9 +62,6 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UTeamManager> TeamManager;
-
-	UPROPERTY()
-	TObjectPtr<URuleBook> RuleBook;
 	
 	UPROPERTY()
 	TArray<TObjectPtr<URacerManager>> UnavailableRacers;

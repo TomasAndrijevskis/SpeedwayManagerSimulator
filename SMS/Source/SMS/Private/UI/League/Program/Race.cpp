@@ -12,12 +12,12 @@
 #include "UI/League/Program/NominatedRaceLine.h"
 
 
-void URace::InitializeWidget(int NewID, UScoreManager* ScoreManagerRef, URuleBook* RuleBook)
+void URace::InitializeWidget(int NewID, UScoreManager* ScoreManagerRef)
 {
 	RaceID = NewID;
 	NumbersBox_RaceNumber->SetText(RaceID);
 	InitializeManagers(ScoreManagerRef);
-	InitializeRaceData(RuleBook);
+	InitializeRaceData();
 	BindDelegates();
 	OnIDSet();
 }
@@ -29,14 +29,14 @@ void URace::InitializeManagers(UScoreManager* ScoreManagerRef)
 }
 
 
-void URace::InitializeRaceData(URuleBook* RuleBook)
+void URace::InitializeRaceData()
 {
 	FRaceData data;
 	data.RaceManager = NewObject<URaceManager>(this);
 	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
 	if (!data.RaceManager || !data.RaceLineupManager) return;
 	data.RaceManager->InitializeManager(IsNominatedRace());
-	data.RaceLineupManager->InitializeManager(RuleBook);
+	data.RaceLineupManager->InitializeManager();
 	Data = data;
 }
 

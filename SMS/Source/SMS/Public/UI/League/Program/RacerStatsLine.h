@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RacersData/RacerData.h"
 #include "RacerStatsLine.generated.h"
 
 class URacerManager;
@@ -12,7 +13,7 @@ class UTextBlock;
 class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int);
-DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const URacerStatsLine*, const FString&, const FString&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const URacerStatsLine*, const FString&, FRacerData&);
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
 {
@@ -20,7 +21,7 @@ class SMS_API URacerStatsLine : public UUserWidget
 
 public:
 
-	void AddOption(const FString& Option);
+	void AddOption(const FRacerData Data);
 
 	void RemoveOption(const FString& Option);
 	
@@ -68,7 +69,11 @@ private:
 	void OnRacerChosen(FString SelectedOption, ESelectInfo::Type SelectionType);
 	
 	void BindDelegates();
+	
+	TArray<FRacerData> RacerData;
 
+	FRacerData SelectedData;
+	
 	UPROPERTY()
 	int RacerStatsLineID;
 

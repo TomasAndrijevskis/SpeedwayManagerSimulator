@@ -19,25 +19,27 @@ class SMS_API UTeamManager : public UObject
 
 public:
 
-	void AddRacersToLineup(const FString& RacerName, int RacerStatLineID);
+	void AddRacersToLineup(const FString& RacerName, int32 RacerStatLineID);
 
-	void ForEachRacerInLineup(TFunction<void(int)> Callback);
+	void ForEachRacerInLineup(TFunction<void(int32)> Callback);
 	
 	void ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> Callback);
 
 	void ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback);
 
-	void GetAvailableReplacementRacers(const URacerManager* OriginalRacerManager, URuleBook* RuleBook, TFunction<void(URacerManager*)> Callback);
+	void GetAvailableReplacementRacers(const URacerManager* OriginalRacerManager, TFunction<void(URacerManager*)> Callback);
 	
-	void GetAvailableRacers(URuleBook* RuleBook, TFunction<void(URacerManager*)> Callback);
+	void GetAvailableRacers(TFunction<void(URacerManager*)> Callback);
 	
 	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
 	
 	void SetTeamData(FTeamMatchData* NewTeamData);
 
+	void SetRuleBook(URuleBook* NewRuleBook);
+	
 	const FString& GetTeamName() const;
 
-	int GetTeamID() const;
+	int32 GetTeamID() const;
 	
 	void CreateRacerManagers();
 
@@ -55,9 +57,9 @@ public:
 
 	bool IsVisitorTeam() const;
 
-	TMap<int, URacerManager*> GetRacerManagers();
+	TMap<int32, URacerManager*> GetRacerManagers();
 
-	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, const FString& PreviousOption);
+	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
 	
 private:
 	
@@ -65,11 +67,14 @@ private:
 
 	//Lineup for current match
 	UPROPERTY()
-	TMap<int, FRacerMatchData> Racers;
+	TMap<int32, FRacerMatchData> Racers;
 
 	UPROPERTY()
 	TArray<URacerStatsLine*> RacerStatsLines;
 
 	UPROPERTY()
-	TMap<int, URacerManager*> RacerManagers;
+	TMap<int32, URacerManager*> RacerManagers;
+
+	UPROPERTY()
+	TObjectPtr<URuleBook> RuleBook;
 };

@@ -34,10 +34,17 @@ int UChooseBox::GetNumberOfOptions() const
 }
 
 
-FString UChooseBox::GetSelectedOptionAtIndex(int Index) const
+FString UChooseBox::GetOptionAtIndex(int Index) const
 {
 	return ComboBox->GetOptionAtIndex(Index);
 }
+
+
+FString UChooseBox::GetSelectedOption() const
+{
+	return ComboBox->GetSelectedOption();
+}
+
 
 
 void UChooseBox::SetRandomOption(const FString& RandomOption)
@@ -66,6 +73,7 @@ bool UChooseBox::DoesOptionExists(const FString& OptionName) const
 	}
 	return false;
 }
+
 
 bool UChooseBox::IsAnyOptionChosen() const
 {

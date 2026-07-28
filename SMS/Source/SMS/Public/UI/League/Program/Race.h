@@ -27,7 +27,7 @@ class SMS_API URace : public UUserWidget
 
 public:
 	
-	void InitializeWidget(int NewID, UScoreManager* ScoreManagerRef, URuleBook* RuleBook);
+	void InitializeWidget(int NewID, UScoreManager* ScoreManagerRef);
 
 	void UpdateRacePoints();
     
@@ -62,7 +62,7 @@ private:
 
 	void InitializeManagers(UScoreManager* ScoreManagerRef);
 
-	void InitializeRaceData(URuleBook* RuleBook);
+	void InitializeRaceData();
 	
 	UPROPERTY(EditDefaultsOnly)
 	URacePatternsDataAsset* RaceDataAsset;

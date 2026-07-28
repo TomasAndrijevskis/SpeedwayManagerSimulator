@@ -8,8 +8,8 @@
 #include "TeamRoster.generated.h"
 
 
+class UMatchManager;
 class UTeamManager;
-class UScoreManager;
 class UVerticalBox;
 class UNumbersBox;
 class UNamesBox;
@@ -22,7 +22,7 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 	
-	void InitializeTeam(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef);
+	void InitializeTeam(FTeamMatchData* NewTeamData, UMatchManager* MatchManagerRef);
 
 	UTeamManager* GetTeamManager() const;
 	
@@ -40,7 +40,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Content;
 	
-	void CreateRacerStatLines();
+	void CreateRacerStatLines(UMatchManager* MatchManagerRef);
 	
 	URacerStatsLine* CreateRacerStatLine(int ID);
 
@@ -48,7 +48,7 @@ private:
 
 	void DisplayTeamName();
 
-	void InitializeManagers(FTeamMatchData* NewTeamData, UScoreManager* ScoreManagerRef);
+	void InitializeManagers(FTeamMatchData* NewTeamData, UMatchManager* MatchManagerRef);
 
 	void DisplayTeamStatus();
 

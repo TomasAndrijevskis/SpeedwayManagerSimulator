@@ -4,10 +4,9 @@
 #include "UI/League/Program/RaceLineBase.h"
 
 
-void URaceLineupManager::InitializeManager(URuleBook* RuleBookRef)
+void URaceLineupManager::InitializeManager()
 {
 	BindDelegates();
-	RuleBook = RuleBookRef;
 }
 
 
@@ -65,9 +64,9 @@ void URaceLineupManager::BuildAvailableRacersLists(bool IsNominatedRace)
 void URaceLineupManager::FillPossibleReplacementRacers(const URaceLineBase* RaceLineRef)
 {
 	UTeamManager* TeamManagerRef = RaceLineRef->GetTeamManager();
-	if (!TeamManagerRef || !RaceLineRef || !RuleBook) return;
+	if (!TeamManagerRef || !RaceLineRef) return;
 	URacerManager* OriginalRacer = RaceLineRef->GetRacerManager();
-	TeamManagerRef->GetAvailableReplacementRacers(OriginalRacer, RuleBook, [this, OriginalRacer](TObjectPtr<URacerManager> ReplacementRacer)
+	TeamManagerRef->GetAvailableReplacementRacers(OriginalRacer, [this, OriginalRacer](TObjectPtr<URacerManager> ReplacementRacer)
 	{
 		if (!UnavailableRacers.Contains(ReplacementRacer)) PossibleRacers.FindOrAdd(OriginalRacer).Add(ReplacementRacer);
 	});
@@ -77,8 +76,8 @@ void URaceLineupManager::FillPossibleReplacementRacers(const URaceLineBase* Race
 
 void URaceLineupManager::FillPossibleMainRacers(UTeamManager* TeamManagerRef)
 {
-	if (!TeamManagerRef || !RuleBook) return;
-	TeamManagerRef->GetAvailableRacers(RuleBook, [this](URacerManager* RacerManager)
+	if (!TeamManagerRef) return;
+	TeamManagerRef->GetAvailableRacers([this](URacerManager* RacerManager)
 	{
 		if (!PossibleRacers.Contains(RacerManager)) PossibleRacers.FindOrAdd(RacerManager);
 	});

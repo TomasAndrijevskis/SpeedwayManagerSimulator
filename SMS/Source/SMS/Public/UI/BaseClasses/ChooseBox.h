@@ -21,7 +21,9 @@ public:
 	
 	int GetNumberOfOptions() const;
 
-	FString GetSelectedOptionAtIndex(int Index) const;
+	FString GetOptionAtIndex(int Index) const;
+
+	FString GetSelectedOption() const;
 	
 	void SetRandomOption(const FString& RandomOption);
 

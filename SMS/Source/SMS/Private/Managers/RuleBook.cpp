@@ -2,6 +2,7 @@
 #include "Managers/RuleBook.h"
 #include "Managers/RacerManager.h"
 #include "Managers/ScoreManager.h"
+#include "UI/League/Program/RacerStatsLine.h"
 
 
 void URuleBook::InitializeRules(UScoreManager* Manager)
@@ -9,17 +10,18 @@ void URuleBook::InitializeRules(UScoreManager* Manager)
 	ScoreManager = Manager;
 }
 
-/*
-bool URuleBook::IsRacerEligible(const URacerStatsLine& RacerStatsLineRef, int32 Age) const
+
+bool URuleBook::IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int32 Age) const
 {
-	int32 ID = RacerStatsLineRef.GetID();
-	for (const int& Position : JuniorPositions)
+	int32 ID = RacerStatsLineRef->GetID();
+	if (JuniorPositions.Contains(ID))
 	{
-		if (ID == Position && Age <= JuniorAge) return true;	
+		UE_LOG(LogTemp, Display, TEXT("ID: %i"), ID);
+		UE_LOG(LogTemp, Display, TEXT("Age: %i"), Age);
+		return IsJunior(Age);
 	}
-	return false;
+	return true;
 }
-*/
 
 
 bool URuleBook::CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer) const
