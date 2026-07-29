@@ -10,7 +10,7 @@
 #include "Managers/MatchManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/TeamManager.h"
-#include "SMS/Public/UI/League/Program/Race.h"
+#include "SMS/Public/UI/League/Program/Race/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 
 

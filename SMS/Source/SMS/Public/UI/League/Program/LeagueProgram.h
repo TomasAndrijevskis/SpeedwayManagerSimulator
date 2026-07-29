@@ -2,11 +2,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Race.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamMatchData.h"
 #include "LeagueProgram.generated.h"
 
+class UTextBlock;
+class URace;
 class UTeamManager;
 class UTeamRoster;
 class UFillNominatedRaces;

@@ -30,6 +30,7 @@ void URacerStatsLine::BindDelegates()
 void URacerStatsLine::AddOption(const FRacerData Data)
 {
 	RacerData.Add(Data);
+	//UE_LOG(LogTemp, Warning, TEXT("AddOption %s"), *Data.Name);
 	ChooseBox_Racer->AddOption(Data.Name);
 }
 

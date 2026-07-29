@@ -1,0 +1,13 @@
+﻿RowName,ID,Name,Age,InitialTeam,RacerStats
+1,1,Marc,25,LD,(Rating=13)
+2,2,Aivar G.,23,LD,(Rating=13)
+3,3,Bartosz,27,LD,(Rating=13)
+4,4,Kai,25,SW,(Rating=12)
+5,5,David B.,25,SW,(Rating=13)
+6,6,Michaell,32,LD,(Rating=12)
+7,7,Fredrik,45,LD,(Rating=14)
+8,8,Stephane,26,SW,(Rating=10)
+9,9,Edik V.,41,LD,(Rating=10)
+10,10,Danil,45,SW,(Rating=15)
+11,11,Ritvars,22,SW,(Rating=9)
+12,12,Marek,42,SW,(Rating=12)

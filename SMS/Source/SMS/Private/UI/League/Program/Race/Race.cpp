@@ -1,5 +1,5 @@
 
-#include "SMS/Public/UI/League/Program/Race.h"
+#include "SMS/Public/UI/League/Program/Race/Race.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
@@ -7,9 +7,9 @@
 #include "Managers/RaceManager.h"
 #include "Managers/ScoreManager.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "SMS/Public/UI/League/Program/RaceLine.h"
+#include "SMS/Public/UI/League/Program/Race/RaceLine.h"
 #include "SMS/Public/UI/League/Program/ScoreCounter.h"
-#include "UI/League/Program/NominatedRaceLine.h"
+#include "UI/League/Program/Race/NominatedRaceLine.h"
 
 
 void URace::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
