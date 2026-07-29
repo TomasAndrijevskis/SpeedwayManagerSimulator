@@ -18,15 +18,15 @@ public:
 
 	void SetText(const FString& NewText);
 
-	void SetText(int NewText);
+	void SetText(int32 NewText);
 
 	void SetColour(const EHelmetColour& NewColour);
 
-	int GetNumber();
+	int32 GetNumber();
 
 	const FString& GetNumberAsString() const;
 	
-	void AddNumber(int AddNumber);
+	void AddNumber(int32 AddNumber);
 	
 protected:
 

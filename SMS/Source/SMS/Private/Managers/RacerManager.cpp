@@ -11,16 +11,16 @@ void URacerManager::Initialize(const FRacerMatchData& RacerData)
 
 void URacerManager::CalculateRating(bool IsVisitor)
 {
-	int Defect = FMath::RandRange(1, 20);
+	int32 Defect = FMath::RandRange(1, 20);
 	if (Defect == 1)
 	{
 		CurrentRacerRating = 0;
 		return;
 	}
-	int Start = FMath::RandRange(0,5);
-	int Driving = FMath::RandRange(0,10);
+	int32 Start = FMath::RandRange(0,5);
+	int32 Driving = FMath::RandRange(0,10);
 	if (!IsVisitor) Driving += FMath::RandRange(0,2);
-	int RacerRating = Data.GetBaseRating();
+	int32 RacerRating = Data.GetBaseRating();
 	CurrentRacerRating = Start + Driving + RacerRating;
 	
 	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.RacerData.Name);
@@ -69,12 +69,12 @@ void URacerManager::AddPoints(const FString& NewPoints, bool AddBonus)
 }
 
 
-int URacerManager::CountOverallPoints()
+int32 URacerManager::CountOverallPoints()
 {
-	int sum = 0;
+	int32 sum = 0;
 	for (const auto& Element : RacerPoints)
 	{
-		int Number = FCString::Atoi(*Element);
+		int32 Number = FCString::Atoi(*Element);
 		sum += Number;
 	}
 	return sum;
@@ -82,13 +82,13 @@ int URacerManager::CountOverallPoints()
 
 
 void URacerManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
-int URacerManager::GetTieBreaker() const {return TieBreakerValue;}
-int URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
-int URacerManager::GetBonusAmount() const {return RacerBonuses;}
-int URacerManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
-int URacerManager::GetRacerNumber() const {return Data.RacerNumber;}
-int URacerManager::GetRacerAge() const {return Data.GetRacerAge();}
-bool URacerManager::CanDriveMore(int MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
+int32 URacerManager::GetTieBreaker() const {return TieBreakerValue;}
+int32 URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
+int32 URacerManager::GetBonusAmount() const {return RacerBonuses;}
+int32 URacerManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
+int32 URacerManager::GetRacerNumber() const {return Data.RacerNumber;}
+int32 URacerManager::GetRacerAge() const {return Data.GetRacerAge();}
+bool URacerManager::CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
 bool URacerManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
 bool URacerManager::IsVisitor() const {return Data.IsVisitor();}
 FString URacerManager::GetRacerName() const {return Data.GetRacerName();}

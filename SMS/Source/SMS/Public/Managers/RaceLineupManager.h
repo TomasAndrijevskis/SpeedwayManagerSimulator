@@ -8,7 +8,6 @@
 class URuleBook;
 class UTeamManager;
 class UScoreManager;
-class URaceLineBase;
 class URacerManager;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnHandleRaceLinesRequest, bool);

@@ -19,9 +19,9 @@ public:
 
 	void RemoveOption(const FString& Option);
 	
-	int GetNumberOfOptions() const;
+	int32 GetNumberOfOptions() const;
 
-	FString GetOptionAtIndex(int Index) const;
+	FString GetOptionAtIndex(int32 Index) const;
 
 	FString GetSelectedOption() const;
 	

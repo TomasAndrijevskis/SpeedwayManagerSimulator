@@ -8,7 +8,6 @@
 
 
 class UTeamManager;
-class UMatchManager;
 class URacerManager;
 class USlider;
 class UChooseBox;
@@ -26,17 +25,17 @@ class SMS_API URaceLineBase : public UUserWidget
 
 public:
 
-	void SetRaceLineID(int NewID);
+	void SetRaceLineID(int32 NewID);
 
-	void SetRacerNumber(int NewRacerNumber);
-	int GetRacerNumber() const;
+	void SetRacerNumber(int32 NewRacerNumber);
+	int32 GetRacerNumber() const;
 	
 	void SetPointsPerRace(const FString& NewPoints, bool AddBonus);
-	int GetPointsPerRace() const;
+	int32 GetPointsPerRace() const;
 	
-	int GetRacerRating() const;
+	int32 GetRacerRating() const;
 	
-	int GetTieBreaker() const;
+	int32 GetTieBreaker() const;
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 
@@ -46,7 +45,7 @@ public:
 
 	void ChangeLineStatus(bool bIsActive);
 	
-	int GetTeamID() const;
+	int32 GetTeamID() const;
 
 	void AddReplacementOption(FString SelectedItem);
 	virtual void AddMainOption(FString SelectedItem){};
@@ -115,9 +114,9 @@ private:
 
 	void SetTeamManager(TArray<UTeamManager*> TeamManagersRef);
 	
-	int RaceLineID = 0;
+	int32 RaceLineID = 0;
 
-	int RacerNumber = 0;
+	int32 RacerNumber = 0;
 
 	bool bIsRacerSet = false;
 };

@@ -11,7 +11,7 @@ void UCalendar::NativeConstruct()
 {
 	Super::NativeConstruct();
 	SetAmountOfMatches();
-	for (int i = 0; i < AmountOfMatches; i++)
+	for (int32 i = 0; i < AmountOfMatches; i++)
 	{
 		CreateMatches();
 	}
@@ -26,18 +26,18 @@ void UCalendar::SetAmountOfMatches()
 }
 
 
-int UCalendar::GetRandomTeam()
+int32 UCalendar::GetRandomTeam()
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return NULL;
-	int NumberOfTeams = GameMode->GetTeamsAmount();
+	int32 NumberOfTeams = GameMode->GetTeamsAmount();
 	if (NumberOfTeams <= 0) return NULL;
-	int TeamID = FMath::RandRange(1, NumberOfTeams);
+	int32 TeamID = FMath::RandRange(1, NumberOfTeams);
 	return TeamID;
 }
 
 
-void UCalendar::SetTeamID(int& Team)
+void UCalendar::SetTeamID(int32& Team)
 {
 	Team = GetRandomTeam();
 	if (ChosenOptions.Contains(Team)) SetTeamID(Team);
@@ -47,8 +47,8 @@ void UCalendar::SetTeamID(int& Team)
 
 void UCalendar::CreateMatches()
 {
-	int TeamA;
-	int TeamB;
+	int32 TeamA;
+	int32 TeamB;
 	SetTeamID(TeamA);
 	SetTeamID(TeamB);
 	UCalendarLine* CalendarLine = CreateMatch(TeamA, TeamB);
@@ -57,7 +57,7 @@ void UCalendar::CreateMatches()
 }
 
 
-UCalendarLine* UCalendar::CreateMatch(int HomeTeamID, int VisitorTeamID)
+UCalendarLine* UCalendar::CreateMatch(int32 HomeTeamID, int32 VisitorTeamID)
 {
 	if (!CalendarLineClass) return nullptr;
 	UCalendarLine* CalendarLine = CreateWidget<UCalendarLine>(this, CalendarLineClass);

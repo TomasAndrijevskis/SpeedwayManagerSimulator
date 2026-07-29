@@ -15,7 +15,7 @@ struct FRacerMatchData
 
 	//number during match 1-6 / 7-12
 	UPROPERTY()
-	int RacerNumber;
+	int32 RacerNumber;
 
 	bool IsVisitor() const
 	{
@@ -27,17 +27,17 @@ struct FRacerMatchData
 		return RacerNumber == 5 || RacerNumber == 11;
 	}
 
-	int GetBaseRating() const
+	int32 GetBaseRating() const
 	{
 		return RacerData.RacerStats.Rating;
 	}
 
-	int GetRacerNumber() const
+	int32 GetRacerNumber() const
 	{
 		return RacerNumber;
 	}
 	
-	int GetRacerAge() const
+	int32 GetRacerAge() const
 	{
 		return RacerData.Age;
 	}

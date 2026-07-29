@@ -17,7 +17,7 @@ public:
 
 	void Initialize(const FRacerMatchData& RacerData);
 
-	int CountOverallPoints();
+	int32 CountOverallPoints();
 
 	void AddPoints(const FString& NewPoints, bool AddBonus);
 	
@@ -25,13 +25,13 @@ public:
 
 	void SetTieBreaker();
 
-	int GetTieBreaker() const;
+	int32 GetTieBreaker() const;
 
-	int GetCurrentRaceRating() const;
+	int32 GetCurrentRaceRating() const;
 	
-	int GetBonusAmount() const;
+	int32 GetBonusAmount() const;
 
-	int GetParticipatedRacesAmount() const;
+	int32 GetParticipatedRacesAmount() const;
 	
 	void AddParticipatedRace(URaceLineBase* RaceLineRef);
 
@@ -39,15 +39,15 @@ public:
 
 	void OnRaceStarted();
 
-	int GetRacerAge() const;
+	int32 GetRacerAge() const;
 	
 	FString GetRacerName() const;
 
 	bool IsVisitor() const;
 
-	int GetRacerNumber() const;
+	int32 GetRacerNumber() const;
 
-	bool CanDriveMore(int MaxAmountOfRaces) const;
+	bool CanDriveMore(int32 MaxAmountOfRaces) const;
 	
 	bool DidParticipateInNominatedRace() const;
 	void SetParticipatedInNominatedRace(bool NewParticipated);
@@ -64,11 +64,11 @@ private:
 	
 	FRacerMatchData Data;
 
-	int TieBreakerValue = 0;
+	int32 TieBreakerValue = 0;
 
-	int CurrentRacerRating = 0;
+	int32 CurrentRacerRating = 0;
 	
-	int RacerBonuses;
+	int32 RacerBonuses;
 
 	bool bParticipatedInNominatedRace = false;
 };

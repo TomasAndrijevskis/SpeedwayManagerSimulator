@@ -6,10 +6,8 @@
 #include "RuleBook.generated.h"
 
 
-class URacerManager;
-class URaceLineBase;
-class UScoreManager;
 class URacerStatsLine;
+class UScoreManager;
 
 UCLASS()
 class SMS_API URuleBook : public UObject
@@ -20,7 +18,7 @@ public:
 
 	void InitializeRules(UScoreManager* Manager);
 	
-	bool IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int Age) const;
+	bool IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int32 Age) const;
 	
 	bool CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer) const;
 	

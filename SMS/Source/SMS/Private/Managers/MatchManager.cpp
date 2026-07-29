@@ -99,7 +99,7 @@ void UMatchManager::PopulateRacers(TArray<UTeamManager*> TeamManagersRef)
 }
 
 
-void UMatchManager::AddNewRace(const int RaceId, const FRaceData RaceData)
+void UMatchManager::AddNewRace(const int32 RaceId, const FRaceData RaceData)
 {
 	Races.Add(RaceId, RaceData);
 }
@@ -114,7 +114,7 @@ void UMatchManager::RequestToAssignRacersToRace(URacerManager* RacerManagerRef)
 }
 
 
-void UMatchManager::SetTeamID(int NewTeamID, bool IsVisitor)
+void UMatchManager::SetTeamID(int32 NewTeamID, bool IsVisitor)
 {
 	FTeamMatchData Data = GameMode->GetTeamData(NewTeamID);
 	Data.IsVisitorTeam = IsVisitor;
@@ -132,7 +132,7 @@ FTeamMatchData* UMatchManager::GetTeamData(bool Status)
 }
 
 
-int UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
-int UMatchManager::GetAmountOfRaces() const {return Races.Num();}
+int32 UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
+int32 UMatchManager::GetAmountOfRaces() const {return Races.Num();}
 UScoreManager* UMatchManager::GetScoreManager() const {return ScoreManager;}
 URuleBook* UMatchManager::GetRuleBook() const {return RuleBook;}

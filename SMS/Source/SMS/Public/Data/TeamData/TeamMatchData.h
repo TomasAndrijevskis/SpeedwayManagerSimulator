@@ -11,7 +11,7 @@ struct FTeamMatchData
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	int TeamID;
+	int32 TeamID;
 
 	UPROPERTY()
 	FText TeamName;
@@ -23,8 +23,8 @@ struct FTeamMatchData
 	bool IsVisitorTeam;
 
 	UPROPERTY()
-	int TeamScore = 0;
+	int32 TeamScore = 0;
 
 	UPROPERTY()
-	int LastRaceScore = 0;
+	int32 LastRaceScore = 0;
 };

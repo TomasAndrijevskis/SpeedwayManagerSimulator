@@ -8,7 +8,7 @@ void UScoreManager::AddTeamRef(FTeamMatchData* TeamData)
 }
 
 
-void UScoreManager::UpdateScore(int TeamID, int PointsToAdd)
+void UScoreManager::UpdateScore(int32 TeamID, int32 PointsToAdd)
 {
 	for (auto& Team : Teams)
 	{
@@ -31,7 +31,7 @@ void UScoreManager::ClearLastRaceScore()
 }
 
 
-int UScoreManager::GetTeamScore(bool IsVisitor) const
+int32 UScoreManager::GetTeamScore(bool IsVisitor) const
 {
 	for (auto& Team : Teams)
 	{
@@ -42,7 +42,7 @@ int UScoreManager::GetTeamScore(bool IsVisitor) const
 }
 
 
-int UScoreManager::GetRaceScore(bool IsVisitor) const
+int32 UScoreManager::GetRaceScore(bool IsVisitor) const
 {
 	for (auto& Team : Teams)
 	{

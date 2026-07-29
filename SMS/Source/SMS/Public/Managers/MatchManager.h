@@ -23,17 +23,17 @@ class SMS_API UMatchManager : public UObject
 
 public:
 
-	void AddNewRace(int RaceId, FRaceData RaceData);
+	void AddNewRace(int32 RaceId, FRaceData RaceData);
 	
 	void RequestToAssignRacersToRace(URacerManager* RacerManager);
 	
 	void InitializeManager(ASMS_GameMode* CurrentGameMode);
 	
-	void SetTeamID(int NewTeamID, bool IsVisitor);
+	void SetTeamID(int32 NewTeamID, bool IsVisitor);
 
-	int GetCurrentRaceNumber()const;
+	int32 GetCurrentRaceNumber()const;
 
-	int GetAmountOfRaces() const;
+	int32 GetAmountOfRaces() const;
 
 	void CreateRacerManagers(TArray<UTeamManager*> TeamManagersRef);
 
@@ -74,9 +74,9 @@ private:
 	TArray<TObjectPtr<URaceManager>> RaceManagers;
 
 	UPROPERTY()
-	TMap<int, FRaceData> Races;
+	TMap<int32, FRaceData> Races;
 	
 	TArray<FTeamMatchData> Teams;
 	
-	int CurrentRace = 1;
+	int32 CurrentRace = 1;
 };

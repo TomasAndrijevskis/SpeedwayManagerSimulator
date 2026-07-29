@@ -12,7 +12,7 @@ class UNumbersBox;
 class UTextBlock;
 class UHorizontalBox;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int32);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const URacerStatsLine*, const FString&, FRacerData&);
 UCLASS()
 class SMS_API URacerStatsLine : public UUserWidget
@@ -25,7 +25,7 @@ public:
 
 	void RemoveOption(const FString& Option);
 	
-	void SetID(int NewID);
+	void SetID(int32 NewID);
 
 	int GetID() const;
 
@@ -64,7 +64,7 @@ private:
 
 	void CreateNewPointsBox(const FString& Points, bool AddBonus);
 
-	void UpdateOverallPoints(int Points, int Bonus);
+	void UpdateOverallPoints(int32 Points, int32 Bonus);
 
 	void OnRacerChosen(FString SelectedOption, ESelectInfo::Type SelectionType);
 	
@@ -74,8 +74,7 @@ private:
 
 	FRacerData SelectedData;
 	
-	UPROPERTY()
-	int RacerStatsLineID;
+	int32 RacerStatsLineID;
 
 	UPROPERTY()
 	URacerManager* RacerManager;

@@ -28,13 +28,13 @@ void UChooseBox::RemoveOption(const FString& Option)
 }
 
 
-int UChooseBox::GetNumberOfOptions() const
+int32 UChooseBox::GetNumberOfOptions() const
 {
 	return ComboBox->GetOptionCount();
 }
 
 
-FString UChooseBox::GetOptionAtIndex(int Index) const
+FString UChooseBox::GetOptionAtIndex(int32 Index) const
 {
 	return ComboBox->GetOptionAtIndex(Index);
 }

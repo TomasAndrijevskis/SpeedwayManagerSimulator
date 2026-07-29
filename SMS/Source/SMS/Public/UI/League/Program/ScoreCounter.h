@@ -15,9 +15,9 @@ class SMS_API UScoreCounter : public UUserWidget
 
 public:
 	
-	void SetRacePoints(int NewHomePoints, int NewVisitorPoints);
+	void SetRacePoints(int32 NewHomePoints, int32 NewVisitorPoints);
 
-	void SetOverallScore(int NewHomePoints, int NewVisitorPoints);
+	void SetOverallScore(int32 NewHomePoints, int32 NewVisitorPoints);
 	
 private:
 

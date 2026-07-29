@@ -14,7 +14,7 @@ struct FRaceLineData
 	EHelmetColour HelmetColour;
 	
 	UPROPERTY(EditDefaultsOnly)
-	int RacerID;
+	int32 RacerID;
 
 	bool IsVisitorLine() const
 	{

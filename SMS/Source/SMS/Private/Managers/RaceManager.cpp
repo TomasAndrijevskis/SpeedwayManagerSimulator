@@ -1,5 +1,6 @@
 
 #include "Managers/RaceManager.h"
+#include "UI/League/Program/RaceLineBase.h"
 
 
 void URaceManager::InitializeManager(bool NewIsNominatedRace)
@@ -38,7 +39,7 @@ void URaceManager::SimulateRace()
 		RaceLine->OnRaceStartedDelegate.Broadcast();
 	}
 	SortLinesByRating();
-	for (int Position = 0, Points = 3; Position < RaceLines.Num(); Position++, Points--)
+	for (int32 Position = 0, Points = 3; Position < RaceLines.Num(); Position++, Points--)
 	{
 		URaceLineBase* CurrentLine = RaceLines[Position];
 		const bool IsVisitor = CurrentLine->GetRaceLineData().IsVisitorLine();

@@ -3,14 +3,14 @@
 #include "UI/BaseClasses/NumbersBox.h"
 
 
-void UScoreCounter::SetRacePoints(int NewHomePoints, int NewVisitorPoints)
+void UScoreCounter::SetRacePoints(int32 NewHomePoints, int32 NewVisitorPoints)
 {
 	NumbersBox_HomeTeamRacePoints->SetText(NewHomePoints);
 	NumbersBox_VisitorTeamRacePoints->SetText(NewVisitorPoints);
 }
 
 
-void UScoreCounter::SetOverallScore(int NewHomePoints, int NewVisitorPoints)
+void UScoreCounter::SetOverallScore(int32 NewHomePoints, int32 NewVisitorPoints)
 {
 	NumbersBox_HomeTeamOverallPoints->SetText(NewHomePoints);
 	NumbersBox_VisitorTeamOverallPoints->SetText(NewVisitorPoints);

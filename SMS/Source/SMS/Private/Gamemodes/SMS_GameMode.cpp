@@ -57,7 +57,7 @@ void ASMS_GameMode::PrintTeams()
 }
 
 
-const FText& ASMS_GameMode::GetTeamName(int TeamID)const{return Teams.FindChecked(static_cast<ETeams>(TeamID)).TeamName;}
-FTeamMatchData ASMS_GameMode::GetTeamData(int TeamID){return Teams.FindChecked(static_cast<ETeams>(TeamID));}
-int ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
+const FText& ASMS_GameMode::GetTeamName(int32 TeamID)const{return Teams.FindChecked(static_cast<ETeams>(TeamID)).TeamName;}
+FTeamMatchData ASMS_GameMode::GetTeamData(int32 TeamID){return Teams.FindChecked(static_cast<ETeams>(TeamID));}
+int32 ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
 UMatchManager* ASMS_GameMode::GetMatchManager() const{return CurrentMatchManager;}

@@ -24,11 +24,11 @@ public:
 
 	virtual void BeginPlay() override;
 
-	FTeamMatchData GetTeamData(int TeamID);
+	FTeamMatchData GetTeamData(int32 TeamID);
 
-	const FText& GetTeamName(int TeamID) const;
+	const FText& GetTeamName(int32 TeamID) const;
 	
-	int GetTeamsAmount() const;
+	int32 GetTeamsAmount() const;
 
 	UMatchManager* GetMatchManager() const;
 	

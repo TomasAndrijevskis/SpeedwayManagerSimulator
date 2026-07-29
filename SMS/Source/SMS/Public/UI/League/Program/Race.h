@@ -7,15 +7,10 @@
 #include "Data/RaceData/RaceLineData.h"
 #include "Race.generated.h"
 
-class URuleBook;
-class URaceLineupManager;
 class UScoreManager;
-class UNominatedRaceLine;
-class URaceLine;
 class URaceLineBase;
-class URaceManager;
-class UVerticalBox;
 class URacePatternsDataAsset;
+class UVerticalBox;
 class UNumbersBox;
 class UScoreCounter;
 class UTextBlock;
@@ -27,13 +22,13 @@ class SMS_API URace : public UUserWidget
 
 public:
 	
-	void InitializeWidget(int NewID, UScoreManager* ScoreManagerRef);
+	void InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef);
 
 	void UpdateRacePoints();
     
 	void UpdateOverallScore();
 	
-	FRaceLineData& GetRaceLineData(int RaceLineId) const;
+	FRaceLineData& GetRaceLineData(int32 RaceLineId) const;
 
 	bool IsNominatedRace() const;
 
@@ -54,9 +49,9 @@ private:
 
 	void CreateRaceLines();
 	
-	URaceLineBase* CreateRaceLine(int RaceLineID);
+	URaceLineBase* CreateRaceLine(int32 RaceLineID);
 
-	URaceLineBase* CreateNominatedRaceLine(int RaceLineID);
+	URaceLineBase* CreateNominatedRaceLine(int32 RaceLineID);
 	
 	void OnIDSet();
 
@@ -68,15 +63,15 @@ private:
 	URacePatternsDataAsset* RaceDataAsset;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<URaceLine> RaceLineClass;
+	TSubclassOf<URaceLineBase> RaceLineClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UNominatedRaceLine> NominatedRaceLineClass;
+	TSubclassOf<URaceLineBase> NominatedRaceLineClass;
 
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;
 
 	FRaceData Data;
 	
-	int RaceID;
+	int32 RaceID;
 };

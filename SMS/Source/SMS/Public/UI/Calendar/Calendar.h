@@ -34,19 +34,18 @@ private:
 
 	void CreateMatches();
 	
-	UCalendarLine* CreateMatch(int HomeTeamID, int VisitorTeamID);
+	UCalendarLine* CreateMatch(int32 HomeTeamID, int32 VisitorTeamID);
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UCalendarLine> CalendarLineClass;
 	
-	int GetRandomTeam();
+	int32 GetRandomTeam();
 
-	void SetTeamID(int& Team);
+	void SetTeamID(int32& Team);
 
 	void SetAmountOfMatches();
 	
-	UPROPERTY()
-	int AmountOfMatches;
+	int32 AmountOfMatches;
 
-	TArray<int> ChosenOptions;
+	TArray<int32> ChosenOptions;
 };

@@ -7,9 +7,9 @@
 
 
 class UScoreManager;
-class UNumbersBox;
-class UMatchManager;
 class ULeagueProgram;
+class UMatchManager;
+class UNumbersBox;
 class UButton;
 class UNamesBox;
 
@@ -20,9 +20,9 @@ class SMS_API UCalendarLine : public UUserWidget
 
 public:
 
-	void InitializeLine(int NewHomeTeamID, int NewVisitorTeamID);
+	void InitializeLine(int32 NewHomeTeamID, int32 NewVisitorTeamID);
 	
-	void SetMatchTeamID(int NewHomeTeamID, int NewVisitorTeamID);
+	void SetMatchTeamID(int32 NewHomeTeamID, int32 NewVisitorTeamID);
 	
 	void DisplayTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName);
 	
@@ -52,7 +52,7 @@ private:
 	UFUNCTION()
 	void StartMatch();
 
-	void DisplayFinalScore(int HomePoints, int VisitorPoints);
+	void DisplayFinalScore(int32 HomePoints, int32 VisitorPoints);
 
 	UFUNCTION()
 	void InitializeManagers();
@@ -66,7 +66,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;
 	
-	int HomeTeamID;
+	int32 HomeTeamID;
 	
-	int VisitorTeamID;
+	int32 VisitorTeamID;
 };

@@ -128,7 +128,7 @@ USlider* URaceLineBase::CreateSlider()
 }
 
 
-void URaceLineBase::SetRacerNumber(int NewRacerNumber)
+void URaceLineBase::SetRacerNumber(int32 NewRacerNumber)
 {
 	RacerNumber = NewRacerNumber;
 	if (RacerNumber != 0) NumbersBox_RacerNumber->SetText(RacerNumber);
@@ -147,12 +147,12 @@ void URaceLineBase::ChangeChooseBoxStatus(bool Status)
 }
 
 
-void URaceLineBase::SetRaceLineID(int NewID){RaceLineID = NewID;}
-int URaceLineBase::GetRacerNumber()const{return RacerNumber;}
-int URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
-int URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
-int URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
-int URaceLineBase::GetTeamID()const{return TeamManager->GetTeamID();}
+void URaceLineBase::SetRaceLineID(int32 NewID){RaceLineID = NewID;}
+int32 URaceLineBase::GetRacerNumber()const{return RacerNumber;}
+int32 URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
+int32 URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
+int32 URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
+int32 URaceLineBase::GetTeamID()const{return TeamManager->GetTeamID();}
 URacerManager* URaceLineBase::GetRacerManager()const{return RacerManager;}
 UTeamManager* URaceLineBase::GetTeamManager()const{return TeamManager;}
 FRaceLineData& URaceLineBase::GetRaceLineData(){return RaceLineData;}

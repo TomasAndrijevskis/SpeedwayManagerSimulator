@@ -12,7 +12,7 @@
 #include "UI/League/Program/NominatedRaceLine.h"
 
 
-void URace::InitializeWidget(int NewID, UScoreManager* ScoreManagerRef)
+void URace::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
 {
 	RaceID = NewID;
 	NumbersBox_RaceNumber->SetText(RaceID);
@@ -59,8 +59,8 @@ void URace::OnIDSet()
 void URace::CreateRaceLines()
 {
 	if (!Data.RaceManager || !Data.RaceLineupManager || !RaceDataAsset) return;
-	const int RaceLineAmount = RaceDataAsset->RacePatterns[RaceID].RaceLines.Num();
-	for (int RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
+	const int32 RaceLineAmount = RaceDataAsset->RacePatterns[RaceID].RaceLines.Num();
+	for (int32 RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
 	{
 		URaceLineBase* NewRaceLine;
 		if (!IsNominatedRace()) NewRaceLine = CreateRaceLine(RaceLineID);
@@ -83,7 +83,7 @@ void URace::CreateRaceLines()
 }
 
 
-URaceLineBase* URace::CreateRaceLine(int RaceLineID)
+URaceLineBase* URace::CreateRaceLine(int32 RaceLineID)
 {
 	if (!RaceLineClass) return nullptr;
 	URaceLine* NewRaceLine = CreateWidget<URaceLine>(this, RaceLineClass);
@@ -93,7 +93,7 @@ URaceLineBase* URace::CreateRaceLine(int RaceLineID)
 }
 
 
-URaceLineBase* URace::CreateNominatedRaceLine(int RaceLineID)
+URaceLineBase* URace::CreateNominatedRaceLine(int32 RaceLineID)
 {
 	if (!NominatedRaceLineClass) return nullptr;
 	UNominatedRaceLine* NewRaceLine = CreateWidget<UNominatedRaceLine>(this, NominatedRaceLineClass);
@@ -121,6 +121,6 @@ void URace::UpdateOverallScore()
 }
 
 
-FRaceLineData& URace::GetRaceLineData(int RaceLineId) const{return RaceDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}
+FRaceLineData& URace::GetRaceLineData(int32 RaceLineId) const{return RaceDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}
 bool URace::IsNominatedRace() const{return RaceDataAsset->RacePatterns[RaceID].IsNominatedRace;}
 FRaceData& URace::GetRaceData() {return Data;}

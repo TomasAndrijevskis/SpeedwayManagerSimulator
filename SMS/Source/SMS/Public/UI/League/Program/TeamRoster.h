@@ -42,9 +42,9 @@ private:
 	
 	void CreateRacerStatLines(UMatchManager* MatchManagerRef);
 	
-	URacerStatsLine* CreateRacerStatLine(int ID);
+	URacerStatsLine* CreateRacerStatLine(int32 ID);
 
-	void UpdateTeamPoints(int TeamId, int NewPoints);
+	void UpdateTeamPoints(int32 TeamId, int32 NewPoints);
 
 	void DisplayTeamName();
 
@@ -63,7 +63,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTeamManager> TeamManager;
 	
-	int RacersAmount = 6;
+	int32 RacersAmount = 6;
 
-	int TeamID = 0;
+	int32 TeamID = 0;
 };

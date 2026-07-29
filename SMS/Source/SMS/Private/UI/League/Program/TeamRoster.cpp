@@ -43,9 +43,9 @@ void UTeamRoster::BindDelegates()
 void UTeamRoster::CreateRacerStatLines(UMatchManager* MatchManagerRef)
 {
 	if (!TeamManager) return;
-	int Id = 1;
+	int32 Id = 1;
 	if (TeamManager->IsVisitorTeam()) Id = 7;
-	for (int i = 0; i < RacersAmount; i++, Id++)
+	for (int32 i = 0; i < RacersAmount; i++, Id++)
 	{
 		URacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
 		if (NewStatLine)
@@ -66,7 +66,7 @@ void UTeamRoster::CreateRacerStatLines(UMatchManager* MatchManagerRef)
 }
 
 
-URacerStatsLine* UTeamRoster::CreateRacerStatLine(int ID)
+URacerStatsLine* UTeamRoster::CreateRacerStatLine(int32 ID)
 {
 	if (!RacerStatsLineClass) return nullptr;
 	URacerStatsLine* NewStatLine = CreateWidget<URacerStatsLine>(this, RacerStatsLineClass);
@@ -83,7 +83,7 @@ void UTeamRoster::DisplayTeamName()
 }
 
 
-void UTeamRoster::UpdateTeamPoints(int TeamId, int NewPoints)
+void UTeamRoster::UpdateTeamPoints(int32 TeamId, int32 NewPoints)
 {
 	if (TeamID == TeamId) NumbersBox_TeamPoints->SetText(NewPoints);
 }

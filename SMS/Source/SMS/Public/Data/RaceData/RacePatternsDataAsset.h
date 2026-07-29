@@ -14,5 +14,5 @@ class SMS_API URacePatternsDataAsset : public UDataAsset
 public:
 	
 	UPROPERTY(EditDefaultsOnly)
-	TMap<int, FRacePatternData> RacePatterns;
+	TMap<int32, FRacePatternData> RacePatterns;
 };

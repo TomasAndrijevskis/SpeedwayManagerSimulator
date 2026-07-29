@@ -5,7 +5,7 @@
 #include "Data/TeamData/TeamMatchData.h"
 #include "ScoreManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnTeamOverallScoreUpdated, int, int);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnTeamOverallScoreUpdated, int32, int32);
 UCLASS()
 class SMS_API UScoreManager : public UObject
 {
@@ -15,11 +15,11 @@ public:
 
 	void AddTeamRef(FTeamMatchData* TeamData);
 
-	int GetTeamScore(bool IsVisitor) const;
+	int32 GetTeamScore(bool IsVisitor) const;
 
-	int GetRaceScore(bool IsVisitor) const;
+	int32 GetRaceScore(bool IsVisitor) const;
 	
-	void UpdateScore(int TeamID, int PointsToAdd);
+	void UpdateScore(int32 TeamID, int32 PointsToAdd);
 
 	void ClearLastRaceScore();
 	
@@ -27,9 +27,9 @@ public:
 	
 private:
 
-	int HomeOverallScore = 0;
+	int32 HomeOverallScore = 0;
 
-	int VisitorOverallScore = 0;
+	int32 VisitorOverallScore = 0;
 	
 	TArray<FTeamMatchData*> Teams;
 };

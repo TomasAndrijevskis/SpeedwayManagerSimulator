@@ -114,7 +114,7 @@ void ULeagueProgram::CreateRaces()
 	FVector2d TempPosition = StartPosition;
 	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
 	FVector2d StartAlignment = FVector2d(0, 0);
-	for (int RaceID = 1; RaceID <= AmountOfRaces; RaceID++)
+	for (int32 RaceID = 1; RaceID <= AmountOfRaces; RaceID++)
 	{
 		const float PositionOffset = 162.0f;
 		const float Offset = 0.5f;

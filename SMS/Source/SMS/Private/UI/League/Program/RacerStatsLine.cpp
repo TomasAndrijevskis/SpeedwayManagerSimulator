@@ -99,7 +99,7 @@ void URacerStatsLine::LockRacer()
 }
 
 
-void URacerStatsLine::UpdateOverallPoints(int Points, int Bonus)
+void URacerStatsLine::UpdateOverallPoints(int32 Points, int32 Bonus)
 {
 	const FString NewText = FString::Printf(TEXT("%d+%d"), Points, Bonus);
 	if (Bonus > 0) NumbersBox_OverallPoints->SetText(NewText);
@@ -107,12 +107,12 @@ void URacerStatsLine::UpdateOverallPoints(int Points, int Bonus)
 }
 
 
-void URacerStatsLine::SetID(int NewID)
+void URacerStatsLine::SetID(int32 NewID)
 {
 	RacerStatsLineID = NewID;
 	NumbersBox_RiderNumber->SetText(RacerStatsLineID);
 }
 
 
-int URacerStatsLine::GetID() const{return RacerStatsLineID;}
-int URacerStatsLine::GetNumberOfOptions() const{return ChooseBox_Racer->GetNumberOfOptions();}
+int32 URacerStatsLine::GetID() const{return RacerStatsLineID;}
+int32 URacerStatsLine::GetNumberOfOptions() const{return ChooseBox_Racer->GetNumberOfOptions();}

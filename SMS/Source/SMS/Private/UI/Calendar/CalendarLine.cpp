@@ -30,7 +30,7 @@ void UCalendarLine::InitializeManagers()
 }
 
 
-void UCalendarLine::InitializeLine(int NewHomeTeamID, int NewVisitorTeamID)
+void UCalendarLine::InitializeLine(int32 NewHomeTeamID, int32 NewVisitorTeamID)
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
@@ -69,14 +69,14 @@ void UCalendarLine::DisplayTeamNames(const FText& HomeTeamName, const FText& Vis
 }
 
 
-void UCalendarLine::DisplayFinalScore(int HomePoints, int VisitorPoints)
+void UCalendarLine::DisplayFinalScore(int32 HomePoints, int32 VisitorPoints)
 {
 	NumbersBox_HomeTeamScore->SetText(HomePoints);
 	NumbersBox_VisitorTeamScore->SetText(VisitorPoints);
 }
 
 
-void UCalendarLine::SetMatchTeamID(int NewHomeTeamID, int NewVisitorTeamID)
+void UCalendarLine::SetMatchTeamID(int32 NewHomeTeamID, int32 NewVisitorTeamID)
 {
 	HomeTeamID = NewHomeTeamID;
 	VisitorTeamID = NewVisitorTeamID;

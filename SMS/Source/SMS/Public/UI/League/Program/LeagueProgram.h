@@ -8,13 +8,13 @@
 #include "LeagueProgram.generated.h"
 
 class UTeamManager;
+class UTeamRoster;
 class UFillNominatedRaces;
 class UMatchManager;
 class URacerStatsLine;
 class UCanvasPanel;
 class UBackgroundBlur;
 class UVerticalBox;
-class UTeamRoster;
 class UButton;
 
 
@@ -96,13 +96,13 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UTeamRoster> TeamRosterClass;
 	
+	UPROPERTY()
+	TObjectPtr<UMatchManager> MatchManager;
+	
 	UPROPERTY(VisibleAnywhere)
-	int AmountOfRaces = 15;
+	int32 AmountOfRaces = 15;
 
 	TArray<TObjectPtr<UTeamManager>> TeamManagers;
 	
 	FVector2d StartPosition = FVector2d(0,-540);
-
-	UPROPERTY()
-	TObjectPtr<UMatchManager> MatchManager;
 };

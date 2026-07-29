@@ -26,7 +26,7 @@ void UNumbersBox::SetText(const FString& NewText)
 }
 
 
-void UNumbersBox::SetText(int NewText)
+void UNumbersBox::SetText(int32 NewText)
 {
 	Text->SetText(FText::FromString(FString::FromInt(NewText)));
 }
@@ -38,7 +38,7 @@ void UNumbersBox::SetColour(const EHelmetColour& NewColour)
 }
 
 
-int UNumbersBox::GetNumber()
+int32 UNumbersBox::GetNumber()
 {
 	FString NumberText = Text->GetText().ToString();
 	if (NumberText.IsNumeric())
@@ -55,9 +55,9 @@ const FString& UNumbersBox::GetNumberAsString() const
 }
 
 
-void UNumbersBox::AddNumber(int AddNumber)
+void UNumbersBox::AddNumber(int32 AddNumber)
 {
-	int CurrentNumber = GetNumber();
+	int32 CurrentNumber = GetNumber();
 	CurrentNumber += AddNumber;
 	SetText(CurrentNumber);
 }

@@ -14,12 +14,7 @@ void URuleBook::InitializeRules(UScoreManager* Manager)
 bool URuleBook::IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int32 Age) const
 {
 	int32 ID = RacerStatsLineRef->GetID();
-	if (JuniorPositions.Contains(ID))
-	{
-		UE_LOG(LogTemp, Display, TEXT("ID: %i"), ID);
-		UE_LOG(LogTemp, Display, TEXT("Age: %i"), Age);
-		return IsJunior(Age);
-	}
+	if (JuniorPositions.Contains(ID)) return IsJunior(Age);
 	return true;
 }
 
