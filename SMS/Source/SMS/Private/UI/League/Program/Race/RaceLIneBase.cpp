@@ -148,6 +148,7 @@ void URaceLineBase::ChangeChooseBoxStatus(bool Status)
 
 
 void URaceLineBase::SetRaceLineID(int32 NewID){RaceLineID = NewID;}
+int32 URaceLineBase::GetRaceLineID()const{return RaceLineID;}
 int32 URaceLineBase::GetRacerNumber()const{return RacerNumber;}
 int32 URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int32 URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}

@@ -12,6 +12,7 @@
 #include "Managers/TeamManager.h"
 #include "SMS/Public/UI/League/Program/Race/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
+#include "UI/League/Program/Race/RaceStats/RaceStats.h"
 
 
 void ULeagueProgram::NativeConstruct()
@@ -20,6 +21,7 @@ void ULeagueProgram::NativeConstruct()
 	BindDelegates();
 	InitializeTeams();
 	CreateRaces();
+	CreateRaceStatsWidget();
 	ShowTeams();
 }
 
@@ -55,6 +57,20 @@ void ULeagueProgram::ChangeButtonBehaviour()
 	Text_SimulateButton->SetText(FText::FromString("End match"));
 	Button_SimulateRace->OnClicked.Clear();
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::FinishMatch);
+}
+
+
+void ULeagueProgram::CreateRaceStatsWidget()
+{
+	if (!RaceStatsWidget) return;
+	RaceStatsWidget->InitializeWidget();
+}
+
+
+void ULeagueProgram::OnRaceStatsUpdated(const TArray<FRaceResultData>& Data)
+{
+	if (!RaceStatsWidget) return;
+	RaceStatsWidget->UpdateStats(Data);
 }
 
 
@@ -122,6 +138,7 @@ void ULeagueProgram::CreateRaces()
 		if (NewRace)
 		{
 			NewRace->InitializeWidget(RaceID, MatchManager->GetScoreManager());
+			NewRace->OnRaceStatsUpdateRequestedDelegate.AddUObject(this, &ULeagueProgram::OnRaceStatsUpdated);
 			MatchManager->AddNewRace(RaceID, NewRace->GetRaceData());
 		}
 		TempPosition.Y += PositionOffset;

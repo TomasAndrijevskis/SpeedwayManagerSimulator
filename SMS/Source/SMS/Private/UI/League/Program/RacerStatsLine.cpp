@@ -30,7 +30,6 @@ void URacerStatsLine::BindDelegates()
 void URacerStatsLine::AddOption(const FRacerData Data)
 {
 	RacerData.Add(Data);
-	//UE_LOG(LogTemp, Warning, TEXT("AddOption %s"), *Data.Name);
 	ChooseBox_Racer->AddOption(Data.Name);
 }
 
@@ -71,6 +70,7 @@ void URacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type Se
 			}
 		}
 		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, SelectedData);
+		PreviousOption = SelectedOption;
 	}
 	OnRacerSelectedDelegate.Broadcast(SelectedOption, RacerStatsLineID);
 }

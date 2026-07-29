@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Data/RaceData/RaceData.h"
 #include "Data/RaceData/RaceLineData.h"
+#include "Data/RaceData/RaceResultData.h"
 #include "Race.generated.h"
 
 class UScoreManager;
@@ -15,6 +16,7 @@ class UNumbersBox;
 class UScoreCounter;
 class UTextBlock;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(OnRaceStatsUpdateRequested, const TArray<FRaceResultData>&)
 UCLASS()
 class SMS_API URace : public UUserWidget
 {
@@ -33,6 +35,8 @@ public:
 	bool IsNominatedRace() const;
 
 	FRaceData& GetRaceData();
+
+	OnRaceStatsUpdateRequested OnRaceStatsUpdateRequestedDelegate;
 	
 private:
 
@@ -58,6 +62,8 @@ private:
 	void InitializeManagers(UScoreManager* ScoreManagerRef);
 
 	void InitializeRaceData();
+
+	void OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceResultData) const;
 	
 	UPROPERTY(EditDefaultsOnly)
 	URacePatternsDataAsset* RaceDataAsset;

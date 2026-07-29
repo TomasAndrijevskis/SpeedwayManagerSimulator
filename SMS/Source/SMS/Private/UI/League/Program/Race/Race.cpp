@@ -46,6 +46,13 @@ void URace::BindDelegates()
 	if (!Data.RaceManager) return;
 	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateRacePoints);
 	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateOverallScore);
+	Data.RaceManager->OnRaceLineResultUpdatedDelegate.AddUObject(this, &URace::OnRaceStatsUpdateRequested);
+}
+
+
+void URace::OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceResultData) const
+{
+	OnRaceStatsUpdateRequestedDelegate.Broadcast(RaceResultData);
 }
 
 

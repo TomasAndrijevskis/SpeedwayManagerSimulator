@@ -19,8 +19,11 @@ class SMS_API URaceLineStat : public UUserWidget
 public:
 
 	void SetID(int32 RaceLineID);
+	int32 GetID() const;
+	
+	void UpdateNumbers(int32 PointsToAdd);
 
-	void UpdateNumbers(int PointsToAdd);
+	void UpdateProgressBar(int32 OverallPoints);
 	
 private:
 
@@ -33,9 +36,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* TextBlock_PointsAmount;
 
-	int32 AmountOfRaceLines = 4;
-
 	int32 CurrentPoints = 0;
-
+	
 	int32 ID;
 };

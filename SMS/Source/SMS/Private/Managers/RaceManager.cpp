@@ -50,8 +50,13 @@ void URaceManager::SimulateRace()
 			CurrentLine->SetPointsPerRace(DidNotFinish, false);
 		else
 			CurrentLine->SetPointsPerRace(FString::FromInt(Points), HasBonus);
+		FRaceResultData Data;
+		Data.RacerScore = Points;
+		Data.RaceLineID = CurrentLine->GetRaceLineID();
+		RaceResults.Add(Data);
 	}
 	UE_LOG(LogTemp, Error, TEXT("==================================="));
+	OnRaceLineResultUpdatedDelegate.Broadcast(RaceResults);
 	BroadcastRaceResult();
 	OnRaceFinished();
 }
@@ -68,6 +73,7 @@ void URaceManager::BroadcastRaceResult()
 
 void URaceManager::OnRaceFinished()
 {
+	OnRaceLineResultUpdatedDelegate.Clear();
 	OnRaceFinishedDelegate.Broadcast();
 	OnChangedRaceStatusRequestDelegate.Broadcast(false);
 	OnRaceScoreUpdatedDelegate.Clear();

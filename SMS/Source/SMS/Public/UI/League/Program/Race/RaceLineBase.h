@@ -26,7 +26,8 @@ class SMS_API URaceLineBase : public UUserWidget
 public:
 
 	void SetRaceLineID(int32 NewID);
-
+	int32 GetRaceLineID() const;
+	
 	void SetRacerNumber(int32 NewRacerNumber);
 	int32 GetRacerNumber() const;
 	

@@ -1,6 +1,7 @@
 
 #include "UI/League/Program/Race/RaceStats/RaceLineStat.h"
 #include "Components/ProgressBar.h"
+#include "Components/TextBlock.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
 
@@ -11,10 +12,19 @@ void URaceLineStat::SetID(int32 RaceLineID)
 }
 
 
-void URaceLineStat::UpdateNumbers(int PointsToAdd)
+void URaceLineStat::UpdateNumbers(int32 PointsToAdd)
 {
 	CurrentPoints += PointsToAdd;
-	float NewPercent = CurrentPoints / AmountOfRaceLines / 100.0f;
-	UE_LOG(LogTemp, Warning, TEXT("New percent %f"), NewPercent);
+	TextBlock_PointsAmount->SetText(FText::AsNumber(CurrentPoints));
+}
+
+
+void URaceLineStat::UpdateProgressBar(int32 OverallPoints)
+{
+	float NewPercent = 0.f;
+	if (CurrentPoints != 0) NewPercent = static_cast<float>(CurrentPoints) / OverallPoints;
 	ProgressBar->SetPercent(NewPercent);
 }
+
+
+int32 URaceLineStat::GetID() const{return ID;}

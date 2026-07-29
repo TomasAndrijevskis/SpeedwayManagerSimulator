@@ -3,9 +3,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RaceData/RaceResultData.h"
 #include "RaceStats.generated.h"
 
 
+class URaceStatsManager;
 class UHorizontalBox;
 class URaceLineStat;
 
@@ -18,9 +20,7 @@ public:
 
 	void InitializeWidget();
 
-protected:
-
-	virtual void NativeConstruct() override;
+	void UpdateStats(const TArray<FRaceResultData>& RaceResultData) const;
 	
 private:
 
@@ -33,7 +33,12 @@ private:
 	void CreateRaceLineStats();
 
 	URaceLineStat* CreateRaceLineStat(int32 ID);
+
+	void InitializeManager();
 	
+	UPROPERTY()
+	TObjectPtr<URaceStatsManager> RaceStatsManager;
+
 	int32 RaceLineStatsAmount = 4;
 	
 };

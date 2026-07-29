@@ -6,6 +6,8 @@
 #include "Data/TeamData/TeamMatchData.h"
 #include "LeagueProgram.generated.h"
 
+struct FRaceResultData;
+class URaceStats;
 class UTextBlock;
 class URace;
 class UTeamManager;
@@ -58,6 +60,9 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UBackgroundBlur* BackgroundBlur;
 
+	UPROPERTY(meta = (BindWidget))
+	URaceStats* RaceStatsWidget;
+	
 	void InitializeTeams();
 
 	UTeamRoster* CreateTeamRoster(FTeamMatchData* TeamData);
@@ -90,6 +95,10 @@ private:
 
 	UFUNCTION()
 	void ChangeButtonBehaviour();
+
+	void OnRaceStatsUpdated(const TArray<FRaceResultData>& Data);
+
+	void CreateRaceStatsWidget();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;
