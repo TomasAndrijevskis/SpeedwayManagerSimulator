@@ -165,6 +165,7 @@ void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FStri
 	}
 	FindSelectedRacerByName(RacerName, PossibleRacers[RaceLineRef->GetRacerManager()], [this, RaceLineRef](URacerManager* RacerManager)
 	{
+		RaceLineRef->GetRacerManager()->IncreaseAmountOfReplacements();
 		RaceLineRef->GetRacerManager()->RemoveParticipatedRace(RaceLineRef);
 		RaceLineRef->SetRacerData(RacerManager, true);
 		UnavailableRacers.Add(RacerManager);

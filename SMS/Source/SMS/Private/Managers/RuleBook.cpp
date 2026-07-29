@@ -8,13 +8,28 @@
 void URuleBook::InitializeRules(UScoreManager* Manager)
 {
 	ScoreManager = Manager;
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Junior);
+	Positions.Add(EPositionTypes::Replacement);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Senior);
+	Positions.Add(EPositionTypes::Junior);
+	Positions.Add(EPositionTypes::Replacement);
+	ReplacementRules.Emplace(2, EPositionTypes::Junior);
+	ReplacementRules.Emplace(1, EPositionTypes::Senior);
+	ReplacementRules.Emplace(5, EPositionTypes::Replacement);
 }
 
 
 bool URuleBook::IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int32 Age) const
 {
 	int32 ID = RacerStatsLineRef->GetID();
-	if (JuniorPositions.Contains(ID)) return IsJunior(Age);
+	if (Positions[ID] == Junior) return IsJunior(Age);
 	return true;
 }
 
@@ -24,34 +39,30 @@ bool URuleBook::CanReplace(const URacerManager* OriginalRacer, const URacerManag
 	if (!OriginalRacer || !ReplacementRacer) return false;
 	if (OriginalRacer == ReplacementRacer) return false;
 	if (!ReplacementRacer->CanDriveMore(MaxAmountOfRaces)) return false;
+	//if (!CheckPossibleAmountOfReplacements(ReplacementRacer->GetAmountOfReplacements())) return false;
 	
-	int originalRacerNumber = OriginalRacer->GetRacerNumber();
-	int replaceRacerNumber = ReplacementRacer->GetRacerNumber();
-	if (IsReplacement(originalRacerNumber)) return false;
+	int32 originalRacerNumber = OriginalRacer->GetRacerNumber();
+	int32 replaceRacerNumber = ReplacementRacer->GetRacerNumber();
+	if (GetPositionType(originalRacerNumber) == Replacement) return false;
 	if (IsTeamLosing(OriginalRacer))
 	{
-		if (IsOnJuniorPosition(originalRacerNumber))
-			return IsReplacement(replaceRacerNumber) && IsJunior(ReplacementRacer->GetRacerAge());
+		if (GetPositionType(originalRacerNumber) == Junior)
+			return GetPositionType(replaceRacerNumber) == Replacement && IsJunior(ReplacementRacer->GetRacerAge());
 		return true;
 	}
 	else
 	{
-		if (!IsOnJuniorPosition(originalRacerNumber))
+		if (GetPositionType(originalRacerNumber) != Junior)
 		{
-			if (IsOnJuniorPosition(replaceRacerNumber) || IsReplacement(replaceRacerNumber)) return true;
-			return false;
+			return GetPositionType(replaceRacerNumber) == Junior || GetPositionType(replaceRacerNumber) == Replacement;
 		}
-		if (IsOnJuniorPosition(originalRacerNumber))
+		if (GetPositionType(originalRacerNumber) == Junior)
 		{
-			if (IsReplacement(replaceRacerNumber))
+			if (GetPositionType(replaceRacerNumber) == Replacement)
 			{
-				if (IsJunior(ReplacementRacer->GetRacerAge()))
-				{
-					return true;
-				}
-				return false;
+				return IsJunior(ReplacementRacer->GetRacerAge());
 			}
-			if (!IsOnJuniorPosition(replaceRacerNumber)) return false;
+			if (GetPositionType(replaceRacerNumber) != Junior) return false;
 		}
 	}
 	return false;
@@ -72,7 +83,12 @@ bool URuleBook::IsTeamLosing(const URacerManager* RacerManagerRef) const
 	return EnemyTeamScore >= OwnTeamScore + TeamScoreDifference;
 }
 
+/*
+bool URuleBook::CheckPossibleAmountOfReplacements(int32 AmountOfReplacements) const
+{
+	return true;
+}
+*/
 
 bool URuleBook::IsJunior(int32 RacerAge) const{return RacerAge <= JuniorAge;}
-bool URuleBook::IsOnJuniorPosition(int32 RacerNumber) const {return JuniorPositions.Contains(RacerNumber);}
-bool URuleBook::IsReplacement(int32 RacerNumber) const {return ReplacementPositions.Contains(RacerNumber);}
+EPositionTypes URuleBook::GetPositionType(int32 RacerNumber) const {return Positions[RacerNumber];}

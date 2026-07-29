@@ -82,6 +82,9 @@ int32 URacerManager::CountOverallPoints()
 
 
 void URacerManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
+//void URacerManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
+//void URacerManager::DecreaseAmountOfReplacements(){AmountOfReplacements--;}
+//int32 URacerManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
 int32 URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int32 URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int32 URacerManager::GetBonusAmount() const {return RacerBonuses;}

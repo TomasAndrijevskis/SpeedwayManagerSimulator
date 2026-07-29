@@ -3,6 +3,8 @@
 
 #include "CoreMinimal.h"
 #include "RacerManager.h"
+#include "Data/RacersData/EPositionTypes.h"
+#include "Data/RacersData/ReplacementRule.h"
 #include "RuleBook.generated.h"
 
 
@@ -30,17 +32,19 @@ private:
 
 	bool IsJunior(int32 RacerAge) const;
 
-	bool IsOnJuniorPosition(int32 RacerNumber) const;
-
-	bool IsReplacement(int32 RacerNumber) const;
+	EPositionTypes GetPositionType(int32 RacerNumber) const;
+	
+	//bool CheckPossibleAmountOfReplacements(int32 AmountOfReplacements) const;
 	
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;
 	
-	TArray<int32> JuniorPositions = {5, 11};
+	TArray<EPositionTypes> Positions;
+	
+	TArray<FReplacementRule> ReplacementRules;
 
-	TArray<int32> ReplacementPositions = {6, 12};
-
+	int32 RacersAmount = 12;
+	
 	int32 JuniorAge = 23;
 
 	int32 MaxAmountOfRaces = 7;

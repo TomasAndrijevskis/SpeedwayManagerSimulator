@@ -51,6 +51,10 @@ public:
 	
 	bool DidParticipateInNominatedRace() const;
 	void SetParticipatedInNominatedRace(bool NewParticipated);
+
+	//void IncreaseAmountOfReplacements();
+	//void DecreaseAmountOfReplacements();
+	//int32 GetAmountOfReplacements() const;
 	
 	FOnPointsAdded OnPointsAddedDelegate;
 	
@@ -70,5 +74,7 @@ private:
 	
 	int32 RacerBonuses;
 
+	//int32 AmountOfReplacements = 0;
+	
 	bool bParticipatedInNominatedRace = false;
 };
