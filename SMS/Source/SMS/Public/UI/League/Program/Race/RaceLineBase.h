@@ -15,7 +15,7 @@ class UOverlay;
 class UNumbersBox;
 
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerReplaced, URaceLineBase*, const FString&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRacerReplaced, URaceLineBase*, const FString&, URacerManager*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, URaceLineBase*, const FString&);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSelectedRacerChanged, URaceLineBase*, URacerManager*);
 UCLASS()
@@ -56,6 +56,8 @@ public:
 	void ChangeChooseBoxStatus(bool Status);
 	
 	URacerManager* GetRacerManager() const;
+
+	URacerManager* GetOriginalRacerManager() const;
 	
 	UTeamManager* GetTeamManager() const;
 
@@ -120,4 +122,7 @@ private:
 	int32 RacerNumber = 0;
 
 	bool bIsRacerSet = false;
+
+	UPROPERTY()
+	URacerManager* OriginalRacerManager;
 };

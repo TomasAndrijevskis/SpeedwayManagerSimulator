@@ -45,7 +45,12 @@ void URaceLineBase::SetRacerData(URacerManager* RacerManagerRef, bool IsReplacem
 	if (!RacerManagerRef) return;
 	RacerManager = RacerManagerRef;
 	RacerManager->AddParticipatedRace(this);
-	if(!IsReplacement) SetRacerName(RacerManager->GetRacerName());
+	if(!IsReplacement)
+	{
+		OriginalRacerManager = RacerManager;
+		UE_LOG(LogTemp, Display, TEXT("Original %s"), *OriginalRacerManager->GetRacerName());
+		SetRacerName(RacerManager->GetRacerName());
+	}
 	BindManagerDelegates();
 	bIsRacerSet = true;
 }
@@ -87,7 +92,8 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 
 void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	OnRacerReplacedDelegate.Broadcast(this, SelectedItem);
+	if (OriginalRacerManager != RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager);
+	OnRacerReplacedDelegate.Broadcast(this, SelectedItem, OriginalRacerManager);
 	CrossOutRacer();
 }
 
@@ -155,6 +161,7 @@ int32 URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRa
 int32 URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
 int32 URaceLineBase::GetTeamID()const{return TeamManager->GetTeamID();}
 URacerManager* URaceLineBase::GetRacerManager()const{return RacerManager;}
+URacerManager* URaceLineBase::GetOriginalRacerManager() const{return OriginalRacerManager;}
 UTeamManager* URaceLineBase::GetTeamManager()const{return TeamManager;}
 FRaceLineData& URaceLineBase::GetRaceLineData(){return RaceLineData;}
 bool URaceLineBase::IsRacerSet() const{return bIsRacerSet;}

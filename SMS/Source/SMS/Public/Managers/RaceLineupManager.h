@@ -36,7 +36,7 @@ private:
 
 	void OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName);
 
-	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName);
+	void OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName, URacerManager* OriginalRacerManager);
 
 	static void FindSelectedRacerByName(const FString& SelectedItem, TArray<TObjectPtr<URacerManager>>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
 	

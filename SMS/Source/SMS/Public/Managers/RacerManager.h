@@ -74,7 +74,7 @@ private:
 	
 	int32 RacerBonuses;
 
-	//int32 AmountOfReplacements = 0;
+	int32 AmountOfReplacements = 0;
 	
 	bool bParticipatedInNominatedRace = false;
 };
