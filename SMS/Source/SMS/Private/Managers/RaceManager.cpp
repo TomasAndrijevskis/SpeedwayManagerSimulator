@@ -103,6 +103,4 @@ bool URaceManager::CheckAllRacersInRace() const
 }
 
 
-
-TArray<URaceLineBase*> URaceManager::GetRaceLines(){return RaceLines;}
 bool URaceManager::IsNominatedRace()const{return bIsNominatedRace;}

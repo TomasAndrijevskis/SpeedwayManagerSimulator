@@ -22,7 +22,7 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 	
-	void InitializeTeam(FTeamMatchData* NewTeamData, UMatchManager* MatchManagerRef);
+	void InitializeTeam(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef);
 
 	UTeamManager* GetTeamManager() const;
 	
@@ -40,7 +40,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Content;
 	
-	void CreateRacerStatLines(UMatchManager* MatchManagerRef);
+	void CreateRacerStatLines(const UScoreManager* ScoreManagerRef);
 	
 	URacerStatsLine* CreateRacerStatLine(int32 ID);
 
@@ -48,7 +48,7 @@ private:
 
 	void DisplayTeamName();
 
-	void InitializeManagers(FTeamMatchData* NewTeamData, UMatchManager* MatchManagerRef);
+	void InitializeManagers(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef);
 
 	void DisplayTeamStatus();
 

@@ -25,8 +25,6 @@ public:
 	void AddRaceLine(URaceLineBase* NewRaceLine);
 	
 	void ChangeRaceStatus(bool bIsActive);
-	
-	TArray<URaceLineBase*> GetRaceLines();
 
 	void BindDelegates();
 

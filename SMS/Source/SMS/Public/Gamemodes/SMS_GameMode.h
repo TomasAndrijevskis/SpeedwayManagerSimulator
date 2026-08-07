@@ -24,7 +24,7 @@ public:
 
 	virtual void BeginPlay() override;
 
-	FTeamMatchData GetTeamData(int32 TeamID);
+	FTeamMatchData& GetTeamData(int32 TeamID);
 
 	const FText& GetTeamName(int32 TeamID) const;
 	

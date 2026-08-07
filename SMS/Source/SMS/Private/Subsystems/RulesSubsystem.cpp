@@ -1,13 +1,10 @@
 
-#include "Managers/RuleBook.h"
+#include "Subsystems/RulesSubsystem.h"
 #include "Managers/RacerManager.h"
-#include "Managers/ScoreManager.h"
-#include "UI/League/Program/RacerStatsLine.h"
 
 
-void URuleBook::InitializeRules(UScoreManager* Manager)
+void URulesSubsystem::InitializeRules()
 {
-	ScoreManager = Manager;
 	Positions.Add(EPositionTypes::Senior);
 	Positions.Add(EPositionTypes::Senior);
 	Positions.Add(EPositionTypes::Senior);
@@ -26,15 +23,14 @@ void URuleBook::InitializeRules(UScoreManager* Manager)
 }
 
 
-bool URuleBook::IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int32 Age) const
+bool URulesSubsystem::IsRacerEligible(int32 RaceLineID, int32 Age) const
 {
-	int32 ID = RacerStatsLineRef->GetID();
-	if (Positions[ID] == Junior) return IsJunior(Age);
+	if (Positions[RaceLineID - 1] == Junior) return IsJunior(Age);
 	return true;
 }
 
 
-bool URuleBook::CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer) const
+bool URulesSubsystem::CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer, int32 OwnTeamScore, int32 EnemyTeamScore) const
 {
 	if (!OriginalRacer || !ReplacementRacer) return false;
 	if (OriginalRacer == ReplacementRacer) return false;
@@ -44,7 +40,7 @@ bool URuleBook::CanReplace(const URacerManager* OriginalRacer, const URacerManag
 	int32 originalRacerNumber = OriginalRacer->GetRacerNumber();
 	int32 replaceRacerNumber = ReplacementRacer->GetRacerNumber();
 	if (GetPositionType(originalRacerNumber) == Replacement) return false;
-	if (IsTeamLosing(OriginalRacer))
+	if (IsTeamLosing(OwnTeamScore, EnemyTeamScore))
 	{
 		if (GetPositionType(originalRacerNumber) == Junior)
 			return GetPositionType(replaceRacerNumber) == Replacement && IsJunior(ReplacementRacer->GetRacerAge());
@@ -69,26 +65,23 @@ bool URuleBook::CanReplace(const URacerManager* OriginalRacer, const URacerManag
 }
 
 
-bool URuleBook::CanParticipateInNominatedRace(const URacerManager* RacerManagerRef) const
+bool URulesSubsystem::CanParticipateInNominatedRace(const URacerManager* RacerManagerRef) const
 {
 	return !RacerManagerRef->DidParticipateInNominatedRace() && RacerManagerRef->CanDriveMore(MaxAmountOfRaces);
 }
 
 
-bool URuleBook::IsTeamLosing(const URacerManager* RacerManagerRef) const
+bool URulesSubsystem::IsTeamLosing(int32 OwnTeamScore, int32 EnemyTeamScore) const
 {
-	if (!ScoreManager || !RacerManagerRef) return false;
-	const int32 OwnTeamScore = ScoreManager->GetTeamScore(RacerManagerRef->IsVisitor());
-	const int32 EnemyTeamScore = ScoreManager->GetTeamScore(!RacerManagerRef->IsVisitor());
 	return EnemyTeamScore >= OwnTeamScore + TeamScoreDifference;
 }
 
 /*
-bool URuleBook::CheckPossibleAmountOfReplacements(int32 AmountOfReplacements) const
+bool URulesSubsystem::CheckPossibleAmountOfReplacements(int32 AmountOfReplacements) const
 {
 	return true;
 }
 */
 
-bool URuleBook::IsJunior(int32 RacerAge) const{return RacerAge <= JuniorAge;}
-EPositionTypes URuleBook::GetPositionType(int32 RacerNumber) const {return Positions[RacerNumber];}
+bool URulesSubsystem::IsJunior(int32 RacerAge) const{return RacerAge <= JuniorAge;}
+EPositionTypes URulesSubsystem::GetPositionType(int32 RacerNumber) const {return Positions[RacerNumber - 1];}

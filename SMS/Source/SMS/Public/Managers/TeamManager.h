@@ -8,6 +8,8 @@
 #include "TeamManager.generated.h"
 
 
+class URulesSubsystem;
+class UScoreManager;
 class URuleBook;
 class URacerStatsLine;
 class URacerManager;
@@ -19,6 +21,8 @@ class SMS_API UTeamManager : public UObject
 
 public:
 
+	void InitializeManager();
+	
 	void AddRacersToLineup(const FString& RacerName, int32 RacerStatLineID);
 
 	void ForEachRacerInLineup(TFunction<void(int32)> Callback);
@@ -35,7 +39,7 @@ public:
 	
 	void SetTeamData(FTeamMatchData* NewTeamData);
 
-	void SetRuleBook(URuleBook* NewRuleBook);
+	void SetScoreManager(UScoreManager* ScoreManagerRef);
 	
 	const FString& GetTeamName() const;
 
@@ -57,7 +61,7 @@ public:
 
 	bool IsVisitorTeam() const;
 
-	TMap<int32, URacerManager*> GetRacerManagers();
+	TMap<int32, URacerManager*>& GetRacerManagers();
 
 	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
 	
@@ -76,5 +80,8 @@ private:
 	TMap<int32, URacerManager*> RacerManagers;
 
 	UPROPERTY()
-	TObjectPtr<URuleBook> RuleBook;
+	TObjectPtr<UScoreManager> ScoreManager;
+
+	UPROPERTY()
+	TObjectPtr<URulesSubsystem> RulesSubsystem;
 };

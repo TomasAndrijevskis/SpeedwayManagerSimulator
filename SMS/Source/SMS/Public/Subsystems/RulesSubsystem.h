@@ -2,30 +2,30 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RacerManager.h"
+#include "Subsystems/GameInstanceSubsystem.h"
 #include "Data/RacersData/EPositionTypes.h"
 #include "Data/RacersData/ReplacementRule.h"
-#include "RuleBook.generated.h"
+#include "RulesSubsystem.generated.h"
 
-
+class URacerManager;
 class URacerStatsLine;
 class UScoreManager;
 
 UCLASS()
-class SMS_API URuleBook : public UObject
+class SMS_API URulesSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
 
-	void InitializeRules(UScoreManager* Manager);
+	void InitializeRules();
 	
-	bool IsRacerEligible(const URacerStatsLine* RacerStatsLineRef, int32 Age) const;
+	bool IsRacerEligible(int32 RaceLineID, int32 Age) const;
 	
-	bool CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer) const;
-	
-	bool IsTeamLosing(const URacerManager* RacerManagerRef) const;
+	bool CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer, int32 OwnTeamScore, int32 EnemyTeamScore) const;
 
+	bool IsTeamLosing(int32 OwnTeamScore, int32 EnemyTeamScore) const;
+	
 	bool CanParticipateInNominatedRace(const URacerManager* RacerManagerRef) const;
 
 private:

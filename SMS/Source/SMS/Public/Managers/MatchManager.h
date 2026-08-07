@@ -40,8 +40,6 @@ public:
 	FTeamMatchData* GetTeamData(bool Status);
 
 	UScoreManager* GetScoreManager() const;
-
-	URuleBook* GetRuleBook() const;
 	
 	FOnMatchEnded OnMatchEndedDelegate;
 	
@@ -66,9 +64,6 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;
-
-	UPROPERTY()
-	TObjectPtr<URuleBook> RuleBook;
 	
 	UPROPERTY()
 	TArray<TObjectPtr<URaceManager>> RaceManagers;

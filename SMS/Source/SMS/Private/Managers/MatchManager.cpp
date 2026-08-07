@@ -3,7 +3,6 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
-#include "Managers/RuleBook.h"
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
 #include "UI/League/Program/RacerStatsLine.h"
@@ -14,9 +13,7 @@ void UMatchManager::InitializeManager(ASMS_GameMode* CurrentGameMode)
 	if (!CurrentGameMode) return;
 	GameMode = CurrentGameMode;
 	ScoreManager = NewObject<UScoreManager>(this);
-	RuleBook = NewObject<URuleBook>(this);
-	if (!ScoreManager || !RuleBook) return;
-	RuleBook->InitializeRules(ScoreManager);
+	if (!ScoreManager) return;
 	BindDelegates();
 }
 
@@ -135,4 +132,3 @@ FTeamMatchData* UMatchManager::GetTeamData(bool Status)
 int32 UMatchManager::GetCurrentRaceNumber() const {return CurrentRace;}
 int32 UMatchManager::GetAmountOfRaces() const {return Races.Num();}
 UScoreManager* UMatchManager::GetScoreManager() const {return ScoreManager;}
-URuleBook* UMatchManager::GetRuleBook() const {return RuleBook;}
