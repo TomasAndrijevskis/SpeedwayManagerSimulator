@@ -17,7 +17,7 @@ class UNumbersBox;
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRacerReplaced, URaceLineBase*, const FString&, URacerManager*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, URaceLineBase*, const FString&);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSelectedRacerChanged, URaceLineBase*, URacerManager*);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedRacerChanged, URaceLineBase*, URacerManager*, bool);
 UCLASS()
 class SMS_API URaceLineBase : public UUserWidget
 {

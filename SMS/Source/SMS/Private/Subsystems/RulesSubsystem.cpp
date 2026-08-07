@@ -25,7 +25,7 @@ void URulesSubsystem::InitializeRules()
 
 bool URulesSubsystem::IsRacerEligible(int32 RaceLineID, int32 Age) const
 {
-	if (Positions[RaceLineID - 1] == Junior) return IsJunior(Age);
+	if (Positions[RaceLineID - 1] == EPositionTypes::Junior) return IsJunior(Age);
 	return true;
 }
 
@@ -35,30 +35,30 @@ bool URulesSubsystem::CanReplace(const URacerManager* OriginalRacer, const URace
 	if (!OriginalRacer || !ReplacementRacer) return false;
 	if (OriginalRacer == ReplacementRacer) return false;
 	if (!ReplacementRacer->CanDriveMore(MaxAmountOfRaces)) return false;
-	//if (!CheckPossibleAmountOfReplacements(ReplacementRacer->GetAmountOfReplacements())) return false;
+	if (!CheckPossibleAmountOfReplacements(ReplacementRacer->GetAmountOfReplacements(), GetPositionType(ReplacementRacer->GetRacerNumber()))) return false;
 	
 	int32 originalRacerNumber = OriginalRacer->GetRacerNumber();
 	int32 replaceRacerNumber = ReplacementRacer->GetRacerNumber();
-	if (GetPositionType(originalRacerNumber) == Replacement) return false;
+	if (GetPositionType(originalRacerNumber) == EPositionTypes::Replacement) return false;
 	if (IsTeamLosing(OwnTeamScore, EnemyTeamScore))
 	{
-		if (GetPositionType(originalRacerNumber) == Junior)
-			return GetPositionType(replaceRacerNumber) == Replacement && IsJunior(ReplacementRacer->GetRacerAge());
+		if (GetPositionType(originalRacerNumber) == EPositionTypes::Junior)
+			return GetPositionType(replaceRacerNumber) == EPositionTypes::Replacement && IsJunior(ReplacementRacer->GetRacerAge());
 		return true;
 	}
 	else
 	{
-		if (GetPositionType(originalRacerNumber) != Junior)
+		if (GetPositionType(originalRacerNumber) != EPositionTypes::Junior)
 		{
-			return GetPositionType(replaceRacerNumber) == Junior || GetPositionType(replaceRacerNumber) == Replacement;
+			return GetPositionType(replaceRacerNumber) == EPositionTypes::Junior || GetPositionType(replaceRacerNumber) == EPositionTypes::Replacement;
 		}
-		if (GetPositionType(originalRacerNumber) == Junior)
+		if (GetPositionType(originalRacerNumber) == EPositionTypes::Junior)
 		{
-			if (GetPositionType(replaceRacerNumber) == Replacement)
+			if (GetPositionType(replaceRacerNumber) == EPositionTypes::Replacement)
 			{
 				return IsJunior(ReplacementRacer->GetRacerAge());
 			}
-			if (GetPositionType(replaceRacerNumber) != Junior) return false;
+			if (GetPositionType(replaceRacerNumber) != EPositionTypes::Junior) return false;
 		}
 	}
 	return false;
@@ -76,12 +76,16 @@ bool URulesSubsystem::IsTeamLosing(int32 OwnTeamScore, int32 EnemyTeamScore) con
 	return EnemyTeamScore >= OwnTeamScore + TeamScoreDifference;
 }
 
-/*
-bool URulesSubsystem::CheckPossibleAmountOfReplacements(int32 AmountOfReplacements) const
+
+bool URulesSubsystem::CheckPossibleAmountOfReplacements(int32 AmountOfReplacements, EPositionTypes Position) const
 {
-	return true;
+	for (const auto& Rule : ReplacementRules)
+	{
+		if (Rule.PositionType == Position) return Rule.MaxReplacements > AmountOfReplacements;
+	}
+	return false;
 }
-*/
+
 
 bool URulesSubsystem::IsJunior(int32 RacerAge) const{return RacerAge <= JuniorAge;}
 EPositionTypes URulesSubsystem::GetPositionType(int32 RacerNumber) const {return Positions[RacerNumber - 1];}

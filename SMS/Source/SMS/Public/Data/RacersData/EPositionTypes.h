@@ -5,7 +5,7 @@
 
 
 UENUM(BlueprintType)
-enum EPositionTypes : uint8
+enum class EPositionTypes : uint8
 {
 	Junior, 
 	Senior,

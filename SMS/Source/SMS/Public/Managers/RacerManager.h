@@ -52,9 +52,9 @@ public:
 	bool DidParticipateInNominatedRace() const;
 	void SetParticipatedInNominatedRace(bool NewParticipated);
 
-	//void IncreaseAmountOfReplacements();
-	//void DecreaseAmountOfReplacements();
-	//int32 GetAmountOfReplacements() const;
+	void IncreaseAmountOfReplacements();
+	void DecreaseAmountOfReplacements();
+	int32 GetAmountOfReplacements() const;
 	
 	FOnPointsAdded OnPointsAddedDelegate;
 	

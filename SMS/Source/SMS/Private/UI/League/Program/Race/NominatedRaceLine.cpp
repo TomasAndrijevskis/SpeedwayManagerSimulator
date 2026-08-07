@@ -21,7 +21,7 @@ void UNominatedRaceLine::BindDelegates()
 
 void UNominatedRaceLine::OnRacerChosen(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager);
+	if (RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager, false);
 	OnRacerChosenDelegate.Broadcast(this, SelectedItem);
 }
 

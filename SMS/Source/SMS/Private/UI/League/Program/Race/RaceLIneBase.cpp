@@ -48,7 +48,6 @@ void URaceLineBase::SetRacerData(URacerManager* RacerManagerRef, bool IsReplacem
 	if(!IsReplacement)
 	{
 		OriginalRacerManager = RacerManager;
-		UE_LOG(LogTemp, Display, TEXT("Original %s"), *OriginalRacerManager->GetRacerName());
 		SetRacerName(RacerManager->GetRacerName());
 	}
 	BindManagerDelegates();
@@ -92,7 +91,7 @@ void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
 
 void URaceLineBase::OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (OriginalRacerManager != RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager);
+	if (OriginalRacerManager != RacerManager) OnSelectedRacerChangedDelegate.Broadcast(this, RacerManager, true);
 	OnRacerReplacedDelegate.Broadcast(this, SelectedItem, OriginalRacerManager);
 	CrossOutRacer();
 }

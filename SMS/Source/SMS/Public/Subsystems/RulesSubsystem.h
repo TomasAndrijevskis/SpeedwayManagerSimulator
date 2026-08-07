@@ -34,7 +34,7 @@ private:
 
 	EPositionTypes GetPositionType(int32 RacerNumber) const;
 	
-	//bool CheckPossibleAmountOfReplacements(int32 AmountOfReplacements) const;
+	bool CheckPossibleAmountOfReplacements(int32 AmountOfReplacements, EPositionTypes Position) const;
 	
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;

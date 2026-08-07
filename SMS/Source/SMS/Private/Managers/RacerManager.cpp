@@ -24,9 +24,9 @@ void URacerManager::CalculateRating(bool IsVisitor)
 	CurrentRacerRating = Start + Driving + RacerRating;
 	
 	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.RacerData.Name);
-	UE_LOG(LogTemp, Warning, TEXT("TieBreaker: %i"), TieBreakerValue);
+	/*UE_LOG(LogTemp, Warning, TEXT("TieBreaker: %i"), TieBreakerValue);
 	UE_LOG(LogTemp, Warning, TEXT("Start rating: %i"), Start);
-	UE_LOG(LogTemp, Warning, TEXT("Driving rating: %i"), Driving);
+	UE_LOG(LogTemp, Warning, TEXT("Driving rating: %i"), Driving);*/
 	UE_LOG(LogTemp, Warning, TEXT("Race rating: %i"), CurrentRacerRating);
 	UE_LOG(LogTemp, Display, TEXT("-----"));
 }
@@ -82,9 +82,9 @@ int32 URacerManager::CountOverallPoints()
 
 
 void URacerManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
-//void URacerManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
-//void URacerManager::DecreaseAmountOfReplacements(){AmountOfReplacements--;}
-//int32 URacerManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
+void URacerManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
+void URacerManager::DecreaseAmountOfReplacements(){AmountOfReplacements--;}
+int32 URacerManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
 int32 URacerManager::GetTieBreaker() const {return TieBreakerValue;}
 int32 URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int32 URacerManager::GetBonusAmount() const {return RacerBonuses;}

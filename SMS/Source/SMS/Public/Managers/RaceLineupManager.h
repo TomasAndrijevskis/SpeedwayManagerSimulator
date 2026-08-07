@@ -54,7 +54,7 @@ private:
 	
 	void FillOptionsInComboBox(TArray<TObjectPtr<URacerManager>>& RacerArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption);
 
-	void RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManager);
+	void RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManager, bool bIsReplacement);
 	
 	UPROPERTY()
 	TArray<TObjectPtr<URaceLineBase>> RaceLines;

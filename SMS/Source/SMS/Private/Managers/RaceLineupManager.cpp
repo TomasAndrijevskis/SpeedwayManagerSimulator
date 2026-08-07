@@ -165,7 +165,7 @@ void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FStri
 	}
 	FindSelectedRacerByName(RacerName, PossibleRacers[OriginalRacerManager], [this, RaceLineRef](URacerManager* RacerManager)
 	{
-		//RaceLineRef->GetRacerManager()->IncreaseAmountOfReplacements();
+		RacerManager->IncreaseAmountOfReplacements();
 		RaceLineRef->GetRacerManager()->RemoveParticipatedRace(RaceLineRef);
 		RaceLineRef->SetRacerData(RacerManager, true);
 		UnavailableRacers.Add(RacerManager);
@@ -173,9 +173,9 @@ void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FStri
 }
 
 
-void URaceLineupManager::RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManager)
+void URaceLineupManager::RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManager, bool bIsReplacement)
 {
-	UE_LOG(LogTemp, Warning, TEXT("RestoreRacerAvailability"));
+	if (bIsReplacement) RacerManager->DecreaseAmountOfReplacements();
 	RacerManager->RemoveParticipatedRace(RaceLineRef);
 	RacerManager->SetParticipatedInNominatedRace(false);
 	UnavailableRacers.Remove(RacerManager);
@@ -187,11 +187,6 @@ void URaceLineupManager::RestoreRacerAvailability(URaceLineBase* RaceLineRef, UR
 void URaceLineupManager::FindSelectedRacerByName(const FString& SelectedItem, TArray<TObjectPtr<URacerManager>>& OptionsArray, const TFunction<void(URacerManager*)>& Callback)
 {
 	if (OptionsArray.IsEmpty()) return;
-	UE_LOG(LogTemp, Error, TEXT("%s"), *SelectedItem)
-	for (auto Option : OptionsArray)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *Option->GetRacerName());
-	}
 	for (const auto& RacerManager : OptionsArray)
 	{
 		if (RacerManager->GetRacerName() == SelectedItem)
