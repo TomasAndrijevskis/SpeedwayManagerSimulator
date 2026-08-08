@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EPositionTypes.h"
 #include "ReplacementRule.generated.h"
 
 USTRUCT(BlueprintType)

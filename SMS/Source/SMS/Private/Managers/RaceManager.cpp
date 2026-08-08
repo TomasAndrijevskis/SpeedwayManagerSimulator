@@ -1,5 +1,7 @@
 
 #include "Managers/RaceManager.h"
+
+#include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/RaceLineBase.h"
 
 
@@ -34,31 +36,35 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 
 void URaceManager::SimulateRace()
 {
-	for (const auto& RaceLine : RaceLines)
+	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
-		RaceLine->OnRaceStartedDelegate.Broadcast();
+		for (const auto& RaceLine : RaceLines)
+		{
+			RaceLine->OnRaceStartedDelegate.Broadcast();
+		}
+		SortLinesByRating();
+		for (int32 Position = 0; Position < RaceLines.Num(); Position++)
+		{
+			ERaceResults Result = static_cast<ERaceResults>(Position);
+			URaceLineBase* CurrentLine = RaceLines[Position];
+			const bool IsVisitor = CurrentLine->GetRaceLineData().IsVisitorLine();
+			bool HasBonus = false;
+			if (Position != 0 && Position < RaceLines.Num() - 1)
+				HasBonus = RaceLines[Position - 1]->GetRaceLineData().IsVisitorLine() == IsVisitor;
+			if (CurrentLine->GetRacerRating() == 0)
+				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(ERaceResults::Defect), false);
+			else
+				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(Result), HasBonus);
+			FRaceResultData Data;
+			Data.RacerScore = Rules->GetRaceResultNumber(Result);
+			Data.RaceLineID = CurrentLine->GetRaceLineID();
+			RaceResults.Add(Data);
+		}
+		UE_LOG(LogTemp, Error, TEXT("==================================="));
+		OnRaceLineResultUpdatedDelegate.Broadcast(RaceResults);
+		BroadcastRaceResult();
+		OnRaceFinished();
 	}
-	SortLinesByRating();
-	for (int32 Position = 0, Points = 3; Position < RaceLines.Num(); Position++, Points--)
-	{
-		URaceLineBase* CurrentLine = RaceLines[Position];
-		const bool IsVisitor = CurrentLine->GetRaceLineData().IsVisitorLine();
-		bool HasBonus = false;
-		if (Position != 0 && Position < RaceLines.Num() - 1)
-			HasBonus = RaceLines[Position - 1]->GetRaceLineData().IsVisitorLine() == IsVisitor;
-		if (CurrentLine->GetRacerRating() == 0)
-			CurrentLine->SetPointsPerRace(DidNotFinish, false);
-		else
-			CurrentLine->SetPointsPerRace(FString::FromInt(Points), HasBonus);
-		FRaceResultData Data;
-		Data.RacerScore = Points;
-		Data.RaceLineID = CurrentLine->GetRaceLineID();
-		RaceResults.Add(Data);
-	}
-	UE_LOG(LogTemp, Error, TEXT("==================================="));
-	OnRaceLineResultUpdatedDelegate.Broadcast(RaceResults);
-	BroadcastRaceResult();
-	OnRaceFinished();
 }
 
 

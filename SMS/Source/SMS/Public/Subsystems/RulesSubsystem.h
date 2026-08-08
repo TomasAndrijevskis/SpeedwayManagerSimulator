@@ -3,8 +3,9 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "Data/RacersData/EPositionTypes.h"
-#include "Data/RacersData/ReplacementRule.h"
+#include "Data/Rules/ReplacementRule.h"
+#include "Data/Rules/EPositionTypes.h"
+#include "Data/Rules/ERaceResults.h"
 #include "RulesSubsystem.generated.h"
 
 class URacerManager;
@@ -28,6 +29,10 @@ public:
 	
 	bool CanParticipateInNominatedRace(const URacerManager* RacerManagerRef) const;
 
+	FString GetRaceResultText(const ERaceResults RaceResult) const;
+
+	int32 GetRaceResultNumber(const ERaceResults RaceResult) const;
+	
 private:
 
 	bool IsJunior(int32 RacerAge) const;

@@ -71,6 +71,42 @@ bool URulesSubsystem::CanParticipateInNominatedRace(const URacerManager* RacerMa
 }
 
 
+FString URulesSubsystem::GetRaceResultText(const ERaceResults RaceResult) const
+{
+	switch (RaceResult)
+	{
+		case ERaceResults::First:
+			return FString::FromInt(3);
+		case ERaceResults::Second:
+			return FString::FromInt(2);
+		case ERaceResults::Third:
+			return FString::FromInt(1);
+		case ERaceResults::Fourth:
+			return FString::FromInt(0);
+		case ERaceResults::Defect:
+			return "D";
+		default: return "DNF";
+	}
+}
+
+
+int32 URulesSubsystem::GetRaceResultNumber(const ERaceResults RaceResult) const
+{
+	switch (RaceResult)
+	{
+	case ERaceResults::First:
+		return 3;
+	case ERaceResults::Second:
+		return 2;
+	case ERaceResults::Third:
+		return 1;
+	case ERaceResults::Fourth:
+		return 0;
+	default: return 0;
+	}
+}
+
+
 bool URulesSubsystem::IsTeamLosing(int32 OwnTeamScore, int32 EnemyTeamScore) const
 {
 	return EnemyTeamScore >= OwnTeamScore + TeamScoreDifference;
