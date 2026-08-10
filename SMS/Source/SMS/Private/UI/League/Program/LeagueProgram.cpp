@@ -12,6 +12,7 @@
 #include "Managers/TeamManager.h"
 #include "SMS/Public/UI/League/Program/Race/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
+#include "Subsystems/OverallStatsSubsystem.h"
 #include "UI/League/Program/Race/RaceStats/RaceStats.h"
 
 
@@ -76,6 +77,17 @@ void ULeagueProgram::OnRaceStatsUpdated(const TArray<FRaceResultData>& Data)
 
 void ULeagueProgram::FinishMatch()
 {
+	if (UOverallStatsSubsystem* Subsystem = GetGameInstance()->GetSubsystem<UOverallStatsSubsystem>())
+	{
+		for (const auto& Team : TeamManagers)
+		{
+			for (const auto& Racer : Team->GetRacerManagers())
+			{
+				Racer.Value->CollectMatchStatistics();
+			}
+		}
+		Subsystem->PrintAllStats();
+	}
 	this->RemoveFromParent();
 }
 

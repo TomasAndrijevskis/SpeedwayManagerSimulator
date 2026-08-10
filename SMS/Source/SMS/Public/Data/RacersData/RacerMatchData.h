@@ -27,6 +27,11 @@ struct FRacerMatchData
 		return RacerNumber == 5 || RacerNumber == 11;
 	}
 
+	int32 GetRacerID() const
+	{
+		return RacerData.ID;
+	}
+	
 	int32 GetBaseRating() const
 	{
 		return RacerData.RacerStats.Rating;

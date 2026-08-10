@@ -1,5 +1,6 @@
 
 #include "Managers/RacerManager.h"
+#include "Subsystems/OverallStatsSubsystem.h"
 #include "UI/League/Program/Race/RaceLineBase.h"
 
 
@@ -78,6 +79,24 @@ int32 URacerManager::CountOverallPoints()
 		sum += Number;
 	}
 	return sum;
+}
+
+
+void URacerManager::CollectMatchStatistics()
+{
+	if (UOverallStatsSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UOverallStatsSubsystem>())
+	{
+		FRacerStatistics NewStats;
+		NewStats.RacerID = Data.GetRacerID();
+		NewStats.RacerName = Data.GetRacerName();
+		NewStats.RacerAge = Data.GetRacerAge();
+		FMatchStatistics NewMatchStats;
+		NewMatchStats.bIsVisitor = IsVisitor();
+		NewMatchStats.RacerPoints = RacerPoints;
+		NewMatchStats.Bonuses = RacerBonuses;
+		NewStats.MatchStatistics.Add(NewMatchStats);
+		Subsystem->AddStat(NewStats);
+	}
 }
 
 

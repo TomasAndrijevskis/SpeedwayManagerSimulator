@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RacerStats.generated.h"
+#include "RacerAttributes.generated.h"
 
 
 USTRUCT(BlueprintType)

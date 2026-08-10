@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RacerStats.h"
+#include "RacerAttributes.h"
 #include "Data/TeamData/ETeams.h"
 #include "RacerData.generated.h"
 

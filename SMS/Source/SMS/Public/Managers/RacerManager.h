@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerMatchData.h"
+#include "Data/RacersData/RacerStatistics.h"
 #include "RacerManager.generated.h"
 
 class URaceLineBase;
@@ -57,6 +58,8 @@ public:
 	int32 GetAmountOfReplacements() const;
 	
 	FOnPointsAdded OnPointsAddedDelegate;
+
+	void CollectMatchStatistics();
 	
 private:
 
