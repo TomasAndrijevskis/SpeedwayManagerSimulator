@@ -3,9 +3,12 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RacersData/RacerStatistics.h"
 #include "StatisticsWidget.generated.h"
 
 
+class UScrollBox;
+class UWrapBox;
 class UButton;
 class UVerticalBox;
 class UStatisticsLine;
@@ -19,29 +22,28 @@ public:
 
 	void InitializeStatisticsWidget();
 
-	void CreateNewStatisticsLine(int32 ID);
-	
-	void UpdateExistingStatisticsLine();
+	UStatisticsLine* CreateNewStatisticsLine(const FRacerStatistics& Data);
 
 protected:
 
 	virtual void NativeConstruct() override;
 	
 private:
-
+	
 	UPROPERTY(meta=(BindWidget))
-	UVerticalBox* VerticalBox_StatisticsBox;
+	UWrapBox* WrapBox_StatisticsBox;
 
 	UPROPERTY(meta=(BindWidget))
 	UButton* Button_Exit;
 
 	UFUNCTION()
 	void RemoveWidget();
+
+	void SortLines();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UStatisticsLine> StatisticsLineClass;
 
-	UPROPERTY()
-	TArray<UStatisticsLine*> ExistingStatisticsLines;
+	TArray<TObjectPtr<UStatisticsLine>> StatisticsLines;
 	
 };

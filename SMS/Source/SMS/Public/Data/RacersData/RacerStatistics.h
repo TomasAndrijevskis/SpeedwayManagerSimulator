@@ -18,6 +18,9 @@ struct FRacerStatistics
 
 	UPROPERTY()
 	int32 RacerAge = 0;
+
+	UPROPERTY()
+	FString Team = "";
 	
 	TArray<FMatchStatistics> MatchStatistics;
 };

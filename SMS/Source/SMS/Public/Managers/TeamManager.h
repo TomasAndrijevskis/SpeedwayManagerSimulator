@@ -10,7 +10,6 @@
 
 class URulesSubsystem;
 class UScoreManager;
-class URuleBook;
 class URacerStatsLine;
 class URacerManager;
 

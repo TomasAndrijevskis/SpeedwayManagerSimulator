@@ -1,6 +1,9 @@
 
 #include "Managers/RacerManager.h"
+
+#include "Managers/MatchManager.h"
 #include "Subsystems/OverallStatsSubsystem.h"
+#include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/RaceLineBase.h"
 
 
@@ -62,21 +65,24 @@ void URacerManager::SetTieBreaker()
 }
 
 
-void URacerManager::AddPoints(const FString& NewPoints, bool AddBonus)
+void URacerManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
 {
-	RacerPoints.Add(NewPoints);
+	RacerPointss.Add(NewResult);
 	if (AddBonus) RacerBonuses++;
-	OnPointsAddedDelegate.Broadcast(NewPoints, AddBonus);
+	OnPointsAddedDelegate.Broadcast(NewResult, AddBonus);
 }
 
 
 int32 URacerManager::CountOverallPoints()
 {
 	int32 sum = 0;
-	for (const auto& Element : RacerPoints)
+	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
-		int32 Number = FCString::Atoi(*Element);
-		sum += Number;
+		for (const auto& Point : RacerPointss)
+		{
+			int32 Number = Rules->GetRaceResultNumber(Point);
+			sum += Number;
+		}
 	}
 	return sum;
 }
@@ -90,9 +96,10 @@ void URacerManager::CollectMatchStatistics()
 		NewStats.RacerID = Data.GetRacerID();
 		NewStats.RacerName = Data.GetRacerName();
 		NewStats.RacerAge = Data.GetRacerAge();
+		NewStats.Team = Data.GetRacerTeamName();
 		FMatchStatistics NewMatchStats;
 		NewMatchStats.bIsVisitor = IsVisitor();
-		NewMatchStats.RacerPoints = RacerPoints;
+		NewMatchStats.RaceResults = RacerPointss;
 		NewMatchStats.Bonuses = RacerBonuses;
 		NewStats.MatchStatistics.Add(NewMatchStats);
 		Subsystem->AddStat(NewStats);

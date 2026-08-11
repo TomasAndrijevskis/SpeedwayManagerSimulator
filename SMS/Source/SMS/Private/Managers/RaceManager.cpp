@@ -1,6 +1,7 @@
 
 #include "Managers/RaceManager.h"
 
+#include "Managers/RacerManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/RaceLineBase.h"
 
@@ -52,9 +53,16 @@ void URaceManager::SimulateRace()
 			if (Position != 0 && Position < RaceLines.Num() - 1)
 				HasBonus = RaceLines[Position - 1]->GetRaceLineData().IsVisitorLine() == IsVisitor;
 			if (CurrentLine->GetRacerRating() == 0)
-				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(ERaceResults::Defect), false);
+			{
+				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(ERaceResults::Defect));
+				CurrentLine->GetRacerManager()->AddPoints(ERaceResults::Defect, false);
+			}
 			else
-				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(Result), HasBonus);
+			{
+				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(Result));
+				CurrentLine->GetRacerManager()->AddPoints(Result, HasBonus);
+			}
+			
 			FRaceResultData Data;
 			Data.RacerScore = Rules->GetRaceResultNumber(Result);
 			Data.RaceLineID = CurrentLine->GetRaceLineID();

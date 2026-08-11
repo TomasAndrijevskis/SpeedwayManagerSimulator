@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/RacersData/RacerData.h"
+#include "Data/Rules/ERaceResults.h"
 #include "RacerStatsLine.generated.h"
 
 class URacerManager;
@@ -62,7 +63,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UNumbersBox> PointsBoxClass;
 
-	void CreateNewPointsBox(const FString& Points, bool AddBonus);
+	void CreateNewPointsBox(const ERaceResults& RaceResult, bool AddBonus);
 
 	void UpdateOverallPoints(int32 Points, int32 Bonus);
 

@@ -17,9 +17,19 @@ public:
 	void SetText(const FString& NewName);
 
 	void SetText(const FText& NewText);
+
+protected:
+
+	virtual void NativeConstruct() override;
 	
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* Text_Name;
+
+	UPROPERTY(EditAnywhere)
+	bool SetTextInEditor = false;
+	
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "SetTextInEditor"))
+	FText TextFromEditor;
 };

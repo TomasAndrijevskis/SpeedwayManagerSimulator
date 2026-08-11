@@ -6,7 +6,6 @@
 #include "Data/TeamData/TeamMatchData.h"
 #include "MatchManager.generated.h"
 
-class URuleBook;
 class URacerManager;
 class UTeamManager;
 class UScoreManager;

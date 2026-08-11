@@ -6,6 +6,8 @@
 #include "Calendar.generated.h"
 
 
+class UStatisticsWidget;
+class UButton;
 class ASMS_GameMode;
 class UVerticalBox;
 class UCalendarLine;
@@ -31,7 +33,7 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_VisitorText;
-
+	
 	void CreateMatches();
 	
 	UCalendarLine* CreateMatch(int32 HomeTeamID, int32 VisitorTeamID);
@@ -48,4 +50,16 @@ private:
 	int32 AmountOfMatches;
 
 	TArray<int32> ChosenOptions;
+
+
+
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_OpenStatistics;
+	
+	UFUNCTION()
+	void CreateStatisticsWidget();
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UStatisticsWidget> StatisticsWidgetClass;
 };

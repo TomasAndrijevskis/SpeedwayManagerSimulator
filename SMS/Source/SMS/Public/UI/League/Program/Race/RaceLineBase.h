@@ -31,7 +31,7 @@ public:
 	void SetRacerNumber(int32 NewRacerNumber);
 	int32 GetRacerNumber() const;
 	
-	void SetPointsPerRace(const FString& NewPoints, bool AddBonus);
+	void SetPointsPerRace(const FString& NewPoints);
 	int32 GetPointsPerRace() const;
 	
 	int32 GetRacerRating() const;

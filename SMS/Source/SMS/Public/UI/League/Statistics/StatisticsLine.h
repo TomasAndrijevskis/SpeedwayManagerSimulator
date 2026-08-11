@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/RacersData/RacerStatistics.h"
 #include "StatisticsLine.generated.h"
 
 
@@ -16,12 +17,46 @@ class SMS_API UStatisticsLine : public UUserWidget
 
 public:
 
-	void InitializeLine(int32 NewID);
+	void InitializeLine(const FRacerStatistics& RacerStats);
 
 	int32 GetRacerID() const;
+
+	float GetRacerAverage() const;
+
+	void SetRank(const int32 NewRank);
 	
 private:
+	
+	void SetNumbers(const TArray<FMatchStatistics>& MatchStatistics);
+	
+	void SetName(const FString& NewName);
 
+	void SetTeam(const FString& NewName);
+
+	void SetStatus(const int32 NewAge);
+
+	void SetMatches(const int32 NewAmount);
+
+	void SetRaces(const int32 NewAmount);
+
+	void SetBonuses(const int32 NewAmount);
+
+	void SetPoints(const int32 NewAmount);
+
+	void SetOverallPoints(const int32 NewAmount);
+	
+	void SetNotFinishedRaces(const int32 NewAmount);
+
+	void SetPlaces(const int32 FirstAmount, const int32 SecondAmount, const int32 ThirdAmount ,const int32 FourthAmount);
+
+	void SetAveragePointsPerRace(const int32 Points, const int32 Races);
+
+	void SetAveragePointsPerMatch(const int32 Points, const int32 Matches);
+
+	void SetAveragePointsPerRaceHome(const int32 Points, const int32 Races);
+
+	void SetAveragePointsPerRaceAway(const int32 Points, const int32 Races);
+	
 	UPROPERTY(meta=(BindWidget))
 	UNumbersBox* NumbersBox_Position;
 
@@ -46,6 +81,9 @@ private:
 	UPROPERTY(meta=(BindWidget))
 	UNumbersBox* NumbersBox_Bonuses;
 
+	UPROPERTY(meta=(BindWidget))
+	UNumbersBox* NumbersBox_OverallPoints;
+	
 	UPROPERTY(meta=(BindWidget))
 	UNumbersBox* NumbersBox_FirstPlace;
 	
@@ -72,6 +110,8 @@ private:
 
 	UPROPERTY(meta=(BindWidget))
 	UNumbersBox* NumbersBox_AveragePointsAway;
-
+	
 	int32 RacerID;
+
+	float AvgP = 0.f;
 };

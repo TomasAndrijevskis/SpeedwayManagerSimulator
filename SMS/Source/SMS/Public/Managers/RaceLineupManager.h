@@ -5,7 +5,6 @@
 #include "RacerManager.h"
 #include "RaceLineupManager.generated.h"
 
-class URuleBook;
 class UTeamManager;
 class UScoreManager;
 class URacerManager;

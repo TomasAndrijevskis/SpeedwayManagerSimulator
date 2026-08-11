@@ -2,6 +2,7 @@
 #include "SMS/Public/UI/League/Program/RacerStatsLine.h"
 #include "Components/HorizontalBox.h"
 #include "Managers/RacerManager.h"
+#include "Subsystems/RulesSubsystem.h"
 #include "UI/BaseClasses/ChooseBox.h" 
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -40,15 +41,19 @@ void URacerStatsLine::RemoveOption(const FString& Option)
 }
 
 
-void URacerStatsLine::CreateNewPointsBox(const FString& Points, bool AddBonus)
+void URacerStatsLine::CreateNewPointsBox(const ERaceResults& RaceResult, bool AddBonus)
 {
 	if (!PointsBoxClass || !RacerManager) return;
-	UNumbersBox* NewNumbersBox = Cast<UNumbersBox>(CreateWidget(this, PointsBoxClass));
-	if (!NewNumbersBox) return;
-	if (AddBonus) NewNumbersBox->SetText(Points + "*");
-	else NewNumbersBox->SetText(Points);
-	HB_Points->AddChild(NewNumbersBox);
-	UpdateOverallPoints(RacerManager->CountOverallPoints(), RacerManager->GetBonusAmount());
+	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	{
+		UNumbersBox* NewNumbersBox = Cast<UNumbersBox>(CreateWidget(this, PointsBoxClass));
+		if (!NewNumbersBox) return;
+		FString Points = Rules->GetRaceResultText(RaceResult);
+		if (AddBonus) NewNumbersBox->SetText(Points + "*");
+		else NewNumbersBox->SetText(Points);
+		HB_Points->AddChild(NewNumbersBox);
+		UpdateOverallPoints(RacerManager->CountOverallPoints(), RacerManager->GetBonusAmount());
+	}
 }
 
 

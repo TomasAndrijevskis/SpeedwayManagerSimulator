@@ -1,7 +1,7 @@
 
 #include "UI/League/Statistics/StatisticsWidget.h"
 #include "Components/Button.h"
-#include "Components/VerticalBox.h"
+#include "Components/WrapBox.h"
 #include "Subsystems/OverallStatsSubsystem.h"
 #include "UI/League/Statistics/StatisticsLine.h"
 
@@ -10,34 +10,37 @@ void UStatisticsWidget::InitializeStatisticsWidget()
 {
 	if (UOverallStatsSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UOverallStatsSubsystem>())
 	{
-		for (const auto& RacerStats : Subsystem->RacerStatistics)
+		for (const auto& RacerStats : Subsystem->GetRacerStatistics())
 		{
-			for (const auto& ExistingLine : ExistingStatisticsLines)
-			{
-				if (ExistingLine->GetRacerID() == RacerStats.RacerID)
-				{
-					UpdateExistingStatisticsLine();
-					break;
-				}
-			}
-			CreateNewStatisticsLine(RacerStats.RacerID);
+			StatisticsLines.Add(CreateNewStatisticsLine(RacerStats));
 		}
+		SortLines();
+	}
+	int32 Rank = 1;
+	for (const auto& Line : StatisticsLines)
+	{
+		Line->SetRank(Rank);
+		WrapBox_StatisticsBox->AddChildToWrapBox(Line);
+		Rank++;
 	}
 }
 
 
-void UStatisticsWidget::CreateNewStatisticsLine(int32 ID)
+void UStatisticsWidget::SortLines()
 {
-	UStatisticsLine* NewStatisticsLine = CreateWidget<UStatisticsLine>(this, StatisticsLineClass);
-	if (!NewStatisticsLine) return;
-	NewStatisticsLine->InitializeLine(ID);
-	VerticalBox_StatisticsBox->AddChild(NewStatisticsLine);
+	StatisticsLines.Sort([](const UStatisticsLine& L1, const UStatisticsLine& L2)
+	{
+		return L1.GetRacerAverage() > L2.GetRacerAverage();
+	});
 }
 
 
-void UStatisticsWidget::UpdateExistingStatisticsLine()
+UStatisticsLine* UStatisticsWidget::CreateNewStatisticsLine(const FRacerStatistics& Data)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Found, needs to be updated"));
+	UStatisticsLine* NewStatisticsLine = CreateWidget<UStatisticsLine>(this, StatisticsLineClass);
+	if (!NewStatisticsLine) return nullptr;
+	NewStatisticsLine->InitializeLine(Data);
+	return NewStatisticsLine;
 }
 
 

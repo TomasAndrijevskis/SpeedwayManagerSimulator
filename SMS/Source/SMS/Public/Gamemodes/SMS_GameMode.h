@@ -8,7 +8,6 @@
 #include "SMS_GameMode.generated.h"
 
 
-class URuleBook;
 class UScoreManager;
 class UTeamManager;
 class UMatchManager;

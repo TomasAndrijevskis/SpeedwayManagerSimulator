@@ -51,4 +51,9 @@ struct FRacerMatchData
 	{
 		return RacerData.Name;
 	}
+
+	FString GetRacerTeamName() const
+	{
+		return UEnum::GetValueAsString(RacerData.InitialTeam);
+	}
 };

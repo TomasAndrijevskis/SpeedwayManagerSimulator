@@ -9,6 +9,7 @@ void UNumbersBox::NativeConstruct()
 {
 	Super::NativeConstruct();
 	if (OverrideFontSize) ChangeTextSize();
+	if (SetTextInEditor) SetText(TextFromEditor);
 }
 
 
@@ -29,6 +30,17 @@ void UNumbersBox::SetText(const FString& NewText)
 void UNumbersBox::SetText(int32 NewText)
 {
 	Text->SetText(FText::FromString(FString::FromInt(NewText)));
+}
+
+void UNumbersBox::SetText(float NewText)
+{
+	Text->SetText(FText::FromString(FString::Printf(TEXT("%.2f"), NewText)));
+}
+
+
+void UNumbersBox::SetText(FText NewText)
+{
+	Text->SetText(NewText);
 }
 
 

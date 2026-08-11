@@ -43,6 +43,9 @@ private:
 	UButton* Button_SimulateRace;
 
 	UPROPERTY(meta = (BindWidget))
+	UButton* Button_SimulateMatch;
+	
+	UPROPERTY(meta = (BindWidget))
 	UTextBlock* Text_SimulateButton;
 	
 	UPROPERTY(meta = (BindWidget))
@@ -84,6 +87,9 @@ private:
 	UFUNCTION()
 	void StartRace();
 
+	UFUNCTION()
+	void SimulateMatch();
+	
 	UFUNCTION()
 	void RandomizeTeamRosters();//Testing
 

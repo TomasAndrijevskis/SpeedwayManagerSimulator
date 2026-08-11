@@ -7,7 +7,7 @@
 #include "RacerManager.generated.h"
 
 class URaceLineBase;
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPointsAdded, const FString&, bool)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPointsAdded, const ERaceResults&, bool)
 
 UCLASS()
 class SMS_API URacerManager : public UObject
@@ -19,8 +19,8 @@ public:
 	void Initialize(const FRacerMatchData& RacerData);
 
 	int32 CountOverallPoints();
-
-	void AddPoints(const FString& NewPoints, bool AddBonus);
+	
+	void AddPoints(const ERaceResults NewResult, bool AddBonus);
 	
 	void CalculateRating(bool IsVisitor);
 
@@ -66,6 +66,9 @@ private:
 	UPROPERTY()
 	TArray<FString> RacerPoints;
 
+	UPROPERTY()
+	TArray<ERaceResults> RacerPointss;
+	
 	UPROPERTY()
 	TArray<URaceLineBase*> ParticipatedRacesRef;
 	

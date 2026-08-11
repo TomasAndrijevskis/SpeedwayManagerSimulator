@@ -20,6 +20,10 @@ public:
 
 	void SetText(int32 NewText);
 
+	void SetText(float NewText);
+	
+	void SetText(FText NewText);
+	
 	void SetColour(const EHelmetColour& NewColour);
 
 	int32 GetNumber();
@@ -45,6 +49,12 @@ private:
 	UPROPERTY(EditAnywhere)
 	bool OverrideFontSize = false;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "OverrideFontSize"))
 	float FontSize = 0;
+
+	UPROPERTY(EditAnywhere)
+	bool SetTextInEditor = false;
+	
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "SetTextInEditor"))
+	FText TextFromEditor;
 };

@@ -1,10 +1,13 @@
 
 #include "UI/Calendar/Calendar.h"
+
+#include "Components/Button.h"
 #include "Components/VerticalBox.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/LeagueProgram.h"
 #include "UI/Calendar/CalendarLine.h"
+#include "UI/League/Statistics/StatisticsWidget.h"
 
 
 void UCalendar::NativeConstruct()
@@ -15,6 +18,22 @@ void UCalendar::NativeConstruct()
 	{
 		CreateMatches();
 	}
+	ChosenOptions.Empty();
+	for (int32 i = 0; i < AmountOfMatches; i++)
+	{
+		CreateMatches();
+	}
+	Button_OpenStatistics->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStatisticsWidget);
+}
+
+
+void UCalendar::CreateStatisticsWidget()
+{
+	if (!StatisticsWidgetClass) return;
+	UStatisticsWidget* Widget = CreateWidget<UStatisticsWidget>(this, StatisticsWidgetClass);
+	if (!Widget) return;
+	Widget->InitializeStatisticsWidget();
+	Widget->AddToViewport(0);
 }
 
 

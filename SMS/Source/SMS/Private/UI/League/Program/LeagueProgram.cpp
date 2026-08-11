@@ -42,6 +42,9 @@ void ULeagueProgram::BindDelegates()
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
+	
+	Button_SimulateMatch->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::SimulateMatch);
+	
 	MatchManager->OnMatchEndedDelegate.AddUObject(this, &ULeagueProgram::ChangeButtonBehaviour);
 }
 
@@ -68,6 +71,17 @@ void ULeagueProgram::CreateRaceStatsWidget()
 }
 
 
+void ULeagueProgram::SimulateMatch()
+{
+	if (!MatchManager) return;
+	for (int i = 1; i <= MatchManager->GetAmountOfRaces(); i++)
+	{
+		MatchManager->OnRaceStaredDelegate.Broadcast();
+	}
+	Button_SimulateMatch->OnClicked.Clear();
+}
+
+
 void ULeagueProgram::OnRaceStatsUpdated(const TArray<FRaceResultData>& Data)
 {
 	if (!RaceStatsWidget) return;
@@ -86,7 +100,6 @@ void ULeagueProgram::FinishMatch()
 				Racer.Value->CollectMatchStatistics();
 			}
 		}
-		Subsystem->PrintAllStats();
 	}
 	this->RemoveFromParent();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/Rules/ERaceResults.h"
 #include "MatchStatistics.generated.h"
 
 
@@ -9,7 +10,7 @@ struct FMatchStatistics
 {
 	GENERATED_BODY()
 	
-	TArray<FString> RacerPoints;
+	TArray<ERaceResults> RaceResults;
 
 	bool bIsVisitor;
 

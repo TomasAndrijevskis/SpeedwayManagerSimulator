@@ -82,10 +82,9 @@ void URaceLineBase::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
 }
 
 
-void URaceLineBase::SetPointsPerRace(const FString& NewPoints, bool AddBonus)
+void URaceLineBase::SetPointsPerRace(const FString& NewPoints)
 {
 	NumbersBox_PointsPerRace->SetText(NewPoints);
-	if (RacerManager) RacerManager->AddPoints(NewPoints, AddBonus);
 }
 
 

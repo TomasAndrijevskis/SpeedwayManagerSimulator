@@ -3,6 +3,13 @@
 #include "Components/TextBlock.h"
 
 
+void UNamesBox::NativeConstruct()
+{
+	Super::NativeConstruct();
+	if (SetTextInEditor) SetText(TextFromEditor);
+}
+
+
 void UNamesBox::SetText(const FString& NewName)
 {
 	Text_Name->SetText(FText::FromString(NewName));
