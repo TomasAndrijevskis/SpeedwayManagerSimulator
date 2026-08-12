@@ -24,7 +24,7 @@ public:
 	
 	void SetMatchTeamID(int32 NewHomeTeamID, int32 NewVisitorTeamID);
 	
-	void DisplayTeamNames(const FText& HomeTeamName, const FText& VisitorTeamName);
+	void DisplayTeamNames(const FString& HomeTeamName, const FString& VisitorTeamName);
 	
 protected:
 

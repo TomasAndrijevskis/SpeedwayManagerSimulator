@@ -22,8 +22,6 @@ public:
 
 	void InitializeStatisticsWidget();
 
-	UStatisticsLine* CreateNewStatisticsLine(const FRacerStatistics& Data);
-
 protected:
 
 	virtual void NativeConstruct() override;
@@ -40,6 +38,8 @@ private:
 	void RemoveWidget();
 
 	void SortLines();
+
+	UStatisticsLine* CreateNewStatisticsLine(const FRacerStatistics& Data);
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UStatisticsLine> StatisticsLineClass;

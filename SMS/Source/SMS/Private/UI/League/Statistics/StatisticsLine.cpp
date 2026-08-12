@@ -7,7 +7,6 @@
 
 void UStatisticsLine::InitializeLine(const FRacerStatistics& RacerStats)
 {
-	RacerID = RacerStats.RacerID;
 	SetName(RacerStats.RacerName);
 	SetTeam(RacerStats.Team);
 	SetStatus(RacerStats.RacerAge);
@@ -18,7 +17,7 @@ void UStatisticsLine::InitializeLine(const FRacerStatistics& RacerStats)
 
 void UStatisticsLine::SetRank(const int32 NewRank)
 {
-	NumbersBox_Position->SetText(NewRank);
+	NumbersBox_Rank->SetText(NewRank);
 }
 
 
@@ -171,6 +170,4 @@ void UStatisticsLine::SetBonuses(const int32 NewAmount)
 	NumbersBox_Bonuses->SetText(NewAmount);
 }
 
-
-int32 UStatisticsLine::GetRacerID() const{return RacerID;}
 float UStatisticsLine::GetRacerAverage() const {return AvgP;}

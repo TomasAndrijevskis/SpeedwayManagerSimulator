@@ -64,10 +64,7 @@ public:
 private:
 
 	UPROPERTY()
-	TArray<FString> RacerPoints;
-
-	UPROPERTY()
-	TArray<ERaceResults> RacerPointss;
+	TArray<ERaceResults> RacerPoints;
 	
 	UPROPERTY()
 	TArray<URaceLineBase*> ParticipatedRacesRef;

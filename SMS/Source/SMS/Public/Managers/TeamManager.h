@@ -5,6 +5,7 @@
 #include "RacerManager.h"
 #include "Data/RacersData/RacerMatchData.h"
 #include "Data/TeamData/TeamMatchData.h"
+#include "Data/TeamData/TeamStatistics.h"
 #include "TeamManager.generated.h"
 
 
@@ -43,6 +44,8 @@ public:
 	const FString& GetTeamName() const;
 
 	int32 GetTeamID() const;
+
+	int32 GetTeamScore() const;
 	
 	void CreateRacerManagers();
 
@@ -63,6 +66,8 @@ public:
 	TMap<int32, URacerManager*>& GetRacerManagers();
 
 	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
+
+	void CollectTeamStatistics(const EMatchResults Result, const FOpponentData& OpponentData);
 	
 private:
 	

@@ -12,7 +12,7 @@
 #include "Managers/TeamManager.h"
 #include "SMS/Public/UI/League/Program/Race/Race.h"
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
-#include "Subsystems/OverallStatsSubsystem.h"
+#include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/RaceStats/RaceStats.h"
 
 
@@ -42,10 +42,8 @@ void ULeagueProgram::BindDelegates()
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::StartRace);
-	
 	Button_SimulateMatch->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::SimulateMatch);
-	
-	MatchManager->OnMatchEndedDelegate.AddUObject(this, &ULeagueProgram::ChangeButtonBehaviour);
+	MatchManager->OnMatchEndedDelegate.AddUObject(this, &ULeagueProgram::PrepareToEndMatch);
 }
 
 
@@ -53,14 +51,6 @@ void ULeagueProgram::DisableButtons()
 {
 	Button_ConfirmTeams->SetIsEnabled(false);
 	Button_RandomizeTeamRosters->SetIsEnabled(false);
-}
-
-
-void ULeagueProgram::ChangeButtonBehaviour()
-{
-	Text_SimulateButton->SetText(FText::FromString("End match"));
-	Button_SimulateRace->OnClicked.Clear();
-	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::FinishMatch);
 }
 
 
@@ -89,18 +79,39 @@ void ULeagueProgram::OnRaceStatsUpdated(const TArray<FRaceResultData>& Data)
 }
 
 
-void ULeagueProgram::FinishMatch()
+void ULeagueProgram::PrepareToEndMatch()
 {
-	if (UOverallStatsSubsystem* Subsystem = GetGameInstance()->GetSubsystem<UOverallStatsSubsystem>())
+	CollectStatistics();
+	ChangeButtonBehaviour();
+}
+
+
+void ULeagueProgram::CollectStatistics()
+{
+	if (URulesSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
-		for (const auto& Team : TeamManagers)
+		Subsystem->DecideMatchWinner(TeamManagers);
+	}
+	for (const auto& Team : TeamManagers)
+	{
+		for (const auto& Racer : Team->GetRacerManagers())
 		{
-			for (const auto& Racer : Team->GetRacerManagers())
-			{
-				Racer.Value->CollectMatchStatistics();
-			}
+			Racer.Value->CollectMatchStatistics();
 		}
 	}
+}
+
+
+void ULeagueProgram::ChangeButtonBehaviour()
+{
+	Text_SimulateButton->SetText(FText::FromString("End match"));
+	Button_SimulateRace->OnClicked.Clear();
+	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::FinishMatch);
+}
+
+
+void ULeagueProgram::FinishMatch()
+{
 	this->RemoveFromParent();
 }
 

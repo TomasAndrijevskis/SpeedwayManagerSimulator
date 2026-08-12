@@ -3,6 +3,7 @@
 #include "Managers/RacerManager.h"
 #include "Managers/ScoreManager.h"
 #include "Subsystems/RulesSubsystem.h"
+#include "Subsystems/StandingsSubsystem.h"
 #include "UI/League/Program/RacerStatsLine.h"
 
 
@@ -161,6 +162,24 @@ void UTeamManager::UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineR
 }
 
 
+void UTeamManager::CollectTeamStatistics(const EMatchResults Result, const FOpponentData&  OpponentData)
+{
+	if (UStandingsSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UStandingsSubsystem>())
+	{
+		FTeamStatistics TeamStats;
+		TeamStats.TeamID = GetTeamID();
+		FTeamMatchStatistics MatchStats;
+		MatchStats.IsVisitorTeam = IsVisitorTeam();
+		MatchStats.TeamScore = TeamData->TeamScore;
+		MatchStats.MatchResult = Result;
+		MatchStats.OpponentData = OpponentData;
+		TeamStats.MatchStatistics.Add(MatchStats);
+		Subsystem->AddTeamStatistics(TeamStats);
+	}
+}
+
+
+
 bool UTeamManager::IsRosterValid() const
 {
 	if (Racers.Num() < 6) return false;
@@ -174,5 +193,6 @@ void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStats
 TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
 bool UTeamManager::IsVisitorTeam()const{return TeamData->IsVisitorTeam;}
 TMap<int32, URacerManager*>& UTeamManager::GetRacerManagers() {return RacerManagers;}
-const FString& UTeamManager::GetTeamName() const{return TeamData->TeamName.ToString();}
+const FString& UTeamManager::GetTeamName() const{return TeamData->TeamName;}
 int32 UTeamManager::GetTeamID() const{return TeamData->TeamID;}
+int32 UTeamManager::GetTeamScore() const{return TeamData->TeamScore;}

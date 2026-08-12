@@ -1,6 +1,7 @@
 
 #include "Subsystems/RulesSubsystem.h"
 #include "Managers/RacerManager.h"
+#include "Managers/TeamManager.h"
 
 
 void URulesSubsystem::InitializeRules()
@@ -105,6 +106,41 @@ int32 URulesSubsystem::GetRaceResultNumber(const ERaceResults RaceResult) const
 	default: return 0;
 	}
 }
+
+
+void URulesSubsystem::DecideMatchWinner(TArray<UTeamManager*> TeamManagers)
+{
+	UTeamManager* HomeTeam = nullptr;
+	UTeamManager* VisitorTeam = nullptr;
+	
+	for (const auto& TeamManager : TeamManagers)
+	{
+		if (TeamManager->IsVisitorTeam()) VisitorTeam = TeamManager;
+		else HomeTeam = TeamManager;
+	}
+	if (!VisitorTeam || !HomeTeam) return;
+	int32 HomeTeamScore = HomeTeam->GetTeamScore();
+	int32 VisitorTeamScore = VisitorTeam->GetTeamScore();
+	
+	FOpponentData VisitorTeamData{VisitorTeamScore, VisitorTeam->GetTeamID()};
+	FOpponentData HomeTeamData {HomeTeamScore, HomeTeam->GetTeamID()};
+	
+	if (HomeTeamScore > VisitorTeamScore)
+	{
+		HomeTeam->CollectTeamStatistics(EMatchResults::Win, VisitorTeamData);
+		VisitorTeam->CollectTeamStatistics(EMatchResults::Loss, HomeTeamData);
+		return;
+	}
+	if (HomeTeamScore < VisitorTeamScore)
+	{
+		HomeTeam->CollectTeamStatistics(EMatchResults::Loss, VisitorTeamData);
+		VisitorTeam->CollectTeamStatistics(EMatchResults::Win, HomeTeamData);
+		return;
+	}
+	HomeTeam->CollectTeamStatistics(EMatchResults::Draw, VisitorTeamData);
+	VisitorTeam->CollectTeamStatistics(EMatchResults::Draw, HomeTeamData);
+}
+
 
 
 bool URulesSubsystem::IsTeamLosing(int32 OwnTeamScore, int32 EnemyTeamScore) const

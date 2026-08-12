@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/Rules/ERaceResults.h"
-#include "MatchStatistics.generated.h"
+#include "RacerMatchStatistics.generated.h"
 
 
 USTRUCT()
@@ -12,7 +12,9 @@ struct FMatchStatistics
 	
 	TArray<ERaceResults> RaceResults;
 
+	UPROPERTY()
 	bool bIsVisitor;
 
+	UPROPERTY()
 	int32 Bonuses;
 };

@@ -8,6 +8,7 @@
 #include "Data/Rules/ERaceResults.h"
 #include "RulesSubsystem.generated.h"
 
+class UTeamManager;
 class URacerManager;
 class URacerStatsLine;
 class UScoreManager;
@@ -32,6 +33,8 @@ public:
 	FString GetRaceResultText(const ERaceResults RaceResult) const;
 
 	int32 GetRaceResultNumber(const ERaceResults RaceResult) const;
+
+	void DecideMatchWinner(TArray<UTeamManager*> TeamManagers);
 	
 private:
 

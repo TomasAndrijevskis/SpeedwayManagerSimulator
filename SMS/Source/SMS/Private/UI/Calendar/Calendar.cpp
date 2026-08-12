@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SMS/Public/UI/League/Program/LeagueProgram.h"
 #include "UI/Calendar/CalendarLine.h"
+#include "UI/League/Standings/StandingsWidget.h"
 #include "UI/League/Statistics/StatisticsWidget.h"
 
 
@@ -24,6 +25,7 @@ void UCalendar::NativeConstruct()
 		CreateMatches();
 	}
 	Button_OpenStatistics->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStatisticsWidget);
+	Button_OpenStandings->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStandingsWidget);
 }
 
 
@@ -33,6 +35,15 @@ void UCalendar::CreateStatisticsWidget()
 	UStatisticsWidget* Widget = CreateWidget<UStatisticsWidget>(this, StatisticsWidgetClass);
 	if (!Widget) return;
 	Widget->InitializeStatisticsWidget();
+	Widget->AddToViewport(0);
+}
+
+void UCalendar::CreateStandingsWidget()
+{
+	if (!StandingsWidgetClass) return;
+	UStandingsWidget* Widget = CreateWidget<UStandingsWidget>(this, StandingsWidgetClass);
+	if (!Widget) return;
+	Widget->InitializeStandingsWidget();
 	Widget->AddToViewport(0);
 }
 

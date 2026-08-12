@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerStatistics.h"
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "OverallStatsSubsystem.generated.h"
+#include "OverallRacerStatsSubsystem.generated.h"
 
 UCLASS()
 class SMS_API UOverallStatsSubsystem : public UGameInstanceSubsystem

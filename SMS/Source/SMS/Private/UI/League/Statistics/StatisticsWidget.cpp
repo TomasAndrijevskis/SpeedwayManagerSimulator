@@ -2,7 +2,7 @@
 #include "UI/League/Statistics/StatisticsWidget.h"
 #include "Components/Button.h"
 #include "Components/WrapBox.h"
-#include "Subsystems/OverallStatsSubsystem.h"
+#include "Subsystems/OverallRacerStatsSubsystem.h"
 #include "UI/League/Statistics/StatisticsLine.h"
 
 

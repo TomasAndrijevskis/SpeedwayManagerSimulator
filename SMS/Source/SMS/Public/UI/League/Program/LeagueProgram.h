@@ -98,13 +98,17 @@ private:
 
 	UFUNCTION()
 	void FinishMatch();
-
-	UFUNCTION()
+	
 	void ChangeButtonBehaviour();
 
 	void OnRaceStatsUpdated(const TArray<FRaceResultData>& Data);
 
 	void CreateRaceStatsWidget();
+
+	UFUNCTION()
+	void PrepareToEndMatch();
+
+	void CollectStatistics();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<URace> RaceClass;

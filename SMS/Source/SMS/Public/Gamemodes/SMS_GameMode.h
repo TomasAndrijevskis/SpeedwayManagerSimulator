@@ -25,7 +25,7 @@ public:
 
 	FTeamMatchData& GetTeamData(int32 TeamID);
 
-	const FText& GetTeamName(int32 TeamID) const;
+	const FString& GetTeamName(int32 TeamID) const;
 	
 	int32 GetTeamsAmount() const;
 
@@ -34,6 +34,8 @@ public:
 	void CreateRequiredManagers();
 
 	void DestroyUsedManagers();
+
+	void InitializeTeamsStatistics();
 	
 private:
 

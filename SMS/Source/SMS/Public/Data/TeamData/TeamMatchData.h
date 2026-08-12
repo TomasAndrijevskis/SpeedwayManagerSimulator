@@ -11,10 +11,10 @@ struct FTeamMatchData
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	int32 TeamID;
+	int32 TeamID = 0;
 
 	UPROPERTY()
-	FText TeamName;
+	FString TeamName = "";
 	
 	UPROPERTY()
 	TArray<FRacerData> Racers;

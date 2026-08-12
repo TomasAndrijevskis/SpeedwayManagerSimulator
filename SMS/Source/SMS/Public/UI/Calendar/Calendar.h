@@ -6,6 +6,7 @@
 #include "Calendar.generated.h"
 
 
+class UStandingsWidget;
 class UStatisticsWidget;
 class UButton;
 class ASMS_GameMode;
@@ -53,13 +54,21 @@ private:
 
 
 
-
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_OpenStandings;
+	
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_OpenStatistics;
 	
 	UFUNCTION()
 	void CreateStatisticsWidget();
 	
+	UFUNCTION()
+	void CreateStandingsWidget();
+	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UStatisticsWidget> StatisticsWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UStandingsWidget> StandingsWidgetClass;
 };

@@ -2,7 +2,7 @@
 #include "Managers/RacerManager.h"
 
 #include "Managers/MatchManager.h"
-#include "Subsystems/OverallStatsSubsystem.h"
+#include "Subsystems/OverallRacerStatsSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/RaceLineBase.h"
 
@@ -67,7 +67,7 @@ void URacerManager::SetTieBreaker()
 
 void URacerManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
 {
-	RacerPointss.Add(NewResult);
+	RacerPoints.Add(NewResult);
 	if (AddBonus) RacerBonuses++;
 	OnPointsAddedDelegate.Broadcast(NewResult, AddBonus);
 }
@@ -78,7 +78,7 @@ int32 URacerManager::CountOverallPoints()
 	int32 sum = 0;
 	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
-		for (const auto& Point : RacerPointss)
+		for (const auto& Point : RacerPoints)
 		{
 			int32 Number = Rules->GetRaceResultNumber(Point);
 			sum += Number;
@@ -99,7 +99,7 @@ void URacerManager::CollectMatchStatistics()
 		NewStats.Team = Data.GetRacerTeamName();
 		FMatchStatistics NewMatchStats;
 		NewMatchStats.bIsVisitor = IsVisitor();
-		NewMatchStats.RaceResults = RacerPointss;
+		NewMatchStats.RaceResults = RacerPoints;
 		NewMatchStats.Bonuses = RacerBonuses;
 		NewStats.MatchStatistics.Add(NewMatchStats);
 		Subsystem->AddStat(NewStats);
