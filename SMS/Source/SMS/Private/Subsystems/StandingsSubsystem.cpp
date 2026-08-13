@@ -15,7 +15,4 @@ void UStandingsSubsystem::AddTeamStatistics(const FTeamStatistics& NewTeamStatis
 }
 
 
-TArray<FTeamStatistics>& UStandingsSubsystem::GetTeamStatistics()
-{
-	return TeamStatistics;
-}
+TArray<FTeamStatistics>& UStandingsSubsystem::GetTeamStatistics(){return TeamStatistics;}

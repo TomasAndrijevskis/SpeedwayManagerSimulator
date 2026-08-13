@@ -29,7 +29,9 @@ public:
 	void SetRank(const int32 NewAmount);
 	
 private:
-
+	
+	int32 CalculateBonus(TMap<int32, TArray<int32>>& TeamResults, TMap<int32, TArray<int32>>& OpponentResults);
+	
 	void SetNumbers(const FTeamStatistics& TeamStatistics);
 
 	void SetTeamName(const FString& TeamName);

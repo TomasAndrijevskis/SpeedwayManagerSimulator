@@ -20,6 +20,10 @@ class SMS_API UCalendar : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+
+	void CreateCalendar();
+	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -36,6 +40,10 @@ private:
 	UNamesBox* NamesBox_VisitorText;
 	
 	void CreateMatches();
+
+	void CreateMatches(int32 TeamAID);
+
+	void CreateMatches(int32 TeamAID, int32 TeamBID);
 	
 	UCalendarLine* CreateMatch(int32 HomeTeamID, int32 VisitorTeamID);
 

@@ -119,11 +119,14 @@ void URulesSubsystem::DecideMatchWinner(TArray<UTeamManager*> TeamManagers)
 		else HomeTeam = TeamManager;
 	}
 	if (!VisitorTeam || !HomeTeam) return;
+	TMap<int32, int32> VisitorTeamData;
+	TMap<int32, int32> HomeTeamData;
+	
 	int32 HomeTeamScore = HomeTeam->GetTeamScore();
 	int32 VisitorTeamScore = VisitorTeam->GetTeamScore();
-	
-	FOpponentData VisitorTeamData{VisitorTeamScore, VisitorTeam->GetTeamID()};
-	FOpponentData HomeTeamData {HomeTeamScore, HomeTeam->GetTeamID()};
+
+	VisitorTeamData.Add(VisitorTeam->GetTeamID(), VisitorTeamScore);
+	HomeTeamData.Add(HomeTeam->GetTeamID(), HomeTeamScore);
 	
 	if (HomeTeamScore > VisitorTeamScore)
 	{
@@ -134,7 +137,7 @@ void URulesSubsystem::DecideMatchWinner(TArray<UTeamManager*> TeamManagers)
 	if (HomeTeamScore < VisitorTeamScore)
 	{
 		HomeTeam->CollectTeamStatistics(EMatchResults::Loss, VisitorTeamData);
-		VisitorTeam->CollectTeamStatistics(EMatchResults::Win, HomeTeamData);
+		VisitorTeam->CollectTeamStatistics(EMatchResults::Win,  HomeTeamData);
 		return;
 	}
 	HomeTeam->CollectTeamStatistics(EMatchResults::Draw, VisitorTeamData);

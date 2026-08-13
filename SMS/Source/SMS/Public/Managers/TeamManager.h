@@ -67,7 +67,7 @@ public:
 
 	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
 
-	void CollectTeamStatistics(const EMatchResults Result, const FOpponentData& OpponentData);
+	void CollectTeamStatistics(const EMatchResults Result, const TMap<int32, int32>& OpponentResult);
 	
 private:
 	

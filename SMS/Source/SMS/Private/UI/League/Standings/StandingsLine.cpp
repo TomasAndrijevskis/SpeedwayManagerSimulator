@@ -14,33 +14,78 @@ void UStandingsLine::SetNumbers(const FTeamStatistics& TeamStatistics)
 {
 	int32 Losses = 0;
 	int32 Draws = 0;
-	//int32 Bonuses = 0;
+	TMap<int32, TArray<int32>> OpponentResults;
+	TMap<int32, TArray<int32>> TeamResults;
 	for (const auto& MatchStats : TeamStatistics.MatchStatistics)
 	{
 		Matches++;
-		if (MatchStats.MatchResult == EMatchResults::Win)
+		if (MatchStats.Result == EMatchResults::Win)
 		{
 			Wins++;
 			Points += 2;
 		}
-		if (MatchStats.MatchResult == EMatchResults::Loss)
+		if (MatchStats.Result == EMatchResults::Loss)
 		{
 			Losses++;
 		}
-		if (MatchStats.MatchResult == EMatchResults::Draw)
+		if (MatchStats.Result == EMatchResults::Draw)
 		{
 			Draws++;
 			Points++;
 		}
-		Difference += MatchStats.TeamScore - MatchStats.OpponentData.OpponentTeamScore;
+		for (const auto& Results : MatchStats.OpponentResult)
+		{
+			Difference += MatchStats.TeamScore - Results.Value;
+			OpponentResults.FindOrAdd(Results.Key).Add(Results.Value);
+			TeamResults.FindOrAdd(Results.Key).Add(MatchStats.TeamScore);
+		}
 	}
+	const int32 Bonuses = CalculateBonus(TeamResults, OpponentResults);
 	SetWins(Wins);
 	SetLosses(Losses);
 	SetDraws(Draws);
-	SetPoints(Points);
+	SetBonuses(Bonuses);
+	SetPoints(Points + Bonuses);
 	SetMatches(Matches);
 	SetDifference(Difference);
-	//SetBonuses(Bonuses);
+}
+
+
+void UStandingsLine::SetTeamName(const FString& TeamName)
+{
+	NamesBox_TeamName->SetText(TeamName);
+}
+
+int32 UStandingsLine::CalculateBonus(TMap<int32, TArray<int32>>& TeamResults, TMap<int32, TArray<int32>>& OpponentResults)
+{
+	int32 Bonuses = 0;
+	for (const auto& OpponentResult : OpponentResults)
+	{
+		int32 OpponentResultsSum = 0;
+		int32 TeamResultsSum = 0;
+		int32 MatchesAgainstSameTeam = OpponentResult.Value.Num();
+		if (MatchesAgainstSameTeam == 2)
+		{
+			for (const auto& Result : OpponentResult.Value)
+			{
+				OpponentResultsSum += Result;
+			}
+			for (const auto& TeamResult : TeamResults)
+			{
+				if (TeamResult.Key == OpponentResult.Key)
+				{
+					for (const auto& Result : TeamResult.Value)
+					{
+						TeamResultsSum += Result;
+					}
+				}
+			}
+			if (TeamResultsSum > OpponentResultsSum) Bonuses++;
+		}
+	}
+	OpponentResults.Empty();
+	TeamResults.Empty();
+	return Bonuses;
 }
 
 void UStandingsLine::SetRank(const int32 NewAmount)
@@ -48,10 +93,6 @@ void UStandingsLine::SetRank(const int32 NewAmount)
 	NumbersBox_Rank->SetText(NewAmount);
 }
 
-void UStandingsLine::SetTeamName(const FString& TeamName)
-{
-	NamesBox_TeamName->SetText(TeamName);
-}
 
 void UStandingsLine::SetMatches(const int32 NewAmount)
 {

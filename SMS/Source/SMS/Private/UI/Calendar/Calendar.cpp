@@ -15,7 +15,15 @@ void UCalendar::NativeConstruct()
 {
 	Super::NativeConstruct();
 	SetAmountOfMatches();
-	for (int32 i = 0; i < AmountOfMatches; i++)
+	CreateCalendar();
+	Button_OpenStatistics->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStatisticsWidget);
+	Button_OpenStandings->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStandingsWidget);
+}
+
+
+void UCalendar::CreateCalendar()
+{
+	/*for (int32 i = 0; i < AmountOfMatches; i++)
 	{
 		CreateMatches();
 	}
@@ -23,9 +31,19 @@ void UCalendar::NativeConstruct()
 	for (int32 i = 0; i < AmountOfMatches; i++)
 	{
 		CreateMatches();
+	}*/
+
+	int32 TeamID;
+	SetTeamID(TeamID);
+	for (int32 i = 0; i < 2; i++)
+	{
+		CreateMatches(TeamID);
 	}
-	Button_OpenStatistics->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStatisticsWidget);
-	Button_OpenStandings->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStandingsWidget);
+	for (const auto& Element : ChosenOptions)
+	{
+		if (Element == TeamID) continue;
+		CreateMatches(Element, TeamID);
+	}
 }
 
 
@@ -82,6 +100,23 @@ void UCalendar::CreateMatches()
 	SetTeamID(TeamA);
 	SetTeamID(TeamB);
 	UCalendarLine* CalendarLine = CreateMatch(TeamA, TeamB);
+	if (!CalendarLine) return;
+	VB_Content->AddChildToVerticalBox(CalendarLine);
+}
+
+void UCalendar::CreateMatches(int32 TeamAID)
+{
+	int32 TeamB;
+	SetTeamID(TeamB);
+	UCalendarLine* CalendarLine = CreateMatch(TeamAID, TeamB);
+	if (!CalendarLine) return;
+	VB_Content->AddChildToVerticalBox(CalendarLine);
+}
+
+
+void UCalendar::CreateMatches(int32 TeamAID, int32 TeamBID)
+{
+	UCalendarLine* CalendarLine = CreateMatch(TeamAID, TeamBID);
 	if (!CalendarLine) return;
 	VB_Content->AddChildToVerticalBox(CalendarLine);
 }
