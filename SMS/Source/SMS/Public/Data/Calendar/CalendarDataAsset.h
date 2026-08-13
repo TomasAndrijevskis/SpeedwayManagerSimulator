@@ -11,6 +11,8 @@ class SMS_API UCalendarDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
 
+public:
+	
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FCalendarPatternData> Rounds;
 };

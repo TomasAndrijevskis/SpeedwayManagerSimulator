@@ -5,9 +5,9 @@
 #include "Data/RaceData/EHelmetColour.h"
 
 
-void UNumbersBox::NativeConstruct()
+void UNumbersBox::NativePreConstruct()
 {
-	Super::NativeConstruct();
+	Super::NativePreConstruct();
 	if (OverrideFontSize) ChangeTextSize();
 	if (SetTextInEditor) SetText(TextFromEditor);
 }

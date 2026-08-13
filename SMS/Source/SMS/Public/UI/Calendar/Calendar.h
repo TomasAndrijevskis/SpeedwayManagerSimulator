@@ -6,12 +6,13 @@
 #include "Calendar.generated.h"
 
 
+class UCalendarRound;
+class UCalendarDataAsset;
 class UStandingsWidget;
 class UStatisticsWidget;
 class UButton;
 class ASMS_GameMode;
 class UVerticalBox;
-class UCalendarLine;
 class UNumbersBox;
 class UNamesBox;
 
@@ -20,10 +21,6 @@ class SMS_API UCalendar : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-
-	void CreateCalendar();
-	
 protected:
 
 	virtual void NativeConstruct() override;
@@ -32,35 +29,16 @@ private:
 
 	UPROPERTY(meta=(BindWidget))
 	UVerticalBox* VB_Content;
-	
-	UPROPERTY(meta = (BindWidget))
-	UNamesBox* NamesBox_HomeText;
-	
-	UPROPERTY(meta = (BindWidget))
-	UNamesBox* NamesBox_VisitorText;
-	
-	void CreateMatches();
 
-	void CreateMatches(int32 TeamAID);
+	void CreateCalendarRounds();
 
-	void CreateMatches(int32 TeamAID, int32 TeamBID);
+	UCalendarRound* CreateRound();
 	
-	UCalendarLine* CreateMatch(int32 HomeTeamID, int32 VisitorTeamID);
+	UPROPERTY(EditDefaultsOnly)
+	UCalendarDataAsset* CalendarDataAsset;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UCalendarLine> CalendarLineClass;
-	
-	int32 GetRandomTeam();
-
-	void SetTeamID(int32& Team);
-
-	void SetAmountOfMatches();
-	
-	int32 AmountOfMatches;
-
-	TArray<int32> ChosenOptions;
-
-
+	TSubclassOf<UCalendarRound> CalendarRoundClass;
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_OpenStandings;

@@ -1,12 +1,19 @@
 
 #include "UI/BaseClasses/NamesBox.h"
+
+#include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
 
 
-void UNamesBox::NativeConstruct()
+void UNamesBox::NativePreConstruct()
 {
-	Super::NativeConstruct();
+	Super::NativePreConstruct();
 	if (SetTextInEditor) SetText(TextFromEditor);
+	if (bOverrideSize)
+	{
+		SizeBox_Content->SetWidthOverride(NewSize.X);
+		SizeBox_Content->SetHeightOverride(NewSize.Y);
+	}
 }
 
 

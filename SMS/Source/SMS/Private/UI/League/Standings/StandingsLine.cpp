@@ -93,7 +93,6 @@ void UStandingsLine::SetRank(const int32 NewAmount)
 	NumbersBox_Rank->SetText(NewAmount);
 }
 
-
 void UStandingsLine::SetMatches(const int32 NewAmount)
 {
 	NumbersBox_Matches->SetText(NewAmount);

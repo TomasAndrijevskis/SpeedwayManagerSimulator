@@ -30,26 +30,6 @@ public:
 	
 private:
 	
-	int32 CalculateBonus(TMap<int32, TArray<int32>>& TeamResults, TMap<int32, TArray<int32>>& OpponentResults);
-	
-	void SetNumbers(const FTeamStatistics& TeamStatistics);
-
-	void SetTeamName(const FString& TeamName);
-
-	void SetMatches(const int32 NewAmount);
-
-	void SetWins(const int32 NewAmount);
-
-	void SetLosses(const int32 NewAmount);
-
-	void SetDraws(const int32 NewAmount);
-
-	void SetBonuses(const int32 NewAmount);
-
-	void SetDifference(const int32 NewAmount);
-
-	void SetPoints(const int32 NewAmount);
-	
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_Rank;
 
@@ -77,6 +57,26 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_Points;
 
+	int32 CalculateBonus(TMap<int32, TArray<int32>>& TeamResults, TMap<int32, TArray<int32>>& OpponentResults);
+	
+	void SetNumbers(const FTeamStatistics& TeamStatistics);
+
+	void SetTeamName(const FString& TeamName);
+
+	void SetMatches(const int32 NewAmount);
+
+	void SetWins(const int32 NewAmount);
+
+	void SetLosses(const int32 NewAmount);
+
+	void SetDraws(const int32 NewAmount);
+
+	void SetBonuses(const int32 NewAmount);
+
+	void SetDifference(const int32 NewAmount);
+
+	void SetPoints(const int32 NewAmount);
+	
 	int32 Points = 0;
 
 	int32 Matches = 0;
