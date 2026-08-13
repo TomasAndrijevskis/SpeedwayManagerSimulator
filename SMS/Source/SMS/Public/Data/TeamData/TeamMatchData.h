@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerMatchData.h"
+#include "Data/Track/TrackData.h"
 #include "TeamMatchData.generated.h"
 
 
@@ -18,10 +19,13 @@ struct FTeamMatchData
 	
 	UPROPERTY()
 	TArray<FRacerData> Racers;
-
+	
 	UPROPERTY()
 	bool IsVisitorTeam;
 
+	UPROPERTY()
+	FTrackData TrackData;
+	
 	UPROPERTY()
 	int32 TeamScore = 0;
 

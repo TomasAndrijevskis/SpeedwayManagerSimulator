@@ -1,5 +1,7 @@
 
 #include "Gamemodes/SMS_GameMode.h"
+
+#include "Data/Track/TrackDataAsset.h"
 #include "Managers/MatchManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
@@ -13,6 +15,8 @@ void ASMS_GameMode::BeginPlay()
 		Subsystem->InitializeRules();
 	}
 	InitializeRacers();
+	InitializeTeamsStatistics();
+	SetTrackData();
 }
 
 
@@ -45,7 +49,15 @@ void ASMS_GameMode::InitializeRacers()
 		Teams.FindOrAdd(TeamID).Racers.Add(RacerData);
 	}
 	//PrintTeams();
-	InitializeTeamsStatistics();
+}
+
+
+void ASMS_GameMode::SetTrackData()
+{
+	for (const auto& TrackData : TracksDataAsset->TrackData)
+	{
+		Teams.FindOrAdd(TrackData.Key).TrackData = TrackData.Value;
+	}
 }
 
 

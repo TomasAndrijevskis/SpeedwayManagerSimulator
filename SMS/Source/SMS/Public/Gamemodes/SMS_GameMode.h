@@ -8,6 +8,7 @@
 #include "SMS_GameMode.generated.h"
 
 
+class UTrackDataAsset;
 class UScoreManager;
 class UTeamManager;
 class UMatchManager;
@@ -41,10 +42,15 @@ private:
 
 	void InitializeRacers();
 
+	void SetTrackData();
+	
 	void PrintTeams();
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UDataTable> RacersDataTable;
+
+	UPROPERTY(EditDefaultsOnly)
+	UTrackDataAsset* TracksDataAsset;
 	
 	UPROPERTY()
 	TObjectPtr<UMatchManager> CurrentMatchManager;
