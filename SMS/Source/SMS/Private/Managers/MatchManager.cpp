@@ -5,6 +5,7 @@
 #include "Managers/RaceManager.h"
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
+#include "Managers/TrackManager.h"
 #include "UI/League/Program/RacerStatsLine.h"
 
 
@@ -26,11 +27,13 @@ void UMatchManager::BindDelegates()
 
 void UMatchManager::SimulateRace()
 {
+	if (!TrackManager) return;
 	if (CurrentRace <= Races.Num())
 	{
 		if (!Races[CurrentRace].RaceManager->CheckAllRacersInRace()) return;
+		if (CurrentRace % 4 == 0) TrackManager->OnTrackUpdateRequestDelegate.Broadcast();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		BindRaceDelegates();
-		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast();
+		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast(TrackManager);
 		HandleRaceFinished();
 	}
 }
@@ -115,7 +118,16 @@ void UMatchManager::SetTeamID(int32 NewTeamID, bool IsVisitor)
 {
 	FTeamMatchData Data = GameMode->GetTeamData(NewTeamID);
 	Data.IsVisitorTeam = IsVisitor;
+	if (!IsVisitor) CreateTrackManager(Data.TrackData);
 	Teams.Add(Data);
+}
+
+
+void UMatchManager::CreateTrackManager(const FTrackData& HomeTeamTrackData)
+{
+	TrackManager = NewObject<UTrackManager>(this);
+	if (!TrackManager) return;
+	TrackManager->InitializeManager(HomeTeamTrackData);
 }
 
 

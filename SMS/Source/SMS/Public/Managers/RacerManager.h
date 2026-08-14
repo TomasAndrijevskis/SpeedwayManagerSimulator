@@ -22,13 +22,13 @@ public:
 	
 	void AddPoints(const ERaceResults NewResult, bool AddBonus);
 	
-	void CalculateRating(bool IsVisitor);
+	void CalculateRating(bool IsVisitor, float GateModifier, float DrivingModifier);
 
 	void SetTieBreaker();
 
 	int32 GetTieBreaker() const;
 
-	int32 GetCurrentRaceRating() const;
+	float GetCurrentRaceRating() const;
 	
 	int32 GetBonusAmount() const;
 
@@ -38,7 +38,7 @@ public:
 
 	void RemoveParticipatedRace(URaceLineBase* RaceLineRef);
 
-	void OnRaceStarted();
+	void OnRaceStarted(float GateModifier, float DistanceModifier);
 
 	int32 GetRacerAge() const;
 	
@@ -73,7 +73,7 @@ private:
 
 	int32 TieBreakerValue = 0;
 
-	int32 CurrentRacerRating = 0;
+	float CurrentRacerRating = 0.f;
 	
 	int32 RacerBonuses;
 

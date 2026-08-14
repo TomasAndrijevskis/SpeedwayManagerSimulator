@@ -1,6 +1,5 @@
 
 #include "Managers/RacerManager.h"
-
 #include "Managers/MatchManager.h"
 #include "Subsystems/OverallRacerStatsSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
@@ -13,7 +12,7 @@ void URacerManager::Initialize(const FRacerMatchData& RacerData)
 }
 
 
-void URacerManager::CalculateRating(bool IsVisitor)
+void URacerManager::CalculateRating(bool IsVisitor, float GateModifier, float DistanceModifier)
 {
 	int32 Defect = FMath::RandRange(1, 20);
 	if (Defect == 1)
@@ -21,18 +20,26 @@ void URacerManager::CalculateRating(bool IsVisitor)
 		CurrentRacerRating = 0;
 		return;
 	}
-	int32 Start = FMath::RandRange(0,5);
-	int32 Driving = FMath::RandRange(0,10);
-	if (!IsVisitor) Driving += FMath::RandRange(0,2);
 	int32 RacerRating = Data.GetBaseRating();
-	CurrentRacerRating = Start + Driving + RacerRating;
-	
-	UE_LOG(LogTemp, Warning, TEXT("Name: %s"), *Data.RacerData.Name);
-	/*UE_LOG(LogTemp, Warning, TEXT("TieBreaker: %i"), TieBreakerValue);
-	UE_LOG(LogTemp, Warning, TEXT("Start rating: %i"), Start);
-	UE_LOG(LogTemp, Warning, TEXT("Driving rating: %i"), Driving);*/
-	UE_LOG(LogTemp, Warning, TEXT("Race rating: %i"), CurrentRacerRating);
 	UE_LOG(LogTemp, Display, TEXT("-----"));
+	UE_LOG(LogTemp, Display, TEXT("Name: %s"), *Data.RacerData.Name);
+	UE_LOG(LogTemp, Display, TEXT("Rating %i"), RacerRating);
+	//UE_LOG(LogTemp, Display, TEXT("TieBreaker: %i"), TieBreakerValue);
+	
+	float Start = FMath::RandRange(0,5);
+	UE_LOG(LogTemp, Warning, TEXT("Start %f"), Start);
+	float StartModifier = Start * GateModifier;
+	UE_LOG(LogTemp, Error, TEXT("Start modified: %f - Modifier: %f"), StartModifier, GateModifier);
+	
+	float Driving = FMath::RandRange(0,10);
+	if (!IsVisitor) Driving += FMath::RandRange(0,2);
+	UE_LOG(LogTemp, Warning, TEXT("Driving %f"), Driving);
+	float DrivingModifier = Driving * DistanceModifier;
+	UE_LOG(LogTemp, Error, TEXT("Driving modified: %f - Modifier: %f"), DrivingModifier, DistanceModifier);
+
+	
+	CurrentRacerRating = Start + StartModifier + Driving + DrivingModifier + RacerRating;
+	UE_LOG(LogTemp, Display, TEXT("Race rating: %f"), CurrentRacerRating);
 }
 
 
@@ -52,10 +59,10 @@ void URacerManager::RemoveParticipatedRace(URaceLineBase* RaceLineRef)
 }
 
 
-void URacerManager::OnRaceStarted()
+void URacerManager::OnRaceStarted(float GateModifier, float DistanceModifier)
 {
 	SetTieBreaker();
-	CalculateRating(IsVisitor());
+	CalculateRating(IsVisitor(), GateModifier, DistanceModifier);
 }
 
 
@@ -112,11 +119,11 @@ void URacerManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
 void URacerManager::DecreaseAmountOfReplacements(){AmountOfReplacements--;}
 int32 URacerManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
 int32 URacerManager::GetTieBreaker() const {return TieBreakerValue;}
-int32 URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 int32 URacerManager::GetBonusAmount() const {return RacerBonuses;}
 int32 URacerManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
 int32 URacerManager::GetRacerNumber() const {return Data.RacerNumber;}
 int32 URacerManager::GetRacerAge() const {return Data.GetRacerAge();}
+float URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
 bool URacerManager::CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
 bool URacerManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
 bool URacerManager::IsVisitor() const {return Data.IsVisitor();}

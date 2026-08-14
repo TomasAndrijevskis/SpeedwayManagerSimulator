@@ -6,6 +6,7 @@
 #include "Data/TeamData/TeamMatchData.h"
 #include "MatchManager.generated.h"
 
+class UTrackManager;
 class URacerManager;
 class UTeamManager;
 class UScoreManager;
@@ -56,6 +57,8 @@ private:
 	void SimulateRace();
 
 	void PopulateRacers(TArray<UTeamManager*> TeamManagersRef);
+
+	void CreateTrackManager(const FTrackData& HomeTeamTrackData);
 	
 	UPROPERTY()
 	ASMS_GameMode* GameMode;
@@ -66,6 +69,9 @@ private:
 	UPROPERTY()
 	TArray<TObjectPtr<URaceManager>> RaceManagers;
 
+	UPROPERTY()
+	TObjectPtr<UTrackManager> TrackManager;
+	
 	UPROPERTY()
 	TMap<int32, FRaceData> Races;
 	

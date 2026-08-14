@@ -2,6 +2,7 @@
 #include "Managers/RaceManager.h"
 
 #include "Managers/RacerManager.h"
+#include "Managers/TrackManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/RaceLineBase.h"
 
@@ -35,13 +36,15 @@ void URaceManager::ChangeRaceStatus(bool bIsActive)
 }
 
 
-void URaceManager::SimulateRace()
+void URaceManager::SimulateRace(const TObjectPtr<UTrackManager>& TrackManager)
 {
 	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
 		for (const auto& RaceLine : RaceLines)
 		{
-			RaceLine->OnRaceStartedDelegate.Broadcast();
+			const float StartModifier = TrackManager->GetGateModifier(RaceLine->GetRaceLineID());
+			const float DrivingModifier = TrackManager->GetDrivingModifier();
+			RaceLine->OnRaceStartedDelegate.Broadcast(StartModifier, DrivingModifier);
 		}
 		SortLinesByRating();
 		for (int32 Position = 0; Position < RaceLines.Num(); Position++)

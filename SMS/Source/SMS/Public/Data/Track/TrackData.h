@@ -14,6 +14,9 @@ struct FTrackData
 	TMap<ETrackTypes, float> TrackTypeProbability;
 
 	UPROPERTY(EditDefaultsOnly)
+	float ChanceToChange = 0.f;
+	
+	UPROPERTY(EditDefaultsOnly)
 	TMap<ETrackTypes, float> DrivingModifiers;
 	
 	UPROPERTY(EditDefaultsOnly)
