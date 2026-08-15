@@ -37,6 +37,21 @@ struct FRacerMatchData
 		return RacerData.RacerStats.Rating;
 	}
 
+	int32 GetReaction() const
+	{
+		return RacerData.RacerStats.Reaction;
+	}
+
+	int32 GetDrivingSkill(ETrackTypes TrackType) const
+	{
+		return RacerData.RacerStats.DrivingSkillsOnEachTrack[TrackType];
+	}
+
+	int32 GetAdaptability() const
+	{
+		return RacerData.RacerStats.Adaptability;
+	}
+
 	int32 GetRacerNumber() const
 	{
 		return RacerNumber;

@@ -10,13 +10,13 @@ struct FTrackData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = "-1", ClampMax = "1"))
 	TMap<ETrackTypes, float> TrackTypeProbability;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = "0", ClampMax = "1"))
 	float ChanceToChange = 0.f;
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = "-1", ClampMax = "1"))
 	TMap<ETrackTypes, float> DrivingModifiers;
 	
 	UPROPERTY(EditDefaultsOnly)

@@ -9,6 +9,6 @@ struct FGatesData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta = (ClampMin = "-1", ClampMax = "1"))
 	TMap<ETrackTypes, float> StartModifiers;
 };
