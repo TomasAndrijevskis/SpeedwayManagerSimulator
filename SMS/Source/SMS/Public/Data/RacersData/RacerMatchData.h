@@ -69,6 +69,6 @@ struct FRacerMatchData
 
 	FString GetRacerTeamName() const
 	{
-		return UEnum::GetValueAsString(RacerData.InitialTeam);
+		return StaticEnum<ETeams>()->GetDisplayNameTextByValue(static_cast<int32>(RacerData.InitialTeam)).ToString();
 	}
 };

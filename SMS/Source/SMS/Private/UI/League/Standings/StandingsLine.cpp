@@ -14,8 +14,8 @@ void UStandingsLine::SetNumbers(const FTeamStatistics& TeamStatistics)
 {
 	int32 Losses = 0;
 	int32 Draws = 0;
-	TMap<int32, TArray<int32>> OpponentResults;
-	TMap<int32, TArray<int32>> TeamResults;
+	TMap<ETeams, TArray<int32>> OpponentResults;
+	TMap<ETeams, TArray<int32>> TeamResults;
 	for (const auto& MatchStats : TeamStatistics.MatchStatistics)
 	{
 		Matches++;
@@ -56,7 +56,7 @@ void UStandingsLine::SetTeamName(const FString& TeamName)
 	NamesBox_TeamName->SetText(TeamName);
 }
 
-int32 UStandingsLine::CalculateBonus(TMap<int32, TArray<int32>>& TeamResults, TMap<int32, TArray<int32>>& OpponentResults)
+int32 UStandingsLine::CalculateBonus(TMap<ETeams, TArray<int32>>& TeamResults, TMap<ETeams, TArray<int32>>& OpponentResults)
 {
 	int32 Bonuses = 0;
 	for (const auto& OpponentResult : OpponentResults)

@@ -5,7 +5,7 @@ void UStandingsSubsystem::AddTeamStatistics(const FTeamStatistics& NewTeamStatis
 {
 	for (auto& Stats : TeamStatistics)
 	{
-		if (Stats.TeamID == NewTeamStatistics.TeamID)
+		if (Stats.Team == NewTeamStatistics.Team)
 		{
 			Stats.MatchStatistics.Append(NewTeamStatistics.MatchStatistics);
 			return;

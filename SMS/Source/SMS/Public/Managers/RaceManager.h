@@ -3,12 +3,13 @@
 
 #include "CoreMinimal.h"
 #include "Data/RaceData/RaceResultData.h"
+#include "Data/TeamData/ETeams.h"
 #include "RaceManager.generated.h"
 
 class UTrackManager;
 class URaceLineBase;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, int32, int32);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, ETeams, int32);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int32, int32);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeRaceStatusRequest, bool);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceLineResultUpdated, const TArray<FRaceResultData>&)

@@ -5,7 +5,7 @@
 
 
 UENUM(BlueprintType)
-enum ETeams
+enum class ETeams : uint8
 {
 	Nothing UMETA(DisplayName = "No team"),
 	LD UMETA(DisplayName = "Lokomotive Daugavpils"),

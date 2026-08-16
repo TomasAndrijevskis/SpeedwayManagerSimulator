@@ -44,7 +44,7 @@ private:
 	
 	URacerStatsLine* CreateRacerStatLine(int32 ID);
 
-	void UpdateTeamPoints(int32 TeamId, int32 NewPoints);
+	void UpdateTeamPoints(ETeams TeamToUpdate, int32 NewPoints);
 
 	void DisplayTeamName();
 
@@ -65,5 +65,5 @@ private:
 	
 	int32 RacersAmount = 6;
 
-	int32 TeamID = 0;
+	ETeams Team = ETeams::Nothing;
 };

@@ -28,7 +28,7 @@ public:
 	
 	void InitializeManager(ASMS_GameMode* CurrentGameMode);
 	
-	void SetTeamID(int32 NewTeamID, bool IsVisitor);
+	void SetTeam(ETeams NewTeam, bool IsVisitor);
 
 	int32 GetCurrentRaceNumber()const;
 

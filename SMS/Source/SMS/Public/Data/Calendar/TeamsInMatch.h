@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/TeamData/ETeams.h"
 #include "TeamsInMatch.generated.h"
 
 
@@ -10,8 +11,8 @@ struct FTeamsInMatch
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly)
-	int32 HomeTeam = 0;
+	ETeams HomeTeam = ETeams::Nothing;
 
 	UPROPERTY(EditDefaultsOnly)
-	int32 VisitorTeam = 0;
+	ETeams VisitorTeam =  ETeams::Nothing;
 };

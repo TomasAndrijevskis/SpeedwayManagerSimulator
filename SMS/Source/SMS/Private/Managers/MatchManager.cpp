@@ -114,9 +114,9 @@ void UMatchManager::RequestToAssignRacersToRace(URacerManager* RacerManagerRef)
 }
 
 
-void UMatchManager::SetTeamID(int32 NewTeamID, bool IsVisitor)
+void UMatchManager::SetTeam(ETeams NewTeam, bool IsVisitor)
 {
-	FTeamMatchData Data = GameMode->GetTeamData(NewTeamID);
+	FTeamMatchData Data = GameMode->GetTeamData(NewTeam);
 	Data.IsVisitorTeam = IsVisitor;
 	if (!IsVisitor) CreateTrackManager(Data.TrackData);
 	Teams.Add(Data);

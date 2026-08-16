@@ -32,7 +32,7 @@ private:
 	UVerticalBox* VerticalBox_Content;
 	
 	
-	UCalendarLine* CreateMatch(int32 HomeTeamID, int32 VisitorTeamID);
+	UCalendarLine* CreateMatch(ETeams HomeTeamID, ETeams VisitorTeamID);
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UCalendarLine> CalendarLineClass;

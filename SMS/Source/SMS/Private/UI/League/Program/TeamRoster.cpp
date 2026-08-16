@@ -13,7 +13,7 @@
 void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef)
 {
 	if (!NewTeamData) return;
-	TeamID = NewTeamData->TeamID;
+	Team = NewTeamData->Team;
 	InitializeManagers(NewTeamData, MatchManagerRef);
 	BindDelegates();
 	CreateRacerStatLines(ScoreManager);
@@ -84,9 +84,9 @@ void UTeamRoster::DisplayTeamName()
 }
 
 
-void UTeamRoster::UpdateTeamPoints(int32 TeamId, int32 NewPoints)
+void UTeamRoster::UpdateTeamPoints(ETeams TeamToUpdate, int32 NewPoints)
 {
-	if (TeamID == TeamId) NumbersBox_TeamPoints->SetText(NewPoints);
+	if (Team == TeamToUpdate) NumbersBox_TeamPoints->SetText(NewPoints);
 }
 
 

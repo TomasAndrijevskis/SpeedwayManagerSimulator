@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/TeamData/ETeams.h"
 #include "CalendarLine.generated.h"
 
 
@@ -20,9 +21,9 @@ class SMS_API UCalendarLine : public UUserWidget
 
 public:
 
-	void InitializeLine(int32 NewHomeTeamID, int32 NewVisitorTeamID);
+	void InitializeLine(ETeams NewHomeTeam, ETeams NewVisitorTeam);
 	
-	void SetMatchTeamID(int32 NewHomeTeamID, int32 NewVisitorTeamID);
+	void SetMatchTeams(ETeams NewHomeTeam, ETeams NewVisitorTeam);
 	
 	void DisplayTeamNames(const FString& HomeTeamName, const FString& VisitorTeamName);
 	
@@ -66,7 +67,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;
 	
-	int32 HomeTeamID;
+	ETeams HomeTeam;
 	
-	int32 VisitorTeamID;
+	ETeams VisitorTeam;
 };

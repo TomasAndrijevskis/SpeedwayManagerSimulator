@@ -5,6 +5,7 @@
 #include "Components/OverlaySlot.h"
 #include "Components/Slider.h"
 #include "Gamemodes/SMS_GameMode.h"
+#include "Data/TeamData/ETeams.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MatchManager.h"
 #include "Managers/RacerManager.h"
@@ -157,7 +158,7 @@ int32 URaceLineBase::GetRacerNumber()const{return RacerNumber;}
 int32 URaceLineBase::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int32 URaceLineBase::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int32 URaceLineBase::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
-int32 URaceLineBase::GetTeamID()const{return TeamManager->GetTeamID();}
+ETeams URaceLineBase::GetTeam()const{return TeamManager->GetTeam();}
 URacerManager* URaceLineBase::GetRacerManager()const{return RacerManager;}
 URacerManager* URaceLineBase::GetOriginalRacerManager() const{return OriginalRacerManager;}
 UTeamManager* URaceLineBase::GetTeamManager()const{return TeamManager;}

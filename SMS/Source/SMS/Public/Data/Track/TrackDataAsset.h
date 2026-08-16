@@ -3,7 +3,6 @@
 
 #include "CoreMinimal.h"
 #include "TrackData.h"
-#include "Data/TeamData/ETeams.h"
 #include "Engine/DataAsset.h"
 #include "TrackDataAsset.generated.h"
 
@@ -16,5 +15,5 @@ class SMS_API UTrackDataAsset : public UDataAsset
 public:
 	
 	UPROPERTY(EditDefaultsOnly)
-	TMap<TEnumAsByte<ETeams>, FTrackData> TrackData;
+	FTrackData TrackData;
 };

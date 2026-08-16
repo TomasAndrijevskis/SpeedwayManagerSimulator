@@ -8,15 +8,15 @@ void UScoreManager::AddTeamRef(FTeamMatchData* TeamData)
 }
 
 
-void UScoreManager::UpdateScore(int32 TeamID, int32 PointsToAdd)
+void UScoreManager::UpdateScore(ETeams TeamToFind, int32 PointsToAdd)
 {
 	for (auto& Team : Teams)
 	{
-		if (Team->TeamID == TeamID)
+		if (Team->Team == TeamToFind)
 		{
 			Team->TeamScore += PointsToAdd;
 			Team->LastRaceScore += PointsToAdd;
-			OnTeamOverallScoreUpdatedDelegate.Broadcast(Team->TeamID, Team->TeamScore);
+			OnTeamOverallScoreUpdatedDelegate.Broadcast(Team->Team, Team->TeamScore);
 		}
 	}
 }

@@ -8,7 +8,7 @@
 #include "SMS_GameMode.generated.h"
 
 
-class UTrackDataAsset;
+class ULocationsDataAsset;
 class UScoreManager;
 class UTeamManager;
 class UMatchManager;
@@ -24,9 +24,9 @@ public:
 
 	virtual void BeginPlay() override;
 
-	FTeamMatchData& GetTeamData(int32 TeamID);
+	FTeamMatchData& GetTeamData(ETeams Team);
 
-	const FString& GetTeamName(int32 TeamID) const;
+	const FString& GetTeamName(ETeams Team) const;
 	
 	int32 GetTeamsAmount() const;
 
@@ -50,7 +50,7 @@ private:
 	TObjectPtr<UDataTable> RacersDataTable;
 
 	UPROPERTY(EditDefaultsOnly)
-	UTrackDataAsset* TracksDataAsset;
+	ULocationsDataAsset* LocationsDataAsset;
 	
 	UPROPERTY()
 	TObjectPtr<UMatchManager> CurrentMatchManager;

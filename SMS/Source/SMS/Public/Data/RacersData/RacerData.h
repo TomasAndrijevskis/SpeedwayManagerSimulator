@@ -21,7 +21,7 @@ struct FRacerData : public FTableRowBase
 	int32 Age = 0;
 
 	UPROPERTY(EditDefaultsOnly)
-	TEnumAsByte<ETeams> InitialTeam;
+	ETeams InitialTeam;
 	
 	UPROPERTY(EditDefaultsOnly)
 	FRacerStats RacerStats;

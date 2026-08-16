@@ -12,8 +12,8 @@ struct FTeamMatchData
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	int32 TeamID = 0;
-
+	ETeams Team = ETeams::Nothing;
+	
 	UPROPERTY()
 	FString TeamName = "";
 	

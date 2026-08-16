@@ -23,11 +23,11 @@ void UCalendarRound::CreateMatches(const TArray<FTeamsInMatch>& Matches)
 }
 
 
-UCalendarLine* UCalendarRound::CreateMatch(int32 HomeTeamID, int32 VisitorTeamID)
+UCalendarLine* UCalendarRound::CreateMatch(ETeams HomeTeam, ETeams VisitorTeam)
 {
 	if (!CalendarLineClass) return nullptr;
 	UCalendarLine* CalendarLine = CreateWidget<UCalendarLine>(this, CalendarLineClass);
 	if (!CalendarLine) return nullptr;
-	CalendarLine->InitializeLine(HomeTeamID, VisitorTeamID);
+	CalendarLine->InitializeLine(HomeTeam, VisitorTeam);
 	return CalendarLine;
 }

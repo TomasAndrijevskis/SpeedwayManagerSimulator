@@ -1,6 +1,6 @@
 
 #include "Gamemodes/SMS_GameMode.h"
-
+#include "Data/Locations/LocationsDataAsset.h"
 #include "Data/Track/TrackDataAsset.h"
 #include "Managers/MatchManager.h"
 #include "Subsystems/RulesSubsystem.h"
@@ -42,11 +42,11 @@ void ASMS_GameMode::InitializeRacers()
 	for (const auto& Racer : Racers)
 	{
 		FRacerData RacerData = *Racer;
-		ETeams TeamID = Racer->InitialTeam;
-		FString TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByIndex(TeamID).ToString();
-		Teams.FindOrAdd(TeamID).TeamID = TeamID;
-		Teams.FindOrAdd(TeamID).TeamName = TeamName;
-		Teams.FindOrAdd(TeamID).Racers.Add(RacerData);
+		ETeams Team = Racer->InitialTeam;
+		FString TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(static_cast<int32>(Team)).ToString();
+		Teams.FindOrAdd(Team).Team = Team;
+		Teams.FindOrAdd(Team).TeamName = TeamName;
+		Teams.FindOrAdd(Team).Racers.Add(RacerData);
 	}
 	//PrintTeams();
 }
@@ -54,9 +54,15 @@ void ASMS_GameMode::InitializeRacers()
 
 void ASMS_GameMode::SetTrackData()
 {
-	for (const auto& TrackData : TracksDataAsset->TrackData)
+	for (const auto& Location : LocationsDataAsset->Locations)
 	{
-		Teams.FindOrAdd(TrackData.Key).TrackData = TrackData.Value;
+		if (Location.Value.HasTeam)
+		{
+			FString City = UEnum::GetDisplayValueAsText(Location.Value.City).ToString();
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *City)
+			Teams.FindOrAdd(Location.Value.Team).TrackData = Location.Value.TrackData->TrackData;
+			//does not work
+		}
 	}
 }
 
@@ -68,7 +74,7 @@ void ASMS_GameMode::InitializeTeamsStatistics()
 		for (const auto& Team : Teams)
 		{
 			FTeamStatistics NewTeamStatistics;
-			NewTeamStatistics.TeamID = Team.Value.TeamID;
+			NewTeamStatistics.Team = Team.Value.Team;
 			NewTeamStatistics.TeamName = Team.Value.TeamName;
 			Subsystem->AddTeamStatistics(NewTeamStatistics);
 		}
@@ -90,7 +96,7 @@ void ASMS_GameMode::PrintTeams()
 }
 
 
-const FString& ASMS_GameMode::GetTeamName(int32 TeamID)const{return Teams.FindChecked(static_cast<ETeams>(TeamID)).TeamName;}
-FTeamMatchData& ASMS_GameMode::GetTeamData(int32 TeamID){return Teams.FindChecked(static_cast<ETeams>(TeamID));}
+const FString& ASMS_GameMode::GetTeamName(ETeams Team)const{return Teams.FindChecked(Team).TeamName;}
+FTeamMatchData& ASMS_GameMode::GetTeamData(ETeams Team){return Teams.FindChecked(Team);}
 int32 ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
 UMatchManager* ASMS_GameMode::GetMatchManager() const{return CurrentMatchManager;}

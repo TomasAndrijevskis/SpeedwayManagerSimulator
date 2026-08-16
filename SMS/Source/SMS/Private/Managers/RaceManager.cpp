@@ -42,9 +42,9 @@ void URaceManager::SimulateRace(const TObjectPtr<UTrackManager>& TrackManager)
 	{
 		for (const auto& RaceLine : RaceLines)
 		{
-			const float StartModifier = TrackManager->GetGateModifier(RaceLine->GetRaceLineID());
-			const float DrivingModifier = TrackManager->GetDrivingModifier();
-			RaceLine->OnRaceStartedDelegate.Broadcast(StartModifier, DrivingModifier);
+			//const float StartModifier = TrackManager->GetGateModifier(RaceLine->GetRaceLineID());
+			//const float DrivingModifier = TrackManager->GetDrivingModifier();
+			RaceLine->OnRaceStartedDelegate.Broadcast(0, 0);
 		}
 		SortLinesByRating();
 		for (int32 Position = 0; Position < RaceLines.Num(); Position++)
@@ -83,7 +83,7 @@ void URaceManager::BroadcastRaceResult()
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeamID(), RaceLine->GetPointsPerRace());
+		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeam(), RaceLine->GetPointsPerRace());
 	}
 }
 

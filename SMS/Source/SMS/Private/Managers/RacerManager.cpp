@@ -103,7 +103,7 @@ void URacerManager::CollectMatchStatistics()
 		NewStats.RacerID = Data.GetRacerID();
 		NewStats.RacerName = Data.GetRacerName();
 		NewStats.RacerAge = Data.GetRacerAge();
-		NewStats.Team = Data.GetRacerTeamName();
+		NewStats.TeamName = Data.GetRacerTeamName();
 		FMatchStatistics NewMatchStats;
 		NewMatchStats.bIsVisitor = IsVisitor();
 		NewMatchStats.RaceResults = RacerPoints;

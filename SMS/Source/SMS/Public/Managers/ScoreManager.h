@@ -5,7 +5,7 @@
 #include "Data/TeamData/TeamMatchData.h"
 #include "ScoreManager.generated.h"
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnTeamOverallScoreUpdated, int32, int32);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnTeamOverallScoreUpdated, ETeams, int32);
 UCLASS()
 class SMS_API UScoreManager : public UObject
 {
@@ -19,7 +19,7 @@ public:
 
 	int32 GetRaceScore(bool IsVisitor) const;
 	
-	void UpdateScore(int32 TeamID, int32 PointsToAdd);
+	void UpdateScore(ETeams TeamToFind, int32 PointsToAdd);
 
 	void ClearLastRaceScore();
 	

@@ -4,6 +4,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/RaceData/RaceLineData.h"
+#include "Data/TeamData/ETeams.h"
 #include "RaceLineBase.generated.h"
 
 
@@ -45,9 +46,9 @@ public:
 	void CrossOutRacer();
 
 	void ChangeLineStatus(bool bIsActive);
-	
-	int32 GetTeamID() const;
 
+	ETeams GetTeam() const;
+	
 	void AddReplacementOption(FString SelectedItem);
 	virtual void AddMainOption(FString SelectedItem){};
 	void RemoveFromReplacementSelection(FString SelectedItem);

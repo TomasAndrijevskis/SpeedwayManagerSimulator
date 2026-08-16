@@ -162,12 +162,12 @@ void UTeamManager::UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineR
 }
 
 
-void UTeamManager::CollectTeamStatistics(const EMatchResults Result, const TMap<int32, int32>& OpponentResult)
+void UTeamManager::CollectTeamStatistics(const EMatchResults Result, const TMap<ETeams, int32>& OpponentResult)
 {
 	if (UStandingsSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UStandingsSubsystem>())
 	{
 		FTeamStatistics TeamStats;
-		TeamStats.TeamID = GetTeamID();
+		TeamStats.Team = GetTeam();
 		FTeamMatchStatistics MatchStats;
 		MatchStats.IsVisitorTeam = IsVisitorTeam();
 		MatchStats.TeamScore = TeamData->TeamScore;
@@ -196,5 +196,5 @@ TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLi
 bool UTeamManager::IsVisitorTeam()const{return TeamData->IsVisitorTeam;}
 TMap<int32, URacerManager*>& UTeamManager::GetRacerManagers() {return RacerManagers;}
 const FString& UTeamManager::GetTeamName() const{return TeamData->TeamName;}
-int32 UTeamManager::GetTeamID() const{return TeamData->TeamID;}
+ETeams UTeamManager::GetTeam() const{return TeamData->Team;}
 int32 UTeamManager::GetTeamScore() const{return TeamData->TeamScore;}

@@ -8,7 +8,7 @@
 void UStatisticsLine::InitializeLine(const FRacerStatistics& RacerStats)
 {
 	SetName(RacerStats.RacerName);
-	SetTeam(RacerStats.Team);
+	SetTeam(RacerStats.TeamName);
 	SetStatus(RacerStats.RacerAge);
 	SetMatches(RacerStats.MatchStatistics.Num());
 	SetNumbers(RacerStats.MatchStatistics);

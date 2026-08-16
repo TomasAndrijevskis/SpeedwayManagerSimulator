@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/Rules/EMatchResults.h"
+#include "Data/TeamData/ETeams.h"
 #include "TeamMatchStatistics.generated.h"
 
 
@@ -19,5 +20,5 @@ struct FTeamMatchStatistics
 	UPROPERTY()
 	EMatchResults Result;
 	
-	TMap<int32, int32> OpponentResult;
+	TMap<ETeams, int32> OpponentResult;
 };

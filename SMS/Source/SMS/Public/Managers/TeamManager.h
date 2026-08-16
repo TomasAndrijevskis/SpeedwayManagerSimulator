@@ -43,7 +43,7 @@ public:
 	
 	const FString& GetTeamName() const;
 
-	int32 GetTeamID() const;
+	ETeams GetTeam() const;
 
 	int32 GetTeamScore() const;
 	
@@ -67,7 +67,7 @@ public:
 
 	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
 
-	void CollectTeamStatistics(const EMatchResults Result, const TMap<int32, int32>& OpponentResult);
+	void CollectTeamStatistics(const EMatchResults Result, const TMap<ETeams, int32>& OpponentResult);
 	
 private:
 	

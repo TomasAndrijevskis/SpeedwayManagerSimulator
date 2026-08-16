@@ -57,7 +57,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_Points;
 
-	int32 CalculateBonus(TMap<int32, TArray<int32>>& TeamResults, TMap<int32, TArray<int32>>& OpponentResults);
+	int32 CalculateBonus(TMap<ETeams, TArray<int32>>& TeamResults, TMap<ETeams, TArray<int32>>& OpponentResults);
 	
 	void SetNumbers(const FTeamStatistics& TeamStatistics);
 
