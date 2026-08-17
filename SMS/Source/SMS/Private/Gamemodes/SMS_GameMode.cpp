@@ -56,12 +56,14 @@ void ASMS_GameMode::SetTrackData()
 {
 	for (const auto& Location : LocationsDataAsset->Locations)
 	{
-		if (Location.Value.HasTeam)
+		for (const auto& City : Location.Value.City)
 		{
-			FString City = UEnum::GetDisplayValueAsText(Location.Value.City).ToString();
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *City)
-			Teams.FindOrAdd(Location.Value.Team).TrackData = Location.Value.TrackData->TrackData;
-			//does not work
+			if (City.Value.HasTeam)
+			{
+				FString CityName = UEnum::GetDisplayValueAsText(City.Key).ToString();
+				UE_LOG(LogTemp, Warning, TEXT("%s"), *CityName)
+				Teams.FindOrAdd(City.Value.Team).TrackData = City.Value.TrackData->TrackData;
+			}
 		}
 	}
 }
