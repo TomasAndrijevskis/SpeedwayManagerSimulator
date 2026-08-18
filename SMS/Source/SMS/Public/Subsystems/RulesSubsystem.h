@@ -35,6 +35,8 @@ public:
 	int32 GetRaceResultNumber(const ERaceResults RaceResult) const;
 
 	void DecideMatchWinner(TArray<UTeamManager*> TeamManagers);
+
+	bool IsTrackCleaningTime(int32 CurrentRace) const;
 	
 private:
 
@@ -51,6 +53,8 @@ private:
 	
 	TArray<FReplacementRule> ReplacementRules;
 
+	TArray<int32> TrackCleaningRaces {4, 7, 10, 13};
+	
 	int32 RacersAmount = 12;
 	
 	int32 JuniorAge = 23;

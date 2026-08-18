@@ -6,7 +6,7 @@
 #include "TrackManager.generated.h"
 
 
-DECLARE_MULTICAST_DELEGATE(FOnTrackUpdateRequest);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnTrackUpdateRequest, int32);
 
 UCLASS()
 class SMS_API UTrackManager : public UObject
@@ -33,7 +33,7 @@ private:
 
 	void SetInitialTrackType();
 
-	void TryUpdateTrack();
+	void TryUpdateTrack(int32 CurrentRace);
 	
 	ETrackTypes GetNewTrackType(const float Total);
 	

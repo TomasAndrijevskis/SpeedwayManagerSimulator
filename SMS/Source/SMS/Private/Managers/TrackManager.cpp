@@ -1,6 +1,8 @@
 
 #include "Managers/TrackManager.h"
 
+#include "Subsystems/RulesSubsystem.h"
+
 
 void UTrackManager::InitializeManager(const FTrackData& NewTrackData)
 {
@@ -26,8 +28,12 @@ void UTrackManager::SetInitialTrackType()
 }
 
 
-void UTrackManager::TryUpdateTrack()
+void UTrackManager::TryUpdateTrack(int32 CurrentRace)
 {
+	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	{
+		if (!Rules->IsTrackCleaningTime(CurrentRace)) return;
+	}
 	UE_LOG(LogTemp, Error, TEXT("TryUpdateTrack"));
 	float MaxChance = 1.f;
 	float Random = FMath::RandRange(0.f, MaxChance);

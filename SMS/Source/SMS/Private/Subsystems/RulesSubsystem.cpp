@@ -161,6 +161,6 @@ bool URulesSubsystem::CheckPossibleAmountOfReplacements(int32 AmountOfReplacemen
 	return false;
 }
 
-
+bool URulesSubsystem::IsTrackCleaningTime(int32 CurrentRace) const{return TrackCleaningRaces.Contains(CurrentRace);}
 bool URulesSubsystem::IsJunior(int32 RacerAge) const{return RacerAge <= JuniorAge;}
 EPositionTypes URulesSubsystem::GetPositionType(int32 RacerNumber) const {return Positions[RacerNumber - 1];}

@@ -31,7 +31,7 @@ void UMatchManager::SimulateRace()
 	if (CurrentRace <= Races.Num())
 	{
 		if (!Races[CurrentRace].RaceManager->CheckAllRacersInRace()) return;
-		if (CurrentRace % 4 == 0) TrackManager->OnTrackUpdateRequestDelegate.Broadcast();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		TrackManager->OnTrackUpdateRequestDelegate.Broadcast(CurrentRace);
 		BindRaceDelegates();
 		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast(TrackManager);
 		HandleRaceFinished();
