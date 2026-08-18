@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "RacerAttributes.h"
+#include "Data/Locations/ECountries.h"
 #include "Data/TeamData/ETeams.h"
 #include "RacerData.generated.h"
 
@@ -20,6 +21,9 @@ struct FRacerData : public FTableRowBase
 	UPROPERTY(EditDefaultsOnly)
 	int32 Age = 0;
 
+	UPROPERTY(EditDefaultsOnly)
+	ECountries Nationality = ECountries::None;
+	
 	UPROPERTY(EditDefaultsOnly)
 	ETeams InitialTeam;
 	
