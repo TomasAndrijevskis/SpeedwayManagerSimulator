@@ -21,7 +21,7 @@ class SMS_API UCalendarLine : public UUserWidget
 
 public:
 
-	void InitializeLine(ETeams NewHomeTeam, ETeams NewVisitorTeam);
+	void InitializeLine(int32 HomeTeamID, int32 VisitorTeamID);
 	
 	void SetMatchTeams(ETeams NewHomeTeam, ETeams NewVisitorTeam);
 	

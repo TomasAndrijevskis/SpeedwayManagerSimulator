@@ -30,10 +30,12 @@ void UCalendarLine::InitializeManagers()
 }
 
 
-void UCalendarLine::InitializeLine(ETeams NewHomeTeam, ETeams NewVisitorTeam)
+void UCalendarLine::InitializeLine(int32 HomeTeamID, int32 VisitorTeamID)
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
+	ETeams NewHomeTeam = static_cast<ETeams>(HomeTeamID);
+	ETeams NewVisitorTeam = static_cast<ETeams>(VisitorTeamID);
 	SetMatchTeams(NewHomeTeam, NewVisitorTeam);
 	DisplayTeamNames(GameMode->GetTeamName(HomeTeam), GameMode->GetTeamName(VisitorTeam));
 }

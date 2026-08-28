@@ -16,14 +16,14 @@ void UCalendarRound::CreateMatches(const TArray<FTeamsInMatch>& Matches)
 {
 	for (const auto& Match : Matches)
 	{
-		UCalendarLine* CalendarLine = CreateMatch(Match.HomeTeam, Match.VisitorTeam);
+		UCalendarLine* CalendarLine = CreateMatch(Match.HomeTeamID, Match.VisitorTeamID);
 		if (!CalendarLine) return;
 		VerticalBox_Content->AddChildToVerticalBox(CalendarLine);
 	}
 }
 
 
-UCalendarLine* UCalendarRound::CreateMatch(ETeams HomeTeam, ETeams VisitorTeam)
+UCalendarLine* UCalendarRound::CreateMatch(int32 HomeTeam, int32 VisitorTeam)
 {
 	if (!CalendarLineClass) return nullptr;
 	UCalendarLine* CalendarLine = CreateWidget<UCalendarLine>(this, CalendarLineClass);
