@@ -30,7 +30,19 @@ void UStatisticsWidget::SortLines()
 {
 	StatisticsLines.Sort([](const UStatisticsLine& L1, const UStatisticsLine& L2)
 	{
-		return L1.GetRacerAverage() > L2.GetRacerAverage();
+		if (L1.GetRacerAveragePerRace() != L2.GetRacerAveragePerRace())
+		{
+			return L1.GetRacerAveragePerRace() > L2.GetRacerAveragePerRace();
+		}
+		if (L1.GetRacerAveragePerMatch() != L2.GetRacerAveragePerMatch())
+		{
+			return L1.GetRacerAveragePerMatch() > L2.GetRacerAveragePerMatch();
+		}
+		if (L1.GetMatchesAmount() > L2.GetMatchesAmount())
+		{
+			return L1.GetMatchesAmount() > L2.GetMatchesAmount();
+		}
+		return L1.GetRacesAmount() > L2.GetRacesAmount();
 	});
 }
 

@@ -10,7 +10,8 @@ void UStatisticsLine::InitializeLine(const FRacerStatistics& RacerStats)
 	SetName(RacerStats.RacerName);
 	SetTeam(RacerStats.TeamName);
 	SetStatus(RacerStats.RacerAge);
-	SetMatches(RacerStats.MatchStatistics.Num());
+	MatchesAmount = RacerStats.MatchStatistics.Num();
+	SetMatches(MatchesAmount);
 	SetNumbers(RacerStats.MatchStatistics);
 }
 
@@ -45,7 +46,6 @@ void UStatisticsLine::SetMatches(const int32 NewAmount)
 
 void UStatisticsLine::SetNumbers(const TArray<FMatchStatistics>& MatchStatistics)
 {
-	int32 Races = 0;
 	int32 Points = 0;
 	int32 DNF = 0;
 	int32 First = 0;
@@ -62,7 +62,7 @@ void UStatisticsLine::SetNumbers(const TArray<FMatchStatistics>& MatchStatistics
 	{
 		for (const auto& Stats : MatchStatistics)
 		{
-			Races += Stats.RaceResults.Num();
+			RacesAmount += Stats.RaceResults.Num();
 			if (Stats.bIsVisitor) BonusesAway += Stats.Bonuses;
 			else BonusesHome += Stats.Bonuses;
 			
@@ -89,13 +89,13 @@ void UStatisticsLine::SetNumbers(const TArray<FMatchStatistics>& MatchStatistics
 		}
 	}
 	int32 Bonuses = BonusesHome + BonusesAway;
-	SetRaces(Races);
+	SetRaces(RacesAmount);
 	SetBonuses(Bonuses);
 	SetPoints(Points);
 	SetOverallPoints(Points + Bonuses);
 	SetNotFinishedRaces(DNF);
 	SetPlaces(First, Second, Third, Fourth);
-	SetAveragePointsPerRace(Points + Bonuses, Races);
+	SetAveragePointsPerRace(Points + Bonuses, RacesAmount);
 	SetAveragePointsPerMatch(Points + Bonuses, MatchStatistics.Num());
 	SetAveragePointsPerRaceHome(PointsHome + BonusesHome, RacesHome);
 	SetAveragePointsPerRaceAway(PointsAway + BonusesAway, RacesAway);
@@ -170,4 +170,7 @@ void UStatisticsLine::SetBonuses(const int32 NewAmount)
 	NumbersBox_Bonuses->SetText(NewAmount);
 }
 
-float UStatisticsLine::GetRacerAverage() const {return AvgP;}
+float UStatisticsLine::GetRacerAveragePerRace() const {return AvgP;}
+float UStatisticsLine::GetRacerAveragePerMatch() const {return AvgM;}
+int32 UStatisticsLine::GetMatchesAmount() const {return MatchesAmount;}
+int32 UStatisticsLine::GetRacesAmount() const{return RacesAmount;}

@@ -19,8 +19,14 @@ public:
 
 	void InitializeLine(const FRacerStatistics& RacerStats);
 
-	float GetRacerAverage() const;
+	float GetRacerAveragePerRace() const;
 
+	float GetRacerAveragePerMatch() const;
+	
+	int32 GetMatchesAmount() const;
+
+	int32 GetRacesAmount() const;
+	
 	void SetRank(const int32 NewRank);
 	
 private:
@@ -110,4 +116,10 @@ private:
 	void SetAveragePointsPerRaceAway(const int32 Points, const int32 Races);
 
 	float AvgP = 0.f;
+
+	float AvgM = 0.f;
+
+	int32 MatchesAmount = 0;
+
+	int32 RacesAmount = 0;
 };
