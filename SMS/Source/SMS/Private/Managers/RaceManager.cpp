@@ -44,7 +44,7 @@ void URaceManager::SimulateRace(const TObjectPtr<UTrackManager>& TrackManager)
 		{
 			const float StartModifier = TrackManager->GetGateModifier(RaceLine->GetRaceLineID());
 			const float DrivingModifier = TrackManager->GetDrivingModifier();
-			RaceLine->OnRaceStartedDelegate.Broadcast(StartModifier, DrivingModifier);
+			RaceLine->OnRaceStartedDelegate.Broadcast(StartModifier, DrivingModifier, TrackManager->GetCurrentTrackType());
 		}
 		SortLinesByRating();
 		for (int32 Position = 0; Position < RaceLines.Num(); Position++)

@@ -5,6 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Data/RaceData/RaceLineData.h"
 #include "Data/TeamData/ETeams.h"
+#include "Data/Track/ETrackTypes.h"
 #include "RaceLineBase.generated.h"
 
 
@@ -15,7 +16,7 @@ class UChooseBox;
 class UOverlay;
 class UNumbersBox;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceStarted, float, float);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRaceStarted, float, float, ETrackTypes);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRacerReplaced, URaceLineBase*, const FString&, URacerManager*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, URaceLineBase*, const FString&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedRacerChanged, URaceLineBase*, URacerManager*, bool);

@@ -59,7 +59,7 @@ void URaceLineBase::SetRacerData(URacerManager* RacerManagerRef, bool IsReplacem
 void URaceLineBase::BindManagerDelegates()
 {
 	if (!RacerManager) return;
-	OnRaceStartedDelegate.AddUObject(RacerManager, &URacerManager::OnRaceStarted);
+	OnRaceStartedDelegate.AddUObject(RacerManager, &URacerManager::CalculateRating);
 }
 
 

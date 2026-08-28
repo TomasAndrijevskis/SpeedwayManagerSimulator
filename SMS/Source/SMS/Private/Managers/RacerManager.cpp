@@ -12,34 +12,49 @@ void URacerManager::Initialize(const FRacerMatchData& RacerData)
 }
 
 
-void URacerManager::CalculateRating(bool IsVisitor, float GateModifier, float DistanceModifier)
+void URacerManager::CalculateRating(float GateModifier, float DistanceModifier, ETrackTypes TrackType)
 {
+	SetTieBreaker();
+	UE_LOG(LogTemp, Error, TEXT("================================================"));
+	UE_LOG(LogTemp, Display, TEXT("Name: %s"), *Data.RacerData.Name);
 	int32 Defect = FMath::RandRange(1, 20);
 	if (Defect == 1)
 	{
+		UE_LOG(LogTemp, Display, TEXT("defect"));
 		CurrentRacerRating = 0;
 		return;
 	}
 	int32 RacerRating = Data.GetBaseRating();
-	UE_LOG(LogTemp, Display, TEXT("-----"));
-	UE_LOG(LogTemp, Display, TEXT("Name: %s"), *Data.RacerData.Name);
 	UE_LOG(LogTemp, Display, TEXT("Rating %i"), RacerRating);
 	//UE_LOG(LogTemp, Display, TEXT("TieBreaker: %i"), TieBreakerValue);
+
+	int32 Luck = FMath::RandRange(-3, 3);
+	float Start = Data.GetReaction();
+	UE_LOG(LogTemp, Warning, TEXT("initial Start %f"), Start);
+	UE_LOG(LogTemp, Warning, TEXT("Luck %i"), Luck);
+	UE_LOG(LogTemp, Error, TEXT("Modifier: %f"), GateModifier);
+	Start += Luck;
+	Start += GateModifier * 10;
+	UE_LOG(LogTemp, Error, TEXT("Final start value %f"), Start);
+	UE_LOG(LogTemp, Display, TEXT("-----"));
 	
-	float Start = FMath::RandRange(0,5);
-	UE_LOG(LogTemp, Warning, TEXT("Start %f"), Start);
-	float StartModifier = Start * GateModifier;
-	UE_LOG(LogTemp, Error, TEXT("Start modified: %f - Modifier: %f"), StartModifier, GateModifier);
+	float DrivingSkill = Data.GetDrivingSkill(TrackType);
+	UE_LOG(LogTemp, Warning, TEXT("Driving %f"), DrivingSkill);
+	UE_LOG(LogTemp, Error, TEXT("Modifier: %f"), DistanceModifier);
+	if (!IsVisitor())
+	{
+		int32 TrackKnowledge = FMath::RandRange(0,3);
+		UE_LOG(LogTemp, Warning, TEXT("Track Knowledge %i"), TrackKnowledge);
+		DrivingSkill += TrackKnowledge;
+	}
 	
-	float Driving = FMath::RandRange(0,10);
-	if (!IsVisitor) Driving += FMath::RandRange(0,2);
-	UE_LOG(LogTemp, Warning, TEXT("Driving %f"), Driving);
-	float DrivingModifier = Driving * DistanceModifier;
-	UE_LOG(LogTemp, Error, TEXT("Driving modified: %f - Modifier: %f"), DrivingModifier, DistanceModifier);
+	DrivingSkill += DistanceModifier * 10;
+	UE_LOG(LogTemp, Error, TEXT("Final driving value %f"), DrivingSkill);
+	UE_LOG(LogTemp, Display, TEXT("-----"));
 
 	
-	CurrentRacerRating = Start + StartModifier + Driving + DrivingModifier + RacerRating;
-	UE_LOG(LogTemp, Display, TEXT("Race rating: %f"), CurrentRacerRating);
+	CurrentRacerRating = RacerRating * .4 + Start *.3 + DrivingSkill * .3;
+	UE_LOG(LogTemp, Display, TEXT("Final Race rating: %f"), CurrentRacerRating);
 }
 
 
@@ -56,13 +71,6 @@ void URacerManager::RemoveParticipatedRace(URaceLineBase* RaceLineRef)
 		RaceLineRef->OnRaceStartedDelegate.RemoveAll(this);
 		ParticipatedRacesRef.Remove(RaceLineRef);
 	}
-}
-
-
-void URacerManager::OnRaceStarted(float GateModifier, float DistanceModifier)
-{
-	SetTieBreaker();
-	CalculateRating(IsVisitor(), GateModifier, DistanceModifier);
 }
 
 

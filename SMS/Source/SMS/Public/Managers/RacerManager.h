@@ -22,7 +22,7 @@ public:
 	
 	void AddPoints(const ERaceResults NewResult, bool AddBonus);
 	
-	void CalculateRating(bool IsVisitor, float GateModifier, float DrivingModifier);
+	void CalculateRating(float GateModifier, float DrivingModifier, ETrackTypes TrackType);
 
 	void SetTieBreaker();
 
@@ -37,8 +37,6 @@ public:
 	void AddParticipatedRace(URaceLineBase* RaceLineRef);
 
 	void RemoveParticipatedRace(URaceLineBase* RaceLineRef);
-
-	void OnRaceStarted(float GateModifier, float DistanceModifier);
 
 	int32 GetRacerAge() const;
 	
