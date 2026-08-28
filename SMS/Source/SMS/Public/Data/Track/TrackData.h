@@ -21,4 +21,9 @@ struct FTrackData
 	
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FGatesData> Gates;
+	
+	bool IsValid() const
+	{
+		return !TrackTypeProbability.IsEmpty() && !DrivingModifiers.IsEmpty() && !Gates.IsEmpty(); 
+	}
 };

@@ -86,8 +86,12 @@ ETrackTypes UTrackManager::GetNewTrackType(const float Total)
 void UTrackManager::SetHomeTeamTrackData(const FTrackData& NewTrackData){TrackData = NewTrackData;}
 float UTrackManager::GetGateModifier(int32 GateID)
 {
-	if (TrackData.Gates.IsEmpty()) return 0.f;
-	return TrackData.Gates[GateID].StartModifiers[CurrentTrackType];
+	if (TrackData.IsValid()) return TrackData.Gates[GateID].StartModifiers[CurrentTrackType];
+	return 0.f;
 }
-float UTrackManager::GetDrivingModifier(){return TrackData.DrivingModifiers[CurrentTrackType];}
+float UTrackManager::GetDrivingModifier()
+{
+	if (TrackData.IsValid()) return TrackData.DrivingModifiers[CurrentTrackType];
+	return 0.f;
+}
 ETrackTypes UTrackManager::GetCurrentTrackType() const{return CurrentTrackType;}
