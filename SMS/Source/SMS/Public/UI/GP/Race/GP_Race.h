@@ -1,0 +1,29 @@
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "UI/BaseClasses/Race_Base.h"
+#include "GP_Race.generated.h"
+
+
+class UVerticalBox;
+class UNumbersBox;
+
+UCLASS()
+class SMS_API UGPRace : public URace_Base
+{
+	GENERATED_BODY()
+
+public:
+
+	virtual void InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef) override;
+
+private:
+
+	virtual void InitializeRaceData() override;
+
+	virtual void BindDelegates() override;
+
+	virtual void CreateRaceLines() override;
+	
+};

@@ -6,31 +6,22 @@
 #include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
 #include "Managers/ScoreManager.h"
-#include "UI/BaseClasses/NumbersBox.h"
-#include "SMS/Public/UI/League/Program/Race/RaceLine.h"
-#include "SMS/Public/UI/League/Program/ScoreCounter.h"
+#include "UI/League/Program/ScoreCounter.h"
 #include "UI/League/Program/Race/NominatedRaceLine.h"
+#include "UI/League/Program/Race/RaceLine.h"
+#include "UI/League/Program/Race/RaceLineBase.h"
 
 
-void URace::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
+void ULeagueRace::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
 {
-	RaceID = NewID;
-	NumbersBox_RaceNumber->SetText(RaceID);
-	InitializeManagers(ScoreManagerRef);
-	InitializeRaceData();
-	BindDelegates();
-	OnIDSet();
-}
-
-
-void URace::InitializeManagers(UScoreManager* ScoreManagerRef)
-{
+	Super::InitializeWidget(NewID, ScoreManagerRef);
 	ScoreManager = ScoreManagerRef;
 }
 
 
-void URace::InitializeRaceData()
+void ULeagueRace::InitializeRaceData()
 {
+	Super::InitializeRaceData();
 	FRaceData data;
 	data.RaceManager = NewObject<URaceManager>(this);
 	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
@@ -41,32 +32,21 @@ void URace::InitializeRaceData()
 }
 
 
-void URace::BindDelegates()
+void ULeagueRace::BindDelegates()
 {
+	Super::BindDelegates();
 	if (!Data.RaceManager) return;
-	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateRacePoints);
-	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &URace::UpdateOverallScore);
-	Data.RaceManager->OnRaceLineResultUpdatedDelegate.AddUObject(this, &URace::OnRaceStatsUpdateRequested);
+	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &ULeagueRace::UpdateRacePoints);
+	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &ULeagueRace::UpdateOverallScore);
+	Data.RaceManager->OnRaceLineResultUpdatedDelegate.AddUObject(this, &URace_Base::OnRaceStatsUpdateRequested);
 }
 
 
-void URace::OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceResultData) const
+
+void ULeagueRace::CreateRaceLines()
 {
-	OnRaceStatsUpdateRequestedDelegate.Broadcast(RaceResultData);
-}
-
-
-void URace::OnIDSet()
-{
-	CreateRaceLines();
-	if (RaceID != 1) Data.RaceManager->ChangeRaceStatus(false);
-}
-
-
-void URace::CreateRaceLines()
-{
-	if (!Data.RaceManager || !Data.RaceLineupManager || !RaceDataAsset) return;
-	const int32 RaceLineAmount = RaceDataAsset->RacePatterns[RaceID].RaceLines.Num();
+	if (!Data.RaceManager || !Data.RaceLineupManager || !RacePatternDataAsset) return;
+	const int32 RaceLineAmount = RacePatternDataAsset->RacePatterns[RaceID].RaceLines.Num();
 	for (int32 RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
 	{
 		URaceLineBase* NewRaceLine;
@@ -90,7 +70,7 @@ void URace::CreateRaceLines()
 }
 
 
-URaceLineBase* URace::CreateRaceLine(int32 RaceLineID)
+URaceLineBase* ULeagueRace::CreateRaceLine(int32 RaceLineID)
 {
 	if (!RaceLineClass) return nullptr;
 	URaceLine* NewRaceLine = CreateWidget<URaceLine>(this, RaceLineClass);
@@ -100,7 +80,7 @@ URaceLineBase* URace::CreateRaceLine(int32 RaceLineID)
 }
 
 
-URaceLineBase* URace::CreateNominatedRaceLine(int32 RaceLineID)
+URaceLineBase* ULeagueRace::CreateNominatedRaceLine(int32 RaceLineID)
 {
 	if (!NominatedRaceLineClass) return nullptr;
 	UNominatedRaceLine* NewRaceLine = CreateWidget<UNominatedRaceLine>(this, NominatedRaceLineClass);
@@ -110,7 +90,7 @@ URaceLineBase* URace::CreateNominatedRaceLine(int32 RaceLineID)
 }
 
 
-void URace::UpdateRacePoints()
+void ULeagueRace::UpdateRacePoints()
 {
 	if (!ScoreManager) return;
 	ScoreCounter->SetRacePoints(
@@ -119,7 +99,7 @@ void URace::UpdateRacePoints()
 }
 
 
-void URace::UpdateOverallScore()
+void ULeagueRace::UpdateOverallScore()
 {
 	if (!ScoreManager) return;
 	ScoreCounter->SetOverallScore(
@@ -128,6 +108,5 @@ void URace::UpdateOverallScore()
 }
 
 
-FRaceLineData& URace::GetRaceLineData(int32 RaceLineId) const{return RaceDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}
-bool URace::IsNominatedRace() const{return RaceDataAsset->RacePatterns[RaceID].IsNominatedRace;}
-FRaceData& URace::GetRaceData() {return Data;}
+
+bool ULeagueRace::IsNominatedRace() const{return RacePatternDataAsset->RacePatterns[RaceID].IsNominatedRace;}
