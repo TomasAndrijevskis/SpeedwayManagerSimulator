@@ -1,5 +1,5 @@
 
-#include "SMS/Public/UI/League/Program/Race/Race.h"
+#include "SMS/Public/UI/League/Program/Race/LeagueRace.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"

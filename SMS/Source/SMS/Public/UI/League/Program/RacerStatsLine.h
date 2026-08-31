@@ -49,7 +49,7 @@ protected:
 private:
 
 	UPROPERTY(meta = (BindWidget))
-	UNumbersBox* NumbersBox_RiderNumber;
+	UNumbersBox* NumbersBox_RacerNumber;
 	
 	UPROPERTY(meta = (BindWidget))
 	UChooseBox* ChooseBox_Racer;

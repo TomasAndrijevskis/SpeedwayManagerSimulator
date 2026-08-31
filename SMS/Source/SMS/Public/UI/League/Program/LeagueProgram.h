@@ -2,69 +2,36 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
 #include "Data/TeamData/TeamMatchData.h"
+#include "UI/BaseClasses/Program.h"
 #include "LeagueProgram.generated.h"
 
-struct FRaceResultData;
-class URaceStats;
-class UTextBlock;
-class URace;
+
 class UTeamManager;
 class UTeamRoster;
-class UFillNominatedRaces;
-class UMatchManager;
-class URacerStatsLine;
-class UCanvasPanel;
-class UBackgroundBlur;
 class UVerticalBox;
-class UButton;
-
 
 UCLASS()
-class SMS_API ULeagueProgram : public UUserWidget
+class SMS_API ULeagueProgram : public UProgram
 {
 	GENERATED_BODY()
-	
-public:
-
-	void InitializeManagers();
 
 protected:
 
 	virtual void NativeConstruct() override;
+
+	virtual void CollectStatistics() override;
 	
 private:
-
-	UPROPERTY(meta = (BindWidget))
-	UCanvasPanel* CanvasPanel_Root;
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_SimulateRace;
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_SimulateMatch;
-	
-	UPROPERTY(meta = (BindWidget))
-	UTextBlock* Text_SimulateButton;
 	
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_ShowTeams;
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_RandomizeTeamRosters;
-	
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_ConfirmTeams;
 	
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Teams;
 
 	UPROPERTY(meta = (BindWidget))
-	UBackgroundBlur* BackgroundBlur;
-
-	UPROPERTY(meta = (BindWidget))
-	URaceStats* RaceStatsWidget;
+	UButton* Button_RandomizeTeamRosters;
 	
 	void InitializeTeams();
 
@@ -72,57 +39,23 @@ private:
 
 	void RegisterTeamRoster(UTeamRoster* TeamRoster);
 	
-	UFUNCTION()
-	void PopulateRacers();
+	virtual void PopulateRacers() override;
 	
-	void BindDelegates();
+	virtual void BindDelegates() override;
 
 	UFUNCTION()
 	void ShowTeams();
-
-	void CreateRaces();
-	
-	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
-
-	UFUNCTION()
-	void StartRace();
-
-	UFUNCTION()
-	void SimulateMatch();
 	
 	UFUNCTION()
-	void RandomizeTeamRosters();//Testing
+	void RandomizeTeamRosters();
 
 	UFUNCTION()
 	void DisableButtons();
 
-	UFUNCTION()
-	void FinishMatch();
-	
-	void ChangeButtonBehaviour();
-
-	void OnRaceStatsUpdated(const TArray<FRaceResultData>& Data);
-
 	void CreateRaceStatsWidget();
-
-	UFUNCTION()
-	void PrepareToEndMatch();
-
-	void CollectStatistics();
 	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<URace> RaceClass;
-
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UTeamRoster> TeamRosterClass;
-	
-	UPROPERTY()
-	TObjectPtr<UMatchManager> MatchManager;
-	
-	UPROPERTY(VisibleAnywhere)
-	int32 AmountOfRaces = 15;
 
 	TArray<TObjectPtr<UTeamManager>> TeamManagers;
-	
-	FVector2d StartPosition = FVector2d(0,-540);
 };

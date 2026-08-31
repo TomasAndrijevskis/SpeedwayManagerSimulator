@@ -116,7 +116,7 @@ void URacerStatsLine::UpdateOverallPoints(int32 Points, int32 Bonus)
 void URacerStatsLine::SetID(int32 NewID)
 {
 	RacerStatsLineID = NewID;
-	NumbersBox_RiderNumber->SetText(RacerStatsLineID);
+	NumbersBox_RacerNumber->SetText(RacerStatsLineID);
 }
 
 

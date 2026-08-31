@@ -6,7 +6,7 @@
 #include "Data/RaceData/RaceData.h"
 #include "Data/RaceData/RaceLineData.h"
 #include "Data/RaceData/RaceResultData.h"
-#include "Race.generated.h"
+#include "LeagueRace.generated.h"
 
 class UScoreManager;
 class URaceLineBase;
