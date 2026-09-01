@@ -5,7 +5,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Data/RacersData/RacerData.h"
 #include "Data/Rules/ERaceResults.h"
-#include "RacerStatsLine.generated.h"
+#include "League_RacerStatsLine.generated.h"
 
 class URacerManager;
 class UChooseBox;
@@ -14,9 +14,9 @@ class UTextBlock;
 class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int32);
-DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const URacerStatsLine*, const FString&, FRacerData&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const ULeague_RacerStatsLine*, const FString&, FRacerData&);
 UCLASS()
-class SMS_API URacerStatsLine : public UUserWidget
+class SMS_API ULeague_RacerStatsLine : public UUserWidget
 {
 	GENERATED_BODY()
 

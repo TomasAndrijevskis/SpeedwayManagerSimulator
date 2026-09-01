@@ -47,6 +47,7 @@ void UNominatedRaceLine::AddMainOption(FString SelectedItem)
 
 void UNominatedRaceLine::RemoveFromMainSelection(FString SelectedItem)
 {
+	UE_LOG(LogTemp, Display, TEXT("%s"), *SelectedItem);
 	ChooseBox_ChooseMainRacer->RemoveOption(SelectedItem);
 	if (!ChooseBox_RacerReplacement->AnyOptionsLeft()) ChangeChooseBoxStatus(false);
 }

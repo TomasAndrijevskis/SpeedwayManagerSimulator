@@ -2,16 +2,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "League_RaceLine_Base.h"
-#include "RaceLine.generated.h"
+#include "UI/BaseClasses/RaceLine_Base.h"
+#include "GP_RaceLine_Base.generated.h"
 
 
 class UNamesBox;
+class UNumbersBox;
 
 UCLASS()
-class SMS_API URaceLine : public ULeague_RaceLine_Base
+class SMS_API UGP_RaceLine_Base : public URaceLine_Base
 {
 	GENERATED_BODY()
+
+public:
 
 protected:
 
@@ -19,6 +22,8 @@ protected:
 	
 private:
 	
+
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_RacerName;
+	
 };

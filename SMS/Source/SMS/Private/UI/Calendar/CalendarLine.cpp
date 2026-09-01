@@ -7,7 +7,7 @@
 #include "Managers/ScoreManager.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "UI/League/Program/LeagueProgram.h"
+#include "UI/BaseClasses/Program_Base.h"
 
 
 void UCalendarLine::NativeConstruct()
@@ -21,7 +21,7 @@ void UCalendarLine::InitializeManagers()
 {
 	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
-	GameMode->CreateRequiredManagers();
+	GameMode->CreateManagers();
 	MatchManager = GameMode->GetMatchManager();
 	if (!MatchManager) return;
 	ScoreManager = MatchManager->GetScoreManager();
@@ -43,23 +43,24 @@ void UCalendarLine::InitializeLine(int32 HomeTeamID, int32 VisitorTeamID)
 
 void UCalendarLine::OnMatchEnded()
 {
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode || !ScoreManager) return;
+	if (!ScoreManager) return;
 	Button_StartMatch->OnClicked.Clear();
 	Button_StartMatch->SetIsEnabled(false);
 	DisplayFinalScore(ScoreManager->GetTeamScore(false), ScoreManager->GetTeamScore(true));
+	ScoreManager = nullptr;
+	MatchManager = nullptr;
 }
 
 
 void UCalendarLine::StartMatch()
 {
-	if (!LeagueProgramClass || !MatchManager) return;
-	ULeagueProgram* LeagueProgram = CreateWidget<ULeagueProgram>(this, LeagueProgramClass);
-	if (!LeagueProgram) return;
+	if (!ProgramClass || !MatchManager) return;
+	UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
+	if (!Program) return;
 	MatchManager->SetTeam(HomeTeam, false);
 	MatchManager->SetTeam(VisitorTeam, true);
-	LeagueProgram->InitializeManagers();
-	LeagueProgram->AddToViewport(1);
+	Program->InitializeManagers();
+	Program->AddToViewport(1);
 }
 
 

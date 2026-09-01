@@ -1,5 +1,5 @@
 
-#include "SMS/Public/UI/League/Program/RacerStatsLine.h"
+#include "SMS/Public/UI/League/Program/League_RacerStatsLine.h"
 #include "Components/HorizontalBox.h"
 #include "Managers/RacerManager.h"
 #include "Subsystems/RulesSubsystem.h"
@@ -7,41 +7,41 @@
 #include "UI/BaseClasses/NumbersBox.h"
 
 
-void URacerStatsLine::NativeConstruct()
+void ULeague_RacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &URacerStatsLine::OnRacerChosen);
+	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &ULeague_RacerStatsLine::OnRacerChosen);
 }
 
 
-void URacerStatsLine::InitializeManagers(URacerManager* RacerManagerRef)
+void ULeague_RacerStatsLine::InitializeManagers(URacerManager* RacerManagerRef)
 {
 	RacerManager = RacerManagerRef;
 	BindDelegates();
 }
 
 
-void URacerStatsLine::BindDelegates()
+void ULeague_RacerStatsLine::BindDelegates()
 {
 	if (!RacerManager) return;
-	RacerManager->OnPointsAddedDelegate.AddUObject(this, &URacerStatsLine::CreateNewPointsBox);
+	RacerManager->OnPointsAddedDelegate.AddUObject(this, &ULeague_RacerStatsLine::CreateNewPointsBox);
 }
 
 
-void URacerStatsLine::AddOption(const FRacerData Data)
+void ULeague_RacerStatsLine::AddOption(const FRacerData Data)
 {
 	RacerData.Add(Data);
 	ChooseBox_Racer->AddOption(Data.Name);
 }
 
 
-void URacerStatsLine::RemoveOption(const FString& Option)
+void ULeague_RacerStatsLine::RemoveOption(const FString& Option)
 {
 	ChooseBox_Racer->RemoveOption(Option);
 }
 
 
-void URacerStatsLine::CreateNewPointsBox(const ERaceResults& RaceResult, bool AddBonus)
+void ULeague_RacerStatsLine::CreateNewPointsBox(const ERaceResults& RaceResult, bool AddBonus)
 {
 	if (!PointsBoxClass || !RacerManager) return;
 	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
@@ -57,7 +57,7 @@ void URacerStatsLine::CreateNewPointsBox(const ERaceResults& RaceResult, bool Ad
 }
 
 
-void URacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type SelectionType)
+void ULeague_RacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type SelectionType)
 {
 	if (PreviousOption == "")
 	{
@@ -81,7 +81,7 @@ void URacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::Type Se
 }
 
 
-void URacerStatsLine::ChooseRandomOption()
+void ULeague_RacerStatsLine::ChooseRandomOption()
 {
 	if (ChooseBox_Racer->GetSelectedOption() != "") return;
 	int OptionsAmount = ChooseBox_Racer->GetNumberOfOptions();
@@ -99,13 +99,13 @@ void URacerStatsLine::ChooseRandomOption()
 }
 
 
-void URacerStatsLine::LockRacer()
+void ULeague_RacerStatsLine::LockRacer()
 {
 	ChooseBox_Racer->DisableChooseBox();
 }
 
 
-void URacerStatsLine::UpdateOverallPoints(int32 Points, int32 Bonus)
+void ULeague_RacerStatsLine::UpdateOverallPoints(int32 Points, int32 Bonus)
 {
 	const FString NewText = FString::Printf(TEXT("%d+%d"), Points, Bonus);
 	if (Bonus > 0) NumbersBox_OverallPoints->SetText(NewText);
@@ -113,12 +113,12 @@ void URacerStatsLine::UpdateOverallPoints(int32 Points, int32 Bonus)
 }
 
 
-void URacerStatsLine::SetID(int32 NewID)
+void ULeague_RacerStatsLine::SetID(int32 NewID)
 {
 	RacerStatsLineID = NewID;
 	NumbersBox_RacerNumber->SetText(RacerStatsLineID);
 }
 
 
-int32 URacerStatsLine::GetID() const{return RacerStatsLineID;}
-int32 URacerStatsLine::GetNumberOfOptions() const{return ChooseBox_Racer->GetNumberOfOptions();}
+int32 ULeague_RacerStatsLine::GetID() const{return RacerStatsLineID;}
+int32 ULeague_RacerStatsLine::GetNumberOfOptions() const{return ChooseBox_Racer->GetNumberOfOptions();}

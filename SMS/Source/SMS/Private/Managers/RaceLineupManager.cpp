@@ -1,7 +1,7 @@
 
 #include "Managers/RaceLineupManager.h"
 #include "Managers/TeamManager.h"
-#include "UI/League/Program/Race/RaceLineBase.h"
+#include "UI/League/Program/Race/League_RaceLine_Base.h"
 
 
 void URaceLineupManager::InitializeManager()
@@ -61,7 +61,7 @@ void URaceLineupManager::BuildAvailableRacersLists(bool IsNominatedRace)
 }
 
 
-void URaceLineupManager::FillPossibleReplacementRacers(const URaceLineBase* RaceLineRef)
+void URaceLineupManager::FillPossibleReplacementRacers(const ULeague_RaceLine_Base* RaceLineRef)
 {
 	UTeamManager* TeamManagerRef = RaceLineRef->GetTeamManager();
 	if (!TeamManagerRef || !RaceLineRef) return;
@@ -90,7 +90,7 @@ void URaceLineupManager::UpdateReplacementSelectionWidgets()
 	for (const auto& Line : RaceLines)
 	{
 		if (!Line->GetOriginalRacerManager()) continue;
-		FillOptionsInComboBox(PossibleRacers[Line->GetOriginalRacerManager()], *Line, [](URaceLineBase& Line, const FString& Name)
+		FillOptionsInComboBox(PossibleRacers[Line->GetOriginalRacerManager()], *Line, [](ULeague_RaceLine_Base& Line, const FString& Name)
 		{
 			Line.AddReplacementOption(Name);
 		});
@@ -104,7 +104,7 @@ void URaceLineupManager::UpdateMainSelectionWidgets()
 	{
 		TArray<TObjectPtr<URacerManager>> Keys;
 		PossibleRacers.GetKeys(Keys);
-		FillOptionsInComboBox(Keys, *Line, [](URaceLineBase& Line, const FString& Name)
+		FillOptionsInComboBox(Keys, *Line, [](ULeague_RaceLine_Base& Line, const FString& Name)
 		{
 			Line.AddMainOption(Name);
 		});
@@ -112,7 +112,7 @@ void URaceLineupManager::UpdateMainSelectionWidgets()
 }
 
 
-void URaceLineupManager::FillOptionsInComboBox(TArray<TObjectPtr<URacerManager>>& RacerArray, URaceLineBase& RaceLineRef, TFunction<void(URaceLineBase&, const FString&)> AddOption)
+void URaceLineupManager::FillOptionsInComboBox(TArray<TObjectPtr<URacerManager>>& RacerArray, ULeague_RaceLine_Base& RaceLineRef, TFunction<void(ULeague_RaceLine_Base&, const FString&)> AddOption)
 {
 	if (RacerArray.IsEmpty()) return;
 	for (const auto& Racer : RacerArray)
@@ -127,14 +127,15 @@ void URaceLineupManager::FillOptionsInComboBox(TArray<TObjectPtr<URacerManager>>
 }
 
 
-void URaceLineupManager::AddRaceLine(URaceLineBase* NewRaceLine)
+void URaceLineupManager::AddRaceLine(ULeague_RaceLine_Base* NewRaceLine)
 {
 	RaceLines.Add(NewRaceLine);
 }
 
 
-void URaceLineupManager::OnRacerChosen(URaceLineBase* RaceLineRef, const FString& RacerName)
+void URaceLineupManager::OnRacerChosen(ULeague_RaceLine_Base* RaceLineRef, const FString& RacerName)
 {
+	UE_LOG(LogTemp, Display, TEXT("OnRacerChosen %s"), *RacerName);
 	for (auto& RaceLine : RaceLines)
 	{
 		if (RaceLine != RaceLineRef) RaceLine->RemoveFromMainSelection(RacerName);
@@ -153,7 +154,7 @@ void URaceLineupManager::OnRacerChosen(URaceLineBase* RaceLineRef, const FString
 }
 
 
-void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FString& RacerName, URacerManager* OriginalRacerManager)
+void URaceLineupManager::OnRacerReplaced(ULeague_RaceLine_Base* RaceLineRef, const FString& RacerName, URacerManager* OriginalRacerManager)
 {
 	for (auto& RaceLine : RaceLines)
 	{
@@ -173,7 +174,7 @@ void URaceLineupManager::OnRacerReplaced(URaceLineBase* RaceLineRef, const FStri
 }
 
 
-void URaceLineupManager::RestoreRacerAvailability(URaceLineBase* RaceLineRef, URacerManager* RacerManager, bool bIsReplacement)
+void URaceLineupManager::RestoreRacerAvailability(ULeague_RaceLine_Base* RaceLineRef, URacerManager* RacerManager, bool bIsReplacement)
 {
 	if (bIsReplacement) RacerManager->DecreaseAmountOfReplacements();
 	RacerManager->RemoveParticipatedRace(RaceLineRef);

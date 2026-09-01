@@ -7,8 +7,8 @@
 #include "CalendarLine.generated.h"
 
 
+class UProgram;
 class UScoreManager;
-class ULeagueProgram;
 class UMatchManager;
 class UNumbersBox;
 class UButton;
@@ -59,7 +59,7 @@ private:
 	void InitializeManagers();
 	
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ULeagueProgram> LeagueProgramClass;
+	TSubclassOf<UProgram> ProgramClass;
 
 	UPROPERTY()
 	TObjectPtr<UMatchManager> MatchManager;
