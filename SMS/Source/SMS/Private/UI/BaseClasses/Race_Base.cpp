@@ -20,6 +20,7 @@ void URace_Base::OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceR
 	OnRaceStatsUpdateRequestedDelegate.Broadcast(RaceResultData);
 }
 
+
 void URace_Base::OnIDSet()
 {
 	CreateRaceLines();
@@ -27,5 +28,6 @@ void URace_Base::OnIDSet()
 }
 
 
+bool URace_Base::IsNominatedRace() const{return RacePatternDataAsset->RacePatterns[RaceID].IsNominatedRace;}
 FRaceData& URace_Base::GetRaceData() {return Data;}
 FRaceLineData& URace_Base::GetRaceLineData(int32 RaceLineId) const{return RacePatternDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}

@@ -1,16 +1,21 @@
 
 #include "Managers/RaceManager.h"
-
 #include "Managers/RacerManager.h"
 #include "Managers/TrackManager.h"
 #include "Subsystems/RulesSubsystem.h"
-#include "UI/League/Program/Race/RaceLineBase.h"
+#include "UI/League/Program/Race/League_RaceLine_Base.h"
 
 
 void URaceManager::InitializeManager(bool NewIsNominatedRace)
 {
 	BindDelegates();
 	bIsNominatedRace = NewIsNominatedRace;
+}
+
+
+void URaceManager::InitializeManager()
+{
+	BindDelegates();
 }
 
 
@@ -21,7 +26,7 @@ void URaceManager::BindDelegates()
 }
 
 
-void URaceManager::AddRaceLine(URaceLineBase* NewRaceLine)
+void URaceManager::AddRaceLine(URaceLine_Base* NewRaceLine)
 {
 	RaceLines.Add(NewRaceLine);
 }
@@ -50,7 +55,7 @@ void URaceManager::SimulateRace(const TObjectPtr<UTrackManager>& TrackManager)
 		for (int32 Position = 0; Position < RaceLines.Num(); Position++)
 		{
 			ERaceResults Result = static_cast<ERaceResults>(Position);
-			URaceLineBase* CurrentLine = RaceLines[Position];
+			URaceLine_Base* CurrentLine = RaceLines[Position];
 			const bool IsVisitor = CurrentLine->GetRaceLineData().IsVisitorLine();
 			bool HasBonus = false;
 			if (Position != 0 && Position < RaceLines.Num() - 1)
@@ -83,7 +88,7 @@ void URaceManager::BroadcastRaceResult()
 {
 	for (const auto& RaceLine : RaceLines)
 	{
-		OnRaceScoreUpdatedDelegate.Broadcast(RaceLine->GetTeam(), RaceLine->GetPointsPerRace());
+		OnRaceScoreUpdatedDelegate.Broadcast(Cast<ULeague_RaceLine_Base>(RaceLine)->GetTeam(), RaceLine->GetPointsPerRace());
 	}
 }
 
@@ -99,7 +104,7 @@ void URaceManager::OnRaceFinished()
 
 void URaceManager::SortLinesByRating()
 {
-	RaceLines.Sort([](const URaceLineBase& L1, const URaceLineBase& L2)
+	RaceLines.Sort([](const URaceLine_Base& L1, const URaceLine_Base& L2)
 	{
 		if (L1.GetRacerRating() == L2.GetRacerRating())
 		{

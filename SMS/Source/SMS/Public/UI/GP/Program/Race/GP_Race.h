@@ -6,6 +6,7 @@
 #include "GP_Race.generated.h"
 
 
+class UGP_RaceLine_Base;
 class UVerticalBox;
 class UNumbersBox;
 
@@ -25,5 +26,6 @@ private:
 	virtual void BindDelegates() override;
 
 	virtual void CreateRaceLines() override;
-	
+
+	UGP_RaceLine_Base* CreateRaceLine(int32 RaceLineID);
 };

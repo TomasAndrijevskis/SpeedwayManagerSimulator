@@ -6,8 +6,8 @@
 #include "Data/TeamData/ETeams.h"
 #include "RaceManager.generated.h"
 
+class URaceLine_Base;
 class UTrackManager;
-class URaceLineBase;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, ETeams, int32);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int32, int32);
@@ -24,7 +24,9 @@ public:
 
 	void InitializeManager(bool NewIsNominatedRace);
 	
-	void AddRaceLine(URaceLineBase* NewRaceLine);
+	void InitializeManager();
+	
+	void AddRaceLine(URaceLine_Base* NewRaceLine);
 	
 	void ChangeRaceStatus(bool bIsActive);
 
@@ -57,7 +59,7 @@ private:
 	void BroadcastRaceResult();
 	
 	UPROPERTY()
-	TArray<URaceLineBase*> RaceLines;
+	TArray<URaceLine_Base*> RaceLines;
 
 	bool bIsNominatedRace = false;
 

@@ -31,7 +31,6 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VerticalBox_Content;
 	
-	
 	UCalendarLine* CreateMatch(int32 HomeTeamID, int32 VisitorTeamID);
 
 	UPROPERTY(EditDefaultsOnly)

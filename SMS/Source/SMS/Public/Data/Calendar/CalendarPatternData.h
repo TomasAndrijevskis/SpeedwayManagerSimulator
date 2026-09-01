@@ -15,4 +15,7 @@ struct FCalendarPatternData
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FTeamsInMatch> Races;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool IsPlayoffs;
 };

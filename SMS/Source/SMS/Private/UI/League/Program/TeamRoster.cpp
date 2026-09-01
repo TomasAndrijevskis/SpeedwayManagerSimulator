@@ -7,7 +7,7 @@
 #include "Managers/TeamManager.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
-#include "SMS/Public/UI/League/Program/RacerStatsLine.h"
+#include "SMS/Public/UI/League/Program/League_RacerStatsLine.h"
 
 
 void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef)
@@ -48,7 +48,7 @@ void UTeamRoster::CreateRacerStatLines(const UScoreManager* ScoreManagerRef)
 	if (TeamManager->IsVisitorTeam()) Id = 7;
 	for (int32 i = 0; i < RacersAmount; i++, Id++)
 	{
-		URacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
+		ULeague_RacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
 		if (NewStatLine)
 		{
 			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewStatLine);
@@ -67,10 +67,10 @@ void UTeamRoster::CreateRacerStatLines(const UScoreManager* ScoreManagerRef)
 }
 
 
-URacerStatsLine* UTeamRoster::CreateRacerStatLine(int32 ID)
+ULeague_RacerStatsLine* UTeamRoster::CreateRacerStatLine(int32 ID)
 {
 	if (!RacerStatsLineClass) return nullptr;
-	URacerStatsLine* NewStatLine = CreateWidget<URacerStatsLine>(this, RacerStatsLineClass);
+	ULeague_RacerStatsLine* NewStatLine = CreateWidget<ULeague_RacerStatsLine>(this, RacerStatsLineClass);
 	if (!NewStatLine) return nullptr;
 	NewStatLine->SetID(ID);
 	return NewStatLine;

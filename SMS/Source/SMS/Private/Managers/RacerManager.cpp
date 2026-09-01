@@ -3,7 +3,7 @@
 #include "Managers/MatchManager.h"
 #include "Subsystems/OverallRacerStatsSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
-#include "UI/League/Program/Race/RaceLineBase.h"
+#include "UI/League/Program/Race/League_RaceLine_Base.h"
 
 
 void URacerManager::Initialize(const FRacerMatchData& RacerData)
@@ -58,13 +58,13 @@ void URacerManager::CalculateRating(float GateModifier, float DistanceModifier, 
 }
 
 
-void URacerManager::AddParticipatedRace(URaceLineBase* RaceLineRef)
+void URacerManager::AddParticipatedRace(URaceLine_Base* RaceLineRef)
 {
 	if (!ParticipatedRacesRef.Contains(RaceLineRef)) ParticipatedRacesRef.Add(RaceLineRef);
 }
 
 
-void URacerManager::RemoveParticipatedRace(URaceLineBase* RaceLineRef)
+void URacerManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
 {
 	if (ParticipatedRacesRef.Contains(RaceLineRef))
 	{

@@ -11,7 +11,7 @@
 
 class URulesSubsystem;
 class UScoreManager;
-class URacerStatsLine;
+class ULeague_RacerStatsLine;
 class URacerManager;
 
 UCLASS()
@@ -51,7 +51,7 @@ public:
 
 	void MakeRandomTeamRoster();//Testing
 
-	void AddRacerStatsLine(URacerStatsLine* RacerStatsLine);
+	void AddRacerStatsLine(ULeague_RacerStatsLine* RacerStatsLine);
 
 	void FillTeamRosterOptions();
 
@@ -59,13 +59,13 @@ public:
 	
 	bool IsRosterValid() const;
 	
-	TArray<URacerStatsLine*>& GetRacerStatsLines();
+	TArray<ULeague_RacerStatsLine*>& GetRacerStatsLines();
 
 	bool IsVisitorTeam() const;
 
 	TMap<int32, URacerManager*>& GetRacerManagers();
 
-	void UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
+	void UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
 
 	void CollectTeamStatistics(const EMatchResults Result, const TMap<ETeams, int32>& OpponentResult);
 	
@@ -78,7 +78,7 @@ private:
 	TMap<int32, FRacerMatchData> Racers;
 
 	UPROPERTY()
-	TArray<URacerStatsLine*> RacerStatsLines;
+	TArray<ULeague_RacerStatsLine*> RacerStatsLines;
 
 	UPROPERTY()
 	TMap<int32, URacerManager*> RacerManagers;

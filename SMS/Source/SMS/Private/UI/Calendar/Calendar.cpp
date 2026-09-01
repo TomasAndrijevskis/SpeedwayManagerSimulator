@@ -3,10 +3,10 @@
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
 #include "Data/Calendar/CalendarDataAsset.h"
-#include "SMS/Public/UI/League/Program/LeagueProgram.h"
 #include "UI/League/Standings/StandingsWidget.h"
 #include "UI/League/Statistics/StatisticsWidget.h"
 #include "UI/Calendar/CalendarRound.h"
+#include "UI/GP/Program/GP_Program.h"
 
 
 void UCalendar::NativeConstruct()
@@ -15,6 +15,7 @@ void UCalendar::NativeConstruct()
 	CreateCalendarRounds();
 	Button_OpenStatistics->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStatisticsWidget);
 	Button_OpenStandings->OnClicked.AddUniqueDynamic(this, &UCalendar::CreateStandingsWidget);
+	Button_StartGP->OnClicked.AddUniqueDynamic(this, &UCalendar::StartGP);
 }
 
 
@@ -42,10 +43,6 @@ UCalendarRound* UCalendar::CreateRound()
 }
 
 
-
-
-
-
 void UCalendar::CreateStatisticsWidget()
 {
 	if (!StatisticsWidgetClass) return;
@@ -55,6 +52,7 @@ void UCalendar::CreateStatisticsWidget()
 	Widget->AddToViewport(0);
 }
 
+
 void UCalendar::CreateStandingsWidget()
 {
 	if (!StandingsWidgetClass) return;
@@ -62,4 +60,14 @@ void UCalendar::CreateStandingsWidget()
 	if (!Widget) return;
 	Widget->InitializeStandingsWidget();
 	Widget->AddToViewport(0);
+}
+
+
+void UCalendar::StartGP()
+{
+	if (!ProgramClass) return;
+	UGPProgram* Program = Cast<UGPProgram>(CreateWidget(this, ProgramClass));
+	if (!Program) return;
+	Program->InitializeManagers();
+	Program->AddToViewport(1);
 }

@@ -6,7 +6,7 @@
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
 #include "Managers/TrackManager.h"
-#include "UI/League/Program/RacerStatsLine.h"
+#include "UI/League/Program/League_RacerStatsLine.h"
 
 
 void UMatchManager::InitializeManager(ASMS_GameMode* CurrentGameMode)

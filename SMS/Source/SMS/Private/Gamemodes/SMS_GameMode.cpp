@@ -20,17 +20,11 @@ void ASMS_GameMode::BeginPlay()
 }
 
 
-void ASMS_GameMode::CreateRequiredManagers()
+void ASMS_GameMode::CreateManagers()
 {
-	CurrentMatchManager = NewObject<UMatchManager>(this);
-	if (!CurrentMatchManager) return;
-	CurrentMatchManager->InitializeManager(this);
-}
-
-
-void ASMS_GameMode::DestroyUsedManagers()
-{
-	CurrentMatchManager = nullptr;
+	MatchManager = NewObject<UMatchManager>(this);
+	if (!MatchManager) return;
+	MatchManager->InitializeManager(this);
 }
 
 
@@ -83,6 +77,33 @@ void ASMS_GameMode::InitializeTeamsStatistics()
 	}
 }
 
+TArray<FRacerData> ASMS_GameMode::GetTopRacers() const
+{
+	TArray<FRacerData> Racers;
+	TArray<FRacerData> tempRacers;
+	for (const auto& Team : Teams)
+	{
+		for (const auto& Racer : Team.Value.Racers)
+		{
+			tempRacers.Add(Racer);
+		}
+	}
+	tempRacers.Sort([](const FRacerData& L1, const FRacerData& L2)
+	{
+		return L1.RacerStats.Rating > L2.RacerStats.Rating;
+	});
+
+	for (int i = 0; i < 16; i++)
+	{
+		Racers.Add(tempRacers[i]);
+	}
+	for (const auto& Racer : Racers)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Name, Racer.RacerStats.Rating);
+	}
+	return Racers;
+}
+
 
 void ASMS_GameMode::PrintTeams()
 {
@@ -101,4 +122,4 @@ void ASMS_GameMode::PrintTeams()
 const FString& ASMS_GameMode::GetTeamName(ETeams Team)const{return Teams.FindChecked(Team).TeamName;}
 FTeamMatchData& ASMS_GameMode::GetTeamData(ETeams Team){return Teams.FindChecked(Team);}
 int32 ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
-UMatchManager* ASMS_GameMode::GetMatchManager() const{return CurrentMatchManager;}
+UMatchManager* ASMS_GameMode::GetMatchManager() const{return MatchManager;}

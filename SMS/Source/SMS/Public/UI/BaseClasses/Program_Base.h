@@ -4,10 +4,11 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Data/RaceData/RaceResultData.h"
-#include "Program.generated.h"
+#include "Program_Base.generated.h"
 
 
-class URace;
+class URace_Base;
+class ULeague_Race;
 class URaceStats;
 class UBackgroundBlur;
 class UTextBlock;
@@ -22,22 +23,43 @@ class SMS_API UProgram : public UUserWidget
 
 public:
 
-	void InitializeManagers();
+	virtual void InitializeManagers();
 
 protected:
 
+	UPROPERTY(meta = (BindWidget))
+	UBackgroundBlur* BackgroundBlur;
+	
 	UFUNCTION()
-	virtual void PopulateRacers() {};
+	virtual void PopulateRacers(){};
 
 	virtual void BindDelegates(); 
+
+	virtual void CollectStatistics() {};
+
+	virtual void DisableButtons();
 	
 	void CreateRaces();
 	
-	URace* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
+	URace_Base* CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment);
 
 	void OnRaceStatsUpdated(const TArray<FRaceResultData>& Data);
 
-	virtual void CollectStatistics() {};
+	void CreateRaceStatsWidget();
+	
+	UPROPERTY()
+	TObjectPtr<UMatchManager> MatchManager;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 AmountOfRaces = 0;
+
+	UPROPERTY(EditDefaultsOnly)
+	FVector2D StartPosition = FVector2D(0,-540);
+
+	UPROPERTY(EditDefaultsOnly)
+	float Offset = 0.5f;
+	
+private:
 	
 	UPROPERTY(meta = (BindWidget))
 	UCanvasPanel* CanvasPanel_Root;
@@ -53,24 +75,10 @@ protected:
 	
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_ConfirmRacers;
-	
-	UPROPERTY(meta = (BindWidget))
-	UBackgroundBlur* BackgroundBlur;
 
 	UPROPERTY(meta = (BindWidget))
 	URaceStats* RaceStatsWidget;
 	
-	UPROPERTY()
-	TObjectPtr<UMatchManager> MatchManager;
-
-	UPROPERTY(EditDefaultsOnly)
-	int32 AmountOfRaces = 0;
-
-	UPROPERTY(EditDefaultsOnly)
-	FVector2D StartPosition = FVector2D(0,-540);
-
-private:
-
 	UFUNCTION()
 	void StartRace();
 
@@ -85,6 +93,6 @@ private:
 	UFUNCTION()
 	void FinishMatch();
 	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<URace> RaceClass;
+	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
+	TSubclassOf<URace_Base> RaceClass;
 };

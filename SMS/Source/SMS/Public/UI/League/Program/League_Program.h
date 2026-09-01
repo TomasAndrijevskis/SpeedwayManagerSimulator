@@ -3,8 +3,8 @@
 
 #include "CoreMinimal.h"
 #include "Data/TeamData/TeamMatchData.h"
-#include "UI/BaseClasses/Program.h"
-#include "LeagueProgram.generated.h"
+#include "UI/BaseClasses/Program_Base.h"
+#include "League_Program.generated.h"
 
 
 class UTeamManager;
@@ -12,15 +12,13 @@ class UTeamRoster;
 class UVerticalBox;
 
 UCLASS()
-class SMS_API ULeagueProgram : public UProgram
+class SMS_API ULeague_Program : public UProgram
 {
 	GENERATED_BODY()
 
 protected:
 
 	virtual void NativeConstruct() override;
-
-	virtual void CollectStatistics() override;
 	
 private:
 	
@@ -43,18 +41,17 @@ private:
 	
 	virtual void BindDelegates() override;
 
+	virtual void CollectStatistics() override;
+
+	virtual void DisableButtons() override;
+	
 	UFUNCTION()
 	void ShowTeams();
 	
 	UFUNCTION()
 	void RandomizeTeamRosters();
-
-	UFUNCTION()
-	void DisableButtons();
-
-	void CreateRaceStatsWidget();
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
 	TSubclassOf<UTeamRoster> TeamRosterClass;
 
 	TArray<TObjectPtr<UTeamManager>> TeamManagers;

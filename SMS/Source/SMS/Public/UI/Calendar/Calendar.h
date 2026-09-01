@@ -6,6 +6,7 @@
 #include "Calendar.generated.h"
 
 
+class UProgram;
 class UCalendarRound;
 class UCalendarDataAsset;
 class UStandingsWidget;
@@ -27,6 +28,9 @@ protected:
 	
 private:
 
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_StartGP;
+	
 	UPROPERTY(meta=(BindWidget))
 	UVerticalBox* VB_Content;
 
@@ -51,6 +55,13 @@ private:
 	
 	UFUNCTION()
 	void CreateStandingsWidget();
+
+
+	UFUNCTION()
+	void StartGP();
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UProgram> ProgramClass;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UStatisticsWidget> StatisticsWidgetClass;

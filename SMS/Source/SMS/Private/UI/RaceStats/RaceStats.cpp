@@ -1,8 +1,8 @@
 
-#include "UI/League/Program/Race/RaceStats/RaceStats.h"
+#include "UI/RaceStats/RaceStats.h"
 #include "Components/HorizontalBox.h"
 #include "Managers/RaceStatsManager.h"
-#include "UI/League/Program/Race/RaceStats/RaceLineStat.h"
+#include "UI/RaceStats/RaceLineStat.h"
 
 
 void URaceStats::InitializeWidget()

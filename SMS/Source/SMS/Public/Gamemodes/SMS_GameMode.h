@@ -32,11 +32,11 @@ public:
 
 	UMatchManager* GetMatchManager() const;
 	
-	void CreateRequiredManagers();
-
-	void DestroyUsedManagers();
+	void CreateManagers();
 
 	void InitializeTeamsStatistics();
+
+	TArray<FRacerData> GetTopRacers() const;//temp
 	
 private:
 
@@ -53,7 +53,7 @@ private:
 	ULocationsDataAsset* LocationsDataAsset;
 	
 	UPROPERTY()
-	TObjectPtr<UMatchManager> CurrentMatchManager;
+	TObjectPtr<UMatchManager> MatchManager;
 	
 	TMap<ETeams, FTeamMatchData> Teams;
 };

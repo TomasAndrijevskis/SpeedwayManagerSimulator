@@ -4,7 +4,7 @@
 #include "Managers/ScoreManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
-#include "UI/League/Program/RacerStatsLine.h"
+#include "UI/League/Program/League_RacerStatsLine.h"
 
 
 void UTeamManager::InitializeManager()
@@ -144,7 +144,7 @@ void UTeamManager::LockChosenRacers() const
 }
 
 
-void UTeamManager::UpdateStatsLineOptions(const URacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData)
+void UTeamManager::UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData)
 {
 	if (!RulesSubsystem) return;
 	for (auto& RacerStatsLine : RacerStatsLines)
@@ -191,8 +191,8 @@ bool UTeamManager::IsRosterValid() const
 
 void UTeamManager::SetTeamData(FTeamMatchData* NewTeamData){TeamData = NewTeamData;}
 void UTeamManager::SetScoreManager(UScoreManager* ScoreManagerRef){ScoreManager = ScoreManagerRef;}
-void UTeamManager::AddRacerStatsLine(URacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
-TArray<URacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
+void UTeamManager::AddRacerStatsLine(ULeague_RacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
+TArray<ULeague_RacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
 bool UTeamManager::IsVisitorTeam()const{return TeamData->IsVisitorTeam;}
 TMap<int32, URacerManager*>& UTeamManager::GetRacerManagers() {return RacerManagers;}
 const FString& UTeamManager::GetTeamName() const{return TeamData->TeamName;}

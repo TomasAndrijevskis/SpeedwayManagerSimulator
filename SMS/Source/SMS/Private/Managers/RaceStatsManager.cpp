@@ -1,6 +1,6 @@
 
 #include "Managers/RaceStatsManager.h"
-#include "UI/League/Program/Race/RaceStats/RaceLineStat.h"
+#include "UI/RaceStats/RaceLineStat.h"
 
 
 void URaceStatsManager::HandleStatUpdate(const TArray<FRaceResultData>& RaceResultData)

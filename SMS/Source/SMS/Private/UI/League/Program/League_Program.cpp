@@ -1,5 +1,5 @@
 
-#include "SMS/Public/UI/League/Program/LeagueProgram.h"
+#include "UI/League/Program/League_Program.h"
 #include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
@@ -7,10 +7,9 @@
 #include "Managers/TeamManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/TeamRoster.h"
-#include "UI/League/Program/Race/RaceStats/RaceStats.h"
 
 
-void ULeagueProgram::NativeConstruct()
+void ULeague_Program::NativeConstruct()
 {
 	Super::NativeConstruct();
 	BindDelegates();
@@ -21,29 +20,15 @@ void ULeagueProgram::NativeConstruct()
 }
 
 
-void ULeagueProgram::BindDelegates()
+void ULeague_Program::BindDelegates()
 {
 	Super::BindDelegates();
-	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::ShowTeams);
-	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeagueProgram::RandomizeTeamRosters);
+	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeague_Program::ShowTeams);
+	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeague_Program::RandomizeTeamRosters);
 }
 
 
-void ULeagueProgram::DisableButtons()
-{
-	Button_ConfirmRacers->SetIsEnabled(false);
-	Button_RandomizeTeamRosters->SetIsEnabled(false);
-}
-
-
-void ULeagueProgram::CreateRaceStatsWidget()
-{
-	if (!RaceStatsWidget) return;
-	RaceStatsWidget->InitializeWidget();
-}
-
-
-void ULeagueProgram::CollectStatistics()
+void ULeague_Program::CollectStatistics()
 {
 	if (URulesSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
@@ -59,7 +44,7 @@ void ULeagueProgram::CollectStatistics()
 }
 
 
-void ULeagueProgram::RandomizeTeamRosters()
+void ULeague_Program::RandomizeTeamRosters()
 {
 	for (const auto& Roster : TeamManagers)
 	{
@@ -68,7 +53,14 @@ void ULeagueProgram::RandomizeTeamRosters()
 }
 
 
-void ULeagueProgram::InitializeTeams()
+void ULeague_Program::DisableButtons()
+{
+	Super::DisableButtons();
+	Button_RandomizeTeamRosters->SetIsEnabled(false);
+}
+
+
+void ULeague_Program::InitializeTeams()
 {
 	if (!MatchManager) return;
 	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetTeamData(false));
@@ -78,7 +70,7 @@ void ULeagueProgram::InitializeTeams()
 }
 
 
-UTeamRoster* ULeagueProgram::CreateTeamRoster(FTeamMatchData* TeamData)
+UTeamRoster* ULeague_Program::CreateTeamRoster(FTeamMatchData* TeamData)
 {
 	if (!TeamRosterClass || !MatchManager) return nullptr;
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
@@ -88,7 +80,7 @@ UTeamRoster* ULeagueProgram::CreateTeamRoster(FTeamMatchData* TeamData)
 }
 
 
-void ULeagueProgram::RegisterTeamRoster(UTeamRoster* TeamRoster)
+void ULeague_Program::RegisterTeamRoster(UTeamRoster* TeamRoster)
 {
 	if (!TeamRoster) return;
 	VB_Teams->AddChild(TeamRoster);
@@ -96,7 +88,7 @@ void ULeagueProgram::RegisterTeamRoster(UTeamRoster* TeamRoster)
 }
 
 
-void ULeagueProgram::ShowTeams()
+void ULeague_Program::ShowTeams()
 {
 	if (VB_Teams->IsVisible())
 	{
@@ -111,7 +103,7 @@ void ULeagueProgram::ShowTeams()
 }
 
 
-void ULeagueProgram::PopulateRacers()
+void ULeague_Program::PopulateRacers()
 {
 	if (!MatchManager || TeamManagers.IsEmpty()) return;
 	for (const auto& Manager : TeamManagers)

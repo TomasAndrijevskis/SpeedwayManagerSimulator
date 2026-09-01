@@ -1,5 +1,5 @@
 
-#include "UI/BaseClasses/Program.h"
+#include "UI/BaseClasses/Program_Base.h"
 #include "Components/Button.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
@@ -7,8 +7,8 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MatchManager.h"
-#include "UI/League/Program/Race/LeagueRace.h"
-#include "UI/League/Program/Race/RaceStats/RaceStats.h"
+#include "UI/League/Program/Race/League_Race.h"
+#include "UI/RaceStats/RaceStats.h"
 
 
 void UProgram::InitializeManagers()
@@ -38,8 +38,7 @@ void UProgram::CreateRaces()
 	for (int32 RaceID = 1; RaceID <= AmountOfRaces; RaceID++)
 	{
 		const float PositionOffset = 162.0f;
-		const float Offset = 0.5f;
-		URace* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
+		URace_Base* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
 		if (NewRace)
 		{
 			NewRace->InitializeWidget(RaceID, MatchManager->GetScoreManager());
@@ -58,10 +57,10 @@ void UProgram::CreateRaces()
 }
 
 
-URace* UProgram::CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment)
+URace_Base* UProgram::CreateRace(const FAnchors& Anchors, const FVector2d& Position, const FVector2d& Alignment)
 {
 	if (!RaceClass) return nullptr;
-	URace* NewRace = CreateWidget<URace>(this, RaceClass);
+	URace_Base* NewRace = CreateWidget<URace_Base>(this, RaceClass);
 	if (!NewRace) return nullptr;
 	UCanvasPanelSlot* RaceSlot = CanvasPanel_Root->AddChildToCanvas(NewRace);
 	if (RaceSlot)
@@ -112,6 +111,19 @@ void UProgram::ChangeButtonBehaviour()
 	Text_SimulateButton->SetText(FText::FromString("End match"));
 	Button_SimulateRace->OnClicked.Clear();
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &UProgram::FinishMatch);
+}
+
+
+void UProgram::CreateRaceStatsWidget()
+{
+	if (!RaceStatsWidget) return;
+	RaceStatsWidget->InitializeWidget();
+}
+
+
+void UProgram::DisableButtons()
+{
+	Button_ConfirmRacers->SetIsEnabled(false);
 }
 
 

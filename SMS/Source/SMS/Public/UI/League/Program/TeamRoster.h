@@ -13,7 +13,7 @@ class UTeamManager;
 class UVerticalBox;
 class UNumbersBox;
 class UNamesBox;
-class URacerStatsLine;
+class ULeague_RacerStatsLine;
 
 UCLASS()
 class SMS_API UTeamRoster : public UUserWidget
@@ -42,7 +42,7 @@ private:
 	
 	void CreateRacerStatLines(const UScoreManager* ScoreManagerRef);
 	
-	URacerStatsLine* CreateRacerStatLine(int32 ID);
+	ULeague_RacerStatsLine* CreateRacerStatLine(int32 ID);
 
 	void UpdateTeamPoints(ETeams TeamToUpdate, int32 NewPoints);
 
@@ -55,7 +55,7 @@ private:
 	void BindDelegates();
 	
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<URacerStatsLine> RacerStatsLineClass;
+	TSubclassOf<ULeague_RacerStatsLine> RacerStatsLineClass;
 
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;

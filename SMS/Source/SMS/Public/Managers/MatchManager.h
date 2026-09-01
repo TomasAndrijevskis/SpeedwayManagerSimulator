@@ -65,9 +65,6 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;
-	
-	UPROPERTY()
-	TArray<TObjectPtr<URaceManager>> RaceManagers;
 
 	UPROPERTY()
 	TObjectPtr<UTrackManager> TrackManager;

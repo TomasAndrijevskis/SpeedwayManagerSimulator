@@ -9,6 +9,7 @@
 #include "Race_Base.generated.h"
 
 
+class URaceLine_Base;
 class URacePatternsDataAsset;
 class UScoreManager;
 class UVerticalBox;
@@ -29,6 +30,8 @@ public:
 	FRaceData& GetRaceData();
 
 	FRaceLineData& GetRaceLineData(int32 RaceLineId) const;
+
+	bool IsNominatedRace() const;
 	
 	FOnRaceStatsUpdateRequested OnRaceStatsUpdateRequestedDelegate;
 	
@@ -40,8 +43,6 @@ protected:
 
 	virtual void CreateRaceLines(){};
 	
-	
-	
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_RaceNumber;
 
@@ -50,6 +51,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	URacePatternsDataAsset* RacePatternDataAsset;
+
+	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
+	TSubclassOf<URaceLine_Base> RaceLineClass;
 	
 	FRaceData Data;
 

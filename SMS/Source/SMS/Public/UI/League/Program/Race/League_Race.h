@@ -3,22 +3,20 @@
 
 #include "CoreMinimal.h"
 #include "UI/BaseClasses/Race_Base.h"
-#include "LeagueRace.generated.h"
+#include "League_Race.generated.h"
 
 
-class URaceLineBase;
+class ULeague_RaceLine_Base;
 class UScoreCounter;
 
 UCLASS()
-class SMS_API ULeagueRace : public URace_Base
+class SMS_API ULeague_Race : public URace_Base
 {
 	GENERATED_BODY()
 
 public:
 
 	virtual void InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef) override;
-
-	bool IsNominatedRace() const;
 
 private:
 
@@ -31,19 +29,16 @@ private:
 
 	virtual void CreateRaceLines() override;
 	
-	URaceLineBase* CreateRaceLine(int32 RaceLineID);
+	ULeague_RaceLine_Base* CreateRaceLine(int32 RaceLineID);
 
-	URaceLineBase* CreateNominatedRaceLine(int32 RaceLineID);
+	ULeague_RaceLine_Base* CreateNominatedRaceLine(int32 RaceLineID);
 
 	void UpdateRacePoints();
     
 	void UpdateOverallScore();
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<URaceLineBase> RaceLineClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<URaceLineBase> NominatedRaceLineClass;
+	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
+	TSubclassOf<ULeague_RaceLine_Base> NominatedRaceLineClass;
 
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;

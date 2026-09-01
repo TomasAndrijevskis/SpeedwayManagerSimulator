@@ -10,7 +10,7 @@
 
 class UTeamManager;
 class URacerManager;
-class URacerStatsLine;
+class ULeague_RacerStatsLine;
 class UScoreManager;
 
 UCLASS()
