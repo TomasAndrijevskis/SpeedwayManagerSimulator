@@ -31,6 +31,9 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_RandomizeTeamRosters;
 	
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_ConfirmRacers;
+	
 	void InitializeTeams();
 
 	UTeamRoster* CreateTeamRoster(FTeamMatchData* TeamData);

@@ -7,6 +7,7 @@
 #include "Program_Base.generated.h"
 
 
+class URacePatternsDataAsset;
 class URace_Base;
 class ULeague_Race;
 class URaceStats;
@@ -35,9 +36,9 @@ protected:
 
 	virtual void BindDelegates(); 
 
-	virtual void CollectStatistics() {};
+	virtual void CollectStatistics(){};
 
-	virtual void DisableButtons();
+	virtual void DisableButtons(){};
 	
 	void CreateRaces();
 	
@@ -51,13 +52,13 @@ protected:
 	TObjectPtr<UMatchManager> MatchManager;
 
 	UPROPERTY(EditDefaultsOnly)
-	int32 AmountOfRaces = 0;
-
-	UPROPERTY(EditDefaultsOnly)
 	FVector2D StartPosition = FVector2D(0,-540);
 
 	UPROPERTY(EditDefaultsOnly)
 	float Offset = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 AmountOfRows = 0;
 	
 private:
 	
@@ -72,9 +73,6 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* Text_SimulateButton;
-	
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_ConfirmRacers;
 
 	UPROPERTY(meta = (BindWidget))
 	URaceStats* RaceStatsWidget;
@@ -95,4 +93,7 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
 	TSubclassOf<URace_Base> RaceClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	URacePatternsDataAsset* RacePatternDataAsset;
 };

@@ -57,9 +57,12 @@ private:
 	void CreateStandingsWidget();
 
 
+	
 	UFUNCTION()
 	void StartGP();
 
+
+	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UProgram> ProgramClass;
 	

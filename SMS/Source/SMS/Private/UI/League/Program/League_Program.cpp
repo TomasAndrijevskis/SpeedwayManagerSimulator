@@ -23,6 +23,7 @@ void ULeague_Program::NativeConstruct()
 void ULeague_Program::BindDelegates()
 {
 	Super::BindDelegates();
+	Button_ConfirmRacers->OnClicked.AddUniqueDynamic(this, &ULeague_Program::PopulateRacers);
 	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeague_Program::ShowTeams);
 	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeague_Program::RandomizeTeamRosters);
 }
@@ -50,13 +51,6 @@ void ULeague_Program::RandomizeTeamRosters()
 	{
 		Roster->MakeRandomTeamRoster();
 	}
-}
-
-
-void ULeague_Program::DisableButtons()
-{
-	Super::DisableButtons();
-	Button_RandomizeTeamRosters->SetIsEnabled(false);
 }
 
 
@@ -117,4 +111,11 @@ void ULeague_Program::PopulateRacers()
 	MatchManager->CreateRacerManagers(TeamManagers);
 	DisableButtons();
 	ShowTeams();
+}
+
+
+void ULeague_Program::DisableButtons()
+{
+	Button_RandomizeTeamRosters->SetIsEnabled(false);
+	Button_ConfirmRacers->SetIsEnabled(false);
 }

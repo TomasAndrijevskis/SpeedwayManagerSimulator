@@ -6,6 +6,8 @@
 #include "GP_Program.generated.h"
 
 
+class ASMS_GameMode;
+
 UCLASS()
 class SMS_API UGPProgram : public UProgram
 {
@@ -29,5 +31,13 @@ private:
 
 	virtual void DisableButtons() override;
 	
-	//virtual void PopulateRacers() override;
+	virtual void PopulateRacers() override;
+
+	virtual void BindDelegates() override;
+
+	UFUNCTION()
+	void HandleLineup();
+	
+	UPROPERTY()
+	ASMS_GameMode* GameMode;
 };

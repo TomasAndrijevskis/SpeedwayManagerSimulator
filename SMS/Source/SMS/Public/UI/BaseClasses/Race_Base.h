@@ -32,6 +32,8 @@ public:
 	FRaceLineData& GetRaceLineData(int32 RaceLineId) const;
 
 	bool IsNominatedRace() const;
+
+	void SetRacePatternDataAsset(URacePatternsDataAsset* DataAsset);
 	
 	FOnRaceStatsUpdateRequested OnRaceStatsUpdateRequestedDelegate;
 	
@@ -49,11 +51,11 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Content;
 
-	UPROPERTY(EditDefaultsOnly)
-	URacePatternsDataAsset* RacePatternDataAsset;
-
 	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
 	TSubclassOf<URaceLine_Base> RaceLineClass;
+
+	UPROPERTY()
+	URacePatternsDataAsset* RacePatternDataAsset;
 	
 	FRaceData Data;
 
@@ -62,5 +64,4 @@ protected:
 private:
 
 	void OnIDSet();
-	
 };

@@ -28,6 +28,7 @@ void URace_Base::OnIDSet()
 }
 
 
+void URace_Base::SetRacePatternDataAsset(URacePatternsDataAsset* DataAsset){RacePatternDataAsset = DataAsset;}
 bool URace_Base::IsNominatedRace() const{return RacePatternDataAsset->RacePatterns[RaceID].IsNominatedRace;}
 FRaceData& URace_Base::GetRaceData() {return Data;}
 FRaceLineData& URace_Base::GetRaceLineData(int32 RaceLineId) const{return RacePatternDataAsset->RacePatterns[RaceID].RaceLines[RaceLineId];}

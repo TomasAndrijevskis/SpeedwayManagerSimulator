@@ -3,17 +3,10 @@
 #include "Components/Button.h"
 
 
+//for testing
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 
-
-void UGPProgram::InitializeManagers()
-{
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	GameMode->CreateManagers();
-	MatchManager = GameMode->GetMatchManager();
-}
 
 void UGPProgram::NativeConstruct()
 {
@@ -24,8 +17,38 @@ void UGPProgram::NativeConstruct()
 }
 
 
+void UGPProgram::InitializeManagers()
+{
+	GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
+	if (!GameMode) return;
+	GameMode->CreateManagers();
+	MatchManager = GameMode->GetMatchManager();
+}
+
+
+void UGPProgram::BindDelegates()
+{
+	Super::BindDelegates();
+	Button_RandomizeLineup->OnClicked.AddUniqueDynamic(this, &UGPProgram::HandleLineup);
+}
+
+
+void UGPProgram::HandleLineup()
+{
+	if (!GameMode) return;
+	TArray<FRacerData> Racers = GameMode->GetTopRacers();
+	if (Racers.IsEmpty()) return;
+	
+}
+
+
 void UGPProgram::DisableButtons()
 {
-	Super::DisableButtons();
 	Button_RandomizeLineup->SetIsEnabled(false);
+}
+
+
+void UGPProgram::PopulateRacers()
+{
+	
 }

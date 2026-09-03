@@ -4,6 +4,7 @@
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
+#include "Data/RaceData/RacePatternsDataAsset.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MatchManager.h"
@@ -22,7 +23,6 @@ void UProgram::InitializeManagers()
 void UProgram::BindDelegates()
 {
 	if (!MatchManager) return;
-	Button_ConfirmRacers->OnClicked.AddUniqueDynamic(this, &UProgram::PopulateRacers);
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &UProgram::StartRace);
 	Button_SimulateMatch->OnClicked.AddUniqueDynamic(this, &UProgram::SimulateMatch);
 	MatchManager->OnMatchEndedDelegate.AddUObject(this, &UProgram::PrepareToEndMatch);
@@ -31,11 +31,11 @@ void UProgram::BindDelegates()
 
 void UProgram::CreateRaces()
 {
-	if (!MatchManager) return;
+	if (!MatchManager || !RacePatternDataAsset) return;
 	FVector2d TempPosition = StartPosition;
 	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
 	FVector2d StartAlignment = FVector2d(0, 0);
-	for (int32 RaceID = 1; RaceID <= AmountOfRaces; RaceID++)
+	for (int32 RaceID = 1; RaceID <= RacePatternDataAsset->RacePatterns.Num(); RaceID++)
 	{
 		const float PositionOffset = 162.0f;
 		URace_Base* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
@@ -46,7 +46,7 @@ void UProgram::CreateRaces()
 			MatchManager->AddNewRace(RaceID, NewRace->GetRaceData());
 		}
 		TempPosition.Y += PositionOffset;
-		if (RaceID % 5 == 0)
+		if (RaceID % AmountOfRows == 0)
 		{
 			TempPosition = StartPosition;
 			StartAnchors.Minimum.X += Offset;
@@ -62,6 +62,7 @@ URace_Base* UProgram::CreateRace(const FAnchors& Anchors, const FVector2d& Posit
 	if (!RaceClass) return nullptr;
 	URace_Base* NewRace = CreateWidget<URace_Base>(this, RaceClass);
 	if (!NewRace) return nullptr;
+	NewRace->SetRacePatternDataAsset(RacePatternDataAsset);
 	UCanvasPanelSlot* RaceSlot = CanvasPanel_Root->AddChildToCanvas(NewRace);
 	if (RaceSlot)
 	{
@@ -118,12 +119,6 @@ void UProgram::CreateRaceStatsWidget()
 {
 	if (!RaceStatsWidget) return;
 	RaceStatsWidget->InitializeWidget();
-}
-
-
-void UProgram::DisableButtons()
-{
-	Button_ConfirmRacers->SetIsEnabled(false);
 }
 
 
