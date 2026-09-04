@@ -2,19 +2,20 @@
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
-#include "Managers/MatchManager.h"
 #include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
+#include "Rules/LeagueRules.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "SMS/Public/UI/League/Program/League_RacerStatsLine.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 
 
-void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef)
+void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData)
 {
 	if (!NewTeamData) return;
 	Team = NewTeamData->Team;
-	InitializeManagers(NewTeamData, MatchManagerRef);
+	InitializeManagers(NewTeamData);
 	BindDelegates();
 	CreateRacerStatLines(ScoreManager);
 	DisplayTeamName();
@@ -22,10 +23,15 @@ void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData, const UMatchManage
 }
 
 
-void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef)
+void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData)
 {
 	if (!NewTeamData) return;
-	ScoreManager = MatchManagerRef->GetScoreManager();
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		ScoreManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetScoreManager();
+	}
+	
 	TeamManager = NewObject<UTeamManager>(this);
 	if (!TeamManager || !ScoreManager) return;
 	TeamManager->InitializeManager();

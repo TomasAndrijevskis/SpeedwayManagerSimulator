@@ -11,7 +11,7 @@
 class URacerManager;
 class UNumbersBox;
 
-DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRaceStarted, float, float, ETrackTypes);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRaceSimulated, float, float, ETrackTypes);
 UCLASS()
 class SMS_API URaceLine_Base : public UUserWidget
 {
@@ -41,7 +41,7 @@ public:
 
 	bool IsRacerSet() const;
 
-	FOnRaceStarted OnRaceStartedDelegate;
+	FOnRaceSimulated OnRaceSimulatedDelegate;
 	
 protected:
 

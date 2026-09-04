@@ -5,33 +5,26 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
-#include "Gamemodes/SMS_GameMode.h"
-#include "Kismet/GameplayStatics.h"
-#include "Managers/MatchManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/Race/League_Race.h"
 #include "UI/RaceStats/RaceStats.h"
 
 
-void UProgram::InitializeManagers()
-{
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	MatchManager = GameMode->GetMatchManager();
-}
-
-
 void UProgram::BindDelegates()
 {
-	if (!MatchManager) return;
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &UProgram::StartRace);
 	Button_SimulateMatch->OnClicked.AddUniqueDynamic(this, &UProgram::SimulateMatch);
-	MatchManager->OnMatchEndedDelegate.AddUObject(this, &UProgram::PrepareToEndMatch);
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		MatchManagerSubsystem->GetCompetitionRules()->OnMatchEndedDelegate.AddUObject(this, &UProgram::PrepareToEndMatch);
+	}
 }
 
 
 void UProgram::CreateRaces()
 {
-	if (!MatchManager || !RacePatternDataAsset) return;
+	if (!RacePatternDataAsset) return;
 	FVector2d TempPosition = StartPosition;
 	FAnchors StartAnchors(0.0f, 0.5f, 0.0f, 0.5f);
 	FVector2d StartAlignment = FVector2d(0, 0);
@@ -41,9 +34,14 @@ void UProgram::CreateRaces()
 		URace_Base* NewRace = CreateRace(StartAnchors, TempPosition, StartAlignment);
 		if (NewRace)
 		{
-			NewRace->InitializeWidget(RaceID, MatchManager->GetScoreManager());
-			NewRace->OnRaceStatsUpdateRequestedDelegate.AddUObject(this, &UProgram::OnRaceStatsUpdated);
-			MatchManager->AddNewRace(RaceID, NewRace->GetRaceData());
+			if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+			{
+				NewRace->InitializeWidget(RaceID, Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetScoreManager());
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				NewRace->OnRaceStatsUpdateRequestedDelegate.AddUObject(this, &UProgram::OnRaceStatsUpdated);
+				MatchManagerSubsystem->GetCompetitionRules()->AddNewRace(RaceID, NewRace->GetRaceData());
+			}
+			
 		}
 		TempPosition.Y += PositionOffset;
 		if (RaceID % AmountOfRows == 0)
@@ -77,19 +75,24 @@ URace_Base* UProgram::CreateRace(const FAnchors& Anchors, const FVector2d& Posit
 
 void UProgram::StartRace()
 {
-	if (!MatchManager) return;
-	MatchManager->OnRaceStaredDelegate.Broadcast();
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		MatchManagerSubsystem->GetCompetitionRules()->OnRaceStartedDelegate.Broadcast();
+	}
 }
 
 
 void UProgram::SimulateMatch()
 {
-	if (!MatchManager) return;
-	for (int i = 1; i <= MatchManager->GetAmountOfRaces(); i++)
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		MatchManager->OnRaceStaredDelegate.Broadcast();
+		int32 RacesAmount = MatchManagerSubsystem->GetCompetitionRules()->GetAmountOfRaces();
+		for (int i = 1; i <= RacesAmount; i++)
+		{
+			MatchManagerSubsystem->GetCompetitionRules()->OnRaceStartedDelegate.Broadcast();
+		}
+		Button_SimulateMatch->OnClicked.Clear();
 	}
-	Button_SimulateMatch->OnClicked.Clear();
 }
 
 

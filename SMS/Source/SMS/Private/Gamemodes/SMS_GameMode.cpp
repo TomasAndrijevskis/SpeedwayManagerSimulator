@@ -2,7 +2,6 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Data/Locations/LocationsDataAsset.h"
 #include "Data/Track/TrackDataAsset.h"
-#include "Managers/MatchManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
 
@@ -17,14 +16,6 @@ void ASMS_GameMode::BeginPlay()
 	InitializeRacers();
 	InitializeTeamsStatistics();
 	SetTrackData();
-}
-
-
-void ASMS_GameMode::CreateManagers()
-{
-	MatchManager = NewObject<UMatchManager>(this);
-	if (!MatchManager) return;
-	MatchManager->InitializeManager(this);
 }
 
 
@@ -122,4 +113,3 @@ void ASMS_GameMode::PrintTeams()
 const FString& ASMS_GameMode::GetTeamName(ETeams Team)const{return Teams.FindChecked(Team).TeamName;}
 FTeamMatchData& ASMS_GameMode::GetTeamData(ETeams Team){return Teams.FindChecked(Team);}
 int32 ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}
-UMatchManager* ASMS_GameMode::GetMatchManager() const{return MatchManager;}

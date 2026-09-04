@@ -2,9 +2,10 @@
 #include "UI/Calendar/CalendarLine.h"
 #include "Components/Button.h"
 #include "Gamemodes/SMS_GameMode.h"
-#include "Managers/MatchManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/ScoreManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "UI/BaseClasses/Program_Base.h"
@@ -13,20 +14,29 @@
 void UCalendarLine::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::InitializeManagers);
+	Button_StartMatch->OnClicked.AddUniqueDynamic(this, &UCalendarLine::StartMatch);
 }
 
 
-void UCalendarLine::InitializeManagers()
+
+void UCalendarLine::StartMatch()
 {
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	GameMode->CreateManagers();
-	MatchManager = GameMode->GetMatchManager();
-	if (!MatchManager) return;
-	ScoreManager = MatchManager->GetScoreManager();
-	MatchManager->OnMatchEndedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
-	StartMatch();
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		MatchManagerSubsystem->StartMatch(ULeagueRules::StaticClass());
+		ScoreManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetScoreManager();
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		MatchManagerSubsystem->GetCompetitionRules()->OnMatchEndedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
+		
+		if (!ProgramClass) return;
+		UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
+		if (!Program) return;
+		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(HomeTeam, false);
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(VisitorTeam, true);
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		Program->AddToViewport(1);
+	}
 }
 
 
@@ -48,19 +58,6 @@ void UCalendarLine::OnMatchEnded()
 	Button_StartMatch->SetIsEnabled(false);
 	DisplayFinalScore(ScoreManager->GetTeamScore(false), ScoreManager->GetTeamScore(true));
 	ScoreManager = nullptr;
-	MatchManager = nullptr;
-}
-
-
-void UCalendarLine::StartMatch()
-{
-	if (!ProgramClass || !MatchManager) return;
-	UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
-	if (!Program) return;
-	MatchManager->SetTeam(HomeTeam, false);
-	MatchManager->SetTeam(VisitorTeam, true);
-	Program->InitializeManagers();
-	Program->AddToViewport(1);
 }
 
 

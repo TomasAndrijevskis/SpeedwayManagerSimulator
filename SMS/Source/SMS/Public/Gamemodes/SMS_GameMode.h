@@ -11,7 +11,6 @@
 class ULocationsDataAsset;
 class UScoreManager;
 class UTeamManager;
-class UMatchManager;
 class URacersDataAsset;
 class UTeamsDataAsset;
 
@@ -30,10 +29,6 @@ public:
 	
 	int32 GetTeamsAmount() const;
 
-	UMatchManager* GetMatchManager() const;
-	
-	void CreateManagers();
-
 	void InitializeTeamsStatistics();
 
 	TArray<FRacerData> GetTopRacers() const;//temp
@@ -51,9 +46,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	ULocationsDataAsset* LocationsDataAsset;
-	
-	UPROPERTY()
-	TObjectPtr<UMatchManager> MatchManager;
 	
 	TMap<ETeams, FTeamMatchData> Teams;
 };

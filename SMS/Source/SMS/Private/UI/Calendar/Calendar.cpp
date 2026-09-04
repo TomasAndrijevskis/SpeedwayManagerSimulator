@@ -68,6 +68,5 @@ void UCalendar::StartGP()
 	if (!ProgramClass) return;
 	UGPProgram* Program = Cast<UGPProgram>(CreateWidget(this, ProgramClass));
 	if (!Program) return;
-	Program->InitializeManagers();
 	Program->AddToViewport(1);
 }

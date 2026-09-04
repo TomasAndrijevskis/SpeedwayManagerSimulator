@@ -16,14 +16,14 @@ void UGPProgram::NativeConstruct()
 	CreateRaceStatsWidget();
 }
 
-
+/*
 void UGPProgram::InitializeManagers()
 {
 	GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
 	if (!GameMode) return;
 	GameMode->CreateManagers();
 	MatchManager = GameMode->GetMatchManager();
-}
+}*/
 
 
 void UGPProgram::BindDelegates()

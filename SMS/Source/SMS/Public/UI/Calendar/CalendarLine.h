@@ -54,15 +54,9 @@ private:
 	void StartMatch();
 
 	void DisplayFinalScore(int32 HomePoints, int32 VisitorPoints);
-
-	UFUNCTION()
-	void InitializeManagers();
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UProgram> ProgramClass;
-
-	UPROPERTY()
-	TObjectPtr<UMatchManager> MatchManager;
 
 	UPROPERTY()
 	TObjectPtr<UScoreManager> ScoreManager;

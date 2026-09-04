@@ -15,7 +15,7 @@ class SMS_API UGPProgram : public UProgram
 
 public:
 
-	virtual void InitializeManagers() override;
+	//virtual void InitializeManagers() override;
 	
 protected:
 

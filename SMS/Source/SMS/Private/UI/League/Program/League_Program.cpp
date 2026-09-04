@@ -3,8 +3,9 @@
 #include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
-#include "Managers/MatchManager.h"
 #include "Managers/TeamManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/TeamRoster.h"
 
@@ -56,20 +57,23 @@ void ULeague_Program::RandomizeTeamRosters()
 
 void ULeague_Program::InitializeTeams()
 {
-	if (!MatchManager) return;
-	UTeamRoster* Home = CreateTeamRoster(MatchManager->GetTeamData(false));
-	UTeamRoster* Visitor = CreateTeamRoster(MatchManager->GetTeamData(true));
-	RegisterTeamRoster(Home);
-	RegisterTeamRoster(Visitor);
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		UTeamRoster* Home = CreateTeamRoster(Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamData(false));
+		UTeamRoster* Visitor = CreateTeamRoster(Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamData(true));
+		RegisterTeamRoster(Home);
+		RegisterTeamRoster(Visitor);
+	}
 }
 
 
 UTeamRoster* ULeague_Program::CreateTeamRoster(FTeamMatchData* TeamData)
 {
-	if (!TeamRosterClass || !MatchManager) return nullptr;
+	if (!TeamRosterClass) return nullptr;
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
 	if (!TeamRoster) return nullptr;
-	TeamRoster->InitializeTeam(TeamData, MatchManager);
+	TeamRoster->InitializeTeam(TeamData);
 	return TeamRoster;
 }
 
@@ -99,7 +103,7 @@ void ULeague_Program::ShowTeams()
 
 void ULeague_Program::PopulateRacers()
 {
-	if (!MatchManager || TeamManagers.IsEmpty()) return;
+	if (TeamManagers.IsEmpty()) return;
 	for (const auto& Manager : TeamManagers)
 	{
 		if (!Manager->IsRosterValid()) return;
@@ -108,7 +112,11 @@ void ULeague_Program::PopulateRacers()
 	{
 		Manager->LockChosenRacers();
 	}
-	MatchManager->CreateRacerManagers(TeamManagers);
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->CreateRacerManagers(TeamManagers);
+	}
 	DisableButtons();
 	ShowTeams();
 }

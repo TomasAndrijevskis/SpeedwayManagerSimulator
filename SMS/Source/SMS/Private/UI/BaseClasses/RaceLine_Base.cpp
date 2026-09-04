@@ -21,7 +21,7 @@ void URaceLine_Base::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 
 void URaceLine_Base::BindManagersDelegates()
 {
-	if (RacerManager) OnRaceStartedDelegate.AddUObject(RacerManager, &URacerManager::CalculateRating);
+	if (RacerManager) OnRaceSimulatedDelegate.AddUObject(RacerManager, &URacerManager::CalculateRating);
 }
 
 

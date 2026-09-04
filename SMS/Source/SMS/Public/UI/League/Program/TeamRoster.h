@@ -22,7 +22,7 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 	
-	void InitializeTeam(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef);
+	void InitializeTeam(FTeamMatchData* NewTeamData);
 
 	UTeamManager* GetTeamManager() const;
 	
@@ -48,7 +48,7 @@ private:
 
 	void DisplayTeamName();
 
-	void InitializeManagers(FTeamMatchData* NewTeamData, const UMatchManager* MatchManagerRef);
+	void InitializeManagers(FTeamMatchData* NewTeamData);
 
 	void DisplayTeamStatus();
 

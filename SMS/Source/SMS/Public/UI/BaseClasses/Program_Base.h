@@ -24,8 +24,6 @@ class SMS_API UProgram : public UUserWidget
 
 public:
 
-	virtual void InitializeManagers();
-
 protected:
 
 	UPROPERTY(meta = (BindWidget))
@@ -47,9 +45,6 @@ protected:
 	void OnRaceStatsUpdated(const TArray<FRaceResultData>& Data);
 
 	void CreateRaceStatsWidget();
-	
-	UPROPERTY()
-	TObjectPtr<UMatchManager> MatchManager;
 
 	UPROPERTY(EditDefaultsOnly)
 	FVector2D StartPosition = FVector2D(0,-540);

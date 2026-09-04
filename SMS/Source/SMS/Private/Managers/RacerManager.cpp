@@ -1,6 +1,5 @@
 
 #include "Managers/RacerManager.h"
-#include "Managers/MatchManager.h"
 #include "Subsystems/OverallRacerStatsSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/League_RaceLine_Base.h"
@@ -68,7 +67,7 @@ void URacerManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
 {
 	if (ParticipatedRacesRef.Contains(RaceLineRef))
 	{
-		RaceLineRef->OnRaceStartedDelegate.RemoveAll(this);
+		RaceLineRef->OnRaceSimulatedDelegate.RemoveAll(this);
 		ParticipatedRacesRef.Remove(RaceLineRef);
 	}
 }

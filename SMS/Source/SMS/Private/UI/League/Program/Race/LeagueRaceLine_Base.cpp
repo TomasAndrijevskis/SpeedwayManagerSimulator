@@ -5,20 +5,20 @@
 #include "Components/Slider.h"
 #include "UI/League/Program/Race/League_RaceLine_Base.h"
 #include "Gamemodes/SMS_GameMode.h"
-#include "Kismet/GameplayStatics.h"
-#include "Managers/MatchManager.h"
 #include "Managers/RacerManager.h"
 #include "Managers/TeamManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/ChooseBox.h"
 
 
 void ULeague_RaceLine_Base::InitializeWidget()
 {
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	UMatchManager* MatchManager = GameMode->GetMatchManager();
-	if (!MatchManager) return;
-	MatchManager->OnRacerManagersCreatedDelegate.AddUObject(this, &ULeague_RaceLine_Base::SetTeamManager);
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->OnRacerManagersCreatedDelegate.AddUObject(this, &ULeague_RaceLine_Base::SetTeamManager);
+	}
 	ChangeChooseBoxStatus(false);
 	BindDelegates();
 }
