@@ -8,10 +8,9 @@
 #include "LeagueRules.generated.h"
 
 
-class UScoreManager;
 class UTeamManager;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnRacerManagersCreated, TArray<UTeamManager*>);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnScoreUpdated, bool, int32, int32);
 UCLASS()
 class SMS_API ULeagueRules : public UCompetitionRules
 {
@@ -21,26 +20,35 @@ public:
 
 	virtual void SetupMatch() override;
 	
-	virtual void BindRaceDelegates() override;
-	
 	void SetTeam(ETeams NewTeam, bool IsVisitor);
 
-	void CreateRacerManagers(TArray<UTeamManager*> TeamManagersRef);//!!!!!!!!!!!!!!!!
+	virtual void PopulateRacers() override;
 
-	UScoreManager* GetScoreManager() const;
-	
-	FTeamMatchData* GetTeamData(bool Status);
+	virtual bool CanStartMatch() const override;
 
-	FOnRacerManagersCreated OnRacerManagersCreatedDelegate;
+	void MakeRandomRosters();
 	
+	int32 GetTeamScore(bool IsVisitor) const;
+
+	int32 GetTeamRaceScore(bool IsVisitor, int32 RaceID) const;
+	
+	TObjectPtr<UTeamManager> GetTeamManager(bool IsVisitor) const;
+
+	FOnScoreUpdated OnScoreUpdatedDelegate;
+
 private:
 
-	void PopulateRacers(TArray<UTeamManager*> TeamManagersRef);///!!!!!!!!!
-
-	virtual void HandleRaceFinished() override;
-
-	UPROPERTY()
-	TObjectPtr<UScoreManager> ScoreManager;
+	void CollectTeamsStatistics();
 	
-	TArray<FTeamMatchData> Teams;
+	virtual void CollectRacerStatistics() override;
+
+	virtual void EndMatch() override;
+	
+	void InitializeTeam(const FTeamMatchData& TeamData, TObjectPtr<UTeamManager>& OutManager);
+
+	void UpdateScore(bool IsVisitor, int32 PointsToAdd, int32 RaceID);
+	
+	TObjectPtr<UTeamManager> HomeTeamManager;
+
+	TObjectPtr<UTeamManager> VisitorTeamManager;
 };

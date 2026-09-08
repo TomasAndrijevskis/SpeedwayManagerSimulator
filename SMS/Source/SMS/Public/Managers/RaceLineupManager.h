@@ -2,13 +2,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RacerManager.h"
+#include "RacerMatchManager.h"
 #include "RaceLineupManager.generated.h"
 
 class ULeague_RaceLine_Base;
 class UTeamManager;
-class UScoreManager;
-class URacerManager;
+class URacerMatchManager;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnHandleRaceLinesRequest, bool);
 UCLASS()
@@ -22,7 +21,7 @@ public:
 
 	void AddRaceLine(ULeague_RaceLine_Base* NewRaceLine);
 
-	void AssignRacerToRace(URacerManager* RacerManager);
+	void AssignRacerToRace(URacerMatchManager* RacerManager);
 	
 	void OnRaceInitialized();
 	
@@ -36,9 +35,9 @@ private:
 
 	void OnRacerChosen(ULeague_RaceLine_Base* RaceLineRef, const FString& RacerName);
 
-	void OnRacerReplaced(ULeague_RaceLine_Base* RaceLineRef, const FString& RacerName, URacerManager* OriginalRacerManager);
+	void OnRacerReplaced(ULeague_RaceLine_Base* RaceLineRef, const FString& RacerName, URacerMatchManager* OriginalRacerManager);
 
-	static void FindSelectedRacerByName(const FString& SelectedItem, TArray<TObjectPtr<URacerManager>>& OptionsArray, const TFunction<void(URacerManager*)>& Callback);
+	static void FindSelectedRacerByName(const FString& SelectedItem, TArray<TObjectPtr<URacerMatchManager>>& OptionsArray, const TFunction<void(URacerMatchManager*)>& Callback);
 	
 	void UpdateReplacementSelectionWidgets();
 
@@ -50,20 +49,17 @@ private:
 	
 	void FillPossibleReplacementRacers(const ULeague_RaceLine_Base* RaceLineRef);
 
-	void FillPossibleMainRacers(UTeamManager* TeamManagerRef);
+	void FillPossibleMainRacers(const ULeague_RaceLine_Base* RaceLineRef);
 	
-	void FillOptionsInComboBox(TArray<TObjectPtr<URacerManager>>& RacerArray, ULeague_RaceLine_Base& RaceLineRef, TFunction<void(ULeague_RaceLine_Base&, const FString&)> AddOption);
+	void FillOptionsInComboBox(TArray<TObjectPtr<URacerMatchManager>>& RacerArray, ULeague_RaceLine_Base& RaceLineRef, TFunction<void(ULeague_RaceLine_Base&, const FString&)> AddOption);
 
-	void RestoreRacerAvailability(ULeague_RaceLine_Base* RaceLineRef, URacerManager* RacerManager, bool bIsReplacement);
+	void RestoreRacerAvailability(ULeague_RaceLine_Base* RaceLineRef, URacerMatchManager* RacerManager, bool bIsReplacement);
 	
 	UPROPERTY()
 	TArray<TObjectPtr<ULeague_RaceLine_Base>> RaceLines;
 	
 	UPROPERTY()
-	TObjectPtr<UTeamManager> TeamManager;
+	TArray<TObjectPtr<URacerMatchManager>> UnavailableRacers;
 	
-	UPROPERTY()
-	TArray<TObjectPtr<URacerManager>> UnavailableRacers;
-	
-	TMap<TObjectPtr<URacerManager>, TArray<TObjectPtr<URacerManager>>> PossibleRacers;
+	TMap<TObjectPtr<URacerMatchManager>, TArray<TObjectPtr<URacerMatchManager>>> PossibleRacers;
 };

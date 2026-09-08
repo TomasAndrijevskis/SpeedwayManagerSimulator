@@ -9,9 +9,8 @@
 #include "RulesSubsystem.generated.h"
 
 class UTeamManager;
-class URacerManager;
+class URacerMatchManager;
 class ULeague_RacerStatsLine;
-class UScoreManager;
 
 UCLASS()
 class SMS_API URulesSubsystem : public UGameInstanceSubsystem
@@ -24,17 +23,17 @@ public:
 	
 	bool IsRacerEligible(int32 RaceLineID, int32 Age) const;
 	
-	bool CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer, int32 OwnTeamScore, int32 EnemyTeamScore) const;
+	bool CanReplace(const URacerMatchManager* OriginalRacer, const URacerMatchManager* ReplacementRacer, int32 OwnTeamScore, int32 EnemyTeamScore) const;
 
 	bool IsTeamLosing(int32 OwnTeamScore, int32 EnemyTeamScore) const;
 	
-	bool CanParticipateInNominatedRace(const URacerManager* RacerManagerRef) const;
+	bool CanParticipateInNominatedRace(const URacerMatchManager* RacerManagerRef) const;
 
 	FString GetRaceResultText(const ERaceResults RaceResult) const;
 
 	int32 GetRaceResultNumber(const ERaceResults RaceResult) const;
 
-	void DecideMatchWinner(TArray<UTeamManager*> TeamManagers);
+	void DecideMatchWinner(const TObjectPtr<UTeamManager>& HomeTeamManager, const TObjectPtr<UTeamManager>& VisitorTeamManager);
 
 	bool IsTrackCleaningTime(int32 CurrentRace) const;
 	
@@ -46,8 +45,6 @@ private:
 	
 	bool CheckPossibleAmountOfReplacements(int32 AmountOfReplacements, EPositionTypes Position) const;
 	
-	UPROPERTY()
-	TObjectPtr<UScoreManager> ScoreManager;
 	
 	TArray<EPositionTypes> Positions;
 	

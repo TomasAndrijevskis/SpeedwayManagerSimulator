@@ -35,9 +35,9 @@ void UGPProgram::BindDelegates()
 
 void UGPProgram::HandleLineup()
 {
-	if (!GameMode) return;
-	TArray<FRacerData> Racers = GameMode->GetTopRacers();
-	if (Racers.IsEmpty()) return;
+	/*if (!GameMode) return;
+	TArray<TObjectPtr<URacerCareerManager>> Racers = GameMode->GetTopRacers();
+	if (Racers.IsEmpty()) return;*/
 	
 }
 

@@ -1,7 +1,8 @@
 
 #include "Managers/TeamManager.h"
-#include "Managers/RacerManager.h"
-#include "Managers/ScoreManager.h"
+#include "Managers/RacerMatchManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
 #include "UI/League/Program/League_RacerStatsLine.h"
@@ -15,29 +16,28 @@ void UTeamManager::InitializeManager()
 
 void UTeamManager::AddRacersToLineup(const FString& RacerName, int32 RacerStatLineID)
 {
-	if (const auto* FoundRacerData = Algo::FindByPredicate(TeamData->Racers, [&RacerName](const auto& RacerData)
+	for (auto& RacerManger : TeamData.Racers)
 	{
-		return RacerData.Name == RacerName;
-	}))
-	{
-		FRacerMatchData NewRacerData;
-		NewRacerData.RacerData = *FoundRacerData;
-		NewRacerData.RacerNumber = RacerStatLineID;
-		Racers.Add(RacerStatLineID, NewRacerData);
+		if (RacerManger && RacerManger->GetRacerName() == RacerName)
+		{
+			RacerManger->SetRacerNumber(RacerStatLineID);
+			Racers.Add(RacerStatLineID, RacerManger);
+			break;
+		}
 	}
 }
 
 
 void UTeamManager::ForEachRacerInLineup(TFunction<void(int32)> Callback)
 {
-	ForEachRacerInLineup([&Callback](const FRacerMatchData& Data)
+	ForEachRacerInLineup(TFunction<void(const TObjectPtr<URacerMatchManager>&)>([&Callback](const TObjectPtr<URacerMatchManager>& RacerManager)
 	{
-		Callback(Data.RacerNumber);
-	});
+		Callback(RacerManager->GetRacerNumber());
+	}));
 }
 
 
-void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> Callback)
+void UTeamManager::ForEachRacerInLineup(TFunction<void(const TObjectPtr<URacerMatchManager>&)> Callback)
 {
 	for (const auto& Racer : Racers)
 	{
@@ -46,66 +46,45 @@ void UTeamManager::ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> 
 }
 
 
-void UTeamManager::ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback)
+void UTeamManager::GetAvailableReplacementRacers(const URacerMatchManager* OriginalRacerManager, TFunction<void(const TObjectPtr<URacerMatchManager>&)> Callback)
 {
-	for (const auto& Racer : Racers)
+	if (!RulesSubsystem) return;
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if (URacerManager** FoundManager = RacerManagers.Find(Racer.Key))
+		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
-			Callback(*FoundManager);
+			int32 OwnTeamScore = Rules->GetTeamScore(OriginalRacerManager->IsVisitor());
+			int32 EnemyTeamScore = Rules->GetTeamScore(!OriginalRacerManager->IsVisitor());
+			ForEachRacerInLineup(TFunction<void(const TObjectPtr<URacerMatchManager>&)>([&Callback, OriginalRacerManager, this, OwnTeamScore, EnemyTeamScore](URacerMatchManager* ReplacementRacerManager)
+			{
+				if (RulesSubsystem->CanReplace(OriginalRacerManager, ReplacementRacerManager, OwnTeamScore, EnemyTeamScore))
+				{
+					Callback(ReplacementRacerManager);
+				}
+			}));
 		}
 	}
 }
 
 
-void UTeamManager::GetAvailableReplacementRacers(const URacerManager* OriginalRacerManager, TFunction<void(URacerManager*)> Callback)
-{
-	if (!RulesSubsystem || !ScoreManager) return;
-	int32 OwnTeamScore = ScoreManager->GetTeamScore(OriginalRacerManager->IsVisitor());
-	int32 EnemyTeamScore = ScoreManager->GetTeamScore(!OriginalRacerManager->IsVisitor());
-	ForEachRacerInLineup([&Callback, OriginalRacerManager, this, OwnTeamScore, EnemyTeamScore](URacerManager* ReplacementRacerManager)
-	{
-		if (RulesSubsystem->CanReplace(OriginalRacerManager, ReplacementRacerManager, OwnTeamScore, EnemyTeamScore))
-		{
-			Callback(ReplacementRacerManager);
-		}
-	});
-}
-
-
-void UTeamManager::GetAvailableRacers(TFunction<void(URacerManager*)> Callback)
+void UTeamManager::GetAvailableRacers(TFunction<void(URacerMatchManager*)> Callback)
 {
 	if (!RulesSubsystem) return;
-	ForEachRacerInLineup([&Callback, this](URacerManager* RacerManager)
+	ForEachRacerInLineup(TFunction<void(const TObjectPtr<URacerMatchManager>&)>([&Callback, this](URacerMatchManager* RacerManager)
 	{
 		if (RulesSubsystem->CanParticipateInNominatedRace(RacerManager))
 		{
 			Callback(RacerManager);
 		}
-	});
+	}));
 }
 
 
-void UTeamManager::ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback)
+void UTeamManager::ForEachRacerInRoster(TFunction<void(URacerMatchManager*)> Callback)
 {
-	for (const auto& Racer : TeamData->Racers)
+	for (const auto& Racer : TeamData.Racers)
 	{
 		Callback(Racer);
-	}
-	
-}
-
-
-void UTeamManager::CreateRacerManagers()
-{
-	for (const auto& Racer : Racers)
-	{
-		URacerManager* NewRacerManager = NewObject<URacerManager>(this);
-		if (NewRacerManager)
-		{
-			NewRacerManager->Initialize(Racer.Value);
-			RacerManagers.Add(Racer.Key, NewRacerManager);
-		}
 	}
 }
 
@@ -126,10 +105,10 @@ void UTeamManager::FillTeamRosterOptions()
 	if (!RulesSubsystem) return;
 	for (auto& RacerStatsLine : RacerStatsLines)
 	{
-		ForEachRacerInRoster([this, RacerStatsLine](const FRacerData& Data)
+		ForEachRacerInRoster([this, RacerStatsLine](const TObjectPtr<URacerMatchManager>& RacerManager)
 		{
-			if (RulesSubsystem->IsRacerEligible(RacerStatsLine->GetID(), Data.Age))
-			RacerStatsLine->AddOption(Data);
+			if (RulesSubsystem->IsRacerEligible(RacerStatsLine->GetID(), RacerManager->GetRacerAge()))
+			RacerStatsLine->AddOption(RacerManager);
 		});
 	}
 }
@@ -144,7 +123,7 @@ void UTeamManager::LockChosenRacers() const
 }
 
 
-void UTeamManager::UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData)
+void UTeamManager::UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, const TObjectPtr<URacerMatchManager>& PreviousOptionData)
 {
 	if (!RulesSubsystem) return;
 	for (auto& RacerStatsLine : RacerStatsLines)
@@ -152,12 +131,12 @@ void UTeamManager::UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerSta
 		if (RacerStatsLine != RacerStatsLineRef)
 		{
 			RacerStatsLine->RemoveOption(SelectedOption);
-			if (PreviousOptionData.Name != "")
+			if (PreviousOptionData && PreviousOptionData->GetRacerName() != "")
 			{
-				if (RulesSubsystem->IsRacerEligible(RacerStatsLine->GetID(), PreviousOptionData.Age)) RacerStatsLine->AddOption(PreviousOptionData);
+				if (RulesSubsystem->IsRacerEligible(RacerStatsLine->GetID(), PreviousOptionData->GetRacerAge())) RacerStatsLine->AddOption(PreviousOptionData);
 			}
 		}
-		if (RacerStatsLine->GetNumberOfOptions() == 1) RacerStatsLine->AddOption(FRacerData());
+		if (RacerStatsLine->GetNumberOfOptions() == 1) RacerStatsLine->AddOption(nullptr);
 	}
 }
 
@@ -170,7 +149,7 @@ void UTeamManager::CollectTeamStatistics(const EMatchResults Result, const TMap<
 		TeamStats.Team = GetTeam();
 		FTeamMatchStatistics MatchStats;
 		MatchStats.IsVisitorTeam = IsVisitorTeam();
-		MatchStats.TeamScore = TeamData->TeamScore;
+		MatchStats.TeamScore = TeamData.TeamScore;
 		MatchStats.Result = Result;
 		MatchStats.OpponentResult = OpponentResult;
 		
@@ -181,7 +160,6 @@ void UTeamManager::CollectTeamStatistics(const EMatchResults Result, const TMap<
 }
 
 
-
 bool UTeamManager::IsRosterValid() const
 {
 	if (Racers.Num() < 6) return false;
@@ -189,12 +167,21 @@ bool UTeamManager::IsRosterValid() const
 }
 
 
-void UTeamManager::SetTeamData(FTeamMatchData* NewTeamData){TeamData = NewTeamData;}
-void UTeamManager::SetScoreManager(UScoreManager* ScoreManagerRef){ScoreManager = ScoreManagerRef;}
+void UTeamManager::UpdateScore(int32 PointsToAdd, int32 RaceID)
+{
+	TeamData.TeamScore += PointsToAdd;
+	TeamData.EachRaceScore.FindOrAdd(RaceID) += PointsToAdd;
+	OnTeamScoreUpdatedDelegate.Broadcast(TeamData.TeamScore);
+}
+
+
+void UTeamManager::SetTeamData(const FTeamMatchData& NewTeamData){TeamData = NewTeamData;}
 void UTeamManager::AddRacerStatsLine(ULeague_RacerStatsLine* RacerStatsLine){RacerStatsLines.Add(RacerStatsLine);}
 TArray<ULeague_RacerStatsLine*>& UTeamManager::GetRacerStatsLines(){return RacerStatsLines;}
-bool UTeamManager::IsVisitorTeam()const{return TeamData->IsVisitorTeam;}
-TMap<int32, URacerManager*>& UTeamManager::GetRacerManagers() {return RacerManagers;}
-const FString& UTeamManager::GetTeamName() const{return TeamData->TeamName;}
-ETeams UTeamManager::GetTeam() const{return TeamData->Team;}
-int32 UTeamManager::GetTeamScore() const{return TeamData->TeamScore;}
+bool UTeamManager::IsVisitorTeam()const{return TeamData.IsVisitorTeam;}
+TArray<URacerMatchManager*>& UTeamManager::GetRacerManagers() {return TeamData.Racers;}
+TMap<int32, TObjectPtr<URacerMatchManager>>& UTeamManager::GetRacers(){return Racers;}
+ETeams UTeamManager::GetTeam() const{return TeamData.Team;}
+int32 UTeamManager::GetTeamScore() const{return TeamData.TeamScore;}
+int32 UTeamManager::GetRaceScore(int32 RaceID) const{return TeamData.EachRaceScore[RaceID];}
+FString UTeamManager::GetTeamName() const{return TeamData.GetTeamName();}

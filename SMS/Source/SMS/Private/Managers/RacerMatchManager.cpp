@@ -1,17 +1,18 @@
 
-#include "Managers/RacerManager.h"
+#include "Managers/RacerMatchManager.h"
 #include "Subsystems/OverallRacerStatsSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/League_RaceLine_Base.h"
 
 
-void URacerManager::Initialize(const FRacerMatchData& RacerData)
+void URacerMatchManager::Initialize(const FRacerData& RacerData)
 {
-	Data = RacerData;
+	Data.RacerData = RacerData;
+	UE_LOG(LogTemp, Display, TEXT("Initialize %s"), *Data.GetRacerName());
 }
 
 
-void URacerManager::CalculateRating(float GateModifier, float DistanceModifier, ETrackTypes TrackType)
+void URacerMatchManager::CalculateRating(float GateModifier, float DistanceModifier, ETrackTypes TrackType)
 {
 	SetTieBreaker();
 	UE_LOG(LogTemp, Error, TEXT("================================================"));
@@ -57,13 +58,13 @@ void URacerManager::CalculateRating(float GateModifier, float DistanceModifier, 
 }
 
 
-void URacerManager::AddParticipatedRace(URaceLine_Base* RaceLineRef)
+void URacerMatchManager::AddParticipatedRace(URaceLine_Base* RaceLineRef)
 {
 	if (!ParticipatedRacesRef.Contains(RaceLineRef)) ParticipatedRacesRef.Add(RaceLineRef);
 }
 
 
-void URacerManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
+void URacerMatchManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
 {
 	if (ParticipatedRacesRef.Contains(RaceLineRef))
 	{
@@ -73,13 +74,13 @@ void URacerManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
 }
 
 
-void URacerManager::SetTieBreaker()
+void URacerMatchManager::SetTieBreaker()
 {
 	TieBreakerValue = FMath::RandRange(1,100);
 }
 
 
-void URacerManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
+void URacerMatchManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
 {
 	RacerPoints.Add(NewResult);
 	if (AddBonus) RacerBonuses++;
@@ -87,7 +88,7 @@ void URacerManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
 }
 
 
-int32 URacerManager::CountOverallPoints()
+int32 URacerMatchManager::CountOverallPoints()
 {
 	int32 sum = 0;
 	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
@@ -102,7 +103,7 @@ int32 URacerManager::CountOverallPoints()
 }
 
 
-void URacerManager::CollectMatchStatistics()
+void URacerMatchManager::CollectMatchStatistics()
 {
 	if (UOverallStatsSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UOverallStatsSubsystem>())
 	{
@@ -121,17 +122,18 @@ void URacerManager::CollectMatchStatistics()
 }
 
 
-void URacerManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
-void URacerManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
-void URacerManager::DecreaseAmountOfReplacements(){AmountOfReplacements--;}
-int32 URacerManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
-int32 URacerManager::GetTieBreaker() const {return TieBreakerValue;}
-int32 URacerManager::GetBonusAmount() const {return RacerBonuses;}
-int32 URacerManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
-int32 URacerManager::GetRacerNumber() const {return Data.RacerNumber;}
-int32 URacerManager::GetRacerAge() const {return Data.GetRacerAge();}
-float URacerManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
-bool URacerManager::CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
-bool URacerManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
-bool URacerManager::IsVisitor() const {return Data.IsVisitor();}
-FString URacerManager::GetRacerName() const {return Data.GetRacerName();}
+void URacerMatchManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
+void URacerMatchManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
+void URacerMatchManager::DecreaseAmountOfReplacements(){AmountOfReplacements--;}
+void URacerMatchManager::SetRacerNumber(int32 NewRacerNumber){Data.RacerNumber = NewRacerNumber;}
+int32 URacerMatchManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
+int32 URacerMatchManager::GetTieBreaker() const {return TieBreakerValue;}
+int32 URacerMatchManager::GetBonusAmount() const {return RacerBonuses;}
+int32 URacerMatchManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
+int32 URacerMatchManager::GetRacerNumber() const {return Data.RacerNumber;}
+int32 URacerMatchManager::GetRacerAge() const {return Data.GetRacerAge();}
+float URacerMatchManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
+bool URacerMatchManager::CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
+bool URacerMatchManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
+bool URacerMatchManager::IsVisitor() const {return Data.IsVisitor();}
+FString URacerMatchManager::GetRacerName() const {return Data.GetRacerName();}

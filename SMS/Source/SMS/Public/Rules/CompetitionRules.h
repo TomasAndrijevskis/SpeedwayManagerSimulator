@@ -7,7 +7,7 @@
 #include "CompetitionRules.generated.h"
 
 
-class URacerManager;
+class URacerMatchManager;
 class UTrackManager;
 
 DECLARE_MULTICAST_DELEGATE(FOnMatchEnded);
@@ -20,12 +20,18 @@ class SMS_API UCompetitionRules : public UObject
 public:
 
 	virtual void SetupMatch() PURE_VIRTUAL(UCompetitionRules::SetupMatch);
+	
+	virtual bool CanStartMatch() const PURE_VIRTUAL(UCompetitionRules::CanStartMatch, return false;);
 
-	virtual void BindRaceDelegates() PURE_VIRTUAL(UCompetitionRules::BindRaceDelegates);
+	virtual void PopulateRacers() PURE_VIRTUAL(UCompetitionRules::PopulateRacers);
+	
+	virtual void CollectRacerStatistics() PURE_VIRTUAL(UCompetitionRules::CollectRacerStatistics);
+
+	virtual void EndMatch() PURE_VIRTUAL(UCompetitionRules::EndMatch);
 	
 	void AddNewRace(int32 RaceId, FRaceData RaceData);
 
-	void RequestToAssignRacersToRace(URacerManager* RacerManager);
+	void RequestToAssignRacersToRace(URacerMatchManager* RacerManager);
 
 	int32 GetCurrentRaceNumber()const;
 

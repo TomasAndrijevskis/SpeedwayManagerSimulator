@@ -8,9 +8,9 @@
 #include "UI/GP/Program/Race/GP_RaceLine_Base.h"
 
 
-void UGPRace::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
+void UGPRace::InitializeWidget(int32 NewID)
 {
-	Super::InitializeWidget(NewID, ScoreManagerRef);
+	Super::InitializeWidget(NewID);
 }
 
 
@@ -49,7 +49,7 @@ void UGPRace::CreateRaceLines()
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
-			Data.RaceManager->AddRaceLine(NewRaceLine);
+			//Data.RaceManager->AddRaceLine(NewRaceLine);
 		}
 	}
 }

@@ -3,36 +3,27 @@
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerMatchData.h"
 #include "Data/Track/TrackData.h"
-#include "TeamMatchData.generated.h"
+#include "TeamData.generated.h"
 
-class URacerMatchManager;
+
+class URacerCareerManager;
 
 USTRUCT(BlueprintType)
-struct FTeamMatchData
+struct FTeamData
 {
 	GENERATED_BODY()
 	
 	UPROPERTY()
 	ETeams Team = ETeams::Nothing;
-
-	UPROPERTY()
-	TArray<URacerMatchManager*> Racers;
 	
 	UPROPERTY()
-	bool IsVisitorTeam;
-
+	TArray<TObjectPtr<URacerCareerManager>> Racers;
+	
 	UPROPERTY()
 	FTrackData TrackData;
-	
-	UPROPERTY()
-	int32 TeamScore = 0;
-
-	UPROPERTY()
-	TMap<int32, int32> EachRaceScore;
 
 	FString GetTeamName() const
 	{
 		return UEnum::GetDisplayValueAsText(Team).ToString();
 	}
-	
 };

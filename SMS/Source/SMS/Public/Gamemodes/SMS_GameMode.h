@@ -3,13 +3,13 @@
 
 #include "CoreMinimal.h"
 #include "Data/TeamData/ETeams.h"
-#include "Data/TeamData/TeamMatchData.h"
+#include "Data/TeamData/TeamData.h"
 #include "GameFramework/GameMode.h"
 #include "SMS_GameMode.generated.h"
 
 
+class URacerCareerManager;
 class ULocationsDataAsset;
-class UScoreManager;
 class UTeamManager;
 class URacersDataAsset;
 class UTeamsDataAsset;
@@ -23,20 +23,22 @@ public:
 
 	virtual void BeginPlay() override;
 
-	FTeamMatchData& GetTeamData(ETeams Team);
+	FTeamData& GetTeamData(ETeams Team);
 
-	const FString& GetTeamName(ETeams Team) const;
+	FString GetTeamName(ETeams Team) const;
 	
 	int32 GetTeamsAmount() const;
 
 	void InitializeTeamsStatistics();
 
-	TArray<FRacerData> GetTopRacers() const;//temp
+	//TArray<TObjectPtr<URacerCareerManager>> GetTopRacers() const;//temp
 	
 private:
 
-	void InitializeRacers();
+	void InitializeTeams();
 
+	URacerCareerManager* InitializeRacer(const FRacerData& RacerData);
+	
 	void SetTrackData();
 	
 	void PrintTeams();
@@ -47,5 +49,5 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	ULocationsDataAsset* LocationsDataAsset;
 	
-	TMap<ETeams, FTeamMatchData> Teams;
+	TMap<ETeams, FTeamData> Teams;
 };

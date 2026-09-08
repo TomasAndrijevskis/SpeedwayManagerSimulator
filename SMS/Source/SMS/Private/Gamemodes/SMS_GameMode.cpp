@@ -2,6 +2,7 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Data/Locations/LocationsDataAsset.h"
 #include "Data/Track/TrackDataAsset.h"
+#include "Managers/RacerCareerManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
 
@@ -13,13 +14,13 @@ void ASMS_GameMode::BeginPlay()
 	{
 		Subsystem->InitializeRules();
 	}
-	InitializeRacers();
+	InitializeTeams();
 	InitializeTeamsStatistics();
 	SetTrackData();
 }
 
 
-void ASMS_GameMode::InitializeRacers()
+void ASMS_GameMode::InitializeTeams()
 {
 	if (!RacersDataTable) return;
 	TArray<FRacerData*> Racers;
@@ -27,13 +28,24 @@ void ASMS_GameMode::InitializeRacers()
 	for (const auto& Racer : Racers)
 	{
 		FRacerData RacerData = *Racer;
+		URacerCareerManager* InitializedRacer = InitializeRacer(*Racer);
 		ETeams Team = Racer->InitialTeam;
 		FString TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(static_cast<int32>(Team)).ToString();
 		Teams.FindOrAdd(Team).Team = Team;
-		Teams.FindOrAdd(Team).TeamName = TeamName;
-		Teams.FindOrAdd(Team).Racers.Add(RacerData);
+		Teams.FindOrAdd(Team).Racers.Add(InitializedRacer);
 	}
 	//PrintTeams();
+}
+
+
+URacerCareerManager* ASMS_GameMode::InitializeRacer(const FRacerData& RacerData)
+{
+	if (URacerCareerManager* RacerManager = NewObject<URacerCareerManager>(this))
+	{
+		RacerManager->Initialize(RacerData);
+		return RacerManager;
+	}
+	return nullptr;
 }
 
 
@@ -62,16 +74,15 @@ void ASMS_GameMode::InitializeTeamsStatistics()
 		{
 			FTeamStatistics NewTeamStatistics;
 			NewTeamStatistics.Team = Team.Value.Team;
-			NewTeamStatistics.TeamName = Team.Value.TeamName;
 			Subsystem->AddTeamStatistics(NewTeamStatistics);
 		}
 	}
 }
-
-TArray<FRacerData> ASMS_GameMode::GetTopRacers() const
+/*
+TArray<TObjectPtr<URacerCareerManager>> ASMS_GameMode::GetTopRacers() const
 {
-	TArray<FRacerData> Racers;
-	TArray<FRacerData> tempRacers;
+	TArray<TObjectPtr<URacerCareerManager>> Racers;
+	TArray<TObjectPtr<URacerCareerManager>> tempRacers;
 	for (const auto& Team : Teams)
 	{
 		for (const auto& Racer : Team.Value.Racers)
@@ -87,29 +98,27 @@ TArray<FRacerData> ASMS_GameMode::GetTopRacers() const
 	for (int i = 0; i < 16; i++)
 	{
 		Racers.Add(tempRacers[i]);
-	}
-	for (const auto& Racer : Racers)
+	}*/
+	/*for (const auto& Racer : Racers)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Name, Racer.RacerStats.Rating);
+		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer, Racer.RacerStats.Rating);
 	}
 	return Racers;
 }
-
+*/
 
 void ASMS_GameMode::PrintTeams()
 {
 	for (const auto& Team : Teams)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s:"), *Team.Value.TeamName);
-		
-		for (const auto& Racer : Team.Value.Racers)
+		/*for (const auto& Racer : Team.Value.Racers)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Name, Racer.RacerStats.Rating);
-		}
+		}*/
 	}
 }
 
 
-const FString& ASMS_GameMode::GetTeamName(ETeams Team)const{return Teams.FindChecked(Team).TeamName;}
-FTeamMatchData& ASMS_GameMode::GetTeamData(ETeams Team){return Teams.FindChecked(Team);}
+FTeamData& ASMS_GameMode::GetTeamData(ETeams Team){return Teams.FindChecked(Team);}
+FString ASMS_GameMode::GetTeamName(ETeams Team) const{return Teams.FindChecked(Team).GetTeamName();}
 int32 ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}

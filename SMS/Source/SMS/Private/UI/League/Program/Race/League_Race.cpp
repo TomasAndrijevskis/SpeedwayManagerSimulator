@@ -5,16 +5,16 @@
 #include "Data/RaceData/RacePatternsDataAsset.h"
 #include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
-#include "Managers/ScoreManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/ScoreCounter.h"
 #include "UI/League/Program/Race/NominatedRaceLine.h"
 #include "UI/League/Program/Race/RaceLine.h"
 
 
-void ULeague_Race::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
+void ULeague_Race::InitializeWidget(int32 NewID)
 {
-	ScoreManager = ScoreManagerRef;
-	Super::InitializeWidget(NewID, ScoreManagerRef);
+	Super::InitializeWidget(NewID);
 }
 
 
@@ -25,7 +25,7 @@ void ULeague_Race::InitializeRaceData()
 	data.RaceManager = NewObject<URaceManager>(this);
 	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
 	if (!data.RaceManager || !data.RaceLineupManager) return;
-	data.RaceManager->InitializeManager(IsNominatedRace());
+	data.RaceManager->InitializeManager(IsNominatedRace(), RaceID);
 	data.RaceLineupManager->InitializeManager();
 	Data = data;
 }
@@ -35,8 +35,7 @@ void ULeague_Race::BindDelegates()
 {
 	Super::BindDelegates();
 	if (!Data.RaceManager) return;
-	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &ULeague_Race::UpdateRacePoints);
-	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &ULeague_Race::UpdateOverallScore);
+	Data.RaceManager->OnRaceFinishedDelegate.AddUObject(this, &ULeague_Race::UpdateScore);
 	Data.RaceManager->OnRaceLineResultUpdatedDelegate.AddUObject(this, &URace_Base::OnRaceStatsUpdateRequested);
 }
 
@@ -88,19 +87,14 @@ ULeague_RaceLine_Base* ULeague_Race::CreateNominatedRaceLine(int32 RaceLineID)
 }
 
 
-void ULeague_Race::UpdateRacePoints()
+void ULeague_Race::UpdateScore()
 {
-	if (!ScoreManager) return;
-	ScoreCounter->SetRacePoints(
-		ScoreManager->GetRaceScore(false),
-		ScoreManager->GetRaceScore(true));
-}
-
-
-void ULeague_Race::UpdateOverallScore()
-{
-	if (!ScoreManager) return;
-	ScoreCounter->SetOverallScore(
-		ScoreManager->GetTeamScore(false),
-		ScoreManager->GetTeamScore(true));
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+		{
+			ScoreCounter->SetOverallScore(Rules->GetTeamScore(false),Rules->GetTeamScore(true));
+			ScoreCounter->SetRacePoints(Rules->GetTeamRaceScore(false, RaceID), Rules->GetTeamRaceScore(true, RaceID));
+		}
+	}
 }

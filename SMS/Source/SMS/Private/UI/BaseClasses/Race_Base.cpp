@@ -5,7 +5,7 @@
 #include "UI/BaseClasses/NumbersBox.h"
 
 
-void URace_Base::InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef)
+void URace_Base::InitializeWidget(int32 NewID)
 {
 	RaceID = NewID;
 	NumbersBox_RaceNumber->SetText(RaceID);

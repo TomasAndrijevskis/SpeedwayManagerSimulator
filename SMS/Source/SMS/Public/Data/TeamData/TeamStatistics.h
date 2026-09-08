@@ -13,8 +13,10 @@ struct FTeamStatistics
 	UPROPERTY()
 	ETeams Team = ETeams::Nothing;
 
-	UPROPERTY()
-	FString TeamName = "";
-
 	TArray<FTeamMatchStatistics> MatchStatistics;
+
+	FString GetTeamName() const
+	{
+		return UEnum::GetDisplayValueAsText(Team).ToString();
+	}
 };

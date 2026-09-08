@@ -29,13 +29,10 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	UBackgroundBlur* BackgroundBlur;
 	
-	UFUNCTION()
 	virtual void PopulateRacers(){};
 
 	virtual void BindDelegates(); 
-
-	virtual void CollectStatistics(){};
-
+	
 	virtual void DisableButtons(){};
 	
 	void CreateRaces();

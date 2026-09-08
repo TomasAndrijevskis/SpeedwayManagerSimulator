@@ -3,7 +3,6 @@
 #include "Components/Button.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/ScoreManager.h"
 #include "Rules/LeagueRules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/NamesBox.h"
@@ -24,7 +23,6 @@ void UCalendarLine::StartMatch()
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		MatchManagerSubsystem->StartMatch(ULeagueRules::StaticClass());
-		ScoreManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetScoreManager();
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		MatchManagerSubsystem->GetCompetitionRules()->OnMatchEndedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
 		
@@ -53,11 +51,15 @@ void UCalendarLine::InitializeLine(int32 HomeTeamID, int32 VisitorTeamID)
 
 void UCalendarLine::OnMatchEnded()
 {
-	if (!ScoreManager) return;
 	Button_StartMatch->OnClicked.Clear();
 	Button_StartMatch->SetIsEnabled(false);
-	DisplayFinalScore(ScoreManager->GetTeamScore(false), ScoreManager->GetTeamScore(true));
-	ScoreManager = nullptr;
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+		{
+			DisplayFinalScore(Rules->GetTeamScore(false), Rules->GetTeamScore(true));
+		}
+	}
 }
 
 

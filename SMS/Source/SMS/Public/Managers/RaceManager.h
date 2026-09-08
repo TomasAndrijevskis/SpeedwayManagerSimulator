@@ -3,13 +3,12 @@
 
 #include "CoreMinimal.h"
 #include "Data/RaceData/RaceResultData.h"
-#include "Data/TeamData/ETeams.h"
 #include "RaceManager.generated.h"
 
-class URaceLine_Base;
+class ULeague_RaceLine_Base;
 class UTrackManager;
 
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, ETeams, int32);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, bool, int32);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int32, int32);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeRaceStatusRequest, bool);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceLineResultUpdated, const TArray<FRaceResultData>&)
@@ -22,11 +21,11 @@ class SMS_API URaceManager : public UObject
 
 public:
 
-	void InitializeManager(bool NewIsNominatedRace);
+	void InitializeManager(bool NewIsNominatedRace, int32 NewRaceID);
 	
 	void InitializeManager();
 	
-	void AddRaceLine(URaceLine_Base* NewRaceLine);
+	void AddRaceLine(ULeague_RaceLine_Base* NewRaceLine);
 	
 	void ChangeRaceStatus(bool bIsActive);
 
@@ -59,9 +58,11 @@ private:
 	void BroadcastRaceResult();
 	
 	UPROPERTY()
-	TArray<URaceLine_Base*> RaceLines;
+	TArray<ULeague_RaceLine_Base*> RaceLines;
 
 	bool bIsNominatedRace = false;
 
 	TArray<FRaceResultData> RaceResults;
+
+	int32 RaceID = 0;
 };

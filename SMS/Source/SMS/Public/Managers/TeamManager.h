@@ -2,18 +2,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RacerManager.h"
-#include "Data/RacersData/RacerMatchData.h"
+#include "RacerMatchManager.h"
 #include "Data/TeamData/TeamMatchData.h"
 #include "Data/TeamData/TeamStatistics.h"
 #include "TeamManager.generated.h"
 
 
 class URulesSubsystem;
-class UScoreManager;
 class ULeague_RacerStatsLine;
-class URacerManager;
+class URacerMatchManager;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnTeamScoreUpdated, int32);
 UCLASS()
 class SMS_API UTeamManager : public UObject
 {
@@ -27,28 +26,26 @@ public:
 
 	void ForEachRacerInLineup(TFunction<void(int32)> Callback);
 	
-	void ForEachRacerInLineup(TFunction<void(const FRacerMatchData&)> Callback);
-
-	void ForEachRacerInLineup(TFunction<void(URacerManager*)> Callback);
-
-	void GetAvailableReplacementRacers(const URacerManager* OriginalRacerManager, TFunction<void(URacerManager*)> Callback);
+	void ForEachRacerInLineup(TFunction<void(const TObjectPtr<URacerMatchManager>&)> Callback);
 	
-	void GetAvailableRacers(TFunction<void(URacerManager*)> Callback);
+	void GetAvailableReplacementRacers(const URacerMatchManager* OriginalRacerManager, TFunction<void(const TObjectPtr<URacerMatchManager>&)> Callback);
 	
-	void ForEachRacerInRoster(TFunction<void(const FRacerData&)> Callback);
+	void GetAvailableRacers(TFunction<void(URacerMatchManager*)> Callback);
 	
-	void SetTeamData(FTeamMatchData* NewTeamData);
+	void ForEachRacerInRoster(TFunction<void(URacerMatchManager*)> Callback);
+	
+	void SetTeamData(const FTeamMatchData& NewTeamData);
 
-	void SetScoreManager(UScoreManager* ScoreManagerRef);
+	FString GetTeamName() const;
 	
-	const FString& GetTeamName() const;
-
 	ETeams GetTeam() const;
-
+	
 	int32 GetTeamScore() const;
 	
-	void CreateRacerManagers();
-
+	void UpdateScore(int32 PointsToAdd, int32 RaceID);
+	
+	int32 GetRaceScore(int32 RaceID) const;
+	
 	void MakeRandomTeamRoster();//Testing
 
 	void AddRacerStatsLine(ULeague_RacerStatsLine* RacerStatsLine);
@@ -63,29 +60,27 @@ public:
 
 	bool IsVisitorTeam() const;
 
-	TMap<int32, URacerManager*>& GetRacerManagers();
+	TArray<URacerMatchManager*>& GetRacerManagers();
 
-	void UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, FRacerData& PreviousOptionData);
+	TMap<int32, TObjectPtr<URacerMatchManager>>& GetRacers();
+	
+	void UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, const TObjectPtr<URacerMatchManager>& PreviousOptionData);
 
 	void CollectTeamStatistics(const EMatchResults Result, const TMap<ETeams, int32>& OpponentResult);
+
+	FOnTeamScoreUpdated OnTeamScoreUpdatedDelegate;
 	
 private:
 	
-	FTeamMatchData* TeamData;
+	FTeamMatchData TeamData;
 
 	//Lineup for current match
 	UPROPERTY()
-	TMap<int32, FRacerMatchData> Racers;
+	TMap<int32, TObjectPtr<URacerMatchManager>> Racers;
 
 	UPROPERTY()
 	TArray<ULeague_RacerStatsLine*> RacerStatsLines;
-
-	UPROPERTY()
-	TMap<int32, URacerManager*> RacerManagers;
-
-	UPROPERTY()
-	TObjectPtr<UScoreManager> ScoreManager;
-
+	
 	UPROPERTY()
 	TObjectPtr<URulesSubsystem> RulesSubsystem;
 };

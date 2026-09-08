@@ -6,7 +6,7 @@
 
 void UStandingsLine::InitializeStandingsLine(const FTeamStatistics& TeamStatistics)
 {
-	SetTeamName(TeamStatistics.TeamName);
+	SetTeamName(TeamStatistics.GetTeamName());
 	SetNumbers(TeamStatistics);
 }
 

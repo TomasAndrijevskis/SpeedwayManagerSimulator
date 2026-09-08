@@ -1,6 +1,6 @@
 
 #include "UI/BaseClasses/RaceLine_Base.h"
-#include "Managers/RacerManager.h"
+#include "Managers/RacerMatchManager.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
 
@@ -21,7 +21,7 @@ void URaceLine_Base::SetRaceLineData(const FRaceLineData& NewRaceLineData)
 
 void URaceLine_Base::BindManagersDelegates()
 {
-	if (RacerManager) OnRaceSimulatedDelegate.AddUObject(RacerManager, &URacerManager::CalculateRating);
+	if (RacerManager) OnRaceSimulatedDelegate.AddUObject(RacerManager, &URacerMatchManager::CalculateRating);
 }
 
 
@@ -50,6 +50,5 @@ int32 URaceLine_Base::GetRacerNumber()const{return RacerNumber;}
 int32 URaceLine_Base::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
 int32 URaceLine_Base::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int32 URaceLine_Base::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
-URacerManager* URaceLine_Base::GetRacerManager()const{return RacerManager;}
-FRaceLineData& URaceLine_Base::GetRaceLineData(){return RaceLineData;}
+URacerMatchManager* URaceLine_Base::GetRacerManager()const{return RacerManager;}
 bool URaceLine_Base::IsRacerSet() const{return bIsRacerSet;}

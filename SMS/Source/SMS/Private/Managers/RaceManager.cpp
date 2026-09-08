@@ -1,15 +1,18 @@
 
 #include "Managers/RaceManager.h"
-#include "Managers/RacerManager.h"
+#include "Managers/RacerMatchManager.h"
 #include "Managers/TrackManager.h"
+#include "Rules/LeagueRules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/League/Program/Race/League_RaceLine_Base.h"
 
 
-void URaceManager::InitializeManager(bool NewIsNominatedRace)
+void URaceManager::InitializeManager(bool NewIsNominatedRace, int32 NewRaceID)
 {
 	BindDelegates();
 	bIsNominatedRace = NewIsNominatedRace;
+	RaceID = NewRaceID;
 }
 
 
@@ -26,7 +29,7 @@ void URaceManager::BindDelegates()
 }
 
 
-void URaceManager::AddRaceLine(URaceLine_Base* NewRaceLine)
+void URaceManager::AddRaceLine(ULeague_RaceLine_Base* NewRaceLine)
 {
 	RaceLines.Add(NewRaceLine);
 }
@@ -55,11 +58,11 @@ void URaceManager::SimulateRace(const TObjectPtr<UTrackManager>& TrackManager)
 		for (int32 Position = 0; Position < RaceLines.Num(); Position++)
 		{
 			ERaceResults Result = static_cast<ERaceResults>(Position);
-			URaceLine_Base* CurrentLine = RaceLines[Position];
-			const bool IsVisitor = CurrentLine->GetRaceLineData().IsVisitorLine();
+			ULeague_RaceLine_Base* CurrentLine = RaceLines[Position];
+			const bool IsVisitor = CurrentLine->IsVisitor();
 			bool HasBonus = false;
 			if (Position != 0 && Position < RaceLines.Num() - 1)
-				HasBonus = RaceLines[Position - 1]->GetRaceLineData().IsVisitorLine() == IsVisitor;
+				HasBonus = RaceLines[Position - 1]->IsVisitor() == IsVisitor;
 			if (CurrentLine->GetRacerRating() == 0)
 			{
 				CurrentLine->SetPointsPerRace(Rules->GetRaceResultText(ERaceResults::Defect));
@@ -86,9 +89,15 @@ void URaceManager::SimulateRace(const TObjectPtr<UTrackManager>& TrackManager)
 
 void URaceManager::BroadcastRaceResult()
 {
-	for (const auto& RaceLine : RaceLines)
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		OnRaceScoreUpdatedDelegate.Broadcast(Cast<ULeague_RaceLine_Base>(RaceLine)->GetTeam(), RaceLine->GetPointsPerRace());
+		for (const auto& RaceLine : RaceLines)
+		{
+			if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+			{
+				Rules->OnScoreUpdatedDelegate.Broadcast(RaceLine->IsVisitor(), RaceLine->GetPointsPerRace(), RaceID);
+			}
+		}
 	}
 }
 

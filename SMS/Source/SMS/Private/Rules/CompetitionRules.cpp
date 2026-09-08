@@ -17,7 +17,7 @@ void UCompetitionRules::AddNewRace(int32 RaceId, FRaceData RaceData)
 	Races.Add(RaceId, RaceData);
 }
 
-void UCompetitionRules::RequestToAssignRacersToRace(URacerManager* RacerManager)
+void UCompetitionRules::RequestToAssignRacersToRace(URacerMatchManager* RacerManager)
 {
 	for (const auto& Race : Races)
 	{
@@ -34,7 +34,6 @@ void UCompetitionRules::SimulateRace()
 		if (!Races[CurrentRace].RaceManager->CheckAllRacersInRace()) return;
 		UE_LOG(LogTemp, Display, TEXT("Race %i"), CurrentRace);
 		TrackManager->OnTrackUpdateRequestDelegate.Broadcast(CurrentRace);
-		BindRaceDelegates();
 		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast(TrackManager);
 		HandleRaceFinished();
 	}
@@ -47,6 +46,7 @@ void UCompetitionRules::CreateTrackManager(const FTrackData& HomeTeamTrackData)
 	if (!TrackManager) return;
 	TrackManager->InitializeManager(HomeTeamTrackData);
 }
+
 
 void UCompetitionRules::HandleRaceFinished()
 {

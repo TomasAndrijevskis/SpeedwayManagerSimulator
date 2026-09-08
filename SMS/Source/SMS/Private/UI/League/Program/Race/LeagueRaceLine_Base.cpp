@@ -4,27 +4,18 @@
 #include "Components/OverlaySlot.h"
 #include "Components/Slider.h"
 #include "UI/League/Program/Race/League_RaceLine_Base.h"
-#include "Gamemodes/SMS_GameMode.h"
-#include "Managers/RacerManager.h"
-#include "Managers/TeamManager.h"
-#include "Rules/LeagueRules.h"
-#include "Subsystems/MatchManagerSubsystem.h"
+#include "Managers/RacerMatchManager.h"
 #include "UI/BaseClasses/ChooseBox.h"
 
 
 void ULeague_RaceLine_Base::InitializeWidget()
 {
-	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
-	{
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->OnRacerManagersCreatedDelegate.AddUObject(this, &ULeague_RaceLine_Base::SetTeamManager);
-	}
 	ChangeChooseBoxStatus(false);
 	BindDelegates();
 }
 
 
-void ULeague_RaceLine_Base::SetRacerData(URacerManager* RacerManagerRef, bool IsReplacement)
+void ULeague_RaceLine_Base::SetRacerData(URacerMatchManager* RacerManagerRef, bool IsReplacement)
 {
 	if (!RacerManagerRef) return;
 	RacerManager = RacerManagerRef;
@@ -43,20 +34,6 @@ void ULeague_RaceLine_Base::BindDelegates()
 {
 	Super::BindDelegates();
 	ChooseBox_RacerReplacement->OnSelectionChangedDelegate.AddUObject(this, &ULeague_RaceLine_Base::OnRacerReplaced);
-}
-
-
-void ULeague_RaceLine_Base::SetTeamManager(TArray<UTeamManager*> TeamManagersRef)
-{
-	for (const auto& Manager : TeamManagersRef)
-	{
-		if (!Manager) continue;
-		if (RaceLineData.IsVisitorLine() == Manager->IsVisitorTeam())
-		{
-			TeamManager = Manager;
-			break;
-		}
-	}
 }
 
 
@@ -103,12 +80,17 @@ USlider* ULeague_RaceLine_Base::CreateSlider()
 	return NewSlider;
 }
 
+
 void ULeague_RaceLine_Base::ChangeChooseBoxStatus(bool Status)
 {
 	ChooseBox_RacerReplacement->SetIsEnabled(Status);
 }
 
 
-ETeams ULeague_RaceLine_Base::GetTeam()const{return TeamManager->GetTeam();}
-URacerManager* ULeague_RaceLine_Base::GetOriginalRacerManager() const{return OriginalRacerManager;}
-UTeamManager* ULeague_RaceLine_Base::GetTeamManager()const{return TeamManager;}
+URacerMatchManager* ULeague_RaceLine_Base::GetOriginalRacerManager() const{return OriginalRacerManager;}
+bool ULeague_RaceLine_Base::IsVisitor() const
+{
+	if (RacerManager) return RacerManager->IsVisitor();
+	if (RaceLineData.HelmetColour == EHelmetColour::White || RaceLineData.HelmetColour == EHelmetColour::Yellow) return true;
+	return false;
+}

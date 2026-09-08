@@ -3,18 +3,17 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/RacersData/RacerData.h"
 #include "Data/Rules/ERaceResults.h"
 #include "League_RacerStatsLine.generated.h"
 
-class URacerManager;
+class URacerMatchManager;
 class UChooseBox;
 class UNumbersBox;
 class UTextBlock;
 class UHorizontalBox;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSelected, const FString&, int32);
-DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const ULeague_RacerStatsLine*, const FString&, FRacerData&);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedOptionChanged, const ULeague_RacerStatsLine*, const FString&, const TObjectPtr<URacerMatchManager>&);
 UCLASS()
 class SMS_API ULeague_RacerStatsLine : public UUserWidget
 {
@@ -22,7 +21,7 @@ class SMS_API ULeague_RacerStatsLine : public UUserWidget
 
 public:
 
-	void AddOption(const FRacerData Data);
+	void AddOption(const TObjectPtr<URacerMatchManager>& NewRacerManager);
 
 	void RemoveOption(const FString& Option);
 	
@@ -30,7 +29,7 @@ public:
 
 	int GetID() const;
 
-	void InitializeManagers(URacerManager* RacerManagerRef);
+	void InitializeManagers(URacerMatchManager* RacerManagerRef);
 
 	void ChooseRandomOption(); // for testing
 
@@ -71,14 +70,14 @@ private:
 	
 	void BindDelegates();
 	
-	TArray<FRacerData> RacerData;
+	TArray<TObjectPtr<URacerMatchManager>> Racers;
 
-	FRacerData SelectedData;
+	TObjectPtr<URacerMatchManager> SelectedData;
 	
 	int32 RacerStatsLineID;
 
 	UPROPERTY()
-	URacerManager* RacerManager;
+	URacerMatchManager* RacerManager;
 
 	FString PreviousOption = "";
 };

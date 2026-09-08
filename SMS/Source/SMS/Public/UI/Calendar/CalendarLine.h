@@ -8,7 +8,6 @@
 
 
 class UProgram;
-class UScoreManager;
 class UMatchManager;
 class UNumbersBox;
 class UButton;
@@ -57,9 +56,6 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UProgram> ProgramClass;
-
-	UPROPERTY()
-	TObjectPtr<UScoreManager> ScoreManager;
 	
 	ETeams HomeTeam;
 	

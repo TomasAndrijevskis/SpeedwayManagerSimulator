@@ -5,7 +5,6 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
-#include "Rules/LeagueRules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/Race/League_Race.h"
 #include "UI/RaceStats/RaceStats.h"
@@ -36,7 +35,7 @@ void UProgram::CreateRaces()
 		{
 			if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 			{
-				NewRace->InitializeWidget(RaceID, Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetScoreManager());
+				NewRace->InitializeWidget(RaceID);
 				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				NewRace->OnRaceStatsUpdateRequestedDelegate.AddUObject(this, &UProgram::OnRaceStatsUpdated);
 				MatchManagerSubsystem->GetCompetitionRules()->AddNewRace(RaceID, NewRace->GetRaceData());
@@ -105,7 +104,6 @@ void UProgram::OnRaceStatsUpdated(const TArray<FRaceResultData>& Data)
 
 void UProgram::PrepareToEndMatch()
 {
-	CollectStatistics();
 	ChangeButtonBehaviour();
 }
 
@@ -127,5 +125,9 @@ void UProgram::CreateRaceStatsWidget()
 
 void UProgram::FinishMatch()
 {
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		MatchManagerSubsystem->GetCompetitionRules()->EndMatch();
+	}
 	this->RemoveFromParent();
 }

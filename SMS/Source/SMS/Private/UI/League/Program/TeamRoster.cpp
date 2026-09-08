@@ -2,7 +2,6 @@
 #include "SMS/Public/UI/League/Program/TeamRoster.h"
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
-#include "Managers/ScoreManager.h"
 #include "Managers/TeamManager.h"
 #include "Rules/LeagueRules.h"
 #include "UI/BaseClasses/NamesBox.h"
@@ -11,43 +10,33 @@
 #include "Subsystems/MatchManagerSubsystem.h"
 
 
-void UTeamRoster::InitializeTeam(FTeamMatchData* NewTeamData)
+void UTeamRoster::InitializeTeam(bool IsVisitor)
 {
-	if (!NewTeamData) return;
-	Team = NewTeamData->Team;
-	InitializeManagers(NewTeamData);
+	InitializeManagers(IsVisitor);
 	BindDelegates();
-	CreateRacerStatLines(ScoreManager);
+	CreateRacerStatLines();
 	DisplayTeamName();
 	DisplayTeamStatus();
 }
 
 
-void UTeamRoster::InitializeManagers(FTeamMatchData* NewTeamData)
+void UTeamRoster::InitializeManagers(bool IsVisitor)
 {
-	if (!NewTeamData) return;
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		ScoreManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetScoreManager();
+		TeamManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(IsVisitor);
 	}
-	
-	TeamManager = NewObject<UTeamManager>(this);
-	if (!TeamManager || !ScoreManager) return;
-	TeamManager->InitializeManager();
-	TeamManager->SetTeamData(NewTeamData);
-	ScoreManager->AddTeamRef(NewTeamData);
 }
 
 
 void UTeamRoster::BindDelegates()
 {
-	if (!ScoreManager) return;
-	ScoreManager->OnTeamOverallScoreUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
+	if (!TeamManager) return;
+	TeamManager->OnTeamScoreUpdatedDelegate.AddUObject(this, &UTeamRoster::UpdateTeamPoints);
 }
 
 
-void UTeamRoster::CreateRacerStatLines(const UScoreManager* ScoreManagerRef)
+void UTeamRoster::CreateRacerStatLines()
 {
 	if (!TeamManager) return;
 	int32 Id = 1;
@@ -68,7 +57,6 @@ void UTeamRoster::CreateRacerStatLines(const UScoreManager* ScoreManagerRef)
 			NewStatLine->OnSelectedOptionChangedDelegate.AddUObject(TeamManager, &UTeamManager::UpdateStatsLineOptions);
 		}
 	}
-	TeamManager->SetScoreManager(ScoreManager);
 	TeamManager->FillTeamRosterOptions();
 }
 
@@ -90,9 +78,9 @@ void UTeamRoster::DisplayTeamName()
 }
 
 
-void UTeamRoster::UpdateTeamPoints(ETeams TeamToUpdate, int32 NewPoints)
+void UTeamRoster::UpdateTeamPoints(int32 NewPoints)
 {
-	if (Team == TeamToUpdate) NumbersBox_TeamPoints->SetText(NewPoints);
+	NumbersBox_TeamPoints->SetText(NewPoints);
 }
 
 

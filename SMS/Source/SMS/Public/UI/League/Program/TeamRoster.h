@@ -3,8 +3,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Data/TeamData/TeamMatchData.h"
-#include "Managers/ScoreManager.h"
 #include "TeamRoster.generated.h"
 
 
@@ -22,7 +20,7 @@ class SMS_API UTeamRoster : public UUserWidget
 
 public:
 	
-	void InitializeTeam(FTeamMatchData* NewTeamData);
+	void InitializeTeam(bool IsVisitor);
 
 	UTeamManager* GetTeamManager() const;
 	
@@ -40,15 +38,15 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UVerticalBox* VB_Content;
 	
-	void CreateRacerStatLines(const UScoreManager* ScoreManagerRef);
+	void CreateRacerStatLines();
 	
 	ULeague_RacerStatsLine* CreateRacerStatLine(int32 ID);
 
-	void UpdateTeamPoints(ETeams TeamToUpdate, int32 NewPoints);
+	void UpdateTeamPoints(int32 NewPoints);
 
 	void DisplayTeamName();
 
-	void InitializeManagers(FTeamMatchData* NewTeamData);
+	void InitializeManagers(bool IsVisitor);
 
 	void DisplayTeamStatus();
 
@@ -58,12 +56,7 @@ private:
 	TSubclassOf<ULeague_RacerStatsLine> RacerStatsLineClass;
 
 	UPROPERTY()
-	TObjectPtr<UScoreManager> ScoreManager;
-
-	UPROPERTY()
 	TObjectPtr<UTeamManager> TeamManager;
 	
 	int32 RacersAmount = 6;
-
-	ETeams Team = ETeams::Nothing;
 };

@@ -2,7 +2,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Data/TeamData/TeamMatchData.h"
 #include "UI/BaseClasses/Program_Base.h"
 #include "League_Program.generated.h"
 
@@ -36,15 +35,12 @@ private:
 	
 	void InitializeTeams();
 
-	UTeamRoster* CreateTeamRoster(FTeamMatchData* TeamData);
+	void CreateTeamRoster(bool IsVisitor);
 
-	void RegisterTeamRoster(UTeamRoster* TeamRoster);
-	
+	UFUNCTION()
 	virtual void PopulateRacers() override;
 	
 	virtual void BindDelegates() override;
-
-	virtual void CollectStatistics() override;
 
 	virtual void DisableButtons() override;
 	
@@ -56,6 +52,4 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
 	TSubclassOf<UTeamRoster> TeamRosterClass;
-
-	TArray<TObjectPtr<UTeamManager>> TeamManagers;
 };

@@ -20,5 +20,6 @@ struct FTeamMatchStatistics
 	UPROPERTY()
 	EMatchResults Result;
 	
+	//uproperty
 	TMap<ETeams, int32> OpponentResult;
 };

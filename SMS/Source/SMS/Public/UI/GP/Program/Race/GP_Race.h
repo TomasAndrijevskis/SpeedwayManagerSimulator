@@ -17,7 +17,7 @@ class SMS_API UGPRace : public URace_Base
 
 public:
 
-	virtual void InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef) override;
+	virtual void InitializeWidget(int32 NewID) override;
 
 private:
 

@@ -11,7 +11,6 @@
 
 class URaceLine_Base;
 class URacePatternsDataAsset;
-class UScoreManager;
 class UVerticalBox;
 class UNumbersBox;
 
@@ -23,7 +22,7 @@ class SMS_API URace_Base : public UUserWidget
 
 public:
 
-	virtual void InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef);
+	virtual void InitializeWidget(int32 NewID);
 
 	void OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceResultData) const;
 	

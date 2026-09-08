@@ -1,6 +1,6 @@
 
 #include "Subsystems/RulesSubsystem.h"
-#include "Managers/RacerManager.h"
+#include "Managers/RacerMatchManager.h"
 #include "Managers/TeamManager.h"
 
 
@@ -31,7 +31,7 @@ bool URulesSubsystem::IsRacerEligible(int32 RaceLineID, int32 Age) const
 }
 
 
-bool URulesSubsystem::CanReplace(const URacerManager* OriginalRacer, const URacerManager* ReplacementRacer, int32 OwnTeamScore, int32 EnemyTeamScore) const
+bool URulesSubsystem::CanReplace(const URacerMatchManager* OriginalRacer, const URacerMatchManager* ReplacementRacer, int32 OwnTeamScore, int32 EnemyTeamScore) const
 {
 	if (!OriginalRacer || !ReplacementRacer) return false;
 	if (OriginalRacer == ReplacementRacer) return false;
@@ -66,7 +66,7 @@ bool URulesSubsystem::CanReplace(const URacerManager* OriginalRacer, const URace
 }
 
 
-bool URulesSubsystem::CanParticipateInNominatedRace(const URacerManager* RacerManagerRef) const
+bool URulesSubsystem::CanParticipateInNominatedRace(const URacerMatchManager* RacerManagerRef) const
 {
 	return !RacerManagerRef->DidParticipateInNominatedRace() && RacerManagerRef->CanDriveMore(MaxAmountOfRaces);
 }
@@ -108,40 +108,32 @@ int32 URulesSubsystem::GetRaceResultNumber(const ERaceResults RaceResult) const
 }
 
 
-void URulesSubsystem::DecideMatchWinner(TArray<UTeamManager*> TeamManagers)
+void URulesSubsystem::DecideMatchWinner(const TObjectPtr<UTeamManager>& HomeTeamManager, const TObjectPtr<UTeamManager>& VisitorTeamManager)
 {
-	UTeamManager* HomeTeam = nullptr;
-	UTeamManager* VisitorTeam = nullptr;
-	
-	for (const auto& TeamManager : TeamManagers)
-	{
-		if (TeamManager->IsVisitorTeam()) VisitorTeam = TeamManager;
-		else HomeTeam = TeamManager;
-	}
-	if (!VisitorTeam || !HomeTeam) return;
+	if (!VisitorTeamManager || !HomeTeamManager) return;
 	TMap<ETeams, int32> VisitorTeamData;
 	TMap<ETeams, int32> HomeTeamData;
 	
-	int32 HomeTeamScore = HomeTeam->GetTeamScore();
-	int32 VisitorTeamScore = VisitorTeam->GetTeamScore();
+	int32 HomeTeamScore = HomeTeamManager->GetTeamScore();
+	int32 VisitorTeamScore = VisitorTeamManager->GetTeamScore();
 
-	VisitorTeamData.Add(VisitorTeam->GetTeam(), VisitorTeamScore);
-	HomeTeamData.Add(HomeTeam->GetTeam(), HomeTeamScore);
+	VisitorTeamData.Add(VisitorTeamManager->GetTeam(), VisitorTeamScore);
+	HomeTeamData.Add(HomeTeamManager->GetTeam(), HomeTeamScore);
 	
 	if (HomeTeamScore > VisitorTeamScore)
 	{
-		HomeTeam->CollectTeamStatistics(EMatchResults::Win, VisitorTeamData);
-		VisitorTeam->CollectTeamStatistics(EMatchResults::Loss, HomeTeamData);
+		HomeTeamManager->CollectTeamStatistics(EMatchResults::Win, VisitorTeamData);
+		VisitorTeamManager->CollectTeamStatistics(EMatchResults::Loss, HomeTeamData);
 		return;
 	}
 	if (HomeTeamScore < VisitorTeamScore)
 	{
-		HomeTeam->CollectTeamStatistics(EMatchResults::Loss, VisitorTeamData);
-		VisitorTeam->CollectTeamStatistics(EMatchResults::Win,  HomeTeamData);
+		HomeTeamManager->CollectTeamStatistics(EMatchResults::Loss, VisitorTeamData);
+		VisitorTeamManager->CollectTeamStatistics(EMatchResults::Win,  HomeTeamData);
 		return;
 	}
-	HomeTeam->CollectTeamStatistics(EMatchResults::Draw, VisitorTeamData);
-	VisitorTeam->CollectTeamStatistics(EMatchResults::Draw, HomeTeamData);
+	HomeTeamManager->CollectTeamStatistics(EMatchResults::Draw, VisitorTeamData);
+	VisitorTeamManager->CollectTeamStatistics(EMatchResults::Draw, HomeTeamData);
 }
 
 

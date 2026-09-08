@@ -4,19 +4,19 @@
 #include "CoreMinimal.h"
 #include "Data/RacersData/RacerMatchData.h"
 #include "Data/RacersData/RacerStatistics.h"
-#include "RacerManager.generated.h"
+#include "RacerMatchManager.generated.h"
 
 class URaceLine_Base;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPointsAdded, const ERaceResults&, bool)
 
 UCLASS()
-class SMS_API URacerManager : public UObject
+class SMS_API URacerMatchManager : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
-	void Initialize(const FRacerMatchData& RacerData);
+	void Initialize(const FRacerData& RacerData);
 
 	int32 CountOverallPoints();
 	
@@ -45,7 +45,8 @@ public:
 	bool IsVisitor() const;
 
 	int32 GetRacerNumber() const;
-
+	void SetRacerNumber(int32 NewRacerNumber);
+	
 	bool CanDriveMore(int32 MaxAmountOfRaces) const;
 	
 	bool DidParticipateInNominatedRace() const;

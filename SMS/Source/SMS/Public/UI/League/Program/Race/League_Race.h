@@ -6,8 +6,8 @@
 #include "League_Race.generated.h"
 
 
-class ULeague_RaceLine_Base;
 class UScoreCounter;
+class ULeague_RaceLine_Base;
 
 UCLASS()
 class SMS_API ULeague_Race : public URace_Base
@@ -16,7 +16,7 @@ class SMS_API ULeague_Race : public URace_Base
 
 public:
 
-	virtual void InitializeWidget(int32 NewID, UScoreManager* ScoreManagerRef) override;
+	virtual void InitializeWidget(int32 NewID) override;
 
 private:
 
@@ -33,13 +33,9 @@ private:
 
 	ULeague_RaceLine_Base* CreateNominatedRaceLine(int32 RaceLineID);
 
-	void UpdateRacePoints();
-    
-	void UpdateOverallScore();
+	void UpdateScore();
 
 	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
 	TSubclassOf<ULeague_RaceLine_Base> NominatedRaceLineClass;
 
-	UPROPERTY()
-	TObjectPtr<UScoreManager> ScoreManager;
 };

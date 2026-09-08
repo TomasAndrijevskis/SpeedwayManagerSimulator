@@ -1,7 +1,7 @@
 
 #include "SMS/Public/UI/League/Program/League_RacerStatsLine.h"
 #include "Components/HorizontalBox.h"
-#include "Managers/RacerManager.h"
+#include "Managers/RacerMatchManager.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "UI/BaseClasses/ChooseBox.h" 
 #include "UI/BaseClasses/NumbersBox.h"
@@ -14,8 +14,9 @@ void ULeague_RacerStatsLine::NativeConstruct()
 }
 
 
-void ULeague_RacerStatsLine::InitializeManagers(URacerManager* RacerManagerRef)
+void ULeague_RacerStatsLine::InitializeManagers(URacerMatchManager* RacerManagerRef)
 {
+	UE_LOG(LogTemp, Warning, TEXT("ULeague_RacerStatsLine::InitializeManagers"));
 	RacerManager = RacerManagerRef;
 	BindDelegates();
 }
@@ -28,10 +29,14 @@ void ULeague_RacerStatsLine::BindDelegates()
 }
 
 
-void ULeague_RacerStatsLine::AddOption(const FRacerData Data)
+void ULeague_RacerStatsLine::AddOption(const TObjectPtr<URacerMatchManager>& NewRacerManager)
 {
-	RacerData.Add(Data);
-	ChooseBox_Racer->AddOption(Data.Name);
+	if (NewRacerManager)
+	{
+		Racers.Add(NewRacerManager);
+		ChooseBox_Racer->AddOption(NewRacerManager->GetRacerName());
+	}
+	else ChooseBox_Racer->AddOption("");
 }
 
 
@@ -62,16 +67,16 @@ void ULeague_RacerStatsLine::OnRacerChosen(FString SelectedOption, ESelectInfo::
 	if (PreviousOption == "")
 	{
 		PreviousOption = SelectedOption;
-		FRacerData EmptyData;
+		TObjectPtr<URacerMatchManager> EmptyData = nullptr;
 		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, EmptyData);
 	}
 	else
 	{
-		for (const auto& Data : RacerData)
+		for (const auto& Racer : Racers)
 		{
-			if (Data.Name == PreviousOption)
+			if (Racer->GetRacerName() == PreviousOption)
 			{
-				SelectedData = Data; break;
+				SelectedData = Racer; break;
 			}
 		}
 		OnSelectedOptionChangedDelegate.Broadcast(this, SelectedOption, SelectedData);

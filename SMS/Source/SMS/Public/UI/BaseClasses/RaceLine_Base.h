@@ -8,7 +8,7 @@
 #include "RaceLine_Base.generated.h"
 
 
-class URacerManager;
+class URacerMatchManager;
 class UNumbersBox;
 
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRaceSimulated, float, float, ETrackTypes);
@@ -22,7 +22,6 @@ public:
 	void ChangeLineStatus(bool bIsActive);
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
-	FRaceLineData& GetRaceLineData();
 	
 	void SetRaceLineID(int32 NewID);
 	int32 GetRaceLineID() const;
@@ -37,7 +36,7 @@ public:
 	
 	int32 GetTieBreaker() const;
 	
-	URacerManager* GetRacerManager() const;
+	URacerMatchManager* GetRacerManager() const;
 
 	bool IsRacerSet() const;
 
@@ -59,7 +58,7 @@ protected:
 	void BindManagersDelegates();
 	
 	UPROPERTY()
-	URacerManager* RacerManager;
+	URacerMatchManager* RacerManager;
 
 	FRaceLineData RaceLineData;
 
