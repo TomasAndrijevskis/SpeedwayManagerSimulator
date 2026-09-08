@@ -27,7 +27,6 @@ void ASMS_GameMode::InitializeTeams()
 	RacersDataTable->GetAllRows(TEXT("Find racers"), Racers);
 	for (const auto& Racer : Racers)
 	{
-		FRacerData RacerData = *Racer;
 		URacerCareerManager* InitializedRacer = InitializeRacer(*Racer);
 		ETeams Team = Racer->InitialTeam;
 		FString TeamName = StaticEnum<ETeams>()->GetDisplayNameTextByValue(static_cast<int32>(Team)).ToString();

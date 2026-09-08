@@ -43,6 +43,8 @@ private:
 	virtual void CollectRacerStatistics() override;
 
 	virtual void EndMatch() override;
+
+	virtual void ClearDependencies() override;
 	
 	void InitializeTeam(const FTeamMatchData& TeamData, TObjectPtr<UTeamManager>& OutManager);
 

@@ -10,7 +10,7 @@
 class URacerMatchManager;
 class UTrackManager;
 
-DECLARE_MULTICAST_DELEGATE(FOnMatchEnded);
+DECLARE_MULTICAST_DELEGATE(FOnMatchFinished);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
 UCLASS(Abstract)
 class SMS_API UCompetitionRules : public UObject
@@ -37,13 +37,15 @@ public:
 
 	int32 GetAmountOfRaces() const;
 	
-	FOnMatchEnded OnMatchEndedDelegate;
+	FOnMatchFinished OnMatchFinishedDelegate;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 
 protected:
 
 	virtual void HandleRaceFinished();
+
+	virtual void ClearDependencies();
 	
 	void CreateTrackManager(const FTrackData& HomeTeamTrackData);
 	
@@ -60,6 +62,5 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UTrackManager> TrackManager;
-	
 };
 

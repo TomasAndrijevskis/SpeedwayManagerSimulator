@@ -57,7 +57,17 @@ void UCompetitionRules::HandleRaceFinished()
 		bool IsNominatedRace = Races[CurrentRace].RaceManager->IsNominatedRace();
 		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesRequestDelegate.Broadcast(IsNominatedRace);
 	}
-	else OnMatchEndedDelegate.Broadcast();
+	else OnMatchFinishedDelegate.Broadcast();
+}
+
+
+void UCompetitionRules::ClearDependencies()
+{
+	Races.Empty();
+	TrackManager = nullptr;
+	CurrentRace = 1;
+	OnMatchFinishedDelegate.Clear();
+	OnRaceStartedDelegate.Clear();
 }
 
 

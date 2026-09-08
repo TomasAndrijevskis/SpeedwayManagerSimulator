@@ -24,7 +24,7 @@ void UCalendarLine::StartMatch()
 	{
 		MatchManagerSubsystem->StartMatch(ULeagueRules::StaticClass());
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		MatchManagerSubsystem->GetCompetitionRules()->OnMatchEndedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
+		MatchManagerSubsystem->GetCompetitionRules()->OnMatchFinishedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
 		
 		if (!ProgramClass) return;
 		UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);

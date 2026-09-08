@@ -107,7 +107,16 @@ void ULeagueRules::EndMatch()
 {
 	CollectTeamsStatistics();
 	CollectRacerStatistics();
-	OnMatchEndedDelegate.Broadcast();
+	ClearDependencies();
+}
+
+
+void ULeagueRules::ClearDependencies()
+{
+	Super::ClearDependencies();
+	HomeTeamManager = nullptr;
+	VisitorTeamManager = nullptr;
+	OnScoreUpdatedDelegate.Clear();
 }
 
 

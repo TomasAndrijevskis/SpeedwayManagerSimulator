@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/RacersData/RacerData.h"
 #include "Data/TeamData/ETeams.h"
 #include "Data/TeamData/TeamData.h"
 #include "GameFramework/GameMode.h"
@@ -48,6 +49,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	ULocationsDataAsset* LocationsDataAsset;
-	
+
+	UPROPERTY()
 	TMap<ETeams, FTeamData> Teams;
 };
