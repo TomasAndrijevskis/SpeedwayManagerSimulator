@@ -42,7 +42,7 @@ private:
 	
 	virtual void CollectRacerStatistics() override;
 
-	virtual void EndMatch() override;
+	virtual void PrepareToEndMatch() override;
 
 	virtual void ClearDependencies() override;
 	

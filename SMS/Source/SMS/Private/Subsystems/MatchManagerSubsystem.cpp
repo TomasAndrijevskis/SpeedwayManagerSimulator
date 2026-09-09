@@ -5,7 +5,18 @@
 void UMatchManagerSubsystem::StartMatch(TSubclassOf<UCompetitionRules> RulesType)
 {
 	CurrentRules = NewObject<UCompetitionRules>(this, RulesType);
-	if (CurrentRules) CurrentRules->SetupMatch();
+	if (CurrentRules)
+	{
+		CurrentRules->SetupMatch();
+		CurrentRules->OnMatchClosedDelegate.AddUObject(this, &UMatchManagerSubsystem::ClearDependencies);
+	}
+}
+
+
+void UMatchManagerSubsystem::ClearDependencies()
+{
+	CurrentRules->OnMatchClosedDelegate.Clear();
+	CurrentRules = nullptr;
 }
 
 

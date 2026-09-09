@@ -52,19 +52,14 @@ void ULeagueRules::PopulateRacers()
 	TeamManagers.Add(HomeTeamManager);
 	TeamManagers.Add(VisitorTeamManager);
 	if (TeamManagers.IsEmpty()) return;
-	//UE_LOG(LogTemp, Log, TEXT("TeamManagers not null"));
 	for (const auto& Manager : TeamManagers)
 	{
 		Manager->ForEachRacerInLineup([this, Manager](int RacerNumber)
 		{
-			//UE_LOG(LogTemp, Error, TEXT("RacerNumber %i"), RacerNumber);
 			for (const auto& RacerStatsLine : Manager->GetRacerStatsLines())
 			{
 				if (RacerStatsLine->GetID() == RacerNumber)
 				{
-					//UE_LOG(LogTemp, Error, TEXT("=========="));
-					//UE_LOG(LogTemp, Error, TEXT("stats line id %i"), RacerStatsLine->GetID());
-					
 					if (TObjectPtr<URacerMatchManager>* FoundManager = Manager->GetRacers().Find(RacerNumber))
 					{
 						RacerStatsLine->InitializeManagers(*FoundManager);
@@ -103,20 +98,19 @@ void ULeagueRules::CollectRacerStatistics()
 }
 
 
-void ULeagueRules::EndMatch()
+void ULeagueRules::PrepareToEndMatch()
 {
 	CollectTeamsStatistics();
 	CollectRacerStatistics();
-	ClearDependencies();
 }
 
 
 void ULeagueRules::ClearDependencies()
 {
-	Super::ClearDependencies();
 	HomeTeamManager = nullptr;
 	VisitorTeamManager = nullptr;
 	OnScoreUpdatedDelegate.Clear();
+	Super::ClearDependencies();
 }
 
 

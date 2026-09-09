@@ -10,7 +10,8 @@
 class URacerMatchManager;
 class UTrackManager;
 
-DECLARE_MULTICAST_DELEGATE(FOnMatchFinished);
+DECLARE_MULTICAST_DELEGATE(FOnRacingFinished);
+DECLARE_MULTICAST_DELEGATE(FOnMatchClosed);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
 UCLASS(Abstract)
 class SMS_API UCompetitionRules : public UObject
@@ -27,7 +28,9 @@ public:
 	
 	virtual void CollectRacerStatistics() PURE_VIRTUAL(UCompetitionRules::CollectRacerStatistics);
 
-	virtual void EndMatch() PURE_VIRTUAL(UCompetitionRules::EndMatch);
+	virtual void PrepareToEndMatch() PURE_VIRTUAL(UCompetitionRules::PrepareToEndMatch);
+
+	void EndMatch();
 	
 	void AddNewRace(int32 RaceId, FRaceData RaceData);
 
@@ -37,7 +40,9 @@ public:
 
 	int32 GetAmountOfRaces() const;
 	
-	FOnMatchFinished OnMatchFinishedDelegate;
+	FOnRacingFinished OnRacingFinishedDelegate;
+
+	FOnMatchClosed OnMatchClosedDelegate;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 

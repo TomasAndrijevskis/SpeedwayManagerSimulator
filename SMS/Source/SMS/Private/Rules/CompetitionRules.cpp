@@ -9,6 +9,7 @@
 void UCompetitionRules::BindDelegates()
 {
 	OnRaceStartedDelegate.AddUObject(this, &UCompetitionRules::SimulateRace);
+	OnRacingFinishedDelegate.AddUObject(this, &UCompetitionRules::PrepareToEndMatch);
 }
 
 
@@ -57,7 +58,7 @@ void UCompetitionRules::HandleRaceFinished()
 		bool IsNominatedRace = Races[CurrentRace].RaceManager->IsNominatedRace();
 		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesRequestDelegate.Broadcast(IsNominatedRace);
 	}
-	else OnMatchFinishedDelegate.Broadcast();
+	else OnRacingFinishedDelegate.Broadcast();
 }
 
 
@@ -66,8 +67,15 @@ void UCompetitionRules::ClearDependencies()
 	Races.Empty();
 	TrackManager = nullptr;
 	CurrentRace = 1;
-	OnMatchFinishedDelegate.Clear();
+	OnRacingFinishedDelegate.Clear();
 	OnRaceStartedDelegate.Clear();
+}
+
+
+void UCompetitionRules::EndMatch()
+{
+	ClearDependencies();
+	OnMatchClosedDelegate.Broadcast();
 }
 
 

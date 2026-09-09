@@ -17,14 +17,13 @@ void UCalendarLine::NativeConstruct()
 }
 
 
-
 void UCalendarLine::StartMatch()
 {
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		MatchManagerSubsystem->StartMatch(ULeagueRules::StaticClass());
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		MatchManagerSubsystem->GetCompetitionRules()->OnMatchFinishedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
+		MatchManagerSubsystem->GetCompetitionRules()->OnRacingFinishedDelegate.AddUObject(this, &UCalendarLine::CollectMatchScore);
 		
 		if (!ProgramClass) return;
 		UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
@@ -49,17 +48,25 @@ void UCalendarLine::InitializeLine(int32 HomeTeamID, int32 VisitorTeamID)
 }
 
 
-void UCalendarLine::OnMatchEnded()
+void UCalendarLine::CollectMatchScore()
 {
-	Button_StartMatch->OnClicked.Clear();
-	Button_StartMatch->SetIsEnabled(false);
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
+		MatchManagerSubsystem->GetCompetitionRules()->OnMatchClosedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
 		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
-			DisplayFinalScore(Rules->GetTeamScore(false), Rules->GetTeamScore(true));
+			HomeTeamScore = Rules->GetTeamScore(false);
+			VisitorTeamScore = Rules->GetTeamScore(true);
 		}
 	}
+}
+
+
+void UCalendarLine::OnMatchEnded()
+{
+	DisplayFinalScore(HomeTeamScore, VisitorTeamScore);
+	Button_StartMatch->OnClicked.Clear();
+	Button_StartMatch->SetIsEnabled(false);
 }
 
 

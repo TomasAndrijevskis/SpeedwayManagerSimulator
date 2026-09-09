@@ -47,6 +47,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_StartMatch;
 
+	void CollectMatchScore();
+
 	void OnMatchEnded();
 	
 	UFUNCTION()
@@ -60,4 +62,8 @@ private:
 	ETeams HomeTeam;
 	
 	ETeams VisitorTeam;
+
+	int32 HomeTeamScore = 0;
+	
+	int32 VisitorTeamScore = 0;
 };

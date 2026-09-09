@@ -16,7 +16,7 @@ void UProgram::BindDelegates()
 	Button_SimulateMatch->OnClicked.AddUniqueDynamic(this, &UProgram::SimulateMatch);
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		MatchManagerSubsystem->GetCompetitionRules()->OnMatchFinishedDelegate.AddUObject(this, &UProgram::PrepareToEndMatch);
+		MatchManagerSubsystem->GetCompetitionRules()->OnRacingFinishedDelegate.AddUObject(this, &UProgram::PrepareToEndMatch);
 	}
 }
 
