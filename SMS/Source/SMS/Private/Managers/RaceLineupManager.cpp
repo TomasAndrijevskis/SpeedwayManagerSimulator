@@ -1,7 +1,7 @@
 
 #include "Managers/RaceLineupManager.h"
 #include "Managers/TeamManager.h"
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/Race/League_RaceLine_Base.h"
 
@@ -68,7 +68,7 @@ void URaceLineupManager::FillPossibleReplacementRacers(const ULeague_RaceLine_Ba
 	if (!RaceLineRef) return;
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if(UTeamManager* TeamManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(RaceLineRef->IsVisitor()))
+		if(UTeamManager* TeamManager = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(RaceLineRef->IsVisitor()))
 		{
 			URacerMatchManager* OriginalRacer = RaceLineRef->GetOriginalRacerManager();
 			TeamManager->GetAvailableReplacementRacers(OriginalRacer, [this, OriginalRacer](const TObjectPtr<URacerMatchManager>& ReplacementRacer)
@@ -86,7 +86,7 @@ void URaceLineupManager::FillPossibleMainRacers(const ULeague_RaceLine_Base* Rac
 	if (!RaceLineRef) return;
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if(UTeamManager* TeamManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(RaceLineRef->IsVisitor()))
+		if(UTeamManager* TeamManager = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(RaceLineRef->IsVisitor()))
 		{
 			TeamManager->GetAvailableRacers([this](URacerMatchManager* RacerManager)
 			{

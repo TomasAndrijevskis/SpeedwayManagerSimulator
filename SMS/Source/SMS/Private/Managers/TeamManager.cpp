@@ -1,7 +1,7 @@
 
 #include "Managers/TeamManager.h"
 #include "Managers/RacerMatchManager.h"
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
@@ -51,7 +51,7 @@ void UTeamManager::GetAvailableReplacementRacers(const URacerMatchManager* Origi
 	if (!RulesSubsystem) return;
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+		if (ULeague_Rules* Rules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
 			int32 OwnTeamScore = Rules->GetTeamScore(OriginalRacerManager->IsVisitor());
 			int32 EnemyTeamScore = Rules->GetTeamScore(!OriginalRacerManager->IsVisitor());

@@ -24,7 +24,7 @@ void URace_Base::OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceR
 void URace_Base::OnIDSet()
 {
 	CreateRaceLines();
-	if (RaceID != 1) Data.RaceManager->ChangeRaceStatus(false);
+	if (RaceID != 1) Data.RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(false);
 }
 
 

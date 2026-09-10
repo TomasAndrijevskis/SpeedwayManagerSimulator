@@ -47,8 +47,5 @@ void URaceLine_Base::ChangeLineStatus(bool bIsActive)
 void URaceLine_Base::SetRaceLineID(int32 NewID){RaceLineID = NewID;}
 int32 URaceLine_Base::GetRaceLineID()const{return RaceLineID;}
 int32 URaceLine_Base::GetRacerNumber()const{return RacerNumber;}
-int32 URaceLine_Base::GetTieBreaker()const{return RacerManager->GetTieBreaker();}
-int32 URaceLine_Base::GetRacerRating()const{return RacerManager->GetCurrentRaceRating();}
 int32 URaceLine_Base::GetPointsPerRace()const{return NumbersBox_PointsPerRace->GetNumber();}
 URacerMatchManager* URaceLine_Base::GetRacerManager()const{return RacerManager;}
-bool URaceLine_Base::IsRacerSet() const{return bIsRacerSet;}

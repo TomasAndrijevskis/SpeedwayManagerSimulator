@@ -5,6 +5,7 @@
 #include "Data/RaceData/RaceResultData.h"
 #include "RaceManager.generated.h"
 
+class URacerMatchManager;
 class ULeague_RaceLine_Base;
 class UTrackManager;
 
@@ -12,7 +13,7 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, bool, int32);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int32, int32);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeRaceStatusRequest, bool);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceLineResultUpdated, const TArray<FRaceResultData>&)
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnSimulateRaceRequest, const TObjectPtr<UTrackManager>&);
+DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
 DECLARE_MULTICAST_DELEGATE(FOnRaceFinished);
 UCLASS()
 class SMS_API URaceManager : public UObject
@@ -24,16 +25,16 @@ public:
 	void InitializeManager(bool NewIsNominatedRace, int32 NewRaceID);
 	
 	void InitializeManager();
-	
-	void AddRaceLine(ULeague_RaceLine_Base* NewRaceLine);
-	
-	void ChangeRaceStatus(bool bIsActive);
 
 	void BindDelegates();
 
 	bool IsNominatedRace() const;
 
-	bool CheckAllRacersInRace() const;
+	void AddRacerManager(URacerMatchManager* NewRacerMatchManager);
+
+	void RemoveRacerManager(URacerMatchManager* NewRacerMatchManager);
+
+	bool AreAllRacersSet();
 	
 	FOnRaceScoreUpdated OnRaceScoreUpdatedDelegate;
 
@@ -51,18 +52,18 @@ private:
 	
 	void SortLinesByRating();
 
-	void SimulateRace(const TObjectPtr<UTrackManager>& TrackManager);
-
+	void SimulateRace();
+	
 	void OnRaceFinished();
 
 	void BroadcastRaceResult();
-	
-	UPROPERTY()
-	TArray<ULeague_RaceLine_Base*> RaceLines;
 
+	UPROPERTY()
+	TArray<URacerMatchManager*> RacerMatchManagers;
+	
 	bool bIsNominatedRace = false;
 
 	TArray<FRaceResultData> RaceResults;
-
+	
 	int32 RaceID = 0;
 };

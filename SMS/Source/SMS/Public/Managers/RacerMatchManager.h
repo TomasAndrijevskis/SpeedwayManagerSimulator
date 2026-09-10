@@ -35,7 +35,7 @@ public:
 	int32 GetParticipatedRacesAmount() const;
 	
 	void AddParticipatedRace(URaceLine_Base* RaceLineRef);
-
+	
 	void RemoveParticipatedRace(URaceLine_Base* RaceLineRef);
 
 	int32 GetRacerAge() const;
@@ -59,14 +59,22 @@ public:
 	FOnPointsAdded OnPointsAddedDelegate;
 
 	void CollectMatchStatistics();
-	
+
+	// temporary
+	int32 CurrentRaceLineID = 0;
+
+	UPROPERTY()
+	URaceLine_Base* CurrentRaceLine = nullptr;
+
+	int32 GetScore() const;
+	//
 private:
 
 	UPROPERTY()
 	TArray<ERaceResults> RacerPoints;
 	
 	UPROPERTY()
-	TArray<URaceLine_Base*> ParticipatedRacesRef;
+	TArray<URaceLine_Base*> ParticipatedRaces;
 	
 	FRacerMatchData Data;
 

@@ -60,16 +60,16 @@ void URacerMatchManager::CalculateRating(float GateModifier, float DistanceModif
 
 void URacerMatchManager::AddParticipatedRace(URaceLine_Base* RaceLineRef)
 {
-	if (!ParticipatedRacesRef.Contains(RaceLineRef)) ParticipatedRacesRef.Add(RaceLineRef);
+	if (!ParticipatedRaces.Contains(RaceLineRef)) ParticipatedRaces.Add(RaceLineRef);
 }
 
 
 void URacerMatchManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
 {
-	if (ParticipatedRacesRef.Contains(RaceLineRef))
+	if (ParticipatedRaces.Contains(RaceLineRef))
 	{
 		RaceLineRef->OnRaceSimulatedDelegate.RemoveAll(this);
-		ParticipatedRacesRef.Remove(RaceLineRef);
+		ParticipatedRaces.Remove(RaceLineRef);
 	}
 }
 
@@ -82,6 +82,10 @@ void URacerMatchManager::SetTieBreaker()
 
 void URacerMatchManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
 {
+	if (URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	{
+		CurrentRaceLine->SetPointsPerRace(RulesSubsystem->GetRaceResultText(NewResult));
+	}
 	RacerPoints.Add(NewResult);
 	if (AddBonus) RacerBonuses++;
 	OnPointsAddedDelegate.Broadcast(NewResult, AddBonus);
@@ -121,6 +125,11 @@ void URacerMatchManager::CollectMatchStatistics()
 	}
 }
 
+int32 URacerMatchManager::GetScore() const
+{
+	return CurrentRaceLine->GetPointsPerRace();
+}
+
 
 void URacerMatchManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
 void URacerMatchManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
@@ -129,11 +138,11 @@ void URacerMatchManager::SetRacerNumber(int32 NewRacerNumber){Data.RacerNumber =
 int32 URacerMatchManager::GetAmountOfReplacements() const{return AmountOfReplacements;}
 int32 URacerMatchManager::GetTieBreaker() const {return TieBreakerValue;}
 int32 URacerMatchManager::GetBonusAmount() const {return RacerBonuses;}
-int32 URacerMatchManager::GetParticipatedRacesAmount() const {return ParticipatedRacesRef.Num();}
+int32 URacerMatchManager::GetParticipatedRacesAmount() const {return ParticipatedRaces.Num();}
 int32 URacerMatchManager::GetRacerNumber() const {return Data.RacerNumber;}
 int32 URacerMatchManager::GetRacerAge() const {return Data.GetRacerAge();}
 float URacerMatchManager::GetCurrentRaceRating() const {return CurrentRacerRating;}
-bool URacerMatchManager::CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRacesRef.Num() < MaxAmountOfRaces;}
+bool URacerMatchManager::CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRaces.Num() < MaxAmountOfRaces;}
 bool URacerMatchManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
 bool URacerMatchManager::IsVisitor() const {return Data.IsVisitor();}
 FString URacerMatchManager::GetRacerName() const {return Data.GetRacerName();}

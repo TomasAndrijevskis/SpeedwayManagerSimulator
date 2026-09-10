@@ -14,6 +14,7 @@ class URacerMatchManager;
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRacerReplaced, ULeague_RaceLine_Base*, const FString&, URacerMatchManager*);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerChosen, ULeague_RaceLine_Base*, const FString&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnSelectedRacerChanged, ULeague_RaceLine_Base*, URacerMatchManager*, bool);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnRacerRemoved, URacerMatchManager*);
 UCLASS()
 class SMS_API ULeague_RaceLine_Base : public URaceLine_Base
 {
@@ -35,12 +36,16 @@ public:
 	URacerMatchManager* GetOriginalRacerManager() const;
 
 	bool IsVisitor() const;
+
+	void SetCurrentRaceLine();
 	
 	FOnRacerReplaced OnRacerReplacedDelegate;
 
 	FOnRacerChosen OnRacerChosenDelegate;
 	
 	FOnSelectedRacerChanged OnSelectedRacerChangedDelegate;
+	
+	FOnRacerRemoved OnRacerRemovedDelegate;
 	
 protected:
 	
@@ -60,7 +65,6 @@ protected:
 	UFUNCTION()
 	virtual void OnRacerReplaced(FString SelectedItem, ESelectInfo::Type SelectionType);
 
-	
 private:
 
 	USlider* CreateSlider();

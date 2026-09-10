@@ -18,11 +18,12 @@ void UCompetitionRules::AddNewRace(int32 RaceId, FRaceData RaceData)
 	Races.Add(RaceId, RaceData);
 }
 
+
 void UCompetitionRules::RequestToAssignRacersToRace(URacerMatchManager* RacerManager)
 {
 	for (const auto& Race : Races)
 	{
-		Race.Value.RaceLineupManager->AssignRacerToRace(RacerManager);//!!!!!!!!
+		Race.Value.RaceLineupManager->AssignRacerToRace(RacerManager);
 	}
 }
 
@@ -32,10 +33,10 @@ void UCompetitionRules::SimulateRace()
 	if (!TrackManager) return;
 	if (CurrentRace <= Races.Num())
 	{
-		if (!Races[CurrentRace].RaceManager->CheckAllRacersInRace()) return;
+		if (!Races[CurrentRace].RaceManager->AreAllRacersSet()) return;
 		UE_LOG(LogTemp, Display, TEXT("Race %i"), CurrentRace);
 		TrackManager->OnTrackUpdateRequestDelegate.Broadcast(CurrentRace);
-		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast(TrackManager);
+		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast();
 		HandleRaceFinished();
 	}
 }
@@ -51,6 +52,7 @@ void UCompetitionRules::CreateTrackManager(const FTrackData& HomeTeamTrackData)
 
 void UCompetitionRules::HandleRaceFinished()
 {
+	Races[CurrentRace].RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(false);
 	CurrentRace++;
 	if (CurrentRace <= Races.Num())
 	{
@@ -62,7 +64,7 @@ void UCompetitionRules::HandleRaceFinished()
 }
 
 
-void UCompetitionRules::ClearDependencies()
+void UCompetitionRules::HandleMatchClosed()
 {
 	Races.Empty();
 	TrackManager = nullptr;
@@ -74,10 +76,11 @@ void UCompetitionRules::ClearDependencies()
 
 void UCompetitionRules::EndMatch()
 {
-	ClearDependencies();
+	HandleMatchClosed();
 	OnMatchClosedDelegate.Broadcast();
 }
 
 
 int32 UCompetitionRules::GetCurrentRaceNumber() const {return CurrentRace;}
 int32 UCompetitionRules::GetAmountOfRaces() const {return Races.Num();}
+TObjectPtr<UTrackManager>& UCompetitionRules::GetTrackManager() {return TrackManager;}

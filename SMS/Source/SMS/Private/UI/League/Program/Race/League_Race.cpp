@@ -5,7 +5,7 @@
 #include "Data/RaceData/RacePatternsDataAsset.h"
 #include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/ScoreCounter.h"
 #include "UI/League/Program/Race/NominatedRaceLine.h"
@@ -57,9 +57,11 @@ void ULeague_Race::CreateRaceLines()
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
-			
 			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
-			Data.RaceManager->AddRaceLine(NewRaceLine);
+			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager::AddRacerManager);
+			NewRaceLine->OnRacerRemovedDelegate.AddUObject(Data.RaceManager, &URaceManager::RemoveRacerManager);
+			Data.RaceManager->OnChangedRaceStatusRequestDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::ChangeLineStatus);
+			Data.RaceManager->OnSimulateRaceRequestDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::SetCurrentRaceLine);
 			Data.RaceLineupManager->AddRaceLine(NewRaceLine);
 		}
 	}
@@ -91,7 +93,7 @@ void ULeague_Race::UpdateScore()
 {
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+		if (ULeague_Rules* Rules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
 			ScoreCounter->SetOverallScore(Rules->GetTeamScore(false),Rules->GetTeamScore(true));
 			ScoreCounter->SetRacePoints(Rules->GetTeamRaceScore(false, RaceID), Rules->GetTeamRaceScore(true, RaceID));

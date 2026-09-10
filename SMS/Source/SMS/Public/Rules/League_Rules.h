@@ -5,14 +5,14 @@
 #include "CompetitionRules.h"
 #include "Data/TeamData/ETeams.h"
 #include "Data/TeamData/TeamMatchData.h"
-#include "LeagueRules.generated.h"
+#include "League_Rules.generated.h"
 
 
 class UTeamManager;
 
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnScoreUpdated, bool, int32, int32);
 UCLASS()
-class SMS_API ULeagueRules : public UCompetitionRules
+class SMS_API ULeague_Rules : public UCompetitionRules
 {
 	GENERATED_BODY()
 
@@ -44,7 +44,7 @@ private:
 
 	virtual void PrepareToEndMatch() override;
 
-	virtual void ClearDependencies() override;
+	virtual void HandleMatchClosed() override;
 	
 	void InitializeTeam(const FTeamMatchData& TeamData, TObjectPtr<UTeamManager>& OutManager);
 

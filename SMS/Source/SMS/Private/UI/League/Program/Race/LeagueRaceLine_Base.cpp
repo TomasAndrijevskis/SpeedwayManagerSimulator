@@ -18,15 +18,17 @@ void ULeague_RaceLine_Base::InitializeWidget()
 void ULeague_RaceLine_Base::SetRacerData(URacerMatchManager* RacerManagerRef, bool IsReplacement)
 {
 	if (!RacerManagerRef) return;
+	URacerMatchManager* PreviousRacer = RacerManager;
 	RacerManager = RacerManagerRef;
 	RacerManager->AddParticipatedRace(this);
+	if (PreviousRacer) OnRacerRemovedDelegate.Broadcast(PreviousRacer);
 	if(!IsReplacement)
 	{
 		OriginalRacerManager = RacerManager;
 		SetRacerName(RacerManager->GetRacerName());
 	}
 	BindManagersDelegates();
-	bIsRacerSet = true;
+	OnRacerSetDelegate.Broadcast(RacerManager);
 }
 
 
@@ -84,6 +86,13 @@ USlider* ULeague_RaceLine_Base::CreateSlider()
 void ULeague_RaceLine_Base::ChangeChooseBoxStatus(bool Status)
 {
 	ChooseBox_RacerReplacement->SetIsEnabled(Status);
+}
+
+
+void ULeague_RaceLine_Base::SetCurrentRaceLine()
+{
+	RacerManager->CurrentRaceLineID = GetRaceLineID();
+	RacerManager->CurrentRaceLine = this;
 }
 
 

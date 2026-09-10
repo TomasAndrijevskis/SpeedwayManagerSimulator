@@ -40,6 +40,8 @@ public:
 
 	int32 GetAmountOfRaces() const;
 	
+	TObjectPtr<UTrackManager>& GetTrackManager();
+	
 	FOnRacingFinished OnRacingFinishedDelegate;
 
 	FOnMatchClosed OnMatchClosedDelegate;
@@ -50,7 +52,7 @@ protected:
 
 	virtual void HandleRaceFinished();
 
-	virtual void ClearDependencies();
+	virtual void HandleMatchClosed();
 	
 	void CreateTrackManager(const FTrackData& HomeTeamTrackData);
 	

@@ -20,7 +20,7 @@ public:
 	
 private:
 
-	void ClearDependencies();
+	void ClearRules();
 	
 	UPROPERTY()
 	UCompetitionRules* CurrentRules;

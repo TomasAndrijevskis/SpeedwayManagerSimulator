@@ -3,7 +3,7 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Managers/TeamManager.h"
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 #include "SMS/Public/UI/League/Program/League_RacerStatsLine.h"
@@ -24,7 +24,7 @@ void UTeamRoster::InitializeManagers(bool IsVisitor)
 {
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		TeamManager = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(IsVisitor);
+		TeamManager = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->GetTeamManager(IsVisitor);
 	}
 }
 

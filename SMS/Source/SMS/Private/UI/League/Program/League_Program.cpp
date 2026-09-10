@@ -3,7 +3,7 @@
 #include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/TeamRoster.h"
 
@@ -33,7 +33,7 @@ void ULeague_Program::RandomizeTeamRosters()
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+		if (ULeague_Rules* Rules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
 			Rules->MakeRandomRosters();
 		}

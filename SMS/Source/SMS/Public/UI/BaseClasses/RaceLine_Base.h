@@ -12,6 +12,7 @@ class URacerMatchManager;
 class UNumbersBox;
 
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRaceSimulated, float, float, ETrackTypes);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnRacerSet, URacerMatchManager*);
 UCLASS()
 class SMS_API URaceLine_Base : public UUserWidget
 {
@@ -31,16 +32,12 @@ public:
 
 	void SetPointsPerRace(const FString& NewPoints);
 	int32 GetPointsPerRace() const;
-
-	int32 GetRacerRating() const;
-	
-	int32 GetTieBreaker() const;
 	
 	URacerMatchManager* GetRacerManager() const;
 
-	bool IsRacerSet() const;
-
 	FOnRaceSimulated OnRaceSimulatedDelegate;
+
+	FOnRacerSet OnRacerSetDelegate;
 	
 protected:
 
@@ -61,8 +58,6 @@ protected:
 	URacerMatchManager* RacerManager;
 
 	FRaceLineData RaceLineData;
-
-	bool bIsRacerSet = false;
 	
 private:
 

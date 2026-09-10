@@ -1,5 +1,5 @@
 
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "Data/TeamData/TeamMatchData.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
@@ -9,13 +9,13 @@
 #include "UI/League/Program/League_RacerStatsLine.h"
 
 
-void ULeagueRules::SetupMatch()
+void ULeague_Rules::SetupMatch()
 {
 	BindDelegates();
 }
 
 
-void ULeagueRules::SetTeam(ETeams NewTeam, bool IsVisitor)
+void ULeague_Rules::SetTeam(ETeams NewTeam, bool IsVisitor)
 {
 	if (ASMS_GameMode* CurrentGameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this)))
 	{
@@ -37,7 +37,7 @@ void ULeagueRules::SetTeam(ETeams NewTeam, bool IsVisitor)
 }
 
 
-void ULeagueRules::InitializeTeam(const FTeamMatchData& TeamData, TObjectPtr<UTeamManager>& OutManager)
+void ULeague_Rules::InitializeTeam(const FTeamMatchData& TeamData, TObjectPtr<UTeamManager>& OutManager)
 {
 	OutManager = NewObject<UTeamManager>(this);
 	OutManager->InitializeManager();
@@ -45,9 +45,9 @@ void ULeagueRules::InitializeTeam(const FTeamMatchData& TeamData, TObjectPtr<UTe
 }
 
 
-void ULeagueRules::PopulateRacers()
+void ULeague_Rules::PopulateRacers()
 {
-	OnScoreUpdatedDelegate.AddUObject(this, &ULeagueRules::UpdateScore);
+	OnScoreUpdatedDelegate.AddUObject(this, &ULeague_Rules::UpdateScore);
 	TArray<TObjectPtr<UTeamManager>> TeamManagers;
 	TeamManagers.Add(HomeTeamManager);
 	TeamManagers.Add(VisitorTeamManager);
@@ -76,7 +76,7 @@ void ULeagueRules::PopulateRacers()
 }
 
 
-void ULeagueRules::CollectTeamsStatistics()
+void ULeague_Rules::CollectTeamsStatistics()
 {
 	if (URulesSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
@@ -85,7 +85,7 @@ void ULeagueRules::CollectTeamsStatistics()
 }
 
 
-void ULeagueRules::CollectRacerStatistics()
+void ULeague_Rules::CollectRacerStatistics()
 {
 	for (const auto& Racer : HomeTeamManager->GetRacerManagers())
 	{
@@ -98,23 +98,23 @@ void ULeagueRules::CollectRacerStatistics()
 }
 
 
-void ULeagueRules::PrepareToEndMatch()
+void ULeague_Rules::PrepareToEndMatch()
 {
 	CollectTeamsStatistics();
 	CollectRacerStatistics();
 }
 
 
-void ULeagueRules::ClearDependencies()
+void ULeague_Rules::HandleMatchClosed()
 {
 	HomeTeamManager = nullptr;
 	VisitorTeamManager = nullptr;
 	OnScoreUpdatedDelegate.Clear();
-	Super::ClearDependencies();
+	Super::HandleMatchClosed();
 }
 
 
-bool ULeagueRules::CanStartMatch() const
+bool ULeague_Rules::CanStartMatch() const
 {
 	if (!HomeTeamManager || !VisitorTeamManager) return false;
 	if (!HomeTeamManager->IsRosterValid()) return false;
@@ -125,30 +125,30 @@ bool ULeagueRules::CanStartMatch() const
 }
 
 
-void ULeagueRules::MakeRandomRosters()
+void ULeague_Rules::MakeRandomRosters()
 {
 	HomeTeamManager->MakeRandomTeamRoster();
 	VisitorTeamManager->MakeRandomTeamRoster();
 }
 
 
-void ULeagueRules::UpdateScore(bool IsVisitor, int32 PointsToAdd, int32 RaceID)
+void ULeague_Rules::UpdateScore(bool IsVisitor, int32 PointsToAdd, int32 RaceID)
 {
 	IsVisitor ? VisitorTeamManager->UpdateScore(PointsToAdd, RaceID) : HomeTeamManager->UpdateScore(PointsToAdd, RaceID);
 }
 
 
-TObjectPtr<UTeamManager> ULeagueRules::GetTeamManager(bool IsVisitor) const
+TObjectPtr<UTeamManager> ULeague_Rules::GetTeamManager(bool IsVisitor) const
 {
 	return IsVisitor ? VisitorTeamManager : HomeTeamManager;
 }
 
-int32 ULeagueRules::GetTeamScore(bool IsVisitor) const
+int32 ULeague_Rules::GetTeamScore(bool IsVisitor) const
 {
 	return IsVisitor ? VisitorTeamManager->GetTeamScore() : HomeTeamManager->GetTeamScore();
 }
 
-int32 ULeagueRules::GetTeamRaceScore(bool IsVisitor, int32 RaceID) const
+int32 ULeague_Rules::GetTeamRaceScore(bool IsVisitor, int32 RaceID) const
 {
 	return IsVisitor ? VisitorTeamManager->GetRaceScore(RaceID) : HomeTeamManager->GetRaceScore(RaceID);
 }

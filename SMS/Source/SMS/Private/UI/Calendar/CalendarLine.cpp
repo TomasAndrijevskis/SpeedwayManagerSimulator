@@ -3,7 +3,7 @@
 #include "Components/Button.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
-#include "Rules/LeagueRules.h"
+#include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
@@ -21,16 +21,16 @@ void UCalendarLine::StartMatch()
 {
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		MatchManagerSubsystem->StartMatch(ULeagueRules::StaticClass());
+		MatchManagerSubsystem->StartMatch(ULeague_Rules::StaticClass());
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		MatchManagerSubsystem->GetCompetitionRules()->OnRacingFinishedDelegate.AddUObject(this, &UCalendarLine::CollectMatchScore);
 		
 		if (!ProgramClass) return;
 		UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
 		if (!Program) return;
-		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(HomeTeam, false);
+		Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(HomeTeam, false);
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(VisitorTeam, true);
+		Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(VisitorTeam, true);
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		Program->AddToViewport(1);
 	}
@@ -53,7 +53,7 @@ void UCalendarLine::CollectMatchScore()
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		MatchManagerSubsystem->GetCompetitionRules()->OnMatchClosedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
-		if (ULeagueRules* Rules = Cast<ULeagueRules>(MatchManagerSubsystem->GetCompetitionRules()))
+		if (ULeague_Rules* Rules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
 			HomeTeamScore = Rules->GetTeamScore(false);
 			VisitorTeamScore = Rules->GetTeamScore(true);

@@ -34,8 +34,7 @@ private:
 	ULeague_RaceLine_Base* CreateNominatedRaceLine(int32 RaceLineID);
 
 	void UpdateScore();
-
+	
 	UPROPERTY(EditDefaultsOnly, meta = (BlueprintBaseOnly))
 	TSubclassOf<ULeague_RaceLine_Base> NominatedRaceLineClass;
-
 };
