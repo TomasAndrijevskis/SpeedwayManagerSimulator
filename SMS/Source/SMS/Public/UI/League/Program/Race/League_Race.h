@@ -29,9 +29,9 @@ private:
 
 	virtual void CreateRaceLines() override;
 	
-	ULeague_RaceLine_Base* CreateRaceLine(int32 RaceLineID);
+	ULeague_RaceLine_Base* CreateRaceLine(int32 NewRaceLineID);
 
-	ULeague_RaceLine_Base* CreateNominatedRaceLine(int32 RaceLineID);
+	ULeague_RaceLine_Base* CreateNominatedRaceLine(int32 NewRaceLineID);
 
 	void UpdateScore();
 	

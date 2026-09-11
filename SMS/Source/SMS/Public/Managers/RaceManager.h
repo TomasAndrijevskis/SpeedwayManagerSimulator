@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/RaceData/RaceLineResultData.h"
 #include "Data/RaceData/RaceResultData.h"
 #include "RaceManager.generated.h"
 
@@ -10,7 +11,6 @@ class ULeague_RaceLine_Base;
 class UTrackManager;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, bool, int32);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FOnOverallScoreUpdated, int32, int32);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnChangeRaceStatusRequest, bool);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnRaceLineResultUpdated, const TArray<FRaceResultData>&)
 DECLARE_MULTICAST_DELEGATE(FOnSimulateRaceRequest);
@@ -30,19 +30,19 @@ public:
 
 	bool IsNominatedRace() const;
 
-	void AddRacerManager(URacerMatchManager* NewRacerMatchManager);
+	void AddRacerManager(URacerMatchManager* NewRacerMatchManager, int32 RaceLineID);
 
-	void RemoveRacerManager(URacerMatchManager* NewRacerMatchManager);
+	void RemoveRacerManager(int32 RaceLineID);
 
 	bool AreAllRacersSet();
+
+	FString GetRaceLinePoints(int32 RaceLineID);
 	
 	FOnRaceScoreUpdated OnRaceScoreUpdatedDelegate;
 
 	FOnChangeRaceStatusRequest OnChangedRaceStatusRequestDelegate;
 
 	FOnSimulateRaceRequest OnSimulateRaceRequestDelegate;
-
-	FOnOverallScoreUpdated OnOverallScoreUpdatedDelegate;
 
 	FOnRaceFinished OnRaceFinishedDelegate;
 
@@ -56,11 +56,15 @@ private:
 	
 	void OnRaceFinished();
 
-	void BroadcastRaceResult();
+	void BroadcastRaceResult(TArray<FRaceLineResultData>& ResultForEachLine);
+	
+	//UPROPERTY()
+	//TArray<URacerMatchManager*> RacerMatchManagers;
 
 	UPROPERTY()
-	TArray<URacerMatchManager*> RacerMatchManagers;
+	TMap<int32, URacerMatchManager*> Racers;
 	
+	// TMap<int32, URacerMatchManager> int32 = racelineid
 	bool bIsNominatedRace = false;
 
 	TArray<FRaceResultData> RaceResults;

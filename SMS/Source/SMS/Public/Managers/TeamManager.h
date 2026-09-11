@@ -71,7 +71,8 @@ public:
 	FOnTeamScoreUpdated OnTeamScoreUpdatedDelegate;
 	
 private:
-	
+
+	UPROPERTY()
 	FTeamMatchData TeamData;
 
 	//Lineup for current match

@@ -55,11 +55,11 @@ void UGPRace::CreateRaceLines()
 }
 
 
-UGP_RaceLine_Base* UGPRace::CreateRaceLine(int32 RaceLineID)
+UGP_RaceLine_Base* UGPRace::CreateRaceLine(int32 NewRaceLineID)
 {
 	if (!RaceLineClass) return nullptr;
 	UGP_RaceLine_Base* NewRaceLine = CreateWidget<UGP_RaceLine_Base>(this, RaceLineClass);
 	if (!NewRaceLine) return nullptr;
-	NewRaceLine->SetRaceLineID(RaceLineID);
+	NewRaceLine->SetIDs(NewRaceLineID, RaceID);
 	return NewRaceLine;
 }

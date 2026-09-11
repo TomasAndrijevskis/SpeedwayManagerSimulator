@@ -180,7 +180,7 @@ void URaceLineupManager::OnRacerReplaced(ULeague_RaceLine_Base* RaceLineRef, con
 	FindSelectedRacerByName(RacerName, PossibleRacers[OriginalRacerManager], [this, RaceLineRef](URacerMatchManager* RacerManager)
 	{
 		RacerManager->IncreaseAmountOfReplacements();
-		RaceLineRef->GetRacerManager()->RemoveParticipatedRace(RaceLineRef);
+		RaceLineRef->GetRacerManager()->RemoveParticipatedRace(RaceLineRef->GetRaceID());
 		RaceLineRef->SetRacerData(RacerManager, true);
 		UnavailableRacers.Add(RacerManager);
 	});
@@ -190,7 +190,7 @@ void URaceLineupManager::OnRacerReplaced(ULeague_RaceLine_Base* RaceLineRef, con
 void URaceLineupManager::RestoreRacerAvailability(ULeague_RaceLine_Base* RaceLineRef, URacerMatchManager* RacerManager, bool bIsReplacement)
 {
 	if (bIsReplacement) RacerManager->DecreaseAmountOfReplacements();
-	RacerManager->RemoveParticipatedRace(RaceLineRef);
+	RacerManager->RemoveParticipatedRace(RaceLineRef->GetRaceID());
 	RacerManager->SetParticipatedInNominatedRace(false);
 	UnavailableRacers.Remove(RacerManager);
 	UpdateMainSelectionWidgets();

@@ -60,8 +60,9 @@ void ULeague_Race::CreateRaceLines()
 			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
 			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager::AddRacerManager);
 			NewRaceLine->OnRacerRemovedDelegate.AddUObject(Data.RaceManager, &URaceManager::RemoveRacerManager);
+			NewRaceLine->OnRequestRaceLinePointsDelegate.BindUObject(Data.RaceManager, &URaceManager::GetRaceLinePoints);
+			Data.RaceManager->OnRaceFinishedDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::OnRaceFinished);
 			Data.RaceManager->OnChangedRaceStatusRequestDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::ChangeLineStatus);
-			Data.RaceManager->OnSimulateRaceRequestDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::SetCurrentRaceLine);
 			Data.RaceLineupManager->AddRaceLine(NewRaceLine);
 		}
 	}
@@ -69,22 +70,22 @@ void ULeague_Race::CreateRaceLines()
 }
 
 
-ULeague_RaceLine_Base* ULeague_Race::CreateRaceLine(int32 RaceLineID)
+ULeague_RaceLine_Base* ULeague_Race::CreateRaceLine(int32 NewRaceLineID)
 {
 	if (!RaceLineClass) return nullptr;
 	ULeague_RaceLine_Base* NewRaceLine = CreateWidget<ULeague_RaceLine_Base>(this, RaceLineClass);
 	if (!NewRaceLine) return nullptr;
-	NewRaceLine->SetRaceLineID(RaceLineID);
+	NewRaceLine->SetIDs(NewRaceLineID, RaceID);
 	return NewRaceLine;
 }
 
 
-ULeague_RaceLine_Base* ULeague_Race::CreateNominatedRaceLine(int32 RaceLineID)
+ULeague_RaceLine_Base* ULeague_Race::CreateNominatedRaceLine(int32 NewRaceLineID)
 {
 	if (!NominatedRaceLineClass) return nullptr;
 	UNominatedRaceLine* NewRaceLine = CreateWidget<UNominatedRaceLine>(this, NominatedRaceLineClass);
 	if (!NewRaceLine) return nullptr;
-	NewRaceLine->SetRaceLineID(RaceLineID);
+	NewRaceLine->SetIDs(NewRaceLineID, RaceID);
 	return NewRaceLine;
 }
 

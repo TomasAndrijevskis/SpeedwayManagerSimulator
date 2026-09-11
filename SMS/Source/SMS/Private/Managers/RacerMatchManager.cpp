@@ -53,24 +53,20 @@ void URacerMatchManager::CalculateRating(float GateModifier, float DistanceModif
 	UE_LOG(LogTemp, Display, TEXT("-----"));
 
 	
-	CurrentRacerRating = RacerRating * .4 + Start *.3 + DrivingSkill * .3;
+	CurrentRacerRating = RacerRating * .2 + Start *.3 + DrivingSkill * .5;
 	UE_LOG(LogTemp, Display, TEXT("Final Race rating: %f"), CurrentRacerRating);
 }
 
 
-void URacerMatchManager::AddParticipatedRace(URaceLine_Base* RaceLineRef)
+void URacerMatchManager::AddParticipatedRace(int32 RaceID, int32 RaceLineID)
 {
-	if (!ParticipatedRaces.Contains(RaceLineRef)) ParticipatedRaces.Add(RaceLineRef);
+	if (!ParticipatedRaces.Contains(RaceID)) ParticipatedRaces.Add(RaceID, RaceLineID);
 }
 
 
-void URacerMatchManager::RemoveParticipatedRace(URaceLine_Base* RaceLineRef)
+void URacerMatchManager::RemoveParticipatedRace(int32 RaceID)
 {
-	if (ParticipatedRaces.Contains(RaceLineRef))
-	{
-		RaceLineRef->OnRaceSimulatedDelegate.RemoveAll(this);
-		ParticipatedRaces.Remove(RaceLineRef);
-	}
+	if (ParticipatedRaces.Contains(RaceID)) ParticipatedRaces.Remove(RaceID);
 }
 
 
@@ -82,10 +78,6 @@ void URacerMatchManager::SetTieBreaker()
 
 void URacerMatchManager::AddPoints(const ERaceResults NewResult, bool AddBonus)
 {
-	if (URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
-	{
-		CurrentRaceLine->SetPointsPerRace(RulesSubsystem->GetRaceResultText(NewResult));
-	}
 	RacerPoints.Add(NewResult);
 	if (AddBonus) RacerBonuses++;
 	OnPointsAddedDelegate.Broadcast(NewResult, AddBonus);
@@ -125,11 +117,6 @@ void URacerMatchManager::CollectMatchStatistics()
 	}
 }
 
-int32 URacerMatchManager::GetScore() const
-{
-	return CurrentRaceLine->GetPointsPerRace();
-}
-
 
 void URacerMatchManager::SetParticipatedInNominatedRace(bool NewParticipated){bParticipatedInNominatedRace = NewParticipated;}
 void URacerMatchManager::IncreaseAmountOfReplacements(){AmountOfReplacements++;}
@@ -146,3 +133,4 @@ bool URacerMatchManager::CanDriveMore(int32 MaxAmountOfRaces) const {return Part
 bool URacerMatchManager::DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
 bool URacerMatchManager::IsVisitor() const {return Data.IsVisitor();}
 FString URacerMatchManager::GetRacerName() const {return Data.GetRacerName();}
+ERaceResults& URacerMatchManager::GetLastRaceResult() {return RacerPoints.Last();}

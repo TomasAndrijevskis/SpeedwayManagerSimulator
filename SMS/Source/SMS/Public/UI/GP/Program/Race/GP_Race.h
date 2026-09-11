@@ -27,5 +27,5 @@ private:
 
 	virtual void CreateRaceLines() override;
 
-	UGP_RaceLine_Base* CreateRaceLine(int32 RaceLineID);
+	UGP_RaceLine_Base* CreateRaceLine(int32 NewRaceLineID);
 };

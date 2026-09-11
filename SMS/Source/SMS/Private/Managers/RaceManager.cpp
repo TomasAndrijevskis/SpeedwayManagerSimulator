@@ -1,5 +1,7 @@
 
 #include "Managers/RaceManager.h"
+
+#include "Data/RaceData/RaceLineResultData.h"
 #include "Managers/RacerMatchManager.h"
 #include "Managers/TrackManager.h"
 #include "Rules/League_Rules.h"
@@ -27,17 +29,17 @@ void URaceManager::BindDelegates()
 }
 
 
-void URaceManager::AddRacerManager(URacerMatchManager* NewRacerMatchManager)
+void URaceManager::AddRacerManager(URacerMatchManager* NewRacerMatchManager, int32 RaceLineID)
 {
-	if (NewRacerMatchManager && !RacerMatchManagers.Contains(NewRacerMatchManager))
-		RacerMatchManagers.Add(NewRacerMatchManager);
+	if (NewRacerMatchManager && !Racers.Contains(RaceLineID))
+		Racers.Add(RaceLineID, NewRacerMatchManager);
 }
 
 
-void URaceManager::RemoveRacerManager(URacerMatchManager* NewRacerMatchManager)
+void URaceManager::RemoveRacerManager(int32 RaceLineID)
 {
-	if (NewRacerMatchManager && RacerMatchManagers.Contains(NewRacerMatchManager))
-		RacerMatchManagers.Remove(NewRacerMatchManager);
+	if (Racers.Contains(RaceLineID))
+		Racers.Remove(RaceLineID);
 }
 
 
@@ -49,53 +51,58 @@ void URaceManager::SimulateRace()
 	{
 		UTrackManager* TrackManager = MatchManagerSubsystem->GetCompetitionRules()->GetTrackManager();
 		if (!TrackManager) return;
-		for (const auto& Racer : RacerMatchManagers)
+		for (const auto& Racer : Racers)
 		{
-			const float StartModifier = TrackManager->GetGateModifier(Racer->CurrentRaceLineID);
+			const float StartModifier = TrackManager->GetGateModifier(Racer.Key);
 			const float DrivingModifier = TrackManager->GetDrivingModifier();
-			Racer->CalculateRating(StartModifier, DrivingModifier, TrackManager->GetCurrentTrackType());
+			Racer.Value->CalculateRating(StartModifier, DrivingModifier, TrackManager->GetCurrentTrackType());
 		}
 		SortLinesByRating();
-		for (int32 Position = 0; Position < RacerMatchManagers.Num(); Position++)
+		TArray<FRaceLineResultData> ResultForEachLine;
+		int32 Position = 0;
+		for (const auto& Racer : Racers)
 		{
 			ERaceResults Result = static_cast<ERaceResults>(Position);
-			if (URacerMatchManager* CurrentRacer = RacerMatchManagers[Position])
+			const bool IsVisitor = Racer.Value->IsVisitor();
+			bool HasBonus = false;
+			if (Position != 0 && Position < Racers.Num() - 1)
+				HasBonus = Racers[Position - 1]->IsVisitor() == IsVisitor;
+
+			if (Racer.Value->GetCurrentRaceRating() == 0)
 			{
-				const bool IsVisitor = CurrentRacer->IsVisitor();
-				bool HasBonus = false;
-				if (Position != 0 && Position < RacerMatchManagers.Num() - 1)
-					HasBonus = RacerMatchManagers[Position - 1]->IsVisitor() == IsVisitor;
-				if (CurrentRacer->GetCurrentRaceRating() == 0)
-				{
-					CurrentRacer->AddPoints(ERaceResults::Defect, false);
-				}
-				else
-				{
-					CurrentRacer->AddPoints(Result, HasBonus);
-				}
-				FRaceResultData Data;
-				Data.RacerScore = RulesSubsystem->GetRaceResultNumber(Result);
-				Data.RaceLineID = RacerMatchManagers[Position]->CurrentRaceLineID;
-				RaceResults.Add(Data);
+				Racer.Value->AddPoints(ERaceResults::Defect, false);
+				Result = ERaceResults::Defect;
 			}
+			else Racer.Value->AddPoints(Result, HasBonus);
+
+			FRaceResultData Data;
+			Data.RacerScore = RulesSubsystem->GetRaceResultNumber(Result);
+			Data.RaceLineID = Racer.Key;
+			RaceResults.Add(Data);
+
+			FRaceLineResultData RaceLineResult;
+			RaceLineResult.Points = RulesSubsystem->GetRaceResultNumber(Result);;
+			RaceLineResult.IsVisitor = Racer.Value->IsVisitor();
+			ResultForEachLine.Add(RaceLineResult);
+			Position++;
 		}
 		UE_LOG(LogTemp, Error, TEXT("==================================="));
 		OnRaceLineResultUpdatedDelegate.Broadcast(RaceResults);
-		BroadcastRaceResult();
+		BroadcastRaceResult(ResultForEachLine);
 		OnRaceFinished();
 	}
 }
 
 
-void URaceManager::BroadcastRaceResult()
+void URaceManager::BroadcastRaceResult(TArray<FRaceLineResultData>& ResultForEachLine)
 {
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		for (const auto& Racer : RacerMatchManagers)
+		if (ULeague_Rules* LeagueRules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
-			if (ULeague_Rules* LeagueRules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
+			for (const auto& Result : ResultForEachLine)
 			{
-				LeagueRules->OnScoreUpdatedDelegate.Broadcast(Racer->IsVisitor(), Racer->GetScore(), RaceID);
+				LeagueRules->OnScoreUpdatedDelegate.Broadcast(Result.IsVisitor, Result.Points, RaceID);
 			}
 		}
 	}
@@ -113,21 +120,50 @@ void URaceManager::OnRaceFinished()
 
 void URaceManager::SortLinesByRating()
 {
-	RacerMatchManagers.Sort([](const URacerMatchManager& L1, const URacerMatchManager& L2)
+	TArray<TPair<int32, URacerMatchManager*>> SortedRacers;
+	for (const auto& Racer : Racers)
 	{
-		if (L1.GetCurrentRaceRating() == L2.GetCurrentRaceRating())
+		SortedRacers.Add(Racer);
+	}
+	
+	SortedRacers.Sort([](const auto& L1, const auto& L2)
+	{
+		URacerMatchManager* MatchManager1 = L1.Value;
+		URacerMatchManager* MatchManager2 = L2.Value;
+		if (MatchManager1->GetCurrentRaceRating() == MatchManager2->GetCurrentRaceRating())
 		{
-			return L1.GetTieBreaker() > L2.GetTieBreaker();
+			return MatchManager1->GetTieBreaker() > MatchManager2->GetTieBreaker();
 		}
-		return L1.GetCurrentRaceRating() > L2.GetCurrentRaceRating();
+		return MatchManager1->GetCurrentRaceRating() > MatchManager2->GetCurrentRaceRating();
 	});
+	Racers.Empty();
+	for (const auto& SortedRacer : SortedRacers)
+	{
+		Racers.Add(SortedRacer.Key, SortedRacer.Value);
+	}
 }
 
 
 bool URaceManager::AreAllRacersSet()
 {
-	if (RacerMatchManagers.Num() < 4) return false;
+	if (Racers.Num() < 4) return false;
 	return true;
+}
+
+
+FString URaceManager::GetRaceLinePoints(int32 RaceLineID)
+{
+	if (URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	{
+		for (const auto& Racer : Racers)
+		{
+			if (Racer.Key == RaceLineID)
+			{
+				return RulesSubsystem->GetRaceResultText(Racer.Value->GetLastRaceResult());
+			}
+		}
+	}
+	return "";
 }
 
 bool URaceManager::IsNominatedRace()const{return bIsNominatedRace;}

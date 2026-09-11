@@ -75,10 +75,12 @@ void ULeague_Program::ShowTeams()
 
 void ULeague_Program::PopulateRacers()
 {
+	UE_LOG(LogTemp, Warning, TEXT("ULeague_Program::PopulateRacers"));
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		if (MatchManagerSubsystem->GetCompetitionRules()->CanStartMatch())
 		{
+			UE_LOG(LogTemp, Warning, TEXT("CanStartMatch"));
 			DisableButtons();
 			ShowTeams();
 			MatchManagerSubsystem->GetCompetitionRules()->PopulateRacers();

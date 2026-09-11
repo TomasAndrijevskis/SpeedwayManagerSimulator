@@ -6,6 +6,7 @@
 #include "Data/RacersData/RacerStatistics.h"
 #include "RacerMatchManager.generated.h"
 
+
 class URaceLine_Base;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnPointsAdded, const ERaceResults&, bool)
 
@@ -34,9 +35,9 @@ public:
 
 	int32 GetParticipatedRacesAmount() const;
 	
-	void AddParticipatedRace(URaceLine_Base* RaceLineRef);
+	void AddParticipatedRace(int32 RaceID, int32 RaceLineID);
 	
-	void RemoveParticipatedRace(URaceLine_Base* RaceLineRef);
+	void RemoveParticipatedRace(int32 RaceID);
 
 	int32 GetRacerAge() const;
 	
@@ -60,24 +61,19 @@ public:
 
 	void CollectMatchStatistics();
 
-	// temporary
-	int32 CurrentRaceLineID = 0;
+	ERaceResults& GetLastRaceResult();
+	
+private:
+	
+	UPROPERTY()
+	TMap<int32, int32> ParticipatedRaces;
 
 	UPROPERTY()
-	URaceLine_Base* CurrentRaceLine = nullptr;
-
-	int32 GetScore() const;
-	//
-private:
+	FRacerMatchData Data;
 
 	UPROPERTY()
 	TArray<ERaceResults> RacerPoints;
 	
-	UPROPERTY()
-	TArray<URaceLine_Base*> ParticipatedRaces;
-	
-	FRacerMatchData Data;
-
 	int32 TieBreakerValue = 0;
 
 	float CurrentRacerRating = 0.f;

@@ -12,7 +12,8 @@ class URacerMatchManager;
 class UNumbersBox;
 
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnRaceSimulated, float, float, ETrackTypes);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnRacerSet, URacerMatchManager*);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRacerSet, URacerMatchManager*, int32);
+DECLARE_DELEGATE_RetVal_OneParam(FString, FRequestRaceLinePoints, int32);
 UCLASS()
 class SMS_API URaceLine_Base : public UUserWidget
 {
@@ -21,12 +22,15 @@ class SMS_API URaceLine_Base : public UUserWidget
 public:
 
 	void ChangeLineStatus(bool bIsActive);
+
+	void OnRaceFinished();
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 	
-	void SetRaceLineID(int32 NewID);
+	void SetIDs(int32 NewRaceLineID, int32 NewRaceID);
 	int32 GetRaceLineID() const;
-
+	int32 GetRaceID() const;
+	
 	void SetRacerNumber(int32 NewRacerNumber);
 	int32 GetRacerNumber() const;
 
@@ -38,6 +42,8 @@ public:
 	FOnRaceSimulated OnRaceSimulatedDelegate;
 
 	FOnRacerSet OnRacerSetDelegate;
+
+	FRequestRaceLinePoints OnRequestRaceLinePointsDelegate;
 	
 protected:
 
@@ -51,21 +57,21 @@ protected:
 	virtual void InitializeWidget() {};
 	
 	virtual void BindDelegates() {};
-
-	void BindManagersDelegates();
 	
 	UPROPERTY()
 	URacerMatchManager* RacerManager;
 
 	FRaceLineData RaceLineData;
+
+	int32 RaceLineID = 0;
+
+	int32 RaceID = 0;
+	
+	int32 RacerNumber = 0;
 	
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_PointsPerRace;
-	
-	int32 RaceLineID = 0;
-
-	int32 RacerNumber = 0;
 	
 };
