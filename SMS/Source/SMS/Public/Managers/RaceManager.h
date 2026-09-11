@@ -57,14 +57,10 @@ private:
 	void OnRaceFinished();
 
 	void BroadcastRaceResult(TArray<FRaceLineResultData>& ResultForEachLine);
-	
-	//UPROPERTY()
-	//TArray<URacerMatchManager*> RacerMatchManagers;
 
 	UPROPERTY()
 	TMap<int32, URacerMatchManager*> Racers;
 	
-	// TMap<int32, URacerMatchManager> int32 = racelineid
 	bool bIsNominatedRace = false;
 
 	TArray<FRaceResultData> RaceResults;

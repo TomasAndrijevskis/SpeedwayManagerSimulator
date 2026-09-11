@@ -60,14 +60,17 @@ void URaceManager::SimulateRace()
 		SortLinesByRating();
 		TArray<FRaceLineResultData> ResultForEachLine;
 		int32 Position = 0;
+		URacerMatchManager* PreviousManager = nullptr;
 		for (const auto& Racer : Racers)
 		{
 			ERaceResults Result = static_cast<ERaceResults>(Position);
 			const bool IsVisitor = Racer.Value->IsVisitor();
 			bool HasBonus = false;
-			if (Position != 0 && Position < Racers.Num() - 1)
-				HasBonus = Racers[Position - 1]->IsVisitor() == IsVisitor;
-
+			if (Position != 0 && Position < Racers.Num() - 1 && PreviousManager)
+			{
+				HasBonus = PreviousManager->IsVisitor() == IsVisitor;
+			}
+			
 			if (Racer.Value->GetCurrentRaceRating() == 0)
 			{
 				Racer.Value->AddPoints(ERaceResults::Defect, false);
@@ -84,6 +87,7 @@ void URaceManager::SimulateRace()
 			RaceLineResult.Points = RulesSubsystem->GetRaceResultNumber(Result);;
 			RaceLineResult.IsVisitor = Racer.Value->IsVisitor();
 			ResultForEachLine.Add(RaceLineResult);
+			PreviousManager = Racer.Value;
 			Position++;
 		}
 		UE_LOG(LogTemp, Error, TEXT("==================================="));
