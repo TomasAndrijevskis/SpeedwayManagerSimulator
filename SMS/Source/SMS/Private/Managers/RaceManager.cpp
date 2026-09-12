@@ -45,18 +45,9 @@ void URaceManager::RemoveRacerManager(int32 RaceLineID)
 
 void URaceManager::SimulateRace()
 {
-	URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>();
-	if (!RulesSubsystem) return;
-	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	if (URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
 	{
-		UTrackManager* TrackManager = MatchManagerSubsystem->GetCompetitionRules()->GetTrackManager();
-		if (!TrackManager) return;
-		for (const auto& Racer : Racers)
-		{
-			const float StartModifier = TrackManager->GetGateModifier(Racer.Key);
-			const float DrivingModifier = TrackManager->GetDrivingModifier();
-			Racer.Value->CalculateRating(StartModifier, DrivingModifier, TrackManager->GetCurrentTrackType());
-		}
+		CalculateRacerRatings();
 		SortLinesByRating();
 		TArray<FRaceLineResultData> ResultForEachLine;
 		int32 Position = 0;
@@ -64,13 +55,9 @@ void URaceManager::SimulateRace()
 		for (const auto& Racer : Racers)
 		{
 			ERaceResults Result = static_cast<ERaceResults>(Position);
-			const bool IsVisitor = Racer.Value->IsVisitor();
-			bool HasBonus = false;
-			if (Position != 0 && Position < Racers.Num() - 1 && PreviousManager)
-			{
-				HasBonus = PreviousManager->IsVisitor() == IsVisitor;
-			}
-			
+			const bool IsRacerVisitor = Racer.Value->IsVisitor();
+			bool HasBonus = AreRacersFromSameTeam(Position, PreviousManager, IsRacerVisitor);
+		
 			if (Racer.Value->GetCurrentRaceRating() == 0)
 			{
 				Racer.Value->AddPoints(ERaceResults::Defect, false);
@@ -78,15 +65,8 @@ void URaceManager::SimulateRace()
 			}
 			else Racer.Value->AddPoints(Result, HasBonus);
 
-			FRaceResultData Data;
-			Data.RacerScore = RulesSubsystem->GetRaceResultNumber(Result);
-			Data.RaceLineID = Racer.Key;
-			RaceResults.Add(Data);
-
-			FRaceLineResultData RaceLineResult;
-			RaceLineResult.Points = RulesSubsystem->GetRaceResultNumber(Result);;
-			RaceLineResult.IsVisitor = Racer.Value->IsVisitor();
-			ResultForEachLine.Add(RaceLineResult);
+			CollectRaceResults(Result, Racer.Key, *RulesSubsystem);
+			CollectRaceLineData(Result, IsRacerVisitor, *RulesSubsystem, ResultForEachLine);
 			PreviousManager = Racer.Value;
 			Position++;
 		}
@@ -95,6 +75,49 @@ void URaceManager::SimulateRace()
 		BroadcastRaceResult(ResultForEachLine);
 		OnRaceFinished();
 	}
+}
+
+
+void URaceManager::CalculateRacerRatings()
+{
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		if (UTrackManager* TrackManager = MatchManagerSubsystem->GetCompetitionRules()->GetTrackManager())
+		{
+			for (const auto& Racer : Racers)
+			{
+				const float StartModifier = TrackManager->GetGateModifier(Racer.Key);
+				const float DrivingModifier = TrackManager->GetDrivingModifier();
+				Racer.Value->CalculateRating(StartModifier, DrivingModifier, TrackManager->GetCurrentTrackType());
+			}
+		}
+	}
+}
+
+
+bool URaceManager::AreRacersFromSameTeam(int32 Position, const TObjectPtr<URacerMatchManager>& PreviousManager, bool IsCurrentRacerVisitor)
+{
+	if (Position < Racers.Num() - 1 && PreviousManager)
+		return PreviousManager->IsVisitor() == IsCurrentRacerVisitor;
+	return false;
+}
+
+
+void URaceManager::CollectRaceLineData(ERaceResults Result, bool IsCurrentRacerVisitor, const URulesSubsystem& RulesSubsystem, TArray<FRaceLineResultData>& OutArray)
+{
+	FRaceLineResultData RaceLineResult;
+	RaceLineResult.Points = RulesSubsystem.GetRaceResultNumber(Result);
+	RaceLineResult.IsVisitor = IsCurrentRacerVisitor;
+	OutArray.Add(RaceLineResult);
+}
+
+
+void URaceManager::CollectRaceResults(ERaceResults Result, int32 RaceLineID, const URulesSubsystem& RulesSubsystem)
+{
+	FRaceResultData Data;
+	Data.RacerScore = RulesSubsystem.GetRaceResultNumber(Result);
+	Data.RaceLineID = RaceLineID;
+	RaceResults.Add(Data);
 }
 
 

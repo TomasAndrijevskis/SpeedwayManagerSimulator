@@ -4,8 +4,10 @@
 #include "CoreMinimal.h"
 #include "Data/RaceData/RaceLineResultData.h"
 #include "Data/RaceData/RaceResultData.h"
+#include "Data/Rules/ERaceResults.h"
 #include "RaceManager.generated.h"
 
+class URulesSubsystem;
 class URacerMatchManager;
 class ULeague_RaceLine_Base;
 class UTrackManager;
@@ -58,6 +60,14 @@ private:
 
 	void BroadcastRaceResult(TArray<FRaceLineResultData>& ResultForEachLine);
 
+	void CalculateRacerRatings();
+
+	bool AreRacersFromSameTeam(int32 Position, const TObjectPtr<URacerMatchManager>& PreviousManager, bool IsCurrentRacerVisitor);
+
+	void CollectRaceLineData(ERaceResults Result, bool IsCurrentRacerVisitor, const URulesSubsystem& RulesSubsystem, TArray<FRaceLineResultData>& OutArray);
+
+	void CollectRaceResults(ERaceResults Result, int32 RaceLineID, const URulesSubsystem& RulesSubsystem);
+	
 	UPROPERTY()
 	TMap<int32, URacerMatchManager*> Racers;
 	
