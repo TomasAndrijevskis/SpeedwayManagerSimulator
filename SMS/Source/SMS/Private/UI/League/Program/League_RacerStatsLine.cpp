@@ -1,31 +1,13 @@
 
 #include "SMS/Public/UI/League/Program/League_RacerStatsLine.h"
-#include "Components/HorizontalBox.h"
 #include "Managers/RacerMatchManager.h"
-#include "Subsystems/RulesSubsystem.h"
 #include "UI/BaseClasses/ChooseBox.h" 
-#include "UI/BaseClasses/NumbersBox.h"
 
 
 void ULeague_RacerStatsLine::NativeConstruct()
 {
 	Super::NativeConstruct();
 	ChooseBox_Racer->OnSelectionChangedDelegate.AddUObject(this, &ULeague_RacerStatsLine::OnRacerChosen);
-}
-
-
-void ULeague_RacerStatsLine::InitializeManagers(URacerMatchManager* RacerManagerRef)
-{
-	UE_LOG(LogTemp, Warning, TEXT("ULeague_RacerStatsLine::InitializeManagers"));
-	RacerManager = RacerManagerRef;
-	BindDelegates();
-}
-
-
-void ULeague_RacerStatsLine::BindDelegates()
-{
-	if (!RacerManager) return;
-	RacerManager->OnPointsAddedDelegate.AddUObject(this, &ULeague_RacerStatsLine::CreateNewPointsBox);
 }
 
 
@@ -43,22 +25,6 @@ void ULeague_RacerStatsLine::AddOption(const TObjectPtr<URacerMatchManager>& New
 void ULeague_RacerStatsLine::RemoveOption(const FString& Option)
 {
 	ChooseBox_Racer->RemoveOption(Option);
-}
-
-
-void ULeague_RacerStatsLine::CreateNewPointsBox(const ERaceResults& RaceResult, bool AddBonus)
-{
-	if (!PointsBoxClass || !RacerManager) return;
-	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
-	{
-		UNumbersBox* NewNumbersBox = Cast<UNumbersBox>(CreateWidget(this, PointsBoxClass));
-		if (!NewNumbersBox) return;
-		FString Points = Rules->GetRaceResultText(RaceResult);
-		if (AddBonus) NewNumbersBox->SetText(Points + "*");
-		else NewNumbersBox->SetText(Points);
-		HB_Points->AddChild(NewNumbersBox);
-		UpdateOverallPoints(RacerManager->CountOverallPoints(), RacerManager->GetBonusAmount());
-	}
 }
 
 
@@ -110,20 +76,4 @@ void ULeague_RacerStatsLine::LockRacer()
 }
 
 
-void ULeague_RacerStatsLine::UpdateOverallPoints(int32 Points, int32 Bonus)
-{
-	const FString NewText = FString::Printf(TEXT("%d+%d"), Points, Bonus);
-	if (Bonus > 0) NumbersBox_OverallPoints->SetText(NewText);
-	else NumbersBox_OverallPoints->SetText(Points);
-}
-
-
-void ULeague_RacerStatsLine::SetID(int32 NewID)
-{
-	RacerStatsLineID = NewID;
-	NumbersBox_RacerNumber->SetText(RacerStatsLineID);
-}
-
-
-int32 ULeague_RacerStatsLine::GetID() const{return RacerStatsLineID;}
 int32 ULeague_RacerStatsLine::GetNumberOfOptions() const{return ChooseBox_Racer->GetNumberOfOptions();}
