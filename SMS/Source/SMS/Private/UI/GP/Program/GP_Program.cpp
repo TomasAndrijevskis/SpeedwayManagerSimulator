@@ -1,54 +1,57 @@
 
 #include "UI/GP/Program/GP_Program.h"
 #include "Components/Button.h"
-
-
-//for testing
-#include "Gamemodes/SMS_GameMode.h"
-#include "Kismet/GameplayStatics.h"
+#include "Components/VerticalBox.h"
+#include "Subsystems/MatchManagerSubsystem.h"
+#include "UI/GP/Program/GP_Lineup.h"
 
 
 void UGPProgram::NativeConstruct()
 {
 	Super::NativeConstruct();
 	BindDelegates();
+	RandomizeRacers();
 	CreateRaces();
 	CreateRaceStatsWidget();
-}
-
-/*
-void UGPProgram::InitializeManagers()
-{
-	GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	GameMode->CreateManagers();
-	MatchManager = GameMode->GetMatchManager();
-}*/
-
-
-void UGPProgram::BindDelegates()
-{
-	Super::BindDelegates();
-	Button_RandomizeLineup->OnClicked.AddUniqueDynamic(this, &UGPProgram::HandleLineup);
+	CreateLineup();
+	ShowLineup();
 }
 
 
-void UGPProgram::HandleLineup()
+void UGPProgram::RandomizeRacers()
 {
-	/*if (!GameMode) return;
-	TArray<TObjectPtr<URacerCareerManager>> Racers = GameMode->GetTopRacers();
-	if (Racers.IsEmpty()) return;*/
-	
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		MatchManagerSubsystem->GetCompetitionRules()->MakeRandomRosters();
+	}
+}
+
+
+void UGPProgram::CreateLineup()
+{
+	if (!LineupClass) return;
+	UGP_Lineup* Lineup = Cast<UGP_Lineup>(CreateWidget(this, LineupClass));
+	if (!Lineup) return;
+	Button_ShowRacers->OnClicked.AddUniqueDynamic(Lineup, &UGP_Lineup::SortLines);
+	VB_Lineup->AddChild(Lineup);
 }
 
 
 void UGPProgram::DisableButtons()
 {
-	Button_RandomizeLineup->SetIsEnabled(false);
+	Button_ConfirmRacers->SetIsEnabled(false);
 }
 
 
 void UGPProgram::PopulateRacers()
 {
-	
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		if (MatchManagerSubsystem->GetCompetitionRules()->CanStartMatch())
+		{
+			DisableButtons();
+			ShowLineup();
+			MatchManagerSubsystem->GetCompetitionRules()->PopulateRacers();
+		}
+	}
 }

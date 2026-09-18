@@ -16,22 +16,15 @@ class SMS_API UGP_RacerStatsLine : public URacerStatsLine_Base
 
 public:
 
-	void SetRacerName();
+	void SetRacerName(const FString& Name);
+
+	void UpdateRacerPosition(int32 NewPosition);
 	
 private:
-
-	UPROPERTY(meta = (BindWidget))
-	UNumbersBox* NumbersBox_RacerNumber;
 	
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_RacerName;
-	
-	UPROPERTY(meta = (BindWidget))
-	UNumbersBox* NumbersBox_OverallPoints;
 
 	UPROPERTY(meta = (BindWidget))
-	UHorizontalBox* HB_Points;
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UNumbersBox> PointsBoxClass;
+	UNumbersBox* NumbersBox_RacerPosition;
 };

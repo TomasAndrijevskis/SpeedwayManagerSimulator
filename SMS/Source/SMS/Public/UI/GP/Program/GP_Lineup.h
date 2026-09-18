@@ -17,6 +17,7 @@ class SMS_API UGP_Lineup : public UUserWidget
 	
 public:
 
+	UFUNCTION()
 	void SortLines();
 	
 protected:
@@ -38,7 +39,9 @@ private:
 
 	UGP_RacerStatsLine* CreateRacerStatsLine(const TObjectPtr<URacerMatchManager>& RacerManager, int Position);
 	
-	void FillLineup(UGP_RacerStatsLine* RacerStatsLine, int32 ID, int32 Amount);
+	void MoveRacerStatsLine(UGP_RacerStatsLine* RacerStatsLine, int32 Position, int32 RacersCount);
+
+	void AddRacerStatsLine(UGP_RacerStatsLine* RacerStatsLine, int32 Position, int32 Amount);
 	
 	UPROPERTY()
 	TArray<UGP_RacerStatsLine*> RacerStatsLines;

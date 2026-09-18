@@ -16,6 +16,8 @@ class SMS_API UGP_RaceLine_Base : public URaceLine_Base
 
 public:
 
+	virtual void SetRacerData(URacerMatchManager* RacerManagerRef, bool IsReplacement) override;
+	
 protected:
 
 	virtual void SetRacerName(const FString& NewRacerName) override;

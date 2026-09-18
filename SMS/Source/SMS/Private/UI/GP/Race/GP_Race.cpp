@@ -3,7 +3,9 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
+#include "Managers/RaceLineupManager.h"
 #include "Managers/RaceManager.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/RaceLine_Base.h"
 #include "UI/GP/Program/Race/GP_RaceLine_Base.h"
 
@@ -19,8 +21,11 @@ void UGPRace::InitializeRaceData()
 	Super::InitializeRaceData();
 	FRaceData data;
 	data.RaceManager = NewObject<URaceManager>(this);
+	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
 	if (!data.RaceManager) return;
-	data.RaceManager->InitializeManager();
+	data.RaceManager->InitializeManager(IsNominatedRace(), RaceID);
+	data.RaceManager->SetIsLeague(false);
+	data.RaceLineupManager->InitializeManager();
 	Data = data;
 }
 
@@ -39,17 +44,19 @@ void UGPRace::CreateRaceLines()
 	const int32 RaceLineAmount = RacePatternDataAsset->RacePatterns[RaceID].RaceLines.Num();
 	for (int32 RaceLineID = 0; RaceLineID < RaceLineAmount; RaceLineID++)
 	{
-		UGP_RaceLine_Base* NewRaceLine = CreateRaceLine(RaceLineID);
-		if (NewRaceLine)
+		if (UGP_RaceLine_Base* NewRaceLine = CreateRaceLine(RaceLineID))
 		{
-			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine);
-			if (VB_Slot)
+			if (UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewRaceLine))
 			{
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
-			//Data.RaceManager->AddRaceLine(NewRaceLine);
+			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager::AddRacerManager);
+			NewRaceLine->OnRequestRaceLinePointsDelegate.BindUObject(Data.RaceManager, &URaceManager::GetRaceLinePoints);
+			Data.RaceManager->OnRaceFinishedDelegate.AddUObject(NewRaceLine, &URaceLine_Base::OnRaceFinished);
+			Data.RaceManager->OnChangedRaceStatusRequestDelegate.AddUObject(NewRaceLine, &URaceLine_Base::ChangeLineStatus);
+			Data.RaceLineupManager->AddRaceLine(NewRaceLine);
 		}
 	}
 }
