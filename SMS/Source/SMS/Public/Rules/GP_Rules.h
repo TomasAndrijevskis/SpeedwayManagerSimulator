@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "CompetitionRules.h"
+#include "Data/RaceData/FinalQualifier.h"
 #include "GP_Rules.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnScoreUpdatedGP, int32);
@@ -22,6 +23,8 @@ public:
 	virtual void MakeRandomRosters() override;
 
 	void SortRacers();
+
+	void AddQualifiedRacers(const FFinalQualifier& QualifiedData) {FinalQualifiedRacers.Add(QualifiedData);}
 	
 	TArray<TObjectPtr<URacerMatchManager>>& GetRacers() { return Racers; }	
 
@@ -54,6 +57,11 @@ private:
 	UPROPERTY()
 	TArray<TObjectPtr<URacerMatchManager>> Racers;
 
+
+	UPROPERTY()
+	TArray<FFinalQualifier> FinalQualifiedRacers;
+
+	
 	TArray<int32> Semifinal1Racers = {0, 3, 4, 7};
 	
 	TArray<int32> Semifinal2Racers = {1, 2, 5, 6};

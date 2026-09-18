@@ -17,6 +17,7 @@ void ASMS_GameMode::BeginPlay()
 	InitializeTeams();
 	InitializeTeamsStatistics();
 	SetTrackData();
+	SetTopRacers();
 }
 
 
@@ -65,6 +66,22 @@ void ASMS_GameMode::SetTrackData()
 }
 
 
+FTrackData ASMS_GameMode::GetTrackData(ECities CityToFind) const
+{
+	for (const auto& Location : LocationsDataAsset->Locations)
+	{
+		for (const auto& City : Location.Value.City)
+		{
+			if (City.Key == CityToFind)
+			{
+				return City.Value.TrackData->TrackData;
+			}
+		}
+	}
+	return FTrackData{};
+}
+
+
 void ASMS_GameMode::InitializeTeamsStatistics()
 {
 	if (UStandingsSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<UStandingsSubsystem>())
@@ -77,47 +94,40 @@ void ASMS_GameMode::InitializeTeamsStatistics()
 		}
 	}
 }
-/*
-TArray<TObjectPtr<URacerCareerManager>> ASMS_GameMode::GetTopRacers() const
+
+void ASMS_GameMode::SetTopRacers()
 {
-	TArray<TObjectPtr<URacerCareerManager>> Racers;
-	TArray<TObjectPtr<URacerCareerManager>> tempRacers;
 	for (const auto& Team : Teams)
 	{
 		for (const auto& Racer : Team.Value.Racers)
 		{
-			tempRacers.Add(Racer);
+			TopRacers.Add(Racer);
 		}
 	}
-	tempRacers.Sort([](const FRacerData& L1, const FRacerData& L2)
+	TopRacers.Sort([](URacerCareerManager& L1, URacerCareerManager& L2)
 	{
-		return L1.RacerStats.Rating > L2.RacerStats.Rating;
+		return L1.GetRacerData().RacerStats.Rating > L2.GetRacerData().RacerStats.Rating;
 	});
 
-	for (int i = 0; i < 16; i++)
+	while (TopRacers.Num() != 16)
 	{
-		Racers.Add(tempRacers[i]);
-	}*/
-	/*for (const auto& Racer : Racers)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer, Racer.RacerStats.Rating);
+		TopRacers.RemoveSingle(TopRacers.Last());
 	}
-	return Racers;
+	UE_LOG(LogTemp,Error, TEXT("top racers:"))
+	for (const auto& Racer : TopRacers)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer->GetRacerData().Name, Racer->GetRacerData().RacerStats.Rating);
+	}
 }
-*/
+
 
 void ASMS_GameMode::PrintTeams()
 {
-	for (const auto& Team : Teams)
+	/*for (const auto& Team : Teams)
 	{
-		/*for (const auto& Racer : Team.Value.Racers)
+		for (const auto& Racer : Team.Value.Racers)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("%s - %i"), *Racer.Name, Racer.RacerStats.Rating);
-		}*/
-	}
+		}
+	}*/
 }
-
-
-FTeamData& ASMS_GameMode::GetTeamData(ETeams Team){return Teams.FindChecked(Team);}
-FString ASMS_GameMode::GetTeamName(ETeams Team) const{return Teams.FindChecked(Team).GetTeamName();}
-int32 ASMS_GameMode::GetTeamsAmount()const{return Teams.Num();}

@@ -3,9 +3,9 @@
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/RaceLineupManager.h"
-#include "Managers/RaceManager.h"
 #include "Managers/RacerCareerManager.h"
 #include "Managers/RacerMatchManager.h"
+#include "Managers/RaceManagers/RaceManager_Base.h"
 #include "UI/BaseClasses/RaceLine_Base.h"
 
 
@@ -81,7 +81,7 @@ void UGP_Rules::SortRacers()
 
 void UGP_Rules::HandleRaceFinished()
 {
-	Races[CurrentRace].RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(false);
+	Races[CurrentRace].RaceManager->OnChangedRaceStatusDelegate.Broadcast(false);
 	if (!Races[CurrentRace].RaceManager->IsNominatedRace() && Races[CurrentRace+1].RaceManager->IsNominatedRace())
 	{
 		SortRacers();
@@ -89,7 +89,7 @@ void UGP_Rules::HandleRaceFinished()
 	CurrentRace++;
 	if (CurrentRace <= Races.Num())
 	{
-		Races[CurrentRace].RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(true);
+		Races[CurrentRace].RaceManager->OnChangedRaceStatusDelegate.Broadcast(true);
 		bool IsNominatedRace = Races[CurrentRace].RaceManager->IsNominatedRace();
 		if (IsNominatedRace)
 		{
@@ -145,23 +145,22 @@ void UGP_Rules::FillNominatedRaceLines(const TArray<int32>& RacersNumbers)
 
 void UGP_Rules::SetFinalRace()
 {
-	/*TArray<TObjectPtr<URacerMatchManager>> MatchManagers;
-	for (const auto& Racer : Racers)
-	{
-		if (Racer->GoToFinal) MatchManagers.Add(Racer);
-	}
 	int32 Position = 0;
 	for (const auto& RaceLine : Races[CurrentRace].RaceLineupManager->RaceLines)
 	{
-		RaceLine->SetRacerNumber(MatchManagers[Position]->GetRacerNumber());
+		RaceLine->SetRacerNumber(FinalQualifiedRacers[Position].RacerManager->GetRacerNumber());
 		Position++;
-	}*/
+	}
 }
 
 
 void UGP_Rules::FillFinalRace()
 {
-	
+	int32 CurrentRaceID = Races[CurrentRace].RaceManager->GetRaceID();
+	for (const auto& Racer : FinalQualifiedRacers)
+	{
+		RequestToAssignRacersToCertainRace(Racer.RacerManager, CurrentRaceID);
+	}
 }
 
 

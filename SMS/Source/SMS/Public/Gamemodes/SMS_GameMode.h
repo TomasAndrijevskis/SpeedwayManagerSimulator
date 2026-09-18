@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/Locations/ECities.h"
 #include "Data/RacersData/RacerData.h"
 #include "Data/TeamData/ETeams.h"
 #include "Data/TeamData/TeamData.h"
@@ -24,15 +25,19 @@ public:
 
 	virtual void BeginPlay() override;
 
-	FTeamData& GetTeamData(ETeams Team);
-
-	FString GetTeamName(ETeams Team) const;
-	
-	int32 GetTeamsAmount() const;
-
 	void InitializeTeamsStatistics();
 
-	//TArray<TObjectPtr<URacerCareerManager>> GetTopRacers() const;//temp
+	void SetTopRacers();
+
+	FTrackData GetTrackData(ECities CityToFind) const;
+	
+	TArray<URacerCareerManager*>& GetTopRacers() {return TopRacers;}//temp
+	
+	FTeamData& GetTeamData(ETeams Team) {return Teams.FindChecked(Team);}
+
+	FString GetTeamName(ETeams Team) const {return Teams.FindChecked(Team).GetTeamName();}
+	
+	int32 GetTeamsAmount() const {return Teams.Num();}
 	
 private:
 
@@ -52,4 +57,8 @@ private:
 
 	UPROPERTY()
 	TMap<ETeams, FTeamData> Teams;
+
+	UPROPERTY()
+	TArray<URacerCareerManager*> TopRacers;//temp
+
 };
