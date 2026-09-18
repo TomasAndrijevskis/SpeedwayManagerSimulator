@@ -1,6 +1,8 @@
 
 #include "Managers/RaceManagers/GP_RaceManager.h"
 #include "Managers/RacerMatchManager.h"
+#include "Rules/GP_Rules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "Subsystems/RulesSubsystem.h"
 
 
@@ -17,7 +19,17 @@ void UGP_RaceManager::SimulateRace()
 			ERaceResults Result = static_cast<ERaceResults>(Position);
 			if (IsNominatedRace() && (Result == ERaceResults::First || Result == ERaceResults::Second))
 			{
-				
+				if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+				{
+					if (UGP_Rules* GPRules = Cast<UGP_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
+					{
+						FFinalQualifier Data;
+						Data.Placement = Result;
+						Data.RacerManager = CurrentRacer.Value;
+						Data.SemifinalRaceId = RaceID;
+						GPRules->AddQualifiedRacers(Data);
+					}
+				}
 			}
 			UE_LOG(LogTemp, Warning, TEXT("================="));
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *CurrentRacer.Value->GetRacerName());
