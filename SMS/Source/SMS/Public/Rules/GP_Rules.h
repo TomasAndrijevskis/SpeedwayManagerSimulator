@@ -39,7 +39,9 @@ private:
 	virtual void HandleMatchClosed() override;
 
 	virtual void HandleRaceFinished() override;
-
+	
+	virtual void InitializeRules() override;
+	
 	void RequestToAssignRacersToCertainRace(URacerMatchManager* RacerManager, int32 RaceID);
 	
 	void HandleLineup();
@@ -56,11 +58,9 @@ private:
 	
 	UPROPERTY()
 	TArray<TObjectPtr<URacerMatchManager>> Racers;
-
-
+	
 	UPROPERTY()
 	TArray<FFinalQualifier> FinalQualifiedRacers;
-
 	
 	TArray<int32> Semifinal1Racers = {0, 3, 4, 7};
 	

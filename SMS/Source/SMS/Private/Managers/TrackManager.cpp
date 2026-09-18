@@ -1,7 +1,6 @@
 
 #include "Managers/TrackManager.h"
-
-#include "Subsystems/RulesSubsystem.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 
 
 void UTrackManager::InitializeManager(const FTrackData& NewTrackData)
@@ -28,13 +27,16 @@ void UTrackManager::SetInitialTrackType()
 }
 
 
-void UTrackManager::TryUpdateTrack(int32 CurrentRace)
+void UTrackManager::TryUpdateTrack()
 {
-	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
-	{
-		if (!Rules->IsTrackCleaningTime(CurrentRace)) return;
-	}
 	//UE_LOG(LogTemp, Error, TEXT("TryUpdateTrack"));
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		if (UCompetitionRules* Rules = MatchManagerSubsystem->GetCompetitionRules())
+		{
+			if (!Rules->IsTrackCleaningTime()) return;
+		}
+	}
 	float MaxChance = 1.f;
 	float Random = FMath::RandRange(0.f, MaxChance);
 	//UE_LOG(LogTemp, Warning, TEXT("Random %f"), Random);
@@ -44,7 +46,7 @@ void UTrackManager::TryUpdateTrack(int32 CurrentRace)
 
 void UTrackManager::UpdateTrackType()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("UpdateTrackType"));
+	UE_LOG(LogTemp, Warning, TEXT("UpdateTrackType"));
 	float Total = 0.f;
 	for (const auto& Probability : TrackData.TrackTypeProbability)
 	{

@@ -3,17 +3,12 @@
 #include "Data/Locations/LocationsDataAsset.h"
 #include "Data/Track/TrackDataAsset.h"
 #include "Managers/RacerCareerManager.h"
-#include "Subsystems/RulesSubsystem.h"
 #include "Subsystems/StandingsSubsystem.h"
 
 
 void ASMS_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	if (URulesSubsystem* Subsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
-	{
-		Subsystem->InitializeRules();
-	}
 	InitializeTeams();
 	InitializeTeamsStatistics();
 	SetTrackData();

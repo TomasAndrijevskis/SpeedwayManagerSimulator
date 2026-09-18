@@ -3,12 +3,11 @@
 #include "Managers/RacerMatchManager.h"
 #include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
-#include "Subsystems/RulesSubsystem.h"
 
 
 void ULeague_RaceManager::SimulateRace()
 {
-	if (URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		CalculateRacerRatings();
 		SortLinesByRating();
@@ -23,8 +22,11 @@ void ULeague_RaceManager::SimulateRace()
 			PreviousManager = CurrentRacer.Value;
 			Position++;
 
-			CollectRaceResults(Result, CurrentRacer.Key, *RulesSubsystem);
-			CollectRaceLineData(Result, CurrentRacer.Key, *RulesSubsystem, ResultForEachLine);
+			if (UCompetitionRules* Rules = MatchManagerSubsystem->GetCompetitionRules())
+			{
+				CollectRaceResults(Result, CurrentRacer.Key, *Rules);
+				CollectRaceLineData(Result, CurrentRacer.Key, *Rules, ResultForEachLine);
+			}
 		}
 		UE_LOG(LogTemp, Error, TEXT("==================================="));
 		OnRaceLineResultUpdatedDelegate.Broadcast(RaceResults);
@@ -42,10 +44,10 @@ bool ULeague_RaceManager::AreRacersFromSameTeam(int32 Position, const TObjectPtr
 }
 
 
-void ULeague_RaceManager::CollectRaceLineData(ERaceResults Result, int32 RaceLineID, const URulesSubsystem& RulesSubsystem, TArray<FRaceResultData>& OutArray)
+void ULeague_RaceManager::CollectRaceLineData(ERaceResults Result, int32 RaceLineID, const UCompetitionRules& Rules, TArray<FRaceResultData>& OutArray)
 {
 	FRaceResultData RaceLineResult;
-	RaceLineResult.Points = RulesSubsystem.GetRaceResultAsNumber(Result);
+	RaceLineResult.Points = Rules.GetRaceResultAsNumber(Result);
 	RaceLineResult.RaceLineID = RaceLineID;
 	OutArray.Add(RaceLineResult);
 }

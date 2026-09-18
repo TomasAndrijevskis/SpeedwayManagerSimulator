@@ -3,7 +3,6 @@
 #include "Managers/RacerMatchManager.h"
 #include "Managers/TrackManager.h"
 #include "Subsystems/MatchManagerSubsystem.h"
-#include "Subsystems/RulesSubsystem.h"
 
 
 void URaceManager_Base::InitializeManager(bool NewIsNominatedRace, int32 NewRaceID)
@@ -55,10 +54,10 @@ void URaceManager_Base::CalculateRacerRatings()
 }
 
 
-void URaceManager_Base::CollectRaceResults(ERaceResults Result, int32 RaceLineID, const URulesSubsystem& RulesSubsystem)
+void URaceManager_Base::CollectRaceResults(ERaceResults Result, int32 RaceLineID, const UCompetitionRules& Rules)
 {
 	FRaceResultData Data;
-	Data.Points = RulesSubsystem.GetRaceResultAsNumber(Result);
+	Data.Points = Rules.GetRaceResultAsNumber(Result);
 	Data.RaceLineID = RaceLineID;
 	RaceResults.Add(Data);
 }
@@ -108,13 +107,16 @@ bool URaceManager_Base::AreAllRacersSet()
 
 FString URaceManager_Base::GetRaceLinePoints(int32 RaceLineID)
 {
-	if (URulesSubsystem* RulesSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		for (const auto& Racer : Racers)
+		if (UCompetitionRules* Rules = MatchManagerSubsystem->GetCompetitionRules())
 		{
-			if (Racer.Key == RaceLineID)
+			for (const auto& Racer : Racers)
 			{
-				return RulesSubsystem->GetRaceResultText(Racer.Value->GetLastRaceResult());
+				if (Racer.Key == RaceLineID)
+				{
+					return Rules->GetRaceResultText(Racer.Value->GetLastRaceResult());
+				}
 			}
 		}
 	}

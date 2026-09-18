@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Data/RaceData/RaceData.h"
+#include "Data/Rules/ERaceResults.h"
 #include "Data/Track/TrackData.h"
 #include "CompetitionRules.generated.h"
 
@@ -30,17 +31,27 @@ public:
 
 	virtual void PrepareToEndMatch() PURE_VIRTUAL(UCompetitionRules::PrepareToEndMatch);
 
+	virtual void MakeRandomRosters() PURE_VIRTUAL(UCompetitionRules::MakeRandomRosters);
+
+	virtual void InitializeRules() PURE_VIRTUAL(UCompetitionRules::InitializeRules)
+	
 	void EndMatch();
 	
 	void AddNewRace(int32 RaceId, FRaceData RaceData);
 
 	void RequestToAssignRacersToRace(URacerMatchManager* RacerManager);
 
-	int32 GetCurrentRaceNumber()const;
+	FString GetRaceResultText(const ERaceResults RaceResult) const;
 
-	int32 GetAmountOfRaces() const;
+	int32 GetRaceResultAsNumber(const ERaceResults RaceResult) const;
 	
-	TObjectPtr<UTrackManager>& GetTrackManager();
+	int32 GetCurrentRaceNumber() const {return CurrentRace;}
+
+	int32 GetAmountOfRaces() const {return Races.Num();}
+	
+	TObjectPtr<UTrackManager>& GetTrackManager() {return TrackManager;}
+
+	bool IsTrackCleaningTime() const {return TrackCleaningRaces.Contains(CurrentRace);}
 	
 	FOnRacingFinished OnRacingFinishedDelegate;
 
@@ -54,15 +65,18 @@ protected:
 
 	virtual void HandleMatchClosed();
 	
-	void CreateTrackManager(const FTrackData& HomeTeamTrackData);
+	void CreateTrackManager(const FTrackData& TrackData);
 	
 	void BindDelegates();
 	
 	UPROPERTY()
 	TMap<int32, FRaceData> Races;
 
-	int32 CurrentRace = 1;
+	UPROPERTY()
+	TArray<int32> TrackCleaningRaces {};
 	
+	int32 CurrentRace = 1;
+
 private:
 	
 	void SimulateRace();

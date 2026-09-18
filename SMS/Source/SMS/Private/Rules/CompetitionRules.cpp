@@ -2,8 +2,8 @@
 #include "Rules/CompetitionRules.h"
 #include "Data/RaceData/RaceData.h"
 #include "Managers/RaceLineupManager.h"
-#include "Managers/RaceManager.h"
 #include "Managers/TrackManager.h"
+#include "Managers/RaceManagers/RaceManager_Base.h"
 
 
 void UCompetitionRules::BindDelegates()
@@ -30,37 +30,29 @@ void UCompetitionRules::RequestToAssignRacersToRace(URacerMatchManager* RacerMan
 
 void UCompetitionRules::SimulateRace()
 {
-	if (!TrackManager) return;
 	if (CurrentRace <= Races.Num())
 	{
 		if (!Races[CurrentRace].RaceManager->AreAllRacersSet()) return;
 		UE_LOG(LogTemp, Display, TEXT("Race %i"), CurrentRace);
-		TrackManager->OnTrackUpdateRequestDelegate.Broadcast(CurrentRace);
-		Races[CurrentRace].RaceManager->OnSimulateRaceRequestDelegate.Broadcast();
+		Races[CurrentRace].RaceManager->OnSimulateRaceDelegate.Broadcast();
 		HandleRaceFinished();
 	}
 }
 
 
-void UCompetitionRules::CreateTrackManager(const FTrackData& HomeTeamTrackData)
+void UCompetitionRules::HandleRaceFinished()
 {
-	TrackManager = NewObject<UTrackManager>(this);
-	if (!TrackManager) return;
-	TrackManager->InitializeManager(HomeTeamTrackData);
+	if (TrackManager) TrackManager->OnTrackUpdateRequestDelegate.Broadcast();
+	Races[CurrentRace].RaceManager->OnChangedRaceStatusDelegate.Broadcast(false);
+	CurrentRace++;
 }
 
 
-void UCompetitionRules::HandleRaceFinished()
+void UCompetitionRules::CreateTrackManager(const FTrackData& TrackData)
 {
-	Races[CurrentRace].RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(false);
-	CurrentRace++;
-	if (CurrentRace <= Races.Num())
-	{
-		Races[CurrentRace].RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(true);
-		bool IsNominatedRace = Races[CurrentRace].RaceManager->IsNominatedRace();
-		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesRequestDelegate.Broadcast(IsNominatedRace);
-	}
-	else OnRacingFinishedDelegate.Broadcast();
+	TrackManager = NewObject<UTrackManager>(this);
+	if (!TrackManager) return;
+	TrackManager->InitializeManager(TrackData);
 }
 
 
@@ -81,6 +73,37 @@ void UCompetitionRules::EndMatch()
 }
 
 
-int32 UCompetitionRules::GetCurrentRaceNumber() const {return CurrentRace;}
-int32 UCompetitionRules::GetAmountOfRaces() const {return Races.Num();}
-TObjectPtr<UTrackManager>& UCompetitionRules::GetTrackManager() {return TrackManager;}
+FString UCompetitionRules::GetRaceResultText(const ERaceResults RaceResult) const
+{
+	switch (RaceResult)
+	{
+		case ERaceResults::First:
+			return FString::FromInt(3);
+		case ERaceResults::Second:
+			return FString::FromInt(2);
+		case ERaceResults::Third:
+			return FString::FromInt(1);
+		case ERaceResults::Fourth:
+			return FString::FromInt(0);
+		case ERaceResults::Defect:
+			return "D";
+		default: return "DNF";
+	}
+}
+
+
+int32 UCompetitionRules::GetRaceResultAsNumber(const ERaceResults RaceResult) const
+{
+	switch (RaceResult)
+	{
+		case ERaceResults::First:
+			return 3;
+		case ERaceResults::Second:
+			return 2;
+		case ERaceResults::Third:
+			return 1;
+		case ERaceResults::Fourth:
+			return 0;
+		default: return 0;
+	}
+}

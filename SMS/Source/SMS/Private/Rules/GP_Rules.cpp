@@ -12,8 +12,20 @@
 void UGP_Rules::SetupMatch()
 {
 	BindDelegates();
+	InitializeRules();
 	HandleTrack();
 	HandleLineup();
+}
+
+
+void UGP_Rules::InitializeRules()
+{
+	TrackCleaningRaces.Add(4);
+	TrackCleaningRaces.Add(8);
+	TrackCleaningRaces.Add(12);
+	TrackCleaningRaces.Add(16);
+	TrackCleaningRaces.Add(20);
+	TrackCleaningRaces.Add(22);
 }
 
 
@@ -81,12 +93,11 @@ void UGP_Rules::SortRacers()
 
 void UGP_Rules::HandleRaceFinished()
 {
-	Races[CurrentRace].RaceManager->OnChangedRaceStatusDelegate.Broadcast(false);
 	if (!Races[CurrentRace].RaceManager->IsNominatedRace() && Races[CurrentRace+1].RaceManager->IsNominatedRace())
 	{
 		SortRacers();
 	}
-	CurrentRace++;
+	Super::HandleRaceFinished();
 	if (CurrentRace <= Races.Num())
 	{
 		Races[CurrentRace].RaceManager->OnChangedRaceStatusDelegate.Broadcast(true);

@@ -6,7 +6,7 @@
 #include "Data/Rules/ERaceResults.h"
 #include "RaceManager_Base.generated.h"
 
-class URulesSubsystem;
+class UCompetitionRules;
 class URacerMatchManager;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnRaceScoreUpdated, bool, int32);
@@ -55,7 +55,7 @@ protected:
 	
 	void OnRaceFinished();
 
-	void CollectRaceResults(ERaceResults Result, int32 RaceLineID, const URulesSubsystem& RulesSubsystem);
+	void CollectRaceResults(ERaceResults Result, int32 RaceLineID, const UCompetitionRules& RulesSubsystem);
 	
 	UPROPERTY()
 	TMap<int32, URacerMatchManager*> Racers;
