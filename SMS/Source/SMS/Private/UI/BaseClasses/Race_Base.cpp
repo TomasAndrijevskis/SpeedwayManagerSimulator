@@ -1,7 +1,7 @@
 
 #include "UI/BaseClasses/Race_Base.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
-#include "Managers/RaceManager.h"
+#include "Managers/RaceManagers/RaceManager_Base.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
 
@@ -24,7 +24,7 @@ void URace_Base::OnRaceStatsUpdateRequested(const TArray<FRaceResultData>& RaceR
 void URace_Base::OnIDSet()
 {
 	CreateRaceLines();
-	if (RaceID != 1) Data.RaceManager->OnChangedRaceStatusRequestDelegate.Broadcast(false);
+	if (RaceID != 1) Data.RaceManager->OnChangedRaceStatusDelegate.Broadcast(false);
 }
 
 

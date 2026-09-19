@@ -3,9 +3,9 @@
 #include "Data/TeamData/TeamMatchData.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/RaceLineupManager.h"
 #include "Managers/RacerCareerManager.h"
 #include "Managers/TeamManager.h"
+#include "Managers/RaceLineupManagers/RaceLineupManager.h"
 #include "Managers/RaceManagers/RaceManager_Base.h"
 #include "UI/League/Program/League_RacerStatsLine.h"
 
@@ -47,7 +47,7 @@ void ULeague_Rules::HandleRaceFinished()
 	{
 		Races[CurrentRace].RaceManager->OnChangedRaceStatusDelegate.Broadcast(true);
 		bool IsNominatedRace = Races[CurrentRace].RaceManager->IsNominatedRace();
-		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesRequestDelegate.Broadcast(IsNominatedRace);
+		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesDelegate.Broadcast(IsNominatedRace);
 	}
 	else OnRacingFinishedDelegate.Broadcast();
 }

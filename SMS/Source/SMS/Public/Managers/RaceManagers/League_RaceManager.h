@@ -23,6 +23,6 @@ private:
 
 	bool AreRacersFromSameTeam(int32 Position, const TObjectPtr<URacerMatchManager>& PreviousManager, bool IsCurrentRacerVisitor);
 	
-	void CollectRaceLineData(ERaceResults Result, int32 RaceLineID, const UCompetitionRules& Rules, TArray<FRaceResultData>& OutArray);
+	void CollectRaceLineData(ERaceResults Result, int32 RacerNumber, const UCompetitionRules& Rules, TArray<FRaceResultData>& OutArray);
 	
 };

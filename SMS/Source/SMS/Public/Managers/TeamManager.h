@@ -8,7 +8,7 @@
 #include "TeamManager.generated.h"
 
 
-class URulesSubsystem;
+class ULeague_Rules;
 class ULeague_RacerStatsLine;
 class URacerMatchManager;
 
@@ -33,41 +33,41 @@ public:
 	void GetAvailableRacers(TFunction<void(URacerMatchManager*)> Callback);
 	
 	void ForEachRacerInRoster(TFunction<void(URacerMatchManager*)> Callback);
-	
-	void SetTeamData(const FTeamMatchData& NewTeamData);
 
-	FString GetTeamName() const;
-	
-	ETeams GetTeam() const;
-	
-	int32 GetTeamScore() const;
-	
-	void UpdateScore(int32 PointsToAdd, int32 RaceID);
-	
-	int32 GetRaceScore(int32 RaceID) const;
-	
 	void MakeRandomTeamRoster();//Testing
-
-	void AddRacerStatsLine(ULeague_RacerStatsLine* RacerStatsLine);
 
 	void FillTeamRosterOptions();
 
 	void LockChosenRacers() const;
 	
 	bool IsRosterValid() const;
-	
-	TArray<ULeague_RacerStatsLine*>& GetRacerStatsLines();
 
-	bool IsVisitorTeam() const;
-
-	TArray<URacerMatchManager*>& GetRacerManagers();
-
-	TMap<int32, TObjectPtr<URacerMatchManager>>& GetRacers();
-	
 	void UpdateStatsLineOptions(const ULeague_RacerStatsLine* RacerStatsLineRef, const FString& SelectedOption, const TObjectPtr<URacerMatchManager>& PreviousOptionData);
 
 	void CollectTeamStatistics(const EMatchResults Result, const TMap<ETeams, int32>& OpponentResult);
+	
+	void SetTeamData(const FTeamMatchData& NewTeamData) {TeamData = NewTeamData;}
 
+	FString GetTeamName() const {return TeamData.GetTeamName();}
+	
+	ETeams GetTeam() const {return TeamData.Team;}
+	
+	int32 GetTeamScore() const {return TeamData.TeamScore;}
+	
+	void UpdateScore(int32 PointsToAdd, int32 RaceID);
+	
+	int32 GetRaceScore(int32 RaceID) const {return TeamData.EachRaceScore[RaceID];}
+	
+	void AddRacerStatsLine(ULeague_RacerStatsLine* RacerStatsLine) {RacerStatsLines.Add(RacerStatsLine);}
+	
+	TArray<ULeague_RacerStatsLine*>& GetRacerStatsLines() {return RacerStatsLines;}
+
+	bool IsVisitorTeam() const {return TeamData.IsVisitorTeam;}
+
+	TArray<URacerMatchManager*>& GetRacerManagers()  {return TeamData.Racers;}
+
+	TMap<int32, TObjectPtr<URacerMatchManager>>& GetRacers() {return Racers;}
+	
 	FOnTeamScoreUpdated OnTeamScoreUpdatedDelegate;
 	
 private:
@@ -83,5 +83,5 @@ private:
 	TArray<ULeague_RacerStatsLine*> RacerStatsLines;
 	
 	UPROPERTY()
-	TObjectPtr<URulesSubsystem> RulesSubsystem;
+	TObjectPtr<ULeague_Rules> LeagueRules;
 };

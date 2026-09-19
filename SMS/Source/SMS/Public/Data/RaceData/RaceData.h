@@ -5,7 +5,7 @@
 
 
 class URaceLineupManager;
-class URaceManager;
+class URaceManager_Base;
 
 USTRUCT(BlueprintType)
 struct FRaceData
@@ -13,7 +13,7 @@ struct FRaceData
 	GENERATED_BODY()
 	
 	UPROPERTY()
-	URaceManager* RaceManager = nullptr;
+	URaceManager_Base* RaceManager = nullptr;
 	
 	UPROPERTY()
 	URaceLineupManager* RaceLineupManager = nullptr;

@@ -24,7 +24,7 @@ public:
 
 	void ChangeChooseBoxStatus(bool Status);
 	
-	void SetRacerData(URacerMatchManager* RacerManagerRef, bool IsReplacement);
+	virtual void SetRacerData(URacerMatchManager* RacerManagerRef, bool IsReplacement) override;
 	
 	void CrossOutRacer();
 	

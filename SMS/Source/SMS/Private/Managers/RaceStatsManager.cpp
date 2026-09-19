@@ -7,15 +7,15 @@ void URaceStatsManager::HandleStatUpdate(const TArray<FRaceResultData>& RaceResu
 {
 	for (const auto& Data : RaceResultData)
 	{
-		OverallPoints += Data.RacerScore;
+		OverallPoints += Data.Points;
 	}
 	for (const auto& Line : RaceLineStats)
 	{
 		for (const auto& Data : RaceResultData)
 		{
-			if (Line->GetID() == Data.RaceLineID)
+			if (Line->GetID() == Data.RacerNumber)
 			{
-				Line->UpdateNumbers(Data.RacerScore);
+				Line->UpdateNumbers(Data.Points);
 				Line->UpdateProgressBar(OverallPoints);
 			}
 		}

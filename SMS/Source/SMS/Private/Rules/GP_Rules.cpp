@@ -2,9 +2,9 @@
 #include "Rules/GP_Rules.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
-#include "Managers/RaceLineupManager.h"
 #include "Managers/RacerCareerManager.h"
 #include "Managers/RacerMatchManager.h"
+#include "Managers/RaceLineupManagers/RaceLineupManager.h"
 #include "Managers/RaceManagers/RaceManager_Base.h"
 #include "UI/BaseClasses/RaceLine_Base.h"
 
@@ -120,7 +120,7 @@ void UGP_Rules::HandleRaceFinished()
 				FillFinalRace();
 			}
 		}
-		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesRequestDelegate.Broadcast(IsNominatedRace);
+		Races[CurrentRace].RaceLineupManager->OnHandleRaceLinesDelegate.Broadcast(IsNominatedRace);
 	}
 	else OnRacingFinishedDelegate.Broadcast();
 }
@@ -134,7 +134,7 @@ void UGP_Rules::SetNominatedRaceLines(const TArray<int32>& RacersNumbers)
 		if (RacersNumbers.Contains(Position)) MatchManagers.Add(Racers[Position]);
 	}
 	int32 Position = 0;
-	for (const auto& RaceLine : Races[CurrentRace].RaceLineupManager->RaceLines)
+	for (const auto& RaceLine : Races[CurrentRace].RaceLineupManager->GetRaceLines())
 	{
 		RaceLine->SetRacerNumber(MatchManagers[Position]->GetRacerNumber());
 		Position++;
@@ -157,7 +157,7 @@ void UGP_Rules::FillNominatedRaceLines(const TArray<int32>& RacersNumbers)
 void UGP_Rules::SetFinalRace()
 {
 	int32 Position = 0;
-	for (const auto& RaceLine : Races[CurrentRace].RaceLineupManager->RaceLines)
+	for (const auto& RaceLine : Races[CurrentRace].RaceLineupManager->GetRaceLines())
 	{
 		RaceLine->SetRacerNumber(FinalQualifiedRacers[Position].RacerManager->GetRacerNumber());
 		Position++;

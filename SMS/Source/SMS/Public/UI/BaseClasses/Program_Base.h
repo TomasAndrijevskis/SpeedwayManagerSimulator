@@ -7,6 +7,7 @@
 #include "Program_Base.generated.h"
 
 
+class UVerticalBox;
 class URacePatternsDataAsset;
 class URace_Base;
 class ULeague_Race;
@@ -28,12 +29,28 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UBackgroundBlur* BackgroundBlur;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_ShowRacers;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Button_ConfirmRacers;
 	
+	UPROPERTY(meta = (BindWidget))
+	UVerticalBox* VB_Lineup;
+
+	UFUNCTION()
 	virtual void PopulateRacers(){};
 
 	virtual void BindDelegates(); 
 	
 	virtual void DisableButtons(){};
+
+	UFUNCTION()
+	virtual void RandomizeRacers(){};
+	
+	UFUNCTION()
+	virtual void ShowLineup();
 	
 	void CreateRaces();
 	

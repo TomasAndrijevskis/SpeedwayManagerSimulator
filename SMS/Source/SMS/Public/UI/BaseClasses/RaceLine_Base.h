@@ -24,6 +24,8 @@ public:
 	void ChangeLineStatus(bool bIsActive);
 
 	void OnRaceFinished();
+
+	virtual void SetRacerData(URacerMatchManager* RacerManagerRef, bool IsReplacement){};
 	
 	virtual void SetRaceLineData(const FRaceLineData& NewRaceLineData);
 	

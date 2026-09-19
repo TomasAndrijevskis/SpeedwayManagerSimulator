@@ -25,7 +25,7 @@ void ULeague_RaceManager::SimulateRace()
 			if (UCompetitionRules* Rules = MatchManagerSubsystem->GetCompetitionRules())
 			{
 				CollectRaceResults(Result, CurrentRacer.Key, *Rules);
-				CollectRaceLineData(Result, CurrentRacer.Key, *Rules, ResultForEachLine);
+				CollectRaceLineData(Result, CurrentRacer.Value->GetRacerNumber(), *Rules, ResultForEachLine);
 			}
 		}
 		UE_LOG(LogTemp, Error, TEXT("==================================="));
@@ -44,11 +44,11 @@ bool ULeague_RaceManager::AreRacersFromSameTeam(int32 Position, const TObjectPtr
 }
 
 
-void ULeague_RaceManager::CollectRaceLineData(ERaceResults Result, int32 RaceLineID, const UCompetitionRules& Rules, TArray<FRaceResultData>& OutArray)
+void ULeague_RaceManager::CollectRaceLineData(ERaceResults Result, int32 RacerNumber, const UCompetitionRules& Rules, TArray<FRaceResultData>& OutArray)
 {
 	FRaceResultData RaceLineResult;
 	RaceLineResult.Points = Rules.GetRaceResultAsNumber(Result);
-	RaceLineResult.RaceLineID = RaceLineID;
+	RaceLineResult.RacerNumber = RacerNumber;
 	OutArray.Add(RaceLineResult);
 }
 
@@ -70,6 +70,5 @@ void ULeague_RaceManager::BroadcastRaceResult(TArray<FRaceResultData>& ResultFor
 
 void ULeague_RaceManager::RemoveRacerManager(int32 RaceLineID)
 {
-	if (Racers.Contains(RaceLineID))
-		Racers.Remove(RaceLineID);
+	if (Racers.Contains(RaceLineID)) Racers.Remove(RaceLineID);
 }

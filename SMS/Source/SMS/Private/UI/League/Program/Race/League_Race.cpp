@@ -3,8 +3,8 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
-#include "Managers/RaceLineupManager.h"
-#include "Managers/RaceManager.h"
+#include "Managers/RaceLineupManagers/Team_RaceLineupManager.h"
+#include "Managers/RaceManagers/League_RaceManager.h"
 #include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/ScoreCounter.h"
@@ -22,8 +22,8 @@ void ULeague_Race::InitializeRaceData()
 {
 	Super::InitializeRaceData();
 	FRaceData data;
-	data.RaceManager = NewObject<URaceManager>(this);
-	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
+	data.RaceManager = NewObject<ULeague_RaceManager>(this);
+	data.RaceLineupManager = NewObject<UTeam_RaceLineupManager>(this);
 	if (!data.RaceManager || !data.RaceLineupManager) return;
 	data.RaceManager->InitializeManager(IsNominatedRace(), RaceID);
 	data.RaceLineupManager->InitializeManager();
@@ -58,15 +58,15 @@ void ULeague_Race::CreateRaceLines()
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
-			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager::AddRacerManager);
-			NewRaceLine->OnRacerRemovedDelegate.AddUObject(Data.RaceManager, &URaceManager::RemoveRacerManager);
-			NewRaceLine->OnRequestRaceLinePointsDelegate.BindUObject(Data.RaceManager, &URaceManager::GetRaceLinePoints);
-			Data.RaceManager->OnRaceFinishedDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::OnRaceFinished);
-			Data.RaceManager->OnChangedRaceStatusRequestDelegate.AddUObject(NewRaceLine, &ULeague_RaceLine_Base::ChangeLineStatus);
+			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager_Base::AddRacerManager);
+			NewRaceLine->OnRacerRemovedDelegate.AddUObject(Cast<ULeague_RaceManager>(Data.RaceManager), &ULeague_RaceManager::RemoveRacerManager);
+			NewRaceLine->OnRequestRaceLinePointsDelegate.BindUObject(Data.RaceManager, &URaceManager_Base::GetRaceLinePoints);
+			Data.RaceManager->OnRaceFinishedDelegate.AddUObject(NewRaceLine, &URaceLine_Base::OnRaceFinished);
+			Data.RaceManager->OnChangedRaceStatusDelegate.AddUObject(NewRaceLine, &URaceLine_Base::ChangeLineStatus);
 			Data.RaceLineupManager->AddRaceLine(NewRaceLine);
 		}
 	}
-	Data.RaceLineupManager->OnRaceInitialized();
+	Cast<UTeam_RaceLineupManager>(Data.RaceLineupManager)->OnRaceInitialized();
 }
 
 

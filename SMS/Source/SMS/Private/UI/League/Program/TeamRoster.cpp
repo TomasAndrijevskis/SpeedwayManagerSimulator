@@ -43,11 +43,9 @@ void UTeamRoster::CreateRacerStatLines()
 	if (TeamManager->IsVisitorTeam()) Id = 7;
 	for (int32 i = 0; i < RacersAmount; i++, Id++)
 	{
-		ULeague_RacerStatsLine* NewStatLine = CreateRacerStatLine(Id);
-		if (NewStatLine)
+		if (ULeague_RacerStatsLine* NewStatLine = CreateRacerStatLine(Id))
 		{
-			UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewStatLine);
-			if (VB_Slot)
+			if (UVerticalBoxSlot* VB_Slot = VB_Content->AddChildToVerticalBox(NewStatLine))
 			{
 				VB_Slot->SetHorizontalAlignment(HAlign_Fill);
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
@@ -66,7 +64,7 @@ ULeague_RacerStatsLine* UTeamRoster::CreateRacerStatLine(int32 ID)
 	if (!RacerStatsLineClass) return nullptr;
 	ULeague_RacerStatsLine* NewStatLine = CreateWidget<ULeague_RacerStatsLine>(this, RacerStatsLineClass);
 	if (!NewStatLine) return nullptr;
-	NewStatLine->SetID(ID);
+	NewStatLine->SetRacerStatsLineID(ID);
 	return NewStatLine;
 }
 

@@ -1,8 +1,8 @@
 
 #include "Rules/CompetitionRules.h"
 #include "Data/RaceData/RaceData.h"
-#include "Managers/RaceLineupManager.h"
 #include "Managers/TrackManager.h"
+#include "Managers/RaceLineupManagers/RaceLineupManager.h"
 #include "Managers/RaceManagers/RaceManager_Base.h"
 
 

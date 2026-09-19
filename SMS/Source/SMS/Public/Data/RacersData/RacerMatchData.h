@@ -62,7 +62,7 @@ struct FRacerMatchData
 		return RacerData.Age;
 	}
 	
-	FString GetRacerName() const
+	FString& GetRacerName()
 	{
 		return RacerData.Name;
 	}

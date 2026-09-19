@@ -3,6 +3,8 @@
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
 #include "Data/Calendar/CalendarDataAsset.h"
+#include "Rules/GP_Rules.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Standings/StandingsWidget.h"
 #include "UI/League/Statistics/StatisticsWidget.h"
 #include "UI/Calendar/CalendarRound.h"
@@ -62,11 +64,17 @@ void UCalendar::CreateStandingsWidget()
 	Widget->AddToViewport(0);
 }
 
-
+////////////////////
+//TEMPORARY
 void UCalendar::StartGP()
 {
-	if (!ProgramClass) return;
-	UGPProgram* Program = Cast<UGPProgram>(CreateWidget(this, ProgramClass));
-	if (!Program) return;
-	Program->AddToViewport(1);
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
+	{
+		MatchManagerSubsystem->StartMatch(UGP_Rules::StaticClass());
+		if (!ProgramClass) return;
+		UGPProgram* Program = Cast<UGPProgram>(CreateWidget(this, ProgramClass));
+		if (!Program) return;
+		Program->AddToViewport(1);
+	}
 }
+////////////////////

@@ -2,34 +2,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RacerMatchManager.h"
-#include "RaceLineupManager.generated.h"
+#include "RaceLineupManager.h"
+#include "Team_RaceLineupManager.generated.h"
+
 
 class ULeague_RaceLine_Base;
-class UTeamManager;
-class URacerMatchManager;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHandleRaceLinesRequest, bool);
 UCLASS()
-class SMS_API URaceLineupManager : public UObject
+class SMS_API UTeam_RaceLineupManager : public URaceLineupManager
 {
 	GENERATED_BODY()
 
 public:
 
-	void InitializeManager();
-
-	void AddRaceLine(ULeague_RaceLine_Base* NewRaceLine);
-
-	void AssignRacerToRace(URacerMatchManager* RacerManager);
-	
 	void OnRaceInitialized();
-	
-	FOnHandleRaceLinesRequest OnHandleRaceLinesRequestDelegate;
-	
+
 private:
 
-	void BindDelegates();
+	virtual void BindDelegates() override;
 
 	void BindRaceLineDelegates();
 
@@ -52,11 +42,8 @@ private:
 	void FillPossibleMainRacers(const ULeague_RaceLine_Base* RaceLineRef);
 	
 	void FillOptionsInComboBox(TArray<TObjectPtr<URacerMatchManager>>& RacerArray, ULeague_RaceLine_Base& RaceLineRef, TFunction<void(ULeague_RaceLine_Base&, const FString&)> AddOption);
-
-	void RestoreRacerAvailability(ULeague_RaceLine_Base* RaceLineRef, URacerMatchManager* RacerManager, bool bIsReplacement);
 	
-	UPROPERTY()
-	TArray<TObjectPtr<ULeague_RaceLine_Base>> RaceLines;
+	void RestoreRacerAvailability(ULeague_RaceLine_Base* RaceLineRef, URacerMatchManager* RacerManager, bool bIsReplacement);
 	
 	UPROPERTY()
 	TArray<TObjectPtr<URacerMatchManager>> UnavailableRacers;

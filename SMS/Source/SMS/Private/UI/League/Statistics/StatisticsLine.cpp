@@ -1,6 +1,6 @@
 
 #include "UI/League/Statistics/StatisticsLine.h"
-#include "Subsystems/RulesSubsystem.h"
+#include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/NamesBox.h"
 #include "UI/BaseClasses/NumbersBox.h"
 
@@ -58,36 +58,40 @@ void UStatisticsLine::SetNumbers(const TArray<FMatchStatistics>& MatchStatistics
 	int32 RacesAway = 0;
 	int32 BonusesHome = 0;
 	int32 BonusesAway = 0;
-	if (URulesSubsystem* Rules = GetWorld()->GetGameInstance()->GetSubsystem<URulesSubsystem>())
+	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		for (const auto& Stats : MatchStatistics)
+		if (UCompetitionRules* Rules = MatchManagerSubsystem->GetCompetitionRules())
 		{
-			RacesAmount += Stats.RaceResults.Num();
-			if (Stats.bIsVisitor) BonusesAway += Stats.Bonuses;
-			else BonusesHome += Stats.Bonuses;
-			
-			for (const auto& Result : Stats.RaceResults)
+			for (const auto& Stats : MatchStatistics)
 			{
-				Points += Rules->GetRaceResultNumber(Result);
-				if (Result == ERaceResults::First) First++;
-				if (Result == ERaceResults::Second) Second++;
-				if (Result == ERaceResults::Third) Third++;
-				if (Result == ERaceResults::Fourth) Fourth++;
-				if (Result == ERaceResults::Defect) DNF++;
+				RacesAmount += Stats.RaceResults.Num();
+				if (Stats.bIsVisitor) BonusesAway += Stats.Bonuses;
+				else BonusesHome += Stats.Bonuses;
+			
+				for (const auto& Result : Stats.RaceResults)
+				{
+					Points += Rules->GetRaceResultAsNumber(Result);
+					if (Result == ERaceResults::First) First++;
+					if (Result == ERaceResults::Second) Second++;
+					if (Result == ERaceResults::Third) Third++;
+					if (Result == ERaceResults::Fourth) Fourth++;
+					if (Result == ERaceResults::Defect) DNF++;
 
-				if (Stats.bIsVisitor)
-				{
-					PointsAway += Rules->GetRaceResultNumber(Result);
-					RacesAway++;
-				}
-				else
-				{
-					PointsHome += Rules->GetRaceResultNumber(Result);
-					RacesHome++;
+					if (Stats.bIsVisitor)
+					{
+						PointsAway += Rules->GetRaceResultAsNumber(Result);
+						RacesAway++;
+					}
+					else
+					{
+						PointsHome += Rules->GetRaceResultAsNumber(Result);
+						RacesHome++;
+					}
 				}
 			}
 		}
 	}
+	
 	int32 Bonuses = BonusesHome + BonusesAway;
 	SetRaces(RacesAmount);
 	SetBonuses(Bonuses);

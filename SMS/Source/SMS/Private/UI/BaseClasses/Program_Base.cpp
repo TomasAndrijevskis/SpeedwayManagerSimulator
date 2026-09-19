@@ -1,9 +1,11 @@
 
 #include "UI/BaseClasses/Program_Base.h"
+#include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Components/TextBlock.h"
+#include "Components/VerticalBox.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/Race/League_Race.h"
@@ -14,6 +16,8 @@ void UProgram::BindDelegates()
 {
 	Button_SimulateRace->OnClicked.AddUniqueDynamic(this, &UProgram::StartRace);
 	Button_SimulateMatch->OnClicked.AddUniqueDynamic(this, &UProgram::SimulateMatch);
+	Button_ShowRacers->OnClicked.AddUniqueDynamic(this, &UProgram::ShowLineup);
+	Button_ConfirmRacers->OnClicked.AddUniqueDynamic(this, &UProgram::PopulateRacers);
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		MatchManagerSubsystem->GetCompetitionRules()->OnRacingFinishedDelegate.AddUObject(this, &UProgram::PrepareToEndMatch);
@@ -36,7 +40,6 @@ void UProgram::CreateRaces()
 			if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 			{
 				NewRace->InitializeWidget(RaceID);
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 				NewRace->OnRaceStatsUpdateRequestedDelegate.AddUObject(this, &UProgram::OnRaceStatsUpdated);
 				MatchManagerSubsystem->GetCompetitionRules()->AddNewRace(RaceID, NewRace->GetRaceData());
 			}
@@ -120,6 +123,21 @@ void UProgram::CreateRaceStatsWidget()
 {
 	if (!RaceStatsWidget) return;
 	RaceStatsWidget->InitializeWidget();
+}
+
+
+void UProgram::ShowLineup()
+{
+	if (VB_Lineup->IsVisible())
+	{
+		VB_Lineup->SetVisibility(ESlateVisibility::Hidden);
+		BackgroundBlur->SetBlurStrength(0);
+	}
+	else
+	{
+		VB_Lineup->SetVisibility(ESlateVisibility::Visible);
+		BackgroundBlur->SetBlurStrength(15.f);
+	}
 }
 
 

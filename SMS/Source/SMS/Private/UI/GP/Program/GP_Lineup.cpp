@@ -119,7 +119,6 @@ void UGP_Lineup::MoveRacerStatsLine(UGP_RacerStatsLine* RacerStatsLine, int32 Po
 
 void UGP_Lineup::AddRacerStatsLine(UGP_RacerStatsLine* RacerStatsLine, int32 Position, int32 Amount)
 {
-
 	if (Position <= (Amount / 2 ) - 1) VB_TopRacers->AddChild(RacerStatsLine);
 	else VB_BottomRacers->AddChild(RacerStatsLine);
 }

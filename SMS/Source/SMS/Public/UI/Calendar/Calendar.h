@@ -57,7 +57,10 @@ private:
 	void CreateStandingsWidget();
 
 
-	
+
+	////////////////////
+	//TEMPORARY
+	////////////////////
 	UFUNCTION()
 	void StartGP();
 

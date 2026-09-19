@@ -1,9 +1,7 @@
 
 #include "UI/League/Program/League_Program.h"
-#include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
 #include "Components/VerticalBox.h"
-#include "Rules/League_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/League/Program/TeamRoster.h"
 
@@ -15,28 +13,22 @@ void ULeague_Program::NativeConstruct()
 	CreateRaces();
 	InitializeTeams();
 	CreateRaceStatsWidget();
-	ShowTeams();
+	ShowLineup();
 }
 
 
 void ULeague_Program::BindDelegates()
 {
 	Super::BindDelegates();
-	Button_ConfirmRacers->OnClicked.AddUniqueDynamic(this, &ULeague_Program::PopulateRacers);
-	Button_ShowTeams->OnClicked.AddUniqueDynamic(this, &ULeague_Program::ShowTeams);
-	Button_RandomizeTeamRosters->OnClicked.AddUniqueDynamic(this, &ULeague_Program::RandomizeTeamRosters);
+	Button_RandomizeRacers->OnClicked.AddUniqueDynamic(this, &ULeague_Program::RandomizeRacers);
 }
 
 
-void ULeague_Program::RandomizeTeamRosters()
+void ULeague_Program::RandomizeRacers()
 {
-	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		if (ULeague_Rules* Rules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
-		{
-			Rules->MakeRandomRosters();
-		}
+		MatchManagerSubsystem->GetCompetitionRules()->MakeRandomRosters();
 	}
 }
 
@@ -54,35 +46,18 @@ void ULeague_Program::CreateTeamRoster(bool IsVisitor)
 	UTeamRoster* TeamRoster = CreateWidget<UTeamRoster>(this, TeamRosterClass);
 	if (!TeamRoster) return;
 	TeamRoster->InitializeTeam(IsVisitor);
-	VB_Teams->AddChild(TeamRoster);
-}
-
-
-void ULeague_Program::ShowTeams()
-{
-	if (VB_Teams->IsVisible())
-	{
-		VB_Teams->SetVisibility(ESlateVisibility::Hidden);
-		BackgroundBlur->SetBlurStrength(0);
-	}
-	else
-	{
-		VB_Teams->SetVisibility(ESlateVisibility::Visible);
-		BackgroundBlur->SetBlurStrength(15.f);
-	}
+	VB_Lineup->AddChild(TeamRoster);
 }
 
 
 void ULeague_Program::PopulateRacers()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ULeague_Program::PopulateRacers"));
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		if (MatchManagerSubsystem->GetCompetitionRules()->CanStartMatch())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("CanStartMatch"));
 			DisableButtons();
-			ShowTeams();
+			ShowLineup();
 			MatchManagerSubsystem->GetCompetitionRules()->PopulateRacers();
 		}
 	}
@@ -91,6 +66,6 @@ void ULeague_Program::PopulateRacers()
 
 void ULeague_Program::DisableButtons()
 {
-	Button_RandomizeTeamRosters->SetIsEnabled(false);
+	Button_RandomizeRacers->SetIsEnabled(false);
 	Button_ConfirmRacers->SetIsEnabled(false);
 }

@@ -18,11 +18,13 @@ class SMS_API URacerStatsLine_Base : public UUserWidget
 
 public:
 
-	void SetID(int32 NewID);
+	void SetRacerStatsLineID(int32 NewID);
 
 	int GetID() const;
 
 	virtual void InitializeManagers(URacerMatchManager* RacerManagerRef);
+
+	URacerMatchManager* GetRacerManager() const;
 	
 protected:
 
@@ -36,7 +38,7 @@ protected:
 	UHorizontalBox* HB_Points;
 
 	int32 RacerStatsLineID;
-	
+
 private:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -50,4 +52,5 @@ private:
 
 	UPROPERTY()
 	URacerMatchManager* RacerManager;
+	
 };

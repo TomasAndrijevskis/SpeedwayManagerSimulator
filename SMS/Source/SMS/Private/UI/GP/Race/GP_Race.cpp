@@ -3,8 +3,8 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "Data/RaceData/RacePatternsDataAsset.h"
-#include "Managers/RaceLineupManager.h"
-#include "Managers/RaceManager.h"
+#include "Managers/RaceLineupManagers/RaceLineupManager.h"
+#include "Managers/RaceManagers/GP_RaceManager.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/RaceLine_Base.h"
 #include "UI/GP/Program/Race/GP_RaceLine_Base.h"
@@ -20,11 +20,10 @@ void UGPRace::InitializeRaceData()
 {
 	Super::InitializeRaceData();
 	FRaceData data;
-	data.RaceManager = NewObject<URaceManager>(this);
+	data.RaceManager = NewObject<UGP_RaceManager>(this);
 	data.RaceLineupManager = NewObject<URaceLineupManager>(this);
 	if (!data.RaceManager) return;
 	data.RaceManager->InitializeManager(IsNominatedRace(), RaceID);
-	data.RaceManager->SetIsLeague(false);
 	data.RaceLineupManager->InitializeManager();
 	Data = data;
 }
@@ -52,10 +51,10 @@ void UGPRace::CreateRaceLines()
 				VB_Slot->SetVerticalAlignment(VAlign_Fill);
 			}
 			NewRaceLine->SetRaceLineData(GetRaceLineData(RaceLineID));
-			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager::AddRacerManager);
-			NewRaceLine->OnRequestRaceLinePointsDelegate.BindUObject(Data.RaceManager, &URaceManager::GetRaceLinePoints);
+			NewRaceLine->OnRacerSetDelegate.AddUObject(Data.RaceManager, &URaceManager_Base::AddRacerManager);
+			NewRaceLine->OnRequestRaceLinePointsDelegate.BindUObject(Data.RaceManager, &URaceManager_Base::GetRaceLinePoints);
 			Data.RaceManager->OnRaceFinishedDelegate.AddUObject(NewRaceLine, &URaceLine_Base::OnRaceFinished);
-			Data.RaceManager->OnChangedRaceStatusRequestDelegate.AddUObject(NewRaceLine, &URaceLine_Base::ChangeLineStatus);
+			Data.RaceManager->OnChangedRaceStatusDelegate.AddUObject(NewRaceLine, &URaceLine_Base::ChangeLineStatus);
 			Data.RaceLineupManager->AddRaceLine(NewRaceLine);
 		}
 	}

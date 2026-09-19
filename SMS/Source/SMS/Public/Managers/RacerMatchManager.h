@@ -20,48 +20,54 @@ public:
 	void Initialize(const FRacerData& RacerData);
 
 	int32 CountOverallPoints();
+
+	void CollectMatchStatistics();
 	
 	void AddPoints(const ERaceResults NewResult, bool AddBonus);
 	
 	void CalculateRating(float GateModifier, float DrivingModifier, ETrackTypes TrackType);
 
-	void SetTieBreaker();
-
-	int32 GetTieBreaker() const;
-
-	float GetCurrentRaceRating() const;
+	int32 GetTieBreaker() const {return TieBreakerValue;}
+	void SetTieBreaker() {TieBreakerValue = FMath::RandRange(1,100);}
 	
-	int32 GetBonusAmount() const;
+	float GetCurrentRaceRating() const {return CurrentRacerRating;}
+	
+	int32 GetBonusAmount() const {return RacerBonuses;}
 
-	int32 GetParticipatedRacesAmount() const;
+	int32 GetParticipatedRacesAmount() const {return ParticipatedRaces.Num();}
 	
 	void AddParticipatedRace(int32 RaceID, int32 RaceLineID);
 	
 	void RemoveParticipatedRace(int32 RaceID);
 
-	int32 GetRacerAge() const;
+	int32 GetRacerAge() const {return Data.GetRacerAge();}
 	
-	FString GetRacerName() const;
+	FString& GetRacerName() {return Data.GetRacerName();}
 
-	bool IsVisitor() const;
+	bool IsVisitor() const {return Data.IsVisitor();}
 
-	int32 GetRacerNumber() const;
-	void SetRacerNumber(int32 NewRacerNumber);
+	int32 GetRacerNumber() const {return Data.RacerNumber;}
+	void SetRacerNumber(int32 NewRacerNumber) {Data.RacerNumber = NewRacerNumber;}
 	
-	bool CanDriveMore(int32 MaxAmountOfRaces) const;
+	bool CanDriveMore(int32 MaxAmountOfRaces) const {return ParticipatedRaces.Num() < MaxAmountOfRaces;}
 	
-	bool DidParticipateInNominatedRace() const;
-	void SetParticipatedInNominatedRace(bool NewParticipated);
+	bool DidParticipateInNominatedRace() const {return bParticipatedInNominatedRace;}
+	void SetParticipatedInNominatedRace(bool NewParticipated) {bParticipatedInNominatedRace = NewParticipated;}
 
-	void IncreaseAmountOfReplacements();
-	void DecreaseAmountOfReplacements();
-	int32 GetAmountOfReplacements() const;
+	void IncreaseAmountOfReplacements() {AmountOfReplacements++;}
+	void DecreaseAmountOfReplacements() {AmountOfReplacements--;}
+	int32 GetAmountOfReplacements() const {return AmountOfReplacements;}
+
+	const ERaceResults& GetLastRaceResult() {return RacerPoints.Last();}
+
+	int32 GetAmountOfWins() const;
+
+	int32 GetAmountOfUnfinishedRaces() const;
+	
+	void AddDefeatedRival(int32 DefeatedRivalID) {DefeatedRivals.Add(DefeatedRivalID);}
+	TArray<int32>& GetDefeatedRivals() {return DefeatedRivals;}
 	
 	FOnPointsAdded OnPointsAddedDelegate;
-
-	void CollectMatchStatistics();
-
-	ERaceResults& GetLastRaceResult();
 	
 private:
 	
@@ -73,6 +79,9 @@ private:
 
 	UPROPERTY()
 	TArray<ERaceResults> RacerPoints;
+
+	UPROPERTY()
+	TArray<int32> DefeatedRivals;
 	
 	int32 TieBreakerValue = 0;
 

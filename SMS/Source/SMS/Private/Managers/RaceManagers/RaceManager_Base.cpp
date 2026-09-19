@@ -58,7 +58,7 @@ void URaceManager_Base::CollectRaceResults(ERaceResults Result, int32 RaceLineID
 {
 	FRaceResultData Data;
 	Data.Points = Rules.GetRaceResultAsNumber(Result);
-	Data.RaceLineID = RaceLineID;
+	Data.RacerNumber = RaceLineID;
 	RaceResults.Add(Data);
 }
 
