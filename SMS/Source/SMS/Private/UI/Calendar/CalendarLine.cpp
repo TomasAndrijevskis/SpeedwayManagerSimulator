@@ -52,12 +52,12 @@ void UCalendarLine::CollectMatchScore()
 {
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
-		MatchManagerSubsystem->GetCompetitionRules()->OnMatchClosedDelegate.AddUObject(this, &UCalendarLine::OnMatchEnded);
 		if (ULeague_Rules* Rules = Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
 		{
 			HomeTeamScore = Rules->GetTeamScore(false);
 			VisitorTeamScore = Rules->GetTeamScore(true);
 		}
+		OnMatchEnded();
 	}
 }
 

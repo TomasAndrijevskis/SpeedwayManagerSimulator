@@ -16,10 +16,11 @@ public:
 
 	void AddStat(const FRacerStatistics& CurrentMatchStatistics);
 
-	TArray<FRacerStatistics>& GetRacerStatistics();
+	TArray<FRacerStatistics>& GetRacerStatistics() {return RacerStatistics;}
 	
 private:
 
+	UPROPERTY()
 	TArray<FRacerStatistics> RacerStatistics;
 	
 };

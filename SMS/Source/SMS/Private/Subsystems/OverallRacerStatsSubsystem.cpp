@@ -14,6 +14,3 @@ void UOverallStatsSubsystem::AddStat(const FRacerStatistics& CurrentMatchStatist
 	}
 	RacerStatistics.Add(CurrentMatchStatistics);
 }
-
-
-TArray<FRacerStatistics>& UOverallStatsSubsystem::GetRacerStatistics(){return RacerStatistics;}

@@ -71,12 +71,19 @@ void UStatisticsLine::SetNumbers(const TArray<FMatchStatistics>& MatchStatistics
 				for (const auto& Result : Stats.RaceResults)
 				{
 					Points += Rules->GetRaceResultAsNumber(Result);
-					if (Result == ERaceResults::First) First++;
-					if (Result == ERaceResults::Second) Second++;
-					if (Result == ERaceResults::Third) Third++;
-					if (Result == ERaceResults::Fourth) Fourth++;
-					if (Result == ERaceResults::Defect) DNF++;
-
+					switch (Result)
+					{
+						case ERaceResults::First:
+							First++; break;
+						case ERaceResults::Second:
+							Second++; break;
+						case ERaceResults::Third:
+							Third++; break;
+						case ERaceResults::Fourth:
+							Fourth++; break;
+						case ERaceResults::Defect:
+							DNF++; break;
+					}
 					if (Stats.bIsVisitor)
 					{
 						PointsAway += Rules->GetRaceResultAsNumber(Result);
@@ -119,7 +126,6 @@ void UStatisticsLine::SetNotFinishedRaces(const int32 NewAmount)
 {
 	NumbersBox_DidNotFinish->SetText(NewAmount);
 }
-
 
 void UStatisticsLine::SetPlaces(const int32 FirstAmount, const int32 SecondAmount, const int32 ThirdAmount, const int32 FourthAmount)
 {

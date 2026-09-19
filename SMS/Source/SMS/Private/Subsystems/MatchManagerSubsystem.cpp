@@ -4,11 +4,11 @@
 
 void UMatchManagerSubsystem::StartMatch(TSubclassOf<UCompetitionRules> RulesType)
 {
+	if (CurrentRules) ClearRules();
 	CurrentRules = NewObject<UCompetitionRules>(this, RulesType);
 	if (CurrentRules)
 	{
 		CurrentRules->SetupMatch();
-		CurrentRules->OnMatchClosedDelegate.AddUObject(this, &UMatchManagerSubsystem::ClearRules);
 	}
 }
 

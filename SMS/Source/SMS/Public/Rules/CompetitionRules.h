@@ -12,7 +12,6 @@ class URacerMatchManager;
 class UTrackManager;
 
 DECLARE_MULTICAST_DELEGATE(FOnRacingFinished);
-DECLARE_MULTICAST_DELEGATE(FOnMatchClosed);
 DECLARE_MULTICAST_DELEGATE(FOnRaceStarted);
 UCLASS(Abstract)
 class SMS_API UCompetitionRules : public UObject
@@ -54,8 +53,6 @@ public:
 	bool IsTrackCleaningTime() const {return TrackCleaningRaces.Contains(CurrentRace);}
 	
 	FOnRacingFinished OnRacingFinishedDelegate;
-
-	FOnMatchClosed OnMatchClosedDelegate;
 	
 	FOnRaceStarted OnRaceStartedDelegate;
 

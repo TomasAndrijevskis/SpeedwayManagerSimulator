@@ -9,7 +9,8 @@ USTRUCT()
 struct FMatchStatistics
 {
 	GENERATED_BODY()
-	
+
+	UPROPERTY()
 	TArray<ERaceResults> RaceResults;
 
 	UPROPERTY()

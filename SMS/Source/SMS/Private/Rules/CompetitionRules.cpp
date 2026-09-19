@@ -69,7 +69,6 @@ void UCompetitionRules::HandleMatchClosed()
 void UCompetitionRules::EndMatch()
 {
 	HandleMatchClosed();
-	OnMatchClosedDelegate.Broadcast();
 }
 
 
