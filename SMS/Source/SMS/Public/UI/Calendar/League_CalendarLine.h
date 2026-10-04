@@ -2,19 +2,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
 #include "Data/TeamData/ETeams.h"
-#include "CalendarLine.generated.h"
+#include "UI/BaseClasses/CalendarLine_Base.h"
+#include "League_CalendarLine.generated.h"
 
-
-class UProgram;
-class UMatchManager;
-class UNumbersBox;
-class UButton;
-class UNamesBox;
 
 UCLASS()
-class SMS_API UCalendarLine : public UUserWidget
+class SMS_API ULeague_CalendarLine : public UCalendarLine_Base
 {
 	GENERATED_BODY()
 
@@ -25,12 +19,8 @@ public:
 	void SetMatchTeams(ETeams NewHomeTeam, ETeams NewVisitorTeam);
 	
 	void DisplayTeamNames(const FString& HomeTeamName, const FString& VisitorTeamName);
-	
-protected:
 
-	virtual void NativeConstruct() override;
-	
-private:
+protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UNamesBox* NamesBox_HomeTeamName;
@@ -43,22 +33,17 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UNumbersBox* NumbersBox_VisitorTeamScore;
-	
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_StartMatch;
 
-	void CollectMatchScore();
+private:
 
-	void OnMatchEnded();
-	
-	UFUNCTION()
-	void StartMatch();
+	virtual void CollectMatchScore() override;
+
+	virtual void OnMatchEnded() override;
+
+	virtual void StartMatch() override;
 
 	void DisplayFinalScore(int32 HomePoints, int32 VisitorPoints);
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UProgram> ProgramClass;
-	
+
 	ETeams HomeTeam;
 	
 	ETeams VisitorTeam;
