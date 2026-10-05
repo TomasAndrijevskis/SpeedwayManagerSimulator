@@ -1,6 +1,5 @@
 
 #include "UI/Calendar/League_CalendarLine.h"
-#include "Components/Button.h"
 #include "Gamemodes/SMS_GameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Rules/League_Rules.h"
@@ -26,26 +25,15 @@ void ULeague_CalendarLine::StartMatch()
 	if (UMatchManagerSubsystem* MatchManagerSubsystem = GetWorld()->GetGameInstance()->GetSubsystem<UMatchManagerSubsystem>())
 	{
 		MatchManagerSubsystem->StartMatch(ULeague_Rules::StaticClass());
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		MatchManagerSubsystem->GetCompetitionRules()->OnRacingFinishedDelegate.AddUObject(this, &ULeague_CalendarLine::CollectMatchScore);
 		
 		if (!ProgramClass) return;
 		UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
 		if (!Program) return;
 		Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(HomeTeam, false);
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		Cast<ULeague_Rules>(MatchManagerSubsystem->GetCompetitionRules())->SetTeam(VisitorTeam, true);
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		Program->AddToViewport(1);
 	}
-}
-
-
-void ULeague_CalendarLine::OnMatchEnded()
-{
-	DisplayFinalScore(HomeTeamScore, VisitorTeamScore);
-	Button_StartMatch->OnClicked.Clear();
-	Button_StartMatch->SetIsEnabled(false);
 }
 
 
@@ -63,6 +51,13 @@ void ULeague_CalendarLine::CollectMatchScore()
 }
 
 
+void ULeague_CalendarLine::OnMatchEnded()
+{
+	DisplayFinalScore(HomeTeamScore, VisitorTeamScore);
+	Super::OnMatchEnded();
+}
+
+
 void ULeague_CalendarLine::SetMatchTeams(ETeams NewHomeTeam, ETeams NewVisitorTeam)
 {
 	HomeTeam = NewHomeTeam;
@@ -75,6 +70,7 @@ void ULeague_CalendarLine::DisplayTeamNames(const FString& HomeTeamName, const F
 	NamesBox_HomeTeamName->SetText(HomeTeamName);
 	NamesBox_VisitorTeamName->SetText(VisitorTeamName);
 }
+
 
 void ULeague_CalendarLine::DisplayFinalScore(int32 HomePoints, int32 VisitorPoints)
 {

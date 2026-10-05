@@ -14,7 +14,7 @@ struct FCityData
 	UPROPERTY(EditDefaultsOnly)
 	bool HasTeam = false;
 
-	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasTeam"))
+	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "HasTeam", EditConditionHides))
 	ETeams Team;
 
 	UPROPERTY(EditDefaultsOnly)

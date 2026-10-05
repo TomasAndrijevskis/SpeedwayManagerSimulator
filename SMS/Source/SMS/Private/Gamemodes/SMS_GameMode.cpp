@@ -96,7 +96,7 @@ void ASMS_GameMode::SetTopRacers()
 	{
 		for (const auto& Racer : Team.Value.Racers)
 		{
-			TopRacers.Add(Racer);
+			if (Racer->GetRacerData().Age <= 23) TopRacers.Add(Racer);
 		}
 	}
 	TopRacers.Sort([](URacerCareerManager& L1, URacerCareerManager& L2)

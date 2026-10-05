@@ -7,6 +7,7 @@
 UENUM(BlueprintType)
 enum class ECities : uint8
 {
+	None UMETA(DisplayName = "None"),
 	Daugavpils UMETA(DisplayName = "Daugavpils"),
 	Wroclaw UMETA(DisplayName = "Wroclaw"),
 	Czestochowa UMETA(DisplayName = "Częstochowa"),

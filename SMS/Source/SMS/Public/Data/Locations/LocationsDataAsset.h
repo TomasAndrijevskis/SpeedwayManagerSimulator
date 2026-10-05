@@ -17,6 +17,4 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly)
 	TMap<ECountries, FCities> Locations;
-
-
 };

@@ -32,7 +32,7 @@ protected:
 
 	virtual void CollectMatchScore() {};
 
-	virtual void OnMatchEnded() {};
+	virtual void OnMatchEnded();
 
 	UFUNCTION()
 	virtual void StartMatch() {};
