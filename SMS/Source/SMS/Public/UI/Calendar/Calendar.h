@@ -6,8 +6,7 @@
 #include "Calendar.generated.h"
 
 
-class UProgram;
-class UCalendarRound;
+class UCalendarWeek;
 class UCalendarDataAsset;
 class UStandingsWidget;
 class UStatisticsWidget;
@@ -27,22 +26,19 @@ protected:
 	virtual void NativeConstruct() override;
 	
 private:
-
-	UPROPERTY(meta = (BindWidget))
-	UButton* Button_StartGP;
 	
 	UPROPERTY(meta=(BindWidget))
 	UVerticalBox* VB_Content;
 
-	void CreateCalendarRounds();
+	void CreateCalendarWeeks();
 
-	UCalendarRound* CreateRound();
+	UCalendarWeek* CreateWeek();
 	
 	UPROPERTY(EditDefaultsOnly)
 	UCalendarDataAsset* CalendarDataAsset;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UCalendarRound> CalendarRoundClass;
+	TSubclassOf<UCalendarWeek> CalendarWeekClass;
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* Button_OpenStandings;
@@ -55,19 +51,6 @@ private:
 	
 	UFUNCTION()
 	void CreateStandingsWidget();
-
-
-
-	////////////////////
-	//TEMPORARY
-	////////////////////
-	UFUNCTION()
-	void StartGP();
-
-
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UProgram> ProgramClass;
 	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UStatisticsWidget> StatisticsWidgetClass;

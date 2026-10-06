@@ -8,26 +8,16 @@
 #include "UI/BaseClasses/Program_Base.h"
 
 
-void UGP_CalendarLine::InitializeLine(ECountries Location, int32 NewRound)
+void UGP_CalendarLine::InitializeLine(ECountries Country, int32 NewRound)
 {
 	SetRound(NewRound);
 	if (!LocationsDataAsset) return;
 	ECities City = ECities::None;
 	FCityData CityData;
-	for (const auto& Country : LocationsDataAsset->Locations)
-	{
-		if (Country.Key == Location)
-		{
-			for (const auto& c : Country.Value.City)
-			{
-				City = c.Key;
-				CityData = c.Value;
-			}
-			break;
-		}
-	}
-	SetLocation(Location, City);
+	GetLocation(City, CityData, Country);
+	SetLocation(Country, City);
 	TrackData = CityData.TrackData;
+	OnMatchCreated();
 }
 
 
@@ -62,6 +52,23 @@ void UGP_CalendarLine::SetLocation(ECountries Location, ECities City)
 {
 	NamesBox_Country->SetText(UEnum::GetDisplayValueAsText(Location));
 	NamesBox_City->SetText(UEnum::GetDisplayValueAsText(City));
+}
+
+
+void UGP_CalendarLine::GetLocation(ECities& OutCity, FCityData& OutCityData, const ECountries Country)
+{
+	for (const auto& Location : LocationsDataAsset->Locations)
+	{
+		if (Location.Key == Country)
+		{
+			for (const auto& c : Location.Value.City)
+			{
+				OutCity = c.Key;
+				OutCityData = c.Value;
+			}
+			break;
+		}
+	}
 }
 
 

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/Locations/CityData.h"
 #include "Data/Locations/ECities.h"
 #include "Data/Locations/ECountries.h"
 #include "UI/BaseClasses/CalendarLine_Base.h"
@@ -18,7 +19,7 @@ class SMS_API UGP_CalendarLine : public UCalendarLine_Base
 
 public:
 
-	void InitializeLine(ECountries Location, int32 NewRound);
+	void InitializeLine(ECountries Country, int32 NewRound);
 
 	void SetRound(int32 NewRound);
 	
@@ -45,6 +46,8 @@ private:
 	virtual void StartMatch() override;
 
 	void SetLocation(ECountries Location, ECities City);
+
+	void GetLocation(ECities& OutCity, FCityData& OutCityData, const ECountries Country);
 	
 	UPROPERTY()
 	UTrackDataAsset* TrackData;

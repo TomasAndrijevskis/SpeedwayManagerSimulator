@@ -69,13 +69,17 @@ private:
 	bool IsJunior(int32 RacerAge) const {return RacerAge <= JuniorAge;}
 
 	EPositionTypes GetPositionType(int32 RacerNumber) const {return TeamPositions[RacerNumber - 1];}
-	
+
+	UPROPERTY()
 	TObjectPtr<UTeamManager> HomeTeamManager;
 
+	UPROPERTY()
 	TObjectPtr<UTeamManager> VisitorTeamManager;
-	
+
+	UPROPERTY()
 	TArray<EPositionTypes> TeamPositions;
-	
+
+	UPROPERTY()
 	TArray<FReplacementRule> ReplacementRules;
 
 	int32 LeagueRacersAmount = 12;

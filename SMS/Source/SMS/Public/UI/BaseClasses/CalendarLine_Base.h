@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/Calendar/MatchData.h"
 #include "CalendarLine_Base.generated.h"
 
 
@@ -18,10 +19,20 @@ class SMS_API UCalendarLine_Base : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	
-	void SetMatchID(int32 NewMatchID) {MatchID = NewMatchID;}
 
-	int32 GetMatchID() const {return MatchID;}
+	void BindDelegates();
+	
+	void SetMatchData(const FMatchData& NewMatchData)
+	{
+		UE_LOG(LogTemp, Error, TEXT("=================="));
+		UE_LOG(LogTemp, Warning, TEXT("Season %i"), NewMatchData.MatchID.Season);
+		UE_LOG(LogTemp, Warning, TEXT("Week %i"), NewMatchData.MatchID.Week);
+		UE_LOG(LogTemp, Warning, TEXT("Match %i"), NewMatchData.MatchID.WeekMatchNumber);
+		UE_LOG(LogTemp, Error, TEXT("=================="));
+		MatchData = NewMatchData;
+	}
+	
+	FMatchData& GetMatchData() {return MatchData;}
 	
 protected:
 
@@ -37,10 +48,17 @@ protected:
 	UFUNCTION()
 	virtual void StartMatch() {};
 
+	void OnMatchCreated();
+	
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UProgram> ProgramClass;
 	
 private:
-	
-	int32 MatchID = 0;
+
+	void ChangeLineStatus(int32 CurrentWeek);
+
+	UPROPERTY()
+	FMatchData MatchData;
+
+	FDelegateHandle WeekChangedHandle;
 };

@@ -17,6 +17,7 @@ void ULeague_CalendarLine::InitializeLine(int32 HomeTeamID, int32 VisitorTeamID)
 	ETeams NewVisitorTeam = static_cast<ETeams>(VisitorTeamID);
 	SetMatchTeams(NewHomeTeam, NewVisitorTeam);
 	DisplayTeamNames(GameMode->GetTeamName(HomeTeam), GameMode->GetTeamName(VisitorTeam));
+	OnMatchCreated();
 }
 
 

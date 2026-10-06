@@ -14,5 +14,5 @@ class SMS_API UCalendarDataAsset : public UDataAsset
 public:
 	
 	UPROPERTY(EditDefaultsOnly)
-	TArray<FCalendarPatternData> Rounds;
+	TMap<int32, FCalendarPatternData> Weeks;
 };

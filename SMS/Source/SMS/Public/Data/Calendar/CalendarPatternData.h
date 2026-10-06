@@ -1,7 +1,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TeamsInMatch.h"
+#include "ECompetitionType.h"
+#include "MatchTypeProperties/GPMatchProperties.h"
+#include "MatchTypeProperties/LeagueMatchProperties.h"
 #include "CalendarPatternData.generated.h"
 
 
@@ -11,11 +13,11 @@ struct FCalendarPatternData
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly)
-	int32 Week = 0;
-
-	UPROPERTY(EditDefaultsOnly)
-	TArray<FTeamsInMatch> Races;
-
-	UPROPERTY(EditDefaultsOnly)
-	bool IsPlayoffs;
+	ECompetitionType CompetitionType = ECompetitionType::None;
+	
+	UPROPERTY(EditDefaultsOnly, meta=(EditCondition = "CompetitionType == ECompetitionType::League", EditConditionHides))
+	FLeagueMatchProperties LeagueMatches;
+	
+	UPROPERTY(EditDefaultsOnly, meta=(EditCondition = "CompetitionType == ECompetitionType::GP", EditConditionHides))
+	FGPMatchProperties GPMatch;
 };
