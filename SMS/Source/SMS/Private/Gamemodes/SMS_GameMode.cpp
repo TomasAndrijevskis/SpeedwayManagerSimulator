@@ -54,7 +54,7 @@ void ASMS_GameMode::SetTrackData()
 			{
 				FString CityName = UEnum::GetDisplayValueAsText(City.Key).ToString();
 				UE_LOG(LogTemp, Warning, TEXT("%s"), *CityName)
-				Teams.FindOrAdd(City.Value.Team).TrackData = City.Value.TrackData->TrackData;
+				Teams.FindOrAdd(City.Value.Team).TrackData = City.Value.TrackDataAsset->TrackData;
 			}
 		}
 	}
@@ -69,7 +69,7 @@ FTrackData ASMS_GameMode::GetTrackData(ECities CityToFind) const
 		{
 			if (City.Key == CityToFind)
 			{
-				return City.Value.TrackData->TrackData;
+				return City.Value.TrackDataAsset->TrackData;
 			}
 		}
 	}

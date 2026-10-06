@@ -13,7 +13,6 @@ void UGP_Rules::SetupMatch()
 {
 	BindDelegates();
 	InitializeRules();
-	HandleTrack();
 	HandleLineup();
 }
 
@@ -29,11 +28,9 @@ void UGP_Rules::InitializeRules()
 }
 
 
-void UGP_Rules::HandleTrack()
+void UGP_Rules::InitTrack(const FTrackData& TrackData)
 {
-	ASMS_GameMode* GameMode = Cast<ASMS_GameMode>(UGameplayStatics::GetGameMode(this));
-	if (!GameMode) return;
-	CreateTrackManager(GameMode->GetTrackData(ECities::Daugavpils));
+	CreateTrackManager(TrackData);
 }
 
 

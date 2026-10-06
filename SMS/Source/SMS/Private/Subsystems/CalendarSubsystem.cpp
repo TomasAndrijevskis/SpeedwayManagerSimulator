@@ -47,6 +47,7 @@ void UCalendarSubsystem::CheckWeekMatches()
 		{
 			CurrentWeek++;
 			OnWeekChangedDelegate.Broadcast(CurrentWeek);
+			break;
 		}
 	}
 }

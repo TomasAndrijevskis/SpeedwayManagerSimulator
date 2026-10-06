@@ -24,6 +24,8 @@ public:
 
 	void SortRacers();
 
+	void InitTrack(const FTrackData& TrackData);
+	
 	void AddQualifiedRacers(const FFinalQualifier& QualifiedData) {FinalQualifiedRacers.Add(QualifiedData);}
 	
 	TArray<TObjectPtr<URacerMatchManager>>& GetRacers() { return Racers; }	
@@ -45,9 +47,7 @@ private:
 	void RequestToAssignRacersToCertainRace(URacerMatchManager* RacerManager, int32 RaceID);
 	
 	void HandleLineup();
-
-	void HandleTrack();
-
+	
 	void SetNominatedRaceLines(const TArray<int32>& RacersNumbers);
 
 	void FillNominatedRaceLines(const TArray<int32>& RacersNumbers);

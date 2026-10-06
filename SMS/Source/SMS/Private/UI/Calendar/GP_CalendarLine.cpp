@@ -1,6 +1,7 @@
 
 #include "UI/Calendar/GP_CalendarLine.h"
 #include "Data/Locations/LocationsDataAsset.h"
+#include "Data/Track/TrackDataAsset.h"
 #include "Rules/GP_Rules.h"
 #include "Subsystems/MatchManagerSubsystem.h"
 #include "UI/BaseClasses/NamesBox.h"
@@ -11,13 +12,19 @@
 void UGP_CalendarLine::InitializeLine(ECountries Country, int32 NewRound)
 {
 	SetRound(NewRound);
+	HandleLocation(Country);
+	OnMatchCreated();
+}
+
+
+void UGP_CalendarLine::HandleLocation(ECountries Country)
+{
 	if (!LocationsDataAsset) return;
 	ECities City = ECities::None;
 	FCityData CityData;
 	GetLocation(City, CityData, Country);
 	SetLocation(Country, City);
-	TrackData = CityData.TrackData;
-	OnMatchCreated();
+	TrackData = CityData.TrackDataAsset->TrackData;
 }
 
 
@@ -27,6 +34,10 @@ void UGP_CalendarLine::StartMatch()
 	{
 		MatchManagerSubsystem->StartMatch(UGP_Rules::StaticClass());
 		MatchManagerSubsystem->GetCompetitionRules()->OnRacingFinishedDelegate.AddUObject(this, &UGP_CalendarLine::CollectMatchScore);
+		if (UGP_Rules* GPRules = Cast<UGP_Rules>(MatchManagerSubsystem->GetCompetitionRules()))
+		{
+			GPRules->InitTrack(TrackData);
+		}
 		if (!ProgramClass) return;
 		UProgram* Program = CreateWidget<UProgram>(this, ProgramClass);
 		if (!Program) return;

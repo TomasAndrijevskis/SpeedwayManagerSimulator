@@ -18,5 +18,5 @@ struct FCityData
 	ETeams Team;
 
 	UPROPERTY(EditDefaultsOnly)
-	UTrackDataAsset* TrackData = nullptr;
+	UTrackDataAsset* TrackDataAsset = nullptr;
 };

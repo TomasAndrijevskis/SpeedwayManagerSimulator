@@ -5,6 +5,7 @@
 #include "Data/Locations/CityData.h"
 #include "Data/Locations/ECities.h"
 #include "Data/Locations/ECountries.h"
+#include "Data/Track/TrackData.h"
 #include "UI/BaseClasses/CalendarLine_Base.h"
 #include "GP_CalendarLine.generated.h"
 
@@ -48,9 +49,11 @@ private:
 	void SetLocation(ECountries Location, ECities City);
 
 	void GetLocation(ECities& OutCity, FCityData& OutCityData, const ECountries Country);
+
+	void HandleLocation(ECountries Country);
 	
 	UPROPERTY()
-	UTrackDataAsset* TrackData;
+	FTrackData TrackData;
 
 	int32 Round = 0;
 };
